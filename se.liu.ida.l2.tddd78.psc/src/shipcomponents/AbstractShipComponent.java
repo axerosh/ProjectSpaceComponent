@@ -8,8 +8,16 @@ import java.awt.*;
  */
 public abstract class AbstractShipComponent implements ShipComponent {
 
+	/**
+	 * The maximum level of shielding a ship component may recieve.
+	 */
     public static final int MAXSHIELDING = 6;
+
+	/**
+	 * The maximum level of power a ship component may recieve.
+	 */
     public static final int MAXPOWER = 6;
+
     /**
      * The maximum HP of this ship component. The damage it can take before it is destroyed.
      */
@@ -23,7 +31,7 @@ public abstract class AbstractShipComponent implements ShipComponent {
     private int shielding; // 0 - 6
     protected int power;
 
-    private boolean Shield;
+    private boolean hasShield;
 
     /**
      * Contrucs an abstract ship component with the specified maximum HP.
@@ -34,8 +42,8 @@ public abstract class AbstractShipComponent implements ShipComponent {
         this.maxHp = maxHp;
         hp = maxHp;
         shielding = 0;
-	power = 0;
-	Shield = false;
+		power = 0;
+		hasShield = false;
     }
 
     @Override
@@ -49,68 +57,78 @@ public abstract class AbstractShipComponent implements ShipComponent {
      * @return the damage that the component will take after its shield has reduced it
      */
     private int damageThroughShield(int damage) {
-	final float shieldRatePerShielding = 0.15f;
-	float shieldRate = shieldRatePerShielding * shielding;
-	return Math.round(damage * (1 - shieldRate));
+		final float shieldRatePerShielding = 0.15f;
+		float shieldRate = shieldRatePerShielding * shielding;
+		return Math.round(damage * (1 - shieldRate));
     }
 
     @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-	g.setColor(Color.CYAN);
-	int screenX = (int)(virtualX * scale);
-	int screenY = (int)(virtualY * scale);
-	int widthOnScreen = (int)scale;
-	g.fillRect(screenX, screenY, widthOnScreen, widthOnScreen);
+		draw(g, scale, virtualX, virtualY, Color.GRAY);
     }
 
-    /**
-     * Increases the Shieldning of the component
-     */
-    @Override public boolean increaseShielding() {
-	if (shielding < MAXSHIELDING){
-	    shielding++;
-	    Shield = true;
-	    return true;
-	}else{
-	    return false;
+	/**
+	 * Draws this ship component with the specified scaling and the specified color.
+	 *
+	 * @param g the Graphics object with which to draw this ship component
+	 * @param scale the scale with which to scale virtual positions to get on-screen positions
+	 * @param virtualX the virtual x-position at which the ship component is to be drawn.
+	 * @param virtualY the virtual y-position at which the ship component is to be drawn.
+	 * @param color the color with which to draw this ship component.
+	 */
+	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY, Color color) {
+		g.setColor(color);
+		int screenX = (int)(virtualX * scale);
+		int screenY = (int)(virtualY * scale);
+		int pixelsAcrossWhenRendered = (int)scale;
+		g.fillRect(screenX, screenY, pixelsAcrossWhenRendered, pixelsAcrossWhenRendered);
 	}
+
+    @Override public boolean increaseShielding() {
+		if (shielding < MAXSHIELDING){
+			shielding++;
+			hasShield = true;
+			return true;
+		} else {
+			return false;
+		}
     }
 
     @Override public boolean decreaseShielding() {
-	if (shielding > 0){
-	    shielding--;
-	    if(shielding == 0){
-		Shield = false;
-	    }
+		if (shielding > 0){
+			shielding--;
+			if(shielding == 0){
+				hasShield = false;
+			}
 
-	    return true;
-	}else{
-	    return false;
-	}
+			return true;
+		} else {
+			return false;
+		}
     }
 
     @Override public boolean increasePower() {
-	if (power < MAXPOWER){
-	    power++;
-	    return true;
-	}else{
-	    return false;
-	}
+		if (power < MAXPOWER){
+			power++;
+			return true;
+		} else {
+			return false;
+		}
     }
 
     @Override public boolean decreasePower() {
-	if (power > 0){
-	    power--;
-	    return true;
-	}else{
-	    return false;
-	}
+		if (power > 0){
+			power--;
+			return true;
+		} else {
+			return false;
+		}
     }
 
     @Override public boolean hasShield() {
-	return Shield;
+	return hasShield;
     }
 
     @Override public String toString() {
-	return ("Type = " + this.getClass() + ", Shielding = " + shielding + ", Power = " + power);
+		return ("Type = " + this.getClass() + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

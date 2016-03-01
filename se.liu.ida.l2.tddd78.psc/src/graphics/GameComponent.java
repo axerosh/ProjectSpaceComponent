@@ -20,7 +20,7 @@ public class GameComponent extends JComponent {
 
 
     @Override protected void paintComponent(final Graphics g) {
-	super.paintComponent(g);
-	battleField.draw(g, SCALE);
+		super.paintComponent(g);
+		battleField.draw(g, SCALE);
     }
 }

@@ -6,5 +6,5 @@ public interface Projectile {
 
     public void impact();
 
-    public boolean haveImpact();
+    public boolean hasImpact();
 }

@@ -1,15 +1,16 @@
 package game;
 
-import shipcomponents.ShipComponent;
-
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.List;
 import projectiles.Projectile;
+import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
+import shipcomponents.utilitycomponents.UtilityComponent;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A star ship consisting of ship components.
@@ -63,13 +64,13 @@ public class StarShip {
         this.width = width;
         this.height = height;
 
-	shieldPool = 0;
-	powerPool = 0;
-	usedShielding = 0;
-	usedPower = 0;
-	shieldComponents = new ArrayList<>();
-	reactorComponents = new ArrayList<>();
-	engineComponents = new ArrayList<>();
+		shieldPool = 0;
+		powerPool = 0;
+		usedShielding = 0;
+		usedPower = 0;
+		shieldComponents = new ArrayList<>();
+		reactorComponents = new ArrayList<>();
+		engineComponents = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -99,7 +100,7 @@ public class StarShip {
      * @return true if an attcked missed
      */
     public boolean successfullyDodged() {
-        return (new Random().nextDouble() > dodgeRate);
+        return new Random().nextDouble() > dodgeRate;
     }
 
     /**
@@ -111,86 +112,83 @@ public class StarShip {
     public void draw(final Graphics g, final float scale) {
         for (int col = 0; col < width; col ++) {
             for (int row = 0; row < height; row ++) {
-		ShipComponent componentToDraw = components[col][row];
-		if (componentToDraw != null) {
-                	componentToDraw.draw(g, scale, x + col, y + row);
-		}
+				ShipComponent componentToDraw = components[col][row];
+				if (componentToDraw != null) {
+					componentToDraw.draw(g, scale, x + col, y + row);
+				}
             }
         }
     }
 
     /**
-     * Adds a component at a specified position
+     * Adds the specified component at the specified position.
      *
-     * @param component a component to add
+     * @param component the component to add
      * @param col column in which to add the component
      * @param row row in which to add the component
      */
-    public void setComponent(final ShipComponent component, final int col, final int row) {
-	if (col < 0 || col >= width || row < 0 || row >= height) {
-	    throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
+    public void addComponent(final ShipComponent component, final int col, final int row) {
+		if (col < 0 || col >= width || row < 0 || row >= height) {
+			throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
+		}
+
+		if (component instanceof UtilityComponent){
+			UtilityComponent utility = (UtilityComponent)component;
+			utility.registerFunctionality(this);
+		}
+
+		components[col][row] = component;
 	}
 
-	if(component instanceof ShieldComponent){
-	    shieldComponents.add((ShieldComponent)component);
-	}else if(component instanceof ReactorComponent){
-	    reactorComponents.add((ReactorComponent)component);
-	}else if(component instanceof EngineComponent){
-	    engineComponents.add((EngineComponent)component);
+	public void update(){
+		updateShields();
+		updatePools();
 	}
 
-	components[col][row] = component;
-    }
-
-    public void update(){
-	updateShields();
-	updatePools();
-    }
-
-    public void updateShields(){
-	for(ShieldComponent sc : shieldComponents){
-	    sc.update();
-	}
+	public void updateShields(){
+		for(ShieldComponent sc : shieldComponents){
+			sc.update();
+		}
     }
 
     /**
      * Updates the Ship's resource pools.
      */
     private void updatePools(){
-	shieldPool = 0;
-	for(ShieldComponent sc : shieldComponents){
-	    shieldPool += sc.getOutput();
-	}
-	if(usedShielding > shieldPool){
-	    for(ShipComponent[] shipCArray : components){
-		if(usedShielding <= shieldPool){
-		    break;
+		shieldPool = 0;
+		for(ShieldComponent sc : shieldComponents){
+			shieldPool += sc.getOutput();
 		}
+		if(usedShielding > shieldPool){
+			for(ShipComponent[] shipCArray : components){
+				if(usedShielding <= shieldPool){
+					break;
+				}
 
-		for(ShipComponent shipC : shipCArray){
-		    if(usedShielding <= shieldPool || shipC == null){
-			continue;
-		    }
+				for(ShipComponent shipC : shipCArray){
+					if(usedShielding <= shieldPool || shipC == null){
+						continue;
+					}
 
-		    while(shipC.hasShield()){
-			shipC.decreaseShielding();
-			if(usedShielding <= shieldPool){
-			    break;
+					while(shipC.hasShield()){
+						shipC.decreaseShielding();
+						if(usedShielding <= shieldPool){
+							break;
+						}
+					}
+				}
 			}
-		    }
 		}
-	    }
-	}
 
-	powerPool = 0;
-	for(ReactorComponent rc : reactorComponents){
-	    powerPool += rc.getOutput();
-	}
+		powerPool = 0;
+		for(ReactorComponent rc : reactorComponents){
+			powerPool += rc.getOutput();
+		}
 
-	dodgeRate = 0;
-	for(EngineComponent ec : engineComponents){
-	    dodgeRate += ec.getOutput();
-	}
+		dodgeRate = 0;
+		for(EngineComponent ec : engineComponents){
+			dodgeRate += ec.getOutput();
+		}
     }
 
     /**
@@ -199,11 +197,11 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void increaseShielding(final float x, final float y){
-	if(shieldPool > usedShielding){
-	    if(getComponentAt(x,y).increaseShielding()){
-		usedShielding++;
-	    }
-	}
+		if(shieldPool > usedShielding){
+			if(getComponentAt(x,y).increaseShielding()){
+				usedShielding++;
+			}
+		}
     }
 
     /**
@@ -212,9 +210,9 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void decreaseShielding(final float x, final float y){
-	if(getComponentAt(x,y).decreaseShielding()){
-	    usedShielding--;
-	}
+		if(getComponentAt(x,y).decreaseShielding()){
+			usedShielding--;
+		}
     }
 
     /**
@@ -223,11 +221,11 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void increasePower(final float x, final float y){
-	if(powerPool > usedPower){
-	    if(getComponentAt(x,y).increasePower()){
-		usedPower++;
-	    }
-	}
+		if(powerPool > usedPower){
+			if(getComponentAt(x,y).increasePower()){
+				usedPower++;
+			}
+		}
     }
 
     /**
@@ -236,19 +234,31 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void decreasePower(final float x, final float y){
-	if(getComponentAt(x,y).decreasePower()){
-	    usedPower--;
-	}
+		if(getComponentAt(x,y).decreasePower()){
+			usedPower--;
+		}
     }
 
 
     public void printShip(){
-	System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
-	for(ShipComponent[] scArray: components){
-	    for(ShipComponent sc : scArray){
-		System.out.println(sc);
-	    }
-	}
-	System.out.println();
+		System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
+		for(ShipComponent[] scArray: components){
+			for(ShipComponent sc : scArray){
+				System.out.println(sc);
+			}
+		}
+		System.out.println();
     }
+
+	public void registerShieldComponent(final ShieldComponent shield) {
+		shieldComponents.add(shield);
+	}
+
+	public void registerReactorComponent(final ReactorComponent reactor) {
+		reactorComponents.add(reactor);
+	}
+
+	public void registerEngineComponent(final EngineComponent engine) {
+		engineComponents.add(engine);
+	}
 }

@@ -1,5 +1,7 @@
 package shipcomponents.utilitycomponents;
 
+import game.StarShip;
+
 import java.awt.*;
 
 /**
@@ -8,8 +10,8 @@ import java.awt.*;
 public class ReactorComponent extends UtilityComponent{
 
     public ReactorComponent(final int maxHp, final int powerOutput) {
-	super(maxHp, powerOutput);
-	output = 3;
+		super(maxHp, powerOutput);
+		output = 3;
     }
 
     @Override public void performAction() {
@@ -17,11 +19,10 @@ public class ReactorComponent extends UtilityComponent{
     }
 
     @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-	//super.draw(g, scale, virtualX, virtualY);
-	g.setColor(Color.YELLOW);
-	int screenX = (int)(virtualX * scale);
-	int screenY = (int)(virtualY * scale);
-	int widthOnScreen = (int)scale;
-	g.fillRect(screenX, screenY, widthOnScreen, widthOnScreen);
+		draw(g, scale, virtualX, virtualY, Color.GREEN);
     }
+
+	@Override public void registerFunctionality(final StarShip ship) {
+		ship.registerReactorComponent(this);
+	}
 }

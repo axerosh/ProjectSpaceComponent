@@ -1,6 +1,8 @@
 package shipcomponents;
 
-import java.awt.Graphics;
+import game.StarShip;
+
+import java.awt.*;
 
 /**
  * Interface defining the ship component and general functions including once for recieving damage and activation.
@@ -24,32 +26,45 @@ public interface ShipComponent {
      *
      * @param g the Graphics object with which to draw this ship component
      * @param scale the scale with which to scale virtual positions to get on-screen positions
+	 * @param virtualX the virtual x-position at which the ship component is to be drawn.
+	 * @param virtualY the virtual y-position at which the ship component is to be drawn.
      */
-    public void draw(final Graphics g, final float scale, final float virtualX, final float cirtualY);
+    public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY);
 
     /**
-     * Increases the shielding of the component by one.
-     * If successfull return true.
+     * Tries to increase the shielding of the component by one.
+     *
+     * @return true if successfull
      */
     public boolean increaseShielding();
 
     /**
-     * Decreases the shielding of the component by one.
-     * If successfull return true.
+     * Tries to decrease the shielding of the component by one.
+     *
+     * @return true if successfull
      */
     public boolean decreaseShielding();
 
     /**
-     * Increases the power to the component by one.
-     * If successfull return true.
+     * Tries to increase the power yo the component by one.
+     *
+     * @return true if successfull
      */
     public boolean increasePower();
 
     /**
-     * Decreases the power to the component by one.
-     * If successfull return true.
+     * Tries to decrease the power to the component by one.
+     *
+     * @return true if successfull
      */
     public boolean decreasePower();
 
     public boolean hasShield();
+
+	/**
+	 * Registers this component with the specified ship, indicating it's functionality.
+	 *
+	 * @param ship the ship with which this component is registered.
+	 */
+	public void registerFunctionality(StarShip ship);
 }

@@ -10,12 +10,12 @@ public abstract class UtilityComponent extends AbstractShipComponent {
 
     int output;
 
-    public UtilityComponent(final int maxHp, int output) {
-	super(maxHp);
-	output = 0;
+    protected UtilityComponent(final int maxHp, int output) {
+		super(maxHp);
+		output = 0;
     }
 
     public int getOutput(){
-	return output;
+		return output;
     }
 }
