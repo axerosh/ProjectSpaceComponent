@@ -1,3 +1,5 @@
+package game;
+
 import shipcomponents.ShipComponent;
 
 /**
@@ -7,10 +9,10 @@ import shipcomponents.ShipComponent;
  */
 public class StarShip {
 
-    private double x;
-    private double y;
-    private double width;
-    private double height;
+    private float x;
+    private float y;
+    private int width;
+    private int height;
 
     /**
      * A grid of this star ship's ship components.
