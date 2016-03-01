@@ -1,3 +1,5 @@
+package shipcomponents;
+
 public abstract class AbstractShipComponent {
 
     /**
