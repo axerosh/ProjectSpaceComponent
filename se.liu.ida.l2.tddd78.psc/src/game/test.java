@@ -8,7 +8,8 @@ import shipcomponents.utilitycomponents.ShieldComponent;
 
 import javax.swing.*;
 
-public class test {
+public final class test {
+
     public static void main(String[] args) {
 		BattleField field = new BattleField();
 		StarShip playerShip = new StarShip(5f, 5f, 5, 5);
