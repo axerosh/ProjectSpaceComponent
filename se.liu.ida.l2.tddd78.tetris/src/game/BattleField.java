@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BattleField {
-    List<StarShip> alliedShips;
-    List<StarShip> enemyShips;
+
+    private List<StarShip> alliedShips;
+    private List<StarShip> enemyShips;
 
     public BattleField(final List<StarShip> starShips) {
         this.alliedShips = new ArrayList<>();
