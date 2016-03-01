@@ -142,11 +142,17 @@ public class StarShip {
 	components[col][row] = component;
     }
 
+    /**
+     * Updates the ships status by going through its components.
+     */
     public void update(){
 	updateShields();
 	updatePools();
     }
 
+    /**
+     * Updates all the ShieldComponents
+     */
     public void updateShields(){
 	for(ShieldComponent sc : shieldComponents){
 	    sc.update();
@@ -241,7 +247,11 @@ public class StarShip {
 	}
     }
 
-
+    /**
+     * Prints the stats of the ship and then
+     * each of the ships components stats.
+     * Used only in debugging and testing
+     */
     public void printShip(){
 	System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
 	for(ShipComponent[] scArray: components){
