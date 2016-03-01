@@ -21,7 +21,9 @@ public abstract class AbstractShipComponent implements ShipComponent {
     private int hp;
 
     private int shielding; // 0 - 6
-    private int power;
+    protected int power;
+
+    private boolean Shield;
 
     /**
      * Contrucs an abstract ship component with the specified maximum HP.
@@ -33,6 +35,7 @@ public abstract class AbstractShipComponent implements ShipComponent {
         hp = maxHp;
         shielding = 0;
 	power = 0;
+	Shield = false;
     }
 
     @Override
@@ -65,6 +68,7 @@ public abstract class AbstractShipComponent implements ShipComponent {
     @Override public boolean increaseShielding() {
 	if (shielding < MAXSHIELDING){
 	    shielding++;
+	    Shield = true;
 	    return true;
 	}else{
 	    return false;
@@ -74,6 +78,10 @@ public abstract class AbstractShipComponent implements ShipComponent {
     @Override public boolean decreaseShielding() {
 	if (shielding > 0){
 	    shielding--;
+	    if(shielding == 0){
+		Shield = false;
+	    }
+
 	    return true;
 	}else{
 	    return false;
@@ -96,5 +104,13 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	}else{
 	    return false;
 	}
+    }
+
+    @Override public boolean hasShield() {
+	return Shield;
+    }
+
+    @Override public String toString() {
+	return ("Type = " + this.getClass() + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

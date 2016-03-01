@@ -3,9 +3,11 @@ package game;
 import shipcomponents.ShipComponent;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
 import projectiles.Projectile;
+import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
 
@@ -23,15 +25,18 @@ public class StarShip {
 
     private List<ShieldComponent> shieldComponents;
     private List<ReactorComponent> reactorComponents;
+    private List<EngineComponent> engineComponents;
     private int shieldPool;
+    private int usedShielding;
     private int powerPool;
+    private int usedPower;
 
     /**
      * The dodge rate of this ship. The rate of which projectiles will miss the ship.
      *
      * @see Projectile
      */
-    private float dodgeRate = 0.25f;
+    private float dodgeRate = 0;
 
     /**
      * A grid of this star ship's ship components.
@@ -60,6 +65,11 @@ public class StarShip {
 
 	shieldPool = 0;
 	powerPool = 0;
+	usedShielding = 0;
+	usedPower = 0;
+	shieldComponents = new ArrayList<>();
+	reactorComponents = new ArrayList<>();
+	engineComponents = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -125,13 +135,22 @@ public class StarShip {
 	    shieldComponents.add((ShieldComponent)component);
 	}else if(component instanceof ReactorComponent){
 	    reactorComponents.add((ReactorComponent)component);
+	}else if(component instanceof EngineComponent){
+	    engineComponents.add((EngineComponent)component);
 	}
 
 	components[col][row] = component;
     }
 
     public void update(){
+	updateShields();
 	updatePools();
+    }
+
+    public void updateShields(){
+	for(ShieldComponent sc : shieldComponents){
+	    sc.update();
+	}
     }
 
     /**
@@ -142,10 +161,35 @@ public class StarShip {
 	for(ShieldComponent sc : shieldComponents){
 	    shieldPool += sc.getOutput();
 	}
+	if(usedShielding > shieldPool){
+	    for(ShipComponent[] shipCArray : components){
+		if(usedShielding <= shieldPool){
+		    break;
+		}
+
+		for(ShipComponent shipC : shipCArray){
+		    if(usedShielding <= shieldPool || shipC == null){
+			continue;
+		    }
+
+		    while(shipC.hasShield()){
+			shipC.decreaseShielding();
+			if(usedShielding <= shieldPool){
+			    break;
+			}
+		    }
+		}
+	    }
+	}
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
+	}
+
+	dodgeRate = 0;
+	for(EngineComponent ec : engineComponents){
+	    dodgeRate += ec.getOutput();
 	}
     }
 
@@ -155,9 +199,9 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void increaseShielding(final float x, final float y){
-	if(shieldPool > 0){
+	if(shieldPool > usedShielding){
 	    if(getComponentAt(x,y).increaseShielding()){
-		shieldPool--;
+		usedShielding++;
 	    }
 	}
     }
@@ -169,7 +213,7 @@ public class StarShip {
      */
     public void decreaseShielding(final float x, final float y){
 	if(getComponentAt(x,y).decreaseShielding()){
-	    shieldPool++;
+	    usedShielding--;
 	}
     }
 
@@ -179,9 +223,9 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void increasePower(final float x, final float y){
-	if(powerPool > 0){
+	if(powerPool > usedPower){
 	    if(getComponentAt(x,y).increasePower()){
-		powerPool--;
+		usedPower++;
 	    }
 	}
     }
@@ -193,7 +237,18 @@ public class StarShip {
      */
     public void decreasePower(final float x, final float y){
 	if(getComponentAt(x,y).decreasePower()){
-	    powerPool++;
+	    usedPower--;
 	}
+    }
+
+
+    public void printShip(){
+	System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
+	for(ShipComponent[] scArray: components){
+	    for(ShipComponent sc : scArray){
+		System.out.println(sc);
+	    }
+	}
+	System.out.println();
     }
 }

@@ -2,6 +2,8 @@ package game;
 
 import graphics.GameComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
+import shipcomponents.utilitycomponents.ReactorComponent;
+import shipcomponents.utilitycomponents.ShieldComponent;
 
 import javax.swing.*;
 
@@ -12,15 +14,18 @@ public class test {
 	int engineHP = 2;
 	int engineDodgeRate = 70;
 	EngineComponent engine = new EngineComponent(engineHP, engineDodgeRate);
+	ShieldComponent shield = new ShieldComponent(engineHP, engineDodgeRate);
+	ShieldComponent coolShield = new ShieldComponent(engineHP, engineDodgeRate);
+	ReactorComponent reactor = new ReactorComponent(engineHP, engineDodgeRate);
 	playerShip.setComponent(engine, 1, 0);
 	playerShip.setComponent(engine, 2, 0);
 	playerShip.setComponent(engine, 3, 0);
 
-	playerShip.setComponent(engine, 0, 1);
-	playerShip.setComponent(engine, 1, 1);
-	playerShip.setComponent(engine, 2, 1);
-	playerShip.setComponent(engine, 3, 1);
-	playerShip.setComponent(engine, 4, 1);
+	playerShip.setComponent(shield, 0, 1);
+	playerShip.setComponent(shield, 1, 1);
+	playerShip.setComponent(shield, 2, 1);
+	playerShip.setComponent(shield, 3, 1);
+	playerShip.setComponent(coolShield, 4, 1);
 
 	playerShip.setComponent(engine, 0, 2);
 	playerShip.setComponent(engine, 2, 2);
@@ -32,8 +37,8 @@ public class test {
 	playerShip.setComponent(engine, 3, 3);
 	playerShip.setComponent(engine, 4, 3);
 
-	playerShip.setComponent(engine, 1, 4);
-	playerShip.setComponent(engine, 3, 4);
+	playerShip.setComponent(reactor, 1, 4);
+	playerShip.setComponent(reactor, 3, 4);
 
 	field.addFriendlyShip(playerShip);
 	GameComponent gc = new GameComponent(field);
@@ -45,6 +50,23 @@ public class test {
 	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	gc.repaint();
 
-	System.out.println((int)(-0.5));
+	playerShip.printShip();
+	playerShip.increasePower(4 + 5,1 + 5);
+	playerShip.increaseShielding(3 + 5,4 + 5);
+	playerShip.printShip();
+	playerShip.update();
+
+	playerShip.increasePower(4 + 5,1 + 5);
+	playerShip.update();
+	playerShip.printShip();
+
+	playerShip.increaseShielding(3 + 5,4 + 5);
+	playerShip.update();
+	playerShip.printShip();
+
+	playerShip.decreasePower(4 + 5, 1 + 5);
+	playerShip.update();
+	playerShip.printShip();
+
     }
 }

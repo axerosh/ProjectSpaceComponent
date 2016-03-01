@@ -50,4 +50,6 @@ public interface ShipComponent {
      * If successfull return true.
      */
     public boolean decreasePower();
+
+    public boolean hasShield();
 }
