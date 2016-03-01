@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.Graphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,10 @@ public class BattleField {
     }
 
     public void addEnemyShip(final StarShip ship) {
-        alliedShips.add(ship);
+        enemyShips.add(ship);
+    }
+
+    public void draw(Graphics g) {
+
     }
 }
