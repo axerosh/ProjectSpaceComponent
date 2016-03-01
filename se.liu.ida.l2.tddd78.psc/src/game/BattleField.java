@@ -9,18 +9,18 @@ import java.util.List;
 
 public class BattleField {
 
-    private List<StarShip> alliedShips;
+    private List<StarShip> friendlyShips;
     private List<StarShip> enemyShips;
     private List<Projectile> projectiles;
 
-    public BattleField(final List<StarShip> starShips) {
-        alliedShips = new ArrayList<>();
+    public BattleField() {
+        friendlyShips = new ArrayList<>();
         enemyShips = new ArrayList<>();
         projectiles = new ArrayList<>();
     }
 
-    public void addAlliedShip(final StarShip ship) {
-        alliedShips.add(ship);
+    public void addFriendlyShip(final StarShip ship) {
+        friendlyShips.add(ship);
     }
 
     public void addEnemyShip(final StarShip ship) {
@@ -29,5 +29,20 @@ public class BattleField {
 
     public void addProjectile(final Projectile projectile){
         projectiles.add(projectile);
+    }
+
+    /**
+     * Draws this battlefield with the specified scaling.
+     *
+     * @param g the Graphics object with which to draw this battlefield
+     * @param scale the scale with which to scale virtual positions to get on-screen positions
+     */
+    public void draw(final Graphics g, final float scale) {
+        for (StarShip friendly: friendlyShips) {
+            friendly.draw(g, scale);
+        }
+        for (StarShip enemy: enemyShips) {
+            enemy.draw(g, scale);
+        }
     }
 }

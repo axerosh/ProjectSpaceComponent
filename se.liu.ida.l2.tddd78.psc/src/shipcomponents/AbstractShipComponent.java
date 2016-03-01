@@ -1,5 +1,7 @@
 package shipcomponents;
 
+import java.awt.*;
+
 /**
  * An abstract implementation of the ShipComponent interface. Handles general ship component fucntionality including HP and
  * HP loss.
@@ -16,6 +18,9 @@ public abstract class AbstractShipComponent implements ShipComponent {
      */
     private int hp;
 
+    private int shielding; // 0 - 6
+    private int power;
+
     /**
      * Contrucs an abstract ship component with the specified maximum HP.
      *
@@ -24,11 +29,31 @@ public abstract class AbstractShipComponent implements ShipComponent {
     protected AbstractShipComponent(final int maxHp) {
         this.maxHp = maxHp;
         hp = maxHp;
+        shielding = 0;
+	power = 0;
     }
 
     @Override
-    public void inflictDamage(int hp) {
-        this.hp -= hp;
-        this.hp = Math.max(hp, 0);
+    public void inflictDamage(int damage) {
+        hp -= damageThroughShield(damage);
+        hp = Math.max(hp, 0);
+    }
+
+    /**
+     * @param damage the damage taken if not for the shielding
+     * @return the damage that the component will take after its shield has reduced it
+     */
+    private int damageThroughShield(int damage) {
+	final float shieldRatePerShielding = 0.15f;
+	float shieldRate = shieldRatePerShielding * shielding;
+	return Math.round(damage * (1 - shieldRate));
+    }
+
+    @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+	g.setColor(Color.CYAN);
+	int screenX = (int)(virtualX * scale);
+	int screenY = (int)(virtualY * scale);
+	int widthOnScreen = (int)scale;
+	g.fillRect(screenX, screenY, widthOnScreen, widthOnScreen);
     }
 }
