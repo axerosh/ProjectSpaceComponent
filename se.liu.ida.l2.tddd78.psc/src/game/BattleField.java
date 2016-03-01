@@ -19,6 +19,17 @@ public class BattleField {
         projectiles = new ArrayList<>();
     }
 
+    public void update(){
+        //updateShips();
+        updateProjectiles();
+    }
+
+    private void updateProjectiles() {
+        for(Projectile p : projectiles){
+            p.update();
+        }
+    }
+
     public void addFriendlyShip(final StarShip ship) {
         friendlyShips.add(ship);
     }
@@ -43,6 +54,9 @@ public class BattleField {
         }
         for (StarShip enemy: enemyShips) {
             enemy.draw(g, scale);
+        }
+        for (Projectile projectile: projectiles){
+            projectile.draw(g, scale);
         }
     }
 }

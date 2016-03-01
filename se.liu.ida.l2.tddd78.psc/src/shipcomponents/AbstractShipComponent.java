@@ -111,6 +111,6 @@ public abstract class AbstractShipComponent implements ShipComponent {
     }
 
     @Override public String toString() {
-	return ("Type = " + this.getClass() + ", Shielding = " + shielding + ", Power = " + power);
+	return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

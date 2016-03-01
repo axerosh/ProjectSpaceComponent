@@ -86,7 +86,7 @@ public class StarShip {
         double internalX = x - this.x;
         double internalY = y - this.y;
 
-        if (internalX < 0 || internalX > width || internalY < 0 || internalY > height) {
+        if (internalX < 0 || internalX >= width || internalY < 0 || internalY >= height) {
             return null;
         }
 

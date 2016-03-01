@@ -1,31 +1,32 @@
 package projectiles;
 
-import java.awt.Point;
 import game.StarShip;
 import shipcomponents.ShipComponent;
+
+import java.awt.*;
 
 public class AbstractProjectile implements Projectile{
     private float selfX, selfY;
     private float targetX, targetY;
     private float xVelocity;
     private float yVelocity;
-    private StarShip enemyShip;
+    private StarShip targetShip;
 
     private int damageOnImpact;
     private int areaOfEffect;
 
     public AbstractProjectile(final float selfX, final float selfY, final float targetX, final float targetY, final float velocity,
-			      final StarShip enemyShip, final int damageOnImpact, final int areaOfEffect)
+			      final StarShip targetShip, final int damageOnImpact, final int areaOfEffect)
     {
 	this.selfX = selfX;
 	this.selfY = selfY;
 	this.targetX = targetX;
 	this.targetY = targetY;
-	this.enemyShip = enemyShip;
+	this.targetShip = targetShip;
 	this.damageOnImpact = damageOnImpact;
 	this.areaOfEffect = areaOfEffect;
 
-	double angle = Math.atan2(targetY - selfY, targetX - selfX);
+	double angle =  Math.atan2(targetY - selfY, targetX - selfX);
 	xVelocity = (float)Math.cos(angle) * velocity;
 	yVelocity = (float)Math.sin(angle) * velocity;
     }
@@ -42,14 +43,14 @@ public class AbstractProjectile implements Projectile{
 	if(haveImpact()){
 	    impact();
 	}
+
     }
 
     /**
      * Apply the projectiles effect on target component(s).
      */
     @Override public void impact() {
-	if(!enemyShip.successfullyDodged() && enemyShip.getComponentAt(targetX, targetY) != null){
-
+	if(!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null){
 	    for(int relativeRow = -areaOfEffect +1 ; relativeRow <= areaOfEffect -1; relativeRow++){
 
 		int startCol = Math.abs(relativeRow) + 1 - areaOfEffect;
@@ -58,7 +59,16 @@ public class AbstractProjectile implements Projectile{
 		    dealDamage(targetX + relativeCol, targetY + relativeRow);
 		}
 	    }
+
+	    try{
+		//this = null;
+		finalize();
+	    }catch(Throwable t){
+		t.printStackTrace();
+	    }
+
 	}
+
     }
 
     /**
@@ -67,7 +77,7 @@ public class AbstractProjectile implements Projectile{
      * @param y the x-coordinate of the position
      */
     public void dealDamage(float x, float y){
-	ShipComponent target = enemyShip.getComponentAt(x, y);
+	ShipComponent target = targetShip.getComponentAt(x, y);
 	if (target != null) {
 	    target.inflictDamage(damageOnImpact);
 	}
@@ -96,5 +106,10 @@ public class AbstractProjectile implements Projectile{
 	    }
 	}
 	return false;
+    }
+
+    @Override public void draw(final Graphics g, final float scale) {
+	g.setColor(Color.RED);
+	g.drawLine((int)(scale * selfX), (int)(scale*selfY), (int)((selfX + xVelocity) * scale), (int)((selfY + xVelocity) * scale));
     }
 }

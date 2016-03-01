@@ -1,6 +1,7 @@
 package game;
 
 import graphics.GameComponent;
+import projectiles.MissileProjectile;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
@@ -50,23 +51,68 @@ public class test {
 	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	gc.repaint();
 
-	playerShip.printShip();
-	playerShip.increasePower(4 + 5,1 + 5);
-	playerShip.increaseShielding(3 + 5,4 + 5);
-	playerShip.printShip();
+
+//	playerShip.printShip();
+//	playerShip.increasePower(4 + 5,1 + 5);
+//	playerShip.increaseShielding(3 + 5,4 + 5);
+//	playerShip.printShip();
 	playerShip.update();
 
 	playerShip.increasePower(4 + 5,1 + 5);
+	playerShip.increasePower(0 + 5,1 + 5);
 	playerShip.update();
-	playerShip.printShip();
+//	playerShip.printShip();
 
-	playerShip.increaseShielding(3 + 5,4 + 5);
+	playerShip.increaseShielding(4 + 5,1 + 5);
+	playerShip.increaseShielding(4 + 5,1 + 5);
+	playerShip.increaseShielding(4 + 5,1 + 5);
+	playerShip.increaseShielding(4 + 5,1 + 5);
 	playerShip.update();
-	playerShip.printShip();
+//	playerShip.printShip();
 
+	/*
 	playerShip.decreasePower(4 + 5, 1 + 5);
 	playerShip.update();
 	playerShip.printShip();
+	*/
 
+	playerShip.printShip();
+	try{
+	    Thread.sleep(1000);
+	}catch(InterruptedException e){
+	    e.printStackTrace();
+	}
+
+	field.addProjectile(new MissileProjectile(15, 15,  4 + 5, 1 + 5, 4, playerShip, 2, 2));
+	gc.repaint();
+
+	try{
+	    Thread.sleep(1000);
+	}catch(InterruptedException e){
+	    e.printStackTrace();
+	}
+
+	field.update();
+	gc.repaint();
+
+	try{
+	    Thread.sleep(1000);
+	}catch(InterruptedException e){
+	    e.printStackTrace();
+	}
+
+	field.update();
+	gc.repaint();
+
+
+	try{
+	    Thread.sleep(1000);
+	}catch(InterruptedException e){
+	    e.printStackTrace();
+    }
+
+   	field.update();
+   	gc.repaint();
+	playerShip.printShip();
     }
 }
