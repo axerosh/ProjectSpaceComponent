@@ -9,7 +9,9 @@ public class test {
     public static void main(String[] args) {
 	BattleField field = new BattleField();
 	StarShip playerShip = new StarShip(5f, 5f, 5, 5);
-	EngineComponent engine = new EngineComponent(1);
+	int engineHP = 2;
+	int engineDodgeRate = 70;
+	EngineComponent engine = new EngineComponent(engineHP, engineDodgeRate);
 	playerShip.setComponent(engine, 1, 0);
 	playerShip.setComponent(engine, 2, 0);
 	playerShip.setComponent(engine, 3, 0);
@@ -42,5 +44,7 @@ public class test {
 	frame.setVisible(true);
 	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	gc.repaint();
+
+	System.out.println((int)(-0.5));
     }
 }

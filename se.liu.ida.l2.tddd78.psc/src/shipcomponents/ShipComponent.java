@@ -27,4 +27,23 @@ public interface ShipComponent {
      */
     public void draw(final Graphics g, final float scale, final float virtualX, final float cirtualY);
 
+    /**
+     * Increases the shielding of the component by one.
+     */
+    public void increaseShielding();
+
+    /**
+     * Decreases the shielding of the component by one.
+     */
+    public void decreaseShielding();
+
+    /**
+     * Increases the power to the component by one.
+     */
+    public void increasePower();
+
+    /**
+     * Decreases the power to the component by one.
+     */
+    public void decreasePower();
 }

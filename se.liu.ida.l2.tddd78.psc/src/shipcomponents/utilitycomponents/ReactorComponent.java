@@ -5,8 +5,8 @@ package shipcomponents.utilitycomponents;
  */
 public class ReactorComponent extends UtilityComponent{
 
-    public ReactorComponent(final int maxHp) {
-	super(maxHp);
+    public ReactorComponent(final int maxHp, final int powerOutput) {
+	super(maxHp, powerOutput);
     }
 
     @Override public void performAction() {

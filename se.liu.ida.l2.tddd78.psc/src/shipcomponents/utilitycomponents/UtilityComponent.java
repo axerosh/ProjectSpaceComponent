@@ -8,7 +8,13 @@ import shipcomponents.AbstractShipComponent;
  */
 public abstract class UtilityComponent extends AbstractShipComponent {
 
-    public UtilityComponent(final int maxHp) {
+    int output;
+
+    public UtilityComponent(final int maxHp, int output) {
 	super(maxHp);
+    }
+
+    public int getOutput(){
+	return output;
     }
 }

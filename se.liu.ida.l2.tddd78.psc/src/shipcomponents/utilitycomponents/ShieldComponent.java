@@ -5,11 +5,12 @@ package shipcomponents.utilitycomponents;
  */
 public class ShieldComponent extends UtilityComponent{
 
-    public ShieldComponent(final int maxHp) {
-        super(maxHp);
+    public ShieldComponent(final int maxHp, final int shieldOutput) {
+        super(maxHp, shieldOutput);
     }
 
     @Override public void performAction() {
 
     }
+
 }

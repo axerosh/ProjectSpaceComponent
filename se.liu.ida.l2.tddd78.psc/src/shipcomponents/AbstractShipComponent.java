@@ -56,4 +56,21 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	int widthOnScreen = (int)scale;
 	g.fillRect(screenX, screenY, widthOnScreen, widthOnScreen);
     }
+
+
+    @Override public void increaseShielding() {
+	shielding++;
+    }
+
+    @Override public void decreaseShielding() {
+	shielding--;
+    }
+
+    @Override public void increasePower() {
+	power++;
+    }
+
+    @Override public void decreasePower() {
+	power--;
+    }
 }

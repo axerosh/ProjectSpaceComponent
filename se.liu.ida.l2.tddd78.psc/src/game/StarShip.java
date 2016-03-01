@@ -2,9 +2,12 @@ package game;
 
 import shipcomponents.ShipComponent;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.Random;
+import java.util.List;
 import projectiles.Projectile;
+import shipcomponents.utilitycomponents.ReactorComponent;
+import shipcomponents.utilitycomponents.ShieldComponent;
 
 /**
  * A star ship consisting of ship components.
@@ -17,6 +20,11 @@ public class StarShip {
     private float y;
     private int width;
     private int height;
+
+    private List<ShieldComponent> shieldComponents;
+    private List<ReactorComponent> reactorComponents;
+    private int shieldPool;
+    private int powerPool;
 
     /**
      * The dodge rate of this ship. The rate of which projectiles will miss the ship.
@@ -50,6 +58,9 @@ public class StarShip {
         this.width = width;
         this.height = height;
 
+	shieldPool = 0;
+	powerPool = 0;
+
         components = new ShipComponent[width][height];
     }
 
@@ -61,7 +72,7 @@ public class StarShip {
      * @return the ship component at the specified position;
      * <code>null</code> if the specified position is outside of ship bounds
      */
-    public ShipComponent getComponentAt(final double x, final double y) {
+    public ShipComponent getComponentAt(final float x, final float y) {
         double internalX = x - this.x;
         double internalY = y - this.y;
 
@@ -98,11 +109,87 @@ public class StarShip {
         }
     }
 
-    public void setComponent(final ShipComponent component, final int x, final int y) {
-	if (x < 0 || x >= width || y < 0 || y >= height) {
-	    throw new IllegalArgumentException("The specified position x = " + x + ", y = " + y + " is out of bounds.");
+    /**
+     * Adds a component at a specified position
+     *
+     * @param component a component to add
+     * @param col column in which to add the component
+     * @param row row in which to add the component
+     */
+    public void setComponent(final ShipComponent component, final int col, final int row) {
+	if (col < 0 || col >= width || row < 0 || row >= height) {
+	    throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
 	}
 
-	components[x][y] = component;
+	if(component instanceof ShieldComponent){
+	    shieldComponents.add((ShieldComponent)component);
+	}else if(component instanceof ReactorComponent){
+	    reactorComponents.add((ReactorComponent)component);
+	}
+
+	components[col][row] = component;
+    }
+
+    public void update(){
+	updatePools();
+    }
+
+    /**
+     * Updates the Ship's resource pools.
+     */
+    private void updatePools(){
+	shieldPool = 0;
+	for(ShieldComponent sc : shieldComponents){
+	    shieldPool += sc.getOutput();
+	}
+
+	powerPool = 0;
+	for(ReactorComponent rc : reactorComponents){
+	    powerPool += rc.getOutput();
+	}
+    }
+
+    /**
+     * Increases the shielding of the component at the position.
+     * @param x the x-coordinate of the position
+     * @param y the y-coordinate of the position
+     */
+    public void increaseShielding(final float x, final float y){
+	if(shieldPool > 0){
+	    getComponentAt(x,y).increaseShielding();
+	}
+    }
+
+    /**
+     * Decreases the shielding of the component at the position.
+     * @param x the x-coordinate of the position
+     * @param y the y-coordinate of the position
+     */
+    public void decreaseShielding(final float x, final float y){
+	if(shieldPool > 0){
+	    getComponentAt(x,y).decreaseShielding();
+	}
+    }
+
+    /**
+     * Increases the power to the component at the position.
+     * @param x the x-coordinate of the position
+     * @param y the y-coordinate of the position
+     */
+    public void increasePower(final float x, final float y){
+	if(shieldPool > 0){
+	    getComponentAt(x,y).increasePower();
+	}
+    }
+
+    /**
+     * Decreases the power to the component at the position.
+     * @param x the x-coordinate of the position
+     * @param y the y-coordinate of the position
+     */
+    public void decreasePower(final float x, final float y){
+	if(shieldPool > 0){
+	    getComponentAt(x,y).decreasePower();
+	}
     }
 }
