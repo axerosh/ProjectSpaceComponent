@@ -29,21 +29,25 @@ public interface ShipComponent {
 
     /**
      * Increases the shielding of the component by one.
+     * If successfull return true.
      */
-    public void increaseShielding();
+    public boolean increaseShielding();
 
     /**
      * Decreases the shielding of the component by one.
+     * If successfull return true.
      */
-    public void decreaseShielding();
+    public boolean decreaseShielding();
 
     /**
      * Increases the power to the component by one.
+     * If successfull return true.
      */
-    public void increasePower();
+    public boolean increasePower();
 
     /**
      * Decreases the power to the component by one.
+     * If successfull return true.
      */
-    public void decreasePower();
+    public boolean decreasePower();
 }

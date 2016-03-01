@@ -8,6 +8,8 @@ import java.awt.*;
  */
 public abstract class AbstractShipComponent implements ShipComponent {
 
+    public static final int MAXSHIELDING = 6;
+    public static final int MAXPOWER = 6;
     /**
      * The maximum HP of this ship component. The damage it can take before it is destroyed.
      */
@@ -57,20 +59,42 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	g.fillRect(screenX, screenY, widthOnScreen, widthOnScreen);
     }
 
-
-    @Override public void increaseShielding() {
-	shielding++;
+    /**
+     * Increases the Shieldning of the component
+     */
+    @Override public boolean increaseShielding() {
+	if (shielding < MAXSHIELDING){
+	    shielding++;
+	    return true;
+	}else{
+	    return false;
+	}
     }
 
-    @Override public void decreaseShielding() {
-	shielding--;
+    @Override public boolean decreaseShielding() {
+	if (shielding > 0){
+	    shielding--;
+	    return true;
+	}else{
+	    return false;
+	}
     }
 
-    @Override public void increasePower() {
-	power++;
+    @Override public boolean increasePower() {
+	if (power < MAXPOWER){
+	    power++;
+	    return true;
+	}else{
+	    return false;
+	}
     }
 
-    @Override public void decreasePower() {
-	power--;
+    @Override public boolean decreasePower() {
+	if (power > 0){
+	    power--;
+	    return true;
+	}else{
+	    return false;
+	}
     }
 }

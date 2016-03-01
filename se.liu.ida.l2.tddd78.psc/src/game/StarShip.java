@@ -156,7 +156,9 @@ public class StarShip {
      */
     public void increaseShielding(final float x, final float y){
 	if(shieldPool > 0){
-	    getComponentAt(x,y).increaseShielding();
+	    if(getComponentAt(x,y).increaseShielding()){
+		shieldPool--;
+	    }
 	}
     }
 
@@ -166,8 +168,8 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void decreaseShielding(final float x, final float y){
-	if(shieldPool > 0){
-	    getComponentAt(x,y).decreaseShielding();
+	if(getComponentAt(x,y).decreaseShielding()){
+	    shieldPool++;
 	}
     }
 
@@ -177,8 +179,10 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void increasePower(final float x, final float y){
-	if(shieldPool > 0){
-	    getComponentAt(x,y).increasePower();
+	if(powerPool > 0){
+	    if(getComponentAt(x,y).increasePower()){
+		powerPool--;
+	    }
 	}
     }
 
@@ -188,8 +192,8 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void decreasePower(final float x, final float y){
-	if(shieldPool > 0){
-	    getComponentAt(x,y).decreasePower();
+	if(getComponentAt(x,y).decreasePower()){
+	    powerPool++;
 	}
     }
 }
