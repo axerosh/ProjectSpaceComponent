@@ -1,16 +1,15 @@
 package game;
 
-import projectiles.Projectile;
 import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
-import shipcomponents.utilitycomponents.UtilityComponent;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.List;
+import projectiles.Projectile;
 
 /**
  * A star ship consisting of ship components.
@@ -87,7 +86,7 @@ public class StarShip {
         double internalX = x - this.x;
         double internalY = y - this.y;
 
-        if (internalX < 0 || internalX > width || internalY < 0 || internalY > height) {
+        if (internalX < 0 || internalX >= width || internalY < 0 || internalY >= height) {
             return null;
         }
 
@@ -140,12 +139,18 @@ public class StarShip {
 		components[col][row] = component;
 	}
 
-	public void update(){
+    /**
+     * Updates the ships status by going through its components.
+     */
+    public void update(){
 		updateShields();
 		updatePools();
-	}
+    }
 
-	public void updateShields(){
+    /**
+     * Updates all the ShieldComponents
+     */
+    public void updateShields(){
 		for(ShieldComponent sc : shieldComponents){
 			sc.update();
 		}
@@ -239,7 +244,11 @@ public class StarShip {
 		}
     }
 
-
+    /**
+     * Prints the stats of the ship and then
+     * each of the ships components stats.
+     * Used only in debugging and testing
+     */
     public void printShip(){
 		System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
 		for(ShipComponent[] scArray: components){
