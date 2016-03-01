@@ -2,6 +2,7 @@ package projectiles;
 
 import game.StarShip;
 import shipcomponents.ShipComponent;
+
 import java.awt.*;
 
 public class AbstractProjectile implements Projectile {
@@ -22,7 +23,7 @@ public class AbstractProjectile implements Projectile {
 		this.selfY = selfY;
 		this.targetX = targetX;
 		this.targetY = targetY;
-		this.targetShipShip = targetShipShip;
+		this.targetShip = targetShip;
 		this.damageOnImpact = damageOnImpact;
 		this.blastRadius = blastRadius;
 
@@ -50,10 +51,10 @@ public class AbstractProjectile implements Projectile {
      */
     @Override public void impact() {
 		if(!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null){
-			for(int relativeRow = -areaOfEffect +1 ; relativeRow <= areaOfEffect -1; relativeRow++){
+			for(int relativeRow = -blastRadius +1 ; relativeRow <= blastRadius -1; relativeRow++){
 
-				int startCol = Math.abs(relativeRow) + 1 - areaOfEffect;
-				int width = 2*areaOfEffect - 1 - 2*Math.abs(relativeRow);
+				int startCol = Math.abs(relativeRow) +1 -blastRadius;
+				int width = 2 * blastRadius -1 -2*Math.abs(relativeRow);
 				for(int relativeCol = startCol; relativeCol < startCol + width; relativeCol++) {
 					dealDamage(targetX + relativeCol, targetY + relativeRow);
 				}

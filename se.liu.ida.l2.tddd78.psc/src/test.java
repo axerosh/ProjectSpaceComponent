@@ -17,28 +17,28 @@ public final class test {
 		ShieldComponent shield = new ShieldComponent(engineHP, engineDodgeRate);
 		ShieldComponent coolShield = new ShieldComponent(engineHP, engineDodgeRate);
 		ReactorComponent reactor = new ReactorComponent(engineHP, engineDodgeRate);
-		playerShip.addComponent(engine, 1, 0);
-		playerShip.addComponent(engine, 2, 0);
-		playerShip.addComponent(engine, 3, 0);
+		playerShip.setComponent(engine, 1, 0);
+		playerShip.setComponent(engine, 2, 0);
+		playerShip.setComponent(engine, 3, 0);
 
-		playerShip.addComponent(shield, 0, 1);
-		playerShip.addComponent(shield, 1, 1);
-		playerShip.addComponent(shield, 2, 1);
-		playerShip.addComponent(shield, 3, 1);
-		playerShip.addComponent(coolShield, 4, 1);
+		playerShip.setComponent(shield, 0, 1);
+		playerShip.setComponent(shield, 1, 1);
+		playerShip.setComponent(shield, 2, 1);
+		playerShip.setComponent(shield, 3, 1);
+		playerShip.setComponent(coolShield, 4, 1);
 
-		playerShip.addComponent(engine, 0, 2);
-		playerShip.addComponent(engine, 2, 2);
-		playerShip.addComponent(engine, 4, 2);
+		playerShip.setComponent(engine, 0, 2);
+		playerShip.setComponent(engine, 2, 2);
+		playerShip.setComponent(engine, 4, 2);
 
-		playerShip.addComponent(engine, 0, 3);
-		playerShip.addComponent(engine, 1, 3);
-		playerShip.addComponent(engine, 2, 3);
-		playerShip.addComponent(engine, 3, 3);
-		playerShip.addComponent(engine, 4, 3);
+		playerShip.setComponent(engine, 0, 3);
+		playerShip.setComponent(engine, 1, 3);
+		playerShip.setComponent(engine, 2, 3);
+		playerShip.setComponent(engine, 3, 3);
+		playerShip.setComponent(engine, 4, 3);
 
-		playerShip.addComponent(reactor, 1, 4);
-		playerShip.addComponent(reactor, 3, 4);
+		playerShip.setComponent(reactor, 1, 4);
+		playerShip.setComponent(reactor, 3, 4);
 
 		field.addFriendlyShip(playerShip);
 		GameComponent gc = new GameComponent(field);

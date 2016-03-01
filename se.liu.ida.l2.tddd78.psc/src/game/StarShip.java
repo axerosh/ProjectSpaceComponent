@@ -1,15 +1,15 @@
 package game;
 
+import projectiles.Projectile;
 import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.List;
-import projectiles.Projectile;
+import java.util.Random;
 
 /**
  * A star ship consisting of ship components.
@@ -126,15 +126,11 @@ public class StarShip {
      * @param col column in which to add the component
      * @param row row in which to add the component
      */
-    public void addComponent(final ShipComponent component, final int col, final int row) {
+    public void setComponent(final ShipComponent component, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
 		}
-
-		if (component instanceof UtilityComponent){
-			UtilityComponent utility = (UtilityComponent)component;
-			utility.registerFunctionality(this);
-		}
+			component.registerFunctionality(this);
 
 		components[col][row] = component;
 	}
