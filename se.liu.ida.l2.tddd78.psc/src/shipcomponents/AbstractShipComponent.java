@@ -78,6 +78,11 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		int screenY = (int)(virtualY * scale);
 		int pixelsAcrossWhenRendered = (int)scale;
 		g.fillRect(screenX, screenY, pixelsAcrossWhenRendered, pixelsAcrossWhenRendered);
+
+	}
+
+	public void drawStatBar(final Graphics g, final int screenPosX, final int screenPosY, final int width, final int height) {
+
 	}
 
     /**
@@ -119,12 +124,11 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		}
     }
 
-    /**
-     * @return true if the component has at least on shielding.
-     */
     @Override public boolean hasShield() {
 		return shielding > 0;
     }
+
+
 
     @Override public String toString() {
 		return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);

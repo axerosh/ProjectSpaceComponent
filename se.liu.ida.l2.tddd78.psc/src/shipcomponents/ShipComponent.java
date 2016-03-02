@@ -59,6 +59,10 @@ public interface ShipComponent {
      */
     public boolean decreasePower();
 
+	/**
+	 *
+	 * @return true if this shipComponent is shielded.
+	 */
     public boolean hasShield();
 
 	/**
