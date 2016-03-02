@@ -28,6 +28,8 @@ public abstract class AbstractShipComponent implements ShipComponent {
      */
     protected int hp;
 
+    protected boolean active;
+
     private int shielding; // 0 - 6
     protected int power;
 
@@ -176,15 +178,32 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		}
     }
 
+    /**
+     * @return true if the component has atleast on shieldning.
+     */
     @Override public boolean hasShield() {
 		return shielding > 0;
     }
 
-	@Override public boolean hasPower() {
-		return power > 0;
-	}
+    @Override public boolean hasPower() {
+    		return power > 0;
+    }
 
-	@Override public String toString() {
+    @Override public void activate() {
+	active = true;
+    }
+
+    @Override public void deactivate() {
+	active = false;
+    }
+
+
+    @Override public boolean isActive() {
+	return active;
+    }
+
+
+    @Override public String toString() {
 		return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

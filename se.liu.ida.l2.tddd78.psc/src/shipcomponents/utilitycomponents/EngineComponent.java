@@ -13,6 +13,16 @@ public class EngineComponent extends UtilityComponent {
 		super(maxHp, dodgePercentage);
     }
 
+    @Override public void update() {
+	if(active){
+	    if(hp == 0){
+		output = 0;
+	    }else{
+		output = 10;
+	    }
+	}
+    }
+
     @Override public void performAction() {
 
     }

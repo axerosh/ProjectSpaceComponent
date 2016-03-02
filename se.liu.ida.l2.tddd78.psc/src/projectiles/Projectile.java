@@ -10,5 +10,5 @@ public interface Projectile {
 
     public boolean hasImpact();
 
-	public void draw(final Graphics g, final float scale);
+    public void draw(final Graphics g, final float scale);
 }
