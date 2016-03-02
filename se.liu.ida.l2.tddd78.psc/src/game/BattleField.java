@@ -5,6 +5,7 @@ import projectiles.Projectile;
 import java.awt.Graphics;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BattleField {
@@ -25,7 +26,7 @@ public class BattleField {
     }
 
     private void updateProjectiles() {
-        ArrayList<Projectile> projectilesToRemove = new ArrayList();
+        Collection<Projectile> projectilesToRemove = new ArrayList<>();
         for(Projectile p : projectiles){
             p.update();
             if(p.hasImpact()){
