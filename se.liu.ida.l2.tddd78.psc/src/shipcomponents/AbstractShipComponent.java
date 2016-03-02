@@ -26,7 +26,7 @@ public abstract class AbstractShipComponent implements ShipComponent {
     /**
      * The HP left until destruction.
      */
-    private int hp;
+    protected int hp;
 
     private int shielding; // 0 - 6
     protected int power;
