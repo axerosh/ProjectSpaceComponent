@@ -76,13 +76,48 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		g.setColor(color);
 		int screenX = (int)(virtualX * scale);
 		int screenY = (int)(virtualY * scale);
-		int pixelsAcrossWhenRendered = (int)scale;
-		g.fillRect(screenX, screenY, pixelsAcrossWhenRendered, pixelsAcrossWhenRendered);
+		int pixelsAcrossComponent = (int)scale;
+		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
 
+		int barWidth = pixelsAcrossComponent / 4;
+		int barHeight = pixelsAcrossComponent / 2;
+		int barPosY = screenY + (pixelsAcrossComponent - barHeight) / 2;
+
+		int numberOfBars = 2;
+		int powerBarPosX = screenX + (pixelsAcrossComponent - barWidth * numberOfBars) / 2;
+		int shieldBarPosX = powerBarPosX + barWidth;
+
+		drawStatBar(g, Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight, power, MAXPOWER);
+		drawStatBar(g, Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight, shielding, MAXSHIELDING);
 	}
 
-	public void drawStatBar(final Graphics g, final int screenPosX, final int screenPosY, final int width, final int height) {
+	/**
+	 * Draws a stat bar of cells of the specified stat in the specified color at the specified screen postion with the
+	 * specified width and height.
+	 *
+	 * @param g the Graphics object with which to draw this ship component
+	 * @param activeColor the color of active cells in the bar
+	 * @param screenPosX the x-coordinate of the screen position at which the bar is to be drawn (left edge coordinate)
+	 * @param screenPosY the y-coordinate of the screen position at which the bar is to be drawn (top edge coordinate)
+	 * @param width the width of the bar in pixels
+	 * @param height the height of the bar in pixels
+	 * @param currentStatLevel the current stat level (indicates the number of active cells)
+	 * @param maxStatLevel the maximum stat level (indicates the maximum number of cells)
+	 */
+	private void drawStatBar(final Graphics g, final Color activeColor, final int screenPosX, final int screenPosY,
+							final int width, final int height, final int currentStatLevel, final int maxStatLevel ) {
+		int outlineThickness = 1;
+		int levelHeight = Math.max(1, (height - 2 * outlineThickness)/maxStatLevel);
 
+		//Outline/Background
+		g.setColor(Color.BLACK);
+		g.fillRect(screenPosX, screenPosY, width, height);
+
+		//Active cells
+		g.setColor(activeColor);
+		for (int row = currentStatLevel; row < maxStatLevel; row++) {
+			g.fillRect(screenPosX + outlineThickness, screenPosY * levelHeight * row + outlineThickness, width, levelHeight);
+		}
 	}
 
     /**
