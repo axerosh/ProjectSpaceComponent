@@ -2,23 +2,28 @@ package game;
 
 import graphics.GameComponent;
 import projectiles.MissileProjectile;
+import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
 
 import javax.swing.*;
 
-public final class test {
+public final class Test {
+
+	private Test() {}
 
     public static void main(String[] args) {
 		BattleField field = new BattleField();
 		StarShip playerShip = new StarShip(5f, 5f, 5, 5);
-		int engineHP = 2;
-		int engineDodgeRate = 70;
-		EngineComponent engine = new EngineComponent(engineHP, engineDodgeRate);
-		ShieldComponent shield = new ShieldComponent(engineHP, engineDodgeRate);
-		ShieldComponent coolShield = new ShieldComponent(engineHP, engineDodgeRate);
-		ReactorComponent reactor = new ReactorComponent(engineHP, engineDodgeRate);
+		int componentHP = 2;
+		int componentOutput = 70;
+		int reactorOutput = 3;
+		int engineOutput = 10;
+		ShipComponent engine = new EngineComponent(componentHP, engineOutput);
+		ShipComponent shield = new ShieldComponent(componentHP, componentOutput);
+		ShipComponent coolShield = new ShieldComponent(componentHP, componentOutput);
+		ShipComponent reactor = new ReactorComponent(componentHP, reactorOutput);
 		playerShip.setComponent(engine, 1, 0);
 		playerShip.setComponent(engine, 2, 0);
 		playerShip.setComponent(engine, 3, 0);

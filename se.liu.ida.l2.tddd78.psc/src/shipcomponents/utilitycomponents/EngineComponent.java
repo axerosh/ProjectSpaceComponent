@@ -11,7 +11,6 @@ public class EngineComponent extends UtilityComponent {
 
     public EngineComponent(final int maxHp, final int dodgePercentage) {
 		super(maxHp, dodgePercentage);
-		output = 10;
     }
 
     @Override public void performAction() {

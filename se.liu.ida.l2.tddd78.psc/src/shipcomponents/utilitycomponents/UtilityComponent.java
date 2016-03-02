@@ -12,7 +12,7 @@ public abstract class UtilityComponent extends AbstractShipComponent {
 
     protected UtilityComponent(final int maxHp, int output) {
 		super(maxHp);
-		output = 0;
+		this.output = output;
     }
 
     public int getOutput(){
