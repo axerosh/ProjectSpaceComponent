@@ -184,20 +184,20 @@ public class StarShip {
 		if(poolUsage > pool){
 			for(ShipComponent[] componentCol : components){
 				if(poolUsage <= pool){
-					break;
+					return;
 				}
 
 				for(ShipComponent component : componentCol){
 					if (component == null){
 						continue;
 					} else if (poolUsage <= pool) {
-						break;
+						return;
 					}
 
 					while(component.hasShield() && poolUsage > pool){
 						component.decreaseShielding();
 						if(poolUsage <= pool){
-							break;
+							return;
 						}
 					}
 				}
