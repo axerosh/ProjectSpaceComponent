@@ -66,6 +66,12 @@ public interface ShipComponent {
     public boolean hasShield();
 
 	/**
+	 *
+	 * @return true if this shipComponent recieves power.
+	 */
+    public boolean hasPower();
+
+	/**
 	 * Registers this component with the specified ship, indicating it's functionality.
 	 *
 	 * @param ship the ship with which this component is registered.

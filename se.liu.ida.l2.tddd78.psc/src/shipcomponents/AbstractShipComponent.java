@@ -87,8 +87,13 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		int powerBarPosX = screenX + (pixelsAcrossComponent - barWidth * numberOfBars) / 2;
 		int shieldBarPosX = powerBarPosX + barWidth;
 
-		drawStatBar(g, Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight, power, MAXPOWER);
-		drawStatBar(g, Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight, shielding, MAXSHIELDING);
+		if (hasPower()) {
+			drawStatBar(g, Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight, power, MAXPOWER);
+		}
+
+		if (hasShield()) {
+			drawStatBar(g, Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight, shielding, MAXSHIELDING);
+		}
 	}
 
 	/**
@@ -103,26 +108,38 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	 * @param height the height of the bar in pixels
 	 * @param currentStatLevel the current stat level (indicates the number of active cells)
 	 * @param maxStatLevel the maximum stat level (indicates the maximum number of cells)
+	 * @throws IllegalArgumentException if the specified width, height or max stat level, are negative or zero,
+	 * or if the specified current stat level is negative
 	 */
 	private void drawStatBar(final Graphics g, final Color activeColor, final int screenPosX, final int screenPosY,
 							final int width, final int height, final int currentStatLevel, final int maxStatLevel ) {
+		if (width <= 0 || height <= 0) {
+			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
+											   "Only positive integers are permitted.");
+		} else if (currentStatLevel < 0) {
+			throw new IllegalArgumentException("The specified stat level current stat level = " +  currentStatLevel +
+											   " is invalid. It can not be negative.");
+		} else if (maxStatLevel <= 0) {
+			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
+											   "It must be greater than 0.");
+		}
+
 		int outlineThickness = 1;
 		int levelHeight = Math.max(1, (height - 2 * outlineThickness)/maxStatLevel);
+		int fillHeight = Math.round((height - 2 * outlineThickness) * currentStatLevel / (float)maxStatLevel);
+		int fillPosY = screenPosY + height - fillHeight - outlineThickness;
 
 		//Outline/Background
 		g.setColor(Color.BLACK);
 		g.fillRect(screenPosX, screenPosY, width, height);
 
+		int activeStartX  = currentStatLevel* levelHeight;
+
 		//Active cells
 		g.setColor(activeColor);
-		for (int row = currentStatLevel; row < maxStatLevel; row++) {
-			g.fillRect(screenPosX + outlineThickness, screenPosY * levelHeight * row + outlineThickness, width, levelHeight);
-		}
+		g.fillRect(screenPosX + outlineThickness, fillPosY, width - 2 * outlineThickness, fillHeight);
 	}
 
-    /**
-     * Increases the Shieldning of the component
-     */
     @Override public boolean increaseShielding() {
 		if (shielding < MAXSHIELDING){
 			shielding++;
@@ -163,9 +180,11 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		return shielding > 0;
     }
 
+	@Override public boolean hasPower() {
+		return power > 0;
+	}
 
-
-    @Override public String toString() {
+	@Override public String toString() {
 		return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

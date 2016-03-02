@@ -3,8 +3,8 @@ package temp;
 import game.StarShip;
 
 public class Order {
-    int targetX, targetY;
-    StarShip targetShip;
+    private int targetX, targetY;
+    private StarShip targetShip;
 
     public int getTargetX() {
 	return targetX;

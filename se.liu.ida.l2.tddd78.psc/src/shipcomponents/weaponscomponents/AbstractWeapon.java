@@ -10,10 +10,10 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
     Order order;
 
     public AbstractWeapon(final int maxHp, final int rechargeTime) {
-	super(maxHp);
-	this.rechargeTime = rechargeTime;
-	rechargeCounter = 0;
-	order = null;
+		super(maxHp);
+		this.rechargeTime = rechargeTime;
+		rechargeCounter = 0;
+		order = null;
     }
 
     /**
@@ -23,11 +23,11 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
      * a shot will be fired.
      */
     public void update(){
-	rechargeCounter++;
-	if(hasOrder() && canShoot()){
-	    shoot();
-	    order = null;
-	}
+		rechargeCounter++;
+		if(hasOrder() && canShoot()){
+			shoot();
+			order = null;
+		}
     }
 
     public void setOrder(Order order){
@@ -51,11 +51,11 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
      * @return true if the weapon can fire
      */
     public boolean canShoot(){
-	if (rechargeCounter == rechargeCounter && hp > 0){
-	    return true;
-	}else{
-	    return false;
-	}
+		if (rechargeCounter == rechargeCounter && hp > 0){
+			return true;
+		} else {
+			return false;
+		}
     }
 
     public abstract Projectile shoot();
