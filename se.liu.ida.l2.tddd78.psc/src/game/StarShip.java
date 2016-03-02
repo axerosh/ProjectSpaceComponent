@@ -174,36 +174,37 @@ public class StarShip {
 		}
     }
 
-	/**
-	 * Strips use of the resources from the specified pool so that usage does not over exceed availability
-	 *
-	 * @param pool a pool of available resources
-	 * @param poolUsage the number of resources, from the specified pool, that is used
-	 */
-	private void stripPoolUsage(int pool, int poolUsage) {
-		if(poolUsage > pool){
-			for(ShipComponent[] componentCol : components){
-				if(poolUsage <= pool){
-					return;
-				}
+    /**
+     * Strips use of the resources from the specified pool so that usage does not over exceed availability
+     *
+     * @param pool a pool of available resources
+     * @param poolUsage the number of resources, from the specified pool, that is used
+     */
+    private void stripPoolUsage(int pool, int poolUsage) {
+	if(poolUsage > pool){
+	    for(ShipComponent[] componentCol : components){
 
-				for(ShipComponent component : componentCol){
-					if (component == null){
-						continue;
-					} else if (poolUsage <= pool) {
-						return;
-					}
-
-					while(component.hasShield() && poolUsage > pool){
-						component.decreaseShielding();
-						if(poolUsage <= pool){
-							return;
-						}
-					}
-				}
-			}
+		if(poolUsage <= pool){
+		    return;
 		}
+
+		for(ShipComponent component : componentCol){
+		    if (component == null){
+			    continue;
+		    } else if (poolUsage <= pool) {
+			return;
+		    }
+
+		    while(component.hasShield() && poolUsage > pool){
+			component.decreaseShielding();
+			if(poolUsage <= pool){
+				return;
+			}
+		    }
+		}
+	    }
 	}
+    }
 
     /**
      * Increases the shielding of the component at the position.
@@ -268,15 +269,15 @@ public class StarShip {
 		System.out.println();
     }
 
-	public void registerShieldComponent(final ShieldComponent shield) {
-		shieldComponents.add(shield);
-	}
+    public void registerShieldComponent(final ShieldComponent shield) {
+	    shieldComponents.add(shield);
+    }
 
-	public void registerReactorComponent(final ReactorComponent reactor) {
-		reactorComponents.add(reactor);
-	}
+    public void registerReactorComponent(final ReactorComponent reactor) {
+	    reactorComponents.add(reactor);
+    }
 
-	public void registerEngineComponent(final EngineComponent engine) {
-		engineComponents.add(engine);
-	}
+    public void registerEngineComponent(final EngineComponent engine) {
+	    engineComponents.add(engine);
+    }
 }

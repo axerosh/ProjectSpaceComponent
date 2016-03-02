@@ -25,9 +25,18 @@ public class BattleField {
     }
 
     private void updateProjectiles() {
+        ArrayList<Projectile> projectilesToRemove = new ArrayList();
         for(Projectile p : projectiles){
             p.update();
+            if(p.hasImpact()){
+                projectilesToRemove.add(p);
+            }
+
         }
+        for(Projectile p : projectilesToRemove){
+            projectiles.remove(p);
+        }
+
     }
 
     public void addFriendlyShip(final StarShip ship) {
