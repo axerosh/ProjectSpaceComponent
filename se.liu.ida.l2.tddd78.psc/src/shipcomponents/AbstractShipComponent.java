@@ -1,5 +1,7 @@
 package shipcomponents;
 
+import temp.StatBar;
+
 import java.awt.*;
 
 /**
@@ -30,6 +32,9 @@ public abstract class AbstractShipComponent implements ShipComponent {
 
     protected boolean active;
 
+	private StatBar shieldingBar;
+	private StatBar powerBar;
+
     private int shielding; // 0 - 6
     protected int power;
 
@@ -43,6 +48,18 @@ public abstract class AbstractShipComponent implements ShipComponent {
         hp = maxHp;
         shielding = 0;
 		power = 0;
+
+		int componentWidth = 1;
+		float barWidth = (float)componentWidth / 4;
+		float barHeight = (float)componentWidth / 2;
+		float barPosY = (componentWidth - barHeight) / 2;
+
+		int numberOfBars = 2;
+		float powerBarPosX = (componentWidth - barWidth * numberOfBars) / 2;
+		float shieldBarPosX = powerBarPosX + barWidth;
+
+		powerBar = new StatBar(Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight);
+		shieldingBar = new StatBar(Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight);
     }
 
     @Override
@@ -81,68 +98,41 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		int pixelsAcrossComponent = (int)scale;
 		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
 
-		int barWidth = pixelsAcrossComponent / 4;
-		int barHeight = pixelsAcrossComponent / 2;
-		int barPosY = screenY + (pixelsAcrossComponent - barHeight) / 2;
+		powerBar.draw(g, scale, screenX, screenY, power, MAXPOWER, hasPower());
+		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShield());
+	}
 
-		int numberOfBars = 2;
-		int powerBarPosX = screenX + (pixelsAcrossComponent - barWidth * numberOfBars) / 2;
-		int shieldBarPosX = powerBarPosX + barWidth;
-
-		if (hasPower()) {
-			drawStatBar(g, Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight, power, MAXPOWER);
-		}
-
-		if (hasShield()) {
-			drawStatBar(g, Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight, shielding, MAXSHIELDING);
+	/**
+	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
+	 * Increases the level of of any stat which indication bar the cursor hovers over.
+	 *
+	 * @param vx the cursor's virtual x-position relative to this ship component
+	 * @param vy the cursor's virtual y-position relative to this ship component
+	 */
+	@Override public void activateWithCursor(final float vx, final float vy) {
+		if (powerBar.contains(vx, vy)) {
+			increasePower();
+		} else if (shieldingBar.contains(vx, vy)) {
+			increaseShielding();
 		}
 	}
 
 	/**
-	 * Draws a stat bar of cells of the specified stat in the specified color at the specified screen postion with the
-	 * specified width and height.
+	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
+	 * Decreases the level of of any stat which indication bar the cursor hovers over.
 	 *
-	 * @param g the Graphics object with which to draw this ship component
-	 * @param activeColor the color of active cells in the bar
-	 * @param screenPosX the x-coordinate of the screen position at which the bar is to be drawn (left edge coordinate)
-	 * @param screenPosY the y-coordinate of the screen position at which the bar is to be drawn (top edge coordinate)
-	 * @param width the width of the bar in pixels
-	 * @param height the height of the bar in pixels
-	 * @param currentStatLevel the current stat level (indicates the number of active cells)
-	 * @param maxStatLevel the maximum stat level (indicates the maximum number of cells)
-	 * @throws IllegalArgumentException if the specified width, height or max stat level, are negative or zero,
-	 * or if the specified current stat level is negative
+	 * @param vx the cursor's virtual x-position relative to this ship component
+	 * @param vy the cursor's virtual y-position relative to this ship component
 	 */
-	private void drawStatBar(final Graphics g, final Color activeColor, final int screenPosX, final int screenPosY,
-							final int width, final int height, final int currentStatLevel, final int maxStatLevel ) {
-		if (width <= 0 || height <= 0) {
-			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
-											   "Only positive integers are permitted.");
-		} else if (currentStatLevel < 0) {
-			throw new IllegalArgumentException("The specified stat level current stat level = " +  currentStatLevel +
-											   " is invalid. It can not be negative.");
-		} else if (maxStatLevel <= 0) {
-			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
-											   "It must be greater than 0.");
+	@Override public void deactivateWithCursor(final float vx, final float vy) {
+		if (powerBar.contains(vx, vy)) {
+			decreasePower();
+		} else if (shieldingBar.contains(vx, vy)) {
+			decreaseShielding();
 		}
-
-		int outlineThickness = 1;
-		int levelHeight = Math.max(1, (height - 2 * outlineThickness)/maxStatLevel);
-		int fillHeight = Math.round((height - 2 * outlineThickness) * currentStatLevel / (float)maxStatLevel);
-		int fillPosY = screenPosY + height - fillHeight - outlineThickness;
-
-		//Outline/Background
-		g.setColor(Color.BLACK);
-		g.fillRect(screenPosX, screenPosY, width, height);
-
-		int activeStartX  = currentStatLevel* levelHeight;
-
-		//Active cells
-		g.setColor(activeColor);
-		g.fillRect(screenPosX + outlineThickness, fillPosY, width - 2 * outlineThickness, fillHeight);
 	}
 
-    @Override public boolean increaseShielding() {
+	@Override public boolean increaseShielding() {
 		if (shielding < MAXSHIELDING){
 			shielding++;
 			return true;
@@ -178,9 +168,6 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		}
     }
 
-    /**
-     * @return true if the component has atleast on shieldning.
-     */
     @Override public boolean hasShield() {
 		return shielding > 0;
     }
@@ -197,11 +184,9 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	active = false;
     }
 
-
     @Override public boolean isActive() {
 	return active;
     }
-
 
     @Override public String toString() {
 		return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);

@@ -2,8 +2,7 @@ package game;
 
 import projectiles.Projectile;
 
-import java.awt.Graphics;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,6 +40,48 @@ public class BattleField {
         }
 
     }
+
+    /**
+	 * Performs the activation action of the ship that the cursor hovers over.
+	 *
+	 * @param vx the cursor's virtual x-position
+	 * @param vy the cursor's virtual y-position
+	 */
+	public void activateWithCursor(final float vx, final float vy) {
+		for (StarShip ship: friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.activateWithCursor(vx, vy);
+				return;
+			}
+		}
+		for (StarShip ship: enemyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.activateWithCursor(vx, vy);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Performs the deactivation action of the ship that the cursor hovers over.
+	 *
+	 * @param vx the cursor's virtual x-position
+	 * @param vy the cursor's virtual y-position
+	 */
+	public void deactivateWithCursor(final float vx, final float vy) {
+		for (StarShip ship: friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.deactivateWithCursor(vx, vy);
+				return;
+			}
+		}
+		for (StarShip ship: enemyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.deactivateWithCursor(vx, vy);
+				return;
+			}
+		}
+	}
 
     public void addFriendlyShip(final StarShip ship) {
         friendlyShips.add(ship);

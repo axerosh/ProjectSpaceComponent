@@ -64,9 +64,9 @@ public final class Test {
 		for(int tick = 0; tick< 20; tick++){
 			field.update();
 			try{
-			Thread.sleep(1000);
+				Thread.sleep(1000);
 			} catch(InterruptedException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 			}
 
 			if(tick == 5){

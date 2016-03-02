@@ -97,5 +97,19 @@ public interface ShipComponent {
      */
     public void registerFunctionality(StarShip ship);
 
+	/**
+	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
+	 *
+	 * @param vx the cursor's virtual x-position relative to this ship component
+	 * @param vy the cursor's virtual y-position relative to this ship component
+	 */
+    public void activateWithCursor(final float vx, final float vy);
 
+	/**
+	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
+	 *
+	 * @param vx the cursor's virtual x-position relative to this ship component
+	 * @param vy the cursor's virtual y-position relative to this ship component
+	 */
+    public void deactivateWithCursor(final float vx, final float vy);
 }

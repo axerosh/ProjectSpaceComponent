@@ -65,14 +65,14 @@ public class StarShip {
         this.width = width;
         this.height = height;
 
-	shieldPool = 0;
-	powerPool = 0;
-	usedShielding = 0;
-	usedPower = 0;
-	shieldComponents = new ArrayList<>();
-	reactorComponents = new ArrayList<>();
-	engineComponents = new ArrayList<>();
-	weapons = new ArrayList<>();
+		shieldPool = 0;
+		powerPool = 0;
+		usedShielding = 0;
+		usedPower = 0;
+		shieldComponents = new ArrayList<>();
+		reactorComponents = new ArrayList<>();
+		engineComponents = new ArrayList<>();
+		weapons = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -86,14 +86,14 @@ public class StarShip {
      * <code>null</code> if the specified position is outside of ship bounds
      */
     public ShipComponent getComponentAt(final float x, final float y) {
-        double internalX = x - this.x;
-        double internalY = y - this.y;
+        double xRelativeToShip = getXRelativeToShip(x);
+        double yRelativeToShip = getYRelativeToShip(y);
 
-        if (internalX < 0 || internalX >= width || internalY < 0 || internalY >= height) {
+        if (xRelativeToShip < 0 || xRelativeToShip >= width || yRelativeToShip < 0 || yRelativeToShip >= height) {
             return null;
         }
 
-        return components[(int)internalX][(int)internalY];
+        return components[(int)xRelativeToShip][(int)yRelativeToShip];
     }
 
     /**
@@ -284,6 +284,56 @@ public class StarShip {
 		}
 		System.out.println();
     }
+
+	/**
+	 * Performs the activation action of the ship component that the cursor hovers over.
+	 *
+	 * @param vx the cursor's virtual x-position
+	 * @param vy the cursor's virtual y-position
+	 */
+	public void activateWithCursor(final float vx, final float vy) {
+		ShipComponent clickedComponent = getComponentAt(vx, vy);
+		if (clickedComponent != null) {
+			float xRelativeToComponent = getXRelativeToShip(vx) % 1;
+			float yRelativeToComponent = getYRelativeToShip(vy) % 1;
+			clickedComponent.deactivateWithCursor(xRelativeToComponent, yRelativeToComponent);
+		}
+	}
+
+	/**
+	 * Performs the deactivation action of the ship component that the cursor hovers over.
+	 *
+	 * @param vx the cursor's virtual x-position
+	 * @param vy the cursor's virtual y-position
+	 */
+	public void deactivateWithCursor(final float vx, final float vy) {
+		ShipComponent clickedComponent = getComponentAt(vx, vy);
+		if (clickedComponent != null) {
+			float xRelativeToComponent = getXRelativeToShip(vx) % 1;
+			float yRelativeToComponent = getYRelativeToShip(vy) % 1;
+			clickedComponent.activateWithCursor(xRelativeToComponent, yRelativeToComponent);
+		}
+	}
+
+	private float getXRelativeToShip(float x) {
+		return x - this.x;
+	}
+
+	private float getYRelativeToShip(float y) {
+		return y - this.y;
+	}
+
+	/**
+	 * Checks whether this ship contains the specified position.
+	 *
+	 * @param x the x-position
+	 * @param y the y-position
+	 * @return true if his stat bar contains the specified position
+	 */
+	public boolean contains(float x, float y) {
+		return x >= this.x && x <= this.x + this.width &&
+			   y >= this.y && y <= this.y + this.height;
+	}
 
     public void registerShieldComponent(final ShieldComponent shield) {
 	    shieldComponents.add(shield);

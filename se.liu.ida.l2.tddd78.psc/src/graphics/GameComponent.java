@@ -2,9 +2,8 @@ package graphics;
 
 import game.BattleField;
 
-import javax.swing.JComponent;
-import java.awt.Graphics;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * JComponent extension for drawing the game.
@@ -17,7 +16,7 @@ public class GameComponent extends JComponent {
 	 * The scale from virtual coordinates/distances to ones one the screen.
 	 * (If set to an integer, it is equal to a components width in pixels.)
 	 */
-    private final static float SCALE = 16f;
+    private final static float SCALE = 32.0f;
 	//As of 2016-03-02, this numebr need to be equal to or greater than ~16 for shielding/power bars to be readable.
 
     public GameComponent(final BattleField battleField) {
