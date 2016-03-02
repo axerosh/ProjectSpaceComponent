@@ -105,6 +105,7 @@ public class StarShip {
         return new Random().nextDouble() > dodgeRate;
     }
 
+    
     /**
      * Draws this star ship with the specified scaling.
      *
