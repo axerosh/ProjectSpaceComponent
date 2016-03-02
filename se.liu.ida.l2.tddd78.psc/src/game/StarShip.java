@@ -5,6 +5,7 @@ import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
+import shipcomponents.weaponscomponents.Weapon;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class StarShip {
     private List<ShieldComponent> shieldComponents;
     private List<ReactorComponent> reactorComponents;
     private List<EngineComponent> engineComponents;
+    private List<Weapon> weapons;
     private int shieldPool;
     private int usedShielding;
     private int powerPool;
@@ -63,13 +65,14 @@ public class StarShip {
         this.width = width;
         this.height = height;
 
-		shieldPool = 0;
-		powerPool = 0;
-		usedShielding = 0;
-		usedPower = 0;
-		shieldComponents = new ArrayList<>();
-		reactorComponents = new ArrayList<>();
-		engineComponents = new ArrayList<>();
+	shieldPool = 0;
+	powerPool = 0;
+	usedShielding = 0;
+	usedPower = 0;
+	shieldComponents = new ArrayList<>();
+	reactorComponents = new ArrayList<>();
+	engineComponents = new ArrayList<>();
+	weapons = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -139,39 +142,51 @@ public class StarShip {
      * Updates the ships status by going through its components.
      */
     public void update(){
-		updateShields();
-		updatePools();
+	updatePools();
+	updateShields();
+	for(ShipComponent[] scArray : components){
+	    for (ShipComponent sc : scArray){
+		if (sc != null){
+		    sc.update();
+		}
+	    }
+	}
+	for (Weapon wc : weapons){
+	    wc.updateWeapon();
+	}
     }
+
+
 
     /**
      * Updates all the ShieldComponents
      */
     public void updateShields(){
-		for(ShieldComponent sc : shieldComponents){
-			sc.update();
-		}
+	for(ShieldComponent sc : shieldComponents){
+	    sc.update();
+	}
     }
 
     /**
      * Updates the Ship's resource pools.
      */
     private void updatePools(){
-		shieldPool = 0;
-		for(ShieldComponent shield : shieldComponents){
-			shieldPool += shield.getOutput();
-		}
-		stripPoolUsage(shieldPool, usedShielding);
+	shieldPool = 0;
+	for(ShieldComponent shield : shieldComponents){
+	    shieldPool += shield.getOutput();
+	}
+	stripPoolUsage(shieldPool, usedShielding);
 
-		powerPool = 0;
-		for(ReactorComponent rc : reactorComponents){
-			powerPool += rc.getOutput();
-		}
-		stripPoolUsage(powerPool, usedPower);
+	powerPool = 0;
+	for(ReactorComponent rc : reactorComponents){
+	    powerPool += rc.getOutput();
+	}
+	stripPoolUsage(powerPool, usedPower);
 
-		dodgeRate = 0;
-		for(EngineComponent ec : engineComponents){
-			dodgeRate += ec.getOutput();
-		}
+	dodgeRate = 0;
+	for(EngineComponent ec : engineComponents){
+	    dodgeRate += ec.getOutput();
+	}
     }
 
     /**
@@ -225,9 +240,9 @@ public class StarShip {
      * @param y the y-coordinate of the position
      */
     public void decreaseShielding(final float x, final float y){
-		if(getComponentAt(x,y).decreaseShielding()){
-			usedShielding--;
-		}
+	if(getComponentAt(x,y).decreaseShielding()){
+	    usedShielding--;
+	}
     }
 
     /**
@@ -279,5 +294,9 @@ public class StarShip {
 
     public void registerEngineComponent(final EngineComponent engine) {
 	    engineComponents.add(engine);
+    }
+
+    public void registerWeaponComponent(final Weapon weapon){
+	weapons.add(weapon);
     }
 }

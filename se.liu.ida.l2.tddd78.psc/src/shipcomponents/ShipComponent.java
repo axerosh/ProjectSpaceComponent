@@ -59,16 +59,35 @@ public interface ShipComponent {
      */
     public boolean decreasePower();
 
-	/**
-	 *
-	 * @return true if this shipComponent is shielded.
-	 */
+    /**
+     * @return true if this shipComponent is shielded.
+     */
     public boolean hasShield();
 
-	/**
-	 * Registers this component with the specified ship, indicating it's functionality.
-	 *
-	 * @param ship the ship with which this component is registered.
-	 */
-	public void registerFunctionality(StarShip ship);
+    /**
+     * Updates the component
+     */
+    public void update();
+
+    /**
+     * Activates the component
+     */
+    public void activate();
+
+    /**
+     * Deactivates the component
+     */
+    public void deactivate();
+
+    /**
+     * @return true if component is active
+     */
+    public boolean isActive();
+
+    /**
+     * Registers this component with the specified ship, indicating it's functionality.
+     *
+     * @param ship the ship with which this component is registered.
+     */
+    public void registerFunctionality(StarShip ship);
 }

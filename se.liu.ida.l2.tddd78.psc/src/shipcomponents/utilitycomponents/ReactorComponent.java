@@ -14,6 +14,16 @@ public class ReactorComponent extends UtilityComponent{
 		output = 3;
     }
 
+    public void update(){
+	if(active){
+	    if(hp == 0){
+		output = 0;
+	    }else{
+		output = 5;
+	    }
+	}
+    }
+
     @Override public void performAction() {
 
     }

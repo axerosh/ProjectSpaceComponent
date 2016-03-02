@@ -3,15 +3,34 @@ package temp;
 import game.StarShip;
 
 public class Order {
-    int targetX, targetY;
+    float originX, originY;
+    float targetX, targetY;
     StarShip targetShip;
 
-    public int getTargetX() {
+    public Order(final float originX, final float originY, final float targetX, final float targetY,
+		 final StarShip targetShip)
+    {
+	this.originX = originX;
+	this.originY = originY;
+	this.targetX = targetX;
+	this.targetY = targetY;
+	this.targetShip = targetShip;
+    }
+
+    public float getTargetX() {
 	return targetX;
     }
 
-    public int getTargetY() {
+    public float getTargetY() {
 	return targetY;
+    }
+
+    public float getOriginY() {
+	return originY;
+    }
+
+    public float getOriginX() {
+	return originX;
     }
 
     public StarShip getTargetShip() {

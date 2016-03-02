@@ -21,7 +21,9 @@ public class BattleField {
     }
 
     public void update(){
-        //updateShips();
+        for(StarShip ship : friendlyShips){
+            ship.update();
+        }
         updateProjectiles();
     }
 

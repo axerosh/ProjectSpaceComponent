@@ -14,7 +14,14 @@ public class ShieldComponent extends UtilityComponent{
     }
 
     public void update(){
-	output = power * 2;
+
+	if(active){
+	    if(hp == 0){
+		output = 0;
+	    }else{
+		output = power * 2;
+	    }
+	}
     }
 
     @Override public void performAction() {
