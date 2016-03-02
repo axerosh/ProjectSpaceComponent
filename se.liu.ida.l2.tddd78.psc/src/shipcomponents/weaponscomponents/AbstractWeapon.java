@@ -26,6 +26,7 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
 	rechargeCounter++;
 	if(hasOrder() && canShoot()){
 	    shoot();
+	    order = null;
 	}
     }
 
