@@ -29,6 +29,17 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
 	}
     }
 
+    public void setOrder(Order order){
+	this.order = order;
+    }
+
+    public void cancelOrder(){
+	order = null;
+    }
+
+    /**
+     * @return true if an order exists.
+     */
     public boolean hasOrder(){
 	return order != null;
     }
