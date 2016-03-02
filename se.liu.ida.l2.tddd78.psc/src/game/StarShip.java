@@ -157,40 +157,53 @@ public class StarShip {
      */
     private void updatePools(){
 		shieldPool = 0;
-		for(ShieldComponent sc : shieldComponents){
-			shieldPool += sc.getOutput();
+		for(ShieldComponent shield : shieldComponents){
+			shieldPool += shield.getOutput();
 		}
-		if(usedShielding > shieldPool){
-			for(ShipComponent[] shipCArray : components){
-				if(usedShielding <= shieldPool){
-					break;
-				}
-
-				for(ShipComponent shipC : shipCArray){
-					if(usedShielding <= shieldPool || shipC == null){
-						continue;
-					}
-
-					while(shipC.hasShield()){
-						shipC.decreaseShielding();
-						if(usedShielding <= shieldPool){
-							break;
-						}
-					}
-				}
-			}
-		}
+		stripPoolUsage(shieldPool, usedShielding);
 
 		powerPool = 0;
 		for(ReactorComponent rc : reactorComponents){
 			powerPool += rc.getOutput();
 		}
+		stripPoolUsage(powerPool, usedPower);
 
 		dodgeRate = 0;
 		for(EngineComponent ec : engineComponents){
 			dodgeRate += ec.getOutput();
 		}
     }
+
+	/**
+	 * Strips use of the resources from the specified pool so that usage does not over exceed availability
+	 *
+	 * @param pool a pool of available resources
+	 * @param poolUsage the number of resources, from the specified pool, that is used
+	 */
+	private void stripPoolUsage(int pool, int poolUsage) {
+		if(poolUsage > pool){
+			for(ShipComponent[] componentCol : components){
+				if(poolUsage <= pool){
+					break;
+				}
+
+				for(ShipComponent component : componentCol){
+					if (component == null){
+						continue;
+					} else if (poolUsage <= pool) {
+						break;
+					}
+
+					while(component.hasShield() && poolUsage > pool){
+						component.decreaseShielding();
+						if(poolUsage <= pool){
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
 
     /**
      * Increases the shielding of the component at the position.
