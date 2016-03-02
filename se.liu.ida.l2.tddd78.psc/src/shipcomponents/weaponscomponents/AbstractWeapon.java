@@ -4,6 +4,7 @@ import projectiles.Projectile;
 import shipcomponents.AbstractShipComponent;
 import temp.Order;
 
+
 public abstract class AbstractWeapon extends AbstractShipComponent{
     int rechargeTime;
     int rechargeCounter;
@@ -30,10 +31,17 @@ public abstract class AbstractWeapon extends AbstractShipComponent{
 	}
     }
 
-    public void setOrder(Order order){
+    /**
+     * Sets the order for the weapon.
+     * @param order the order to give the weapon.
+     */
+    public void giveOrder(Order order){
 	this.order = order;
     }
 
+    /**
+     * Cancel the standing order of the weapon.
+     */
     public void cancelOrder(){
 	order = null;
     }
