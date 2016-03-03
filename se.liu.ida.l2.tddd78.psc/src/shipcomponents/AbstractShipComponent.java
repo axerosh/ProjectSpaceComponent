@@ -106,13 +106,16 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
 	 * Increases the level of of any stat which indication bar the cursor hovers over.
 	 *
-	 * @param vx the cursor's virtual x-position relative to this ship component
-	 * @param vy the cursor's virtual y-position relative to this ship component
+	 * @param rx the cursor's virtual x-position relative to this ship component
+	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
-	@Override public void activateWithCursor(final float vx, final float vy) {
-		if (powerBar.contains(vx, vy)) {
+	@Override public void activateWithCursor(final float rx, final float ry) {
+		System.out.println("ShipComponent recieved activation at relative virtual position x = " + rx + ", y = " + ry);
+		if (powerBar.contains(rx, ry)) {
+			System.out.println("Power increased!");
 			increasePower();
-		} else if (shieldingBar.contains(vx, vy)) {
+		} else if (shieldingBar.contains(rx, ry)) {
+			System.out.println("PShielding increased!");
 			increaseShielding();
 		}
 	}
@@ -121,13 +124,16 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
 	 * Decreases the level of of any stat which indication bar the cursor hovers over.
 	 *
-	 * @param vx the cursor's virtual x-position relative to this ship component
-	 * @param vy the cursor's virtual y-position relative to this ship component
+	 * @param rx the cursor's virtual x-position relative to this ship component
+	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
-	@Override public void deactivateWithCursor(final float vx, final float vy) {
-		if (powerBar.contains(vx, vy)) {
+	@Override public void deactivateWithCursor(final float rx, final float ry) {
+		System.out.println("ShipComponent recieved deactivation at relative virtual position x = " + rx + ", y = " + ry);
+		if (powerBar.contains(rx, ry)) {
+			System.out.println("Power decreased!");
 			decreasePower();
-		} else if (shieldingBar.contains(vx, vy)) {
+		} else if (shieldingBar.contains(rx, ry)) {
+			System.out.println("Shielding decreased!");
 			decreaseShielding();
 		}
 	}

@@ -31,6 +31,7 @@ public class StatBar {
 	 * @return true if his stat bar contains the specified position
 	 */
 	public boolean contains(float x, float y) {
+		System.out.println("StatBar checks if it contains position x = " + x + ", y = " + y);
 		return x >= this.x && x <= this.x + this.width &&
 			   y >= this.y && y <= this.y + this.height;
 	}

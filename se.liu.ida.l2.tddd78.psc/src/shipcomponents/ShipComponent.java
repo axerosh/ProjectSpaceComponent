@@ -100,16 +100,16 @@ public interface ShipComponent {
 	/**
 	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
 	 *
-	 * @param vx the cursor's virtual x-position relative to this ship component
-	 * @param vy the cursor's virtual y-position relative to this ship component
+	 * @param rx the cursor's virtual x-position relative to this ship component
+	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
-    public void activateWithCursor(final float vx, final float vy);
+    public void activateWithCursor(final float rx, final float ry);
 
 	/**
 	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
 	 *
-	 * @param vx the cursor's virtual x-position relative to this ship component
-	 * @param vy the cursor's virtual y-position relative to this ship component
+	 * @param rx the cursor's virtual x-position relative to this ship component
+	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
-    public void deactivateWithCursor(final float vx, final float vy);
+    public void deactivateWithCursor(final float rx, final float ry);
 }

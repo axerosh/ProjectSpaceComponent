@@ -1,10 +1,12 @@
 package game;
 
 import graphics.GameComponent;
+import graphics.PSCFrame;
 import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
+import shipcomponents.weaponscomponents.AbstractWeaponComponent;
 import shipcomponents.weaponscomponents.MissileComponent;
 import temp.Order;
 
@@ -16,50 +18,48 @@ public final class Test {
 
     public static void main(String[] args) {
 		BattleField field = new BattleField();
-		StarShip playerShip = new StarShip(5f, 5f, 5, 5);
+		StarShip playerShip = new StarShip(1f, 1f, 5, 5);
+
 		int componentHP = 2;
-		int componentOutput = 70;
+		int shieldOutput = 4;
 		int reactorOutput = 3;
 		int engineOutput = 10;
-		ShipComponent engine = new EngineComponent(componentHP, engineOutput);
-		ShipComponent shield = new ShieldComponent(componentHP, componentOutput);
-		ShipComponent coolShield = new ShieldComponent(componentHP, componentOutput);
-		ShipComponent reactor = new ReactorComponent(componentHP, reactorOutput);
-		MissileComponent missleComponent = new MissileComponent(5, 5);
-		playerShip.setComponent(engine, 1, 0);
-		playerShip.setComponent(engine, 2, 0);
-		playerShip.setComponent(engine, 3, 0);
+		int missileRechargeTime = 5;
 
-		playerShip.setComponent(missleComponent, 0, 1);
-		playerShip.setComponent(shield, 1, 1);
-		playerShip.setComponent(shield, 2, 1);
-		playerShip.setComponent(shield, 3, 1);
-		playerShip.setComponent(coolShield, 4, 1);
+		AbstractWeaponComponent missileComponent = new MissileComponent(componentHP, missileRechargeTime);
 
-		playerShip.setComponent(engine, 0, 2);
-		playerShip.setComponent(engine, 2, 2);
-		playerShip.setComponent(engine, 4, 2);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 1, 0);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 2, 0);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 3, 0);
 
-		playerShip.setComponent(engine, 0, 3);
-		playerShip.setComponent(engine, 1, 3);
-		playerShip.setComponent(engine, 2, 3);
-		playerShip.setComponent(engine, 3, 3);
-		playerShip.setComponent(engine, 4, 3);
+		playerShip.setComponent(missileComponent, 0, 1);
+		playerShip.setComponent(new ShieldComponent(componentHP, shieldOutput), 1, 1);
+		playerShip.setComponent(new ShieldComponent(componentHP, shieldOutput), 2, 1);
+		playerShip.setComponent(new ShieldComponent(componentHP, shieldOutput), 3, 1);
+		playerShip.setComponent(new ShieldComponent(componentHP, shieldOutput), 4, 1);
 
-		playerShip.setComponent(reactor, 1, 4);
-		playerShip.setComponent(reactor, 3, 4);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 0, 2);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 2, 2);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 4, 2);
+
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 0, 3);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 1, 3);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 2, 3);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 3, 3);
+		playerShip.setComponent(new EngineComponent(componentHP, engineOutput), 4, 3);
+
+		playerShip.setComponent(new ReactorComponent(componentHP, reactorOutput), 1, 4);
+		playerShip.setComponent(new ReactorComponent(componentHP, reactorOutput), 3, 4);
 
 		field.addFriendlyShip(playerShip);
 		GameComponent gc = new GameComponent(field);
 
-		JFrame frame = new JFrame("testing is FUUUUUUUUUUUUUUUUUUUUUUUN!");
-		frame.add(gc);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		JFrame frame = new PSCFrame(field, gc);
 		gc.repaint();
 
 		playerShip.printShip();
+		int cursorX = Math.round(5.3f * GameComponent.getSCALE());
+		int cursorY = Math.round(6.5f * GameComponent.getSCALE());
 
 		for(int tick = 0; tick< 20; tick++){
 			field.update();
@@ -69,13 +69,19 @@ public final class Test {
 				e.printStackTrace();
 			}
 
-			if(tick == 5){
-			missleComponent.giveOrder(new Order(15, 15, 8, 9, playerShip));
-			System.out.println("Order has been givin");
-			}
-			if(tick == 10){
-			missleComponent.increasePower();
-			System.out.println("Shoot should be fired");
+			if(tick == 1){
+				//field.activateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+
+			} else if(tick == 2){
+				//field.deactivateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+
+			} else if(tick == 5){
+				missileComponent.giveOrder(new Order(15, 15, 8, 9, playerShip));
+				System.out.println("Order has been givin");
+
+			} else if(tick == 10){
+				missileComponent.increasePower();
+				System.out.println("Shoot should be fired");
 			}
 			gc.repaint();
 

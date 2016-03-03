@@ -48,6 +48,7 @@ public class BattleField {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void activateWithCursor(final float vx, final float vy) {
+		System.out.println("Battlefield recieved activation at virtual position x = " + vx + ", y = " + vy);
 		for (StarShip ship: friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.activateWithCursor(vx, vy);
@@ -69,6 +70,7 @@ public class BattleField {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void deactivateWithCursor(final float vx, final float vy) {
+		System.out.println("Battlefield recieved deactivation at virtual position x = " + vx + ", y = " + vy);
 		for (StarShip ship: friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.deactivateWithCursor(vx, vy);

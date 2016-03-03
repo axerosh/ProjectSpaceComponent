@@ -24,6 +24,11 @@ public class StarShip {
     private int width;
     private int height;
 
+	/**
+	 * The virtual width of a ship component.
+	 */
+	private static final int COMPONENT_WDITH = 1;
+
     private List<ShieldComponent> shieldComponents;
     private List<ReactorComponent> reactorComponents;
     private List<EngineComponent> engineComponents;
@@ -292,11 +297,12 @@ public class StarShip {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void activateWithCursor(final float vx, final float vy) {
+		System.out.println("Starship recieved activation at virtual position x = " + vx + ", y = " + vy);
 		ShipComponent clickedComponent = getComponentAt(vx, vy);
 		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % 1;
-			float yRelativeToComponent = getYRelativeToShip(vy) % 1;
-			clickedComponent.deactivateWithCursor(xRelativeToComponent, yRelativeToComponent);
+			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
+			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
+			clickedComponent.activateWithCursor(xRelativeToComponent, yRelativeToComponent);
 		}
 	}
 
@@ -307,11 +313,12 @@ public class StarShip {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void deactivateWithCursor(final float vx, final float vy) {
+		System.out.println("Starship recieved deactivation at virtual position x = " + vx + ", y = " + vy);
 		ShipComponent clickedComponent = getComponentAt(vx, vy);
 		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % 1;
-			float yRelativeToComponent = getYRelativeToShip(vy) % 1;
-			clickedComponent.activateWithCursor(xRelativeToComponent, yRelativeToComponent);
+			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
+			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
+			clickedComponent.deactivateWithCursor(xRelativeToComponent, yRelativeToComponent);
 		}
 	}
 
