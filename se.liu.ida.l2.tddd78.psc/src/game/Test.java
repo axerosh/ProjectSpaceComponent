@@ -2,7 +2,6 @@ package game;
 
 import graphics.GameComponent;
 import graphics.PSCFrame;
-import shipcomponents.ShipComponent;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
 import shipcomponents.utilitycomponents.ShieldComponent;
@@ -70,12 +69,12 @@ public final class Test {
 			}
 
 			if(tick == 1){
-			missleComponent.giveOrder(new Order(5, 6, 8, 9, playerShip));
+			missileComponent.giveOrder(new Order(5, 6, 8, 9, playerShip));
 			System.out.println("Order has been givven");
 				//field.activateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 
 			} else if(tick == 2){
-			missleComponent.increasePower();
+			missileComponent.increasePower();
 			System.out.println("Shoot should be fired");
 				//field.deactivateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 			}
