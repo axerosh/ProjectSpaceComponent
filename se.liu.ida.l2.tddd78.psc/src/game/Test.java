@@ -25,7 +25,7 @@ public final class Test {
 		ShipComponent shield = new ShieldComponent(componentHP, componentOutput);
 		ShipComponent coolShield = new ShieldComponent(componentHP, componentOutput);
 		ShipComponent reactor = new ReactorComponent(componentHP, reactorOutput);
-		MissileComponent missleComponent = new MissileComponent(5, 5);
+		MissileComponent missleComponent = new MissileComponent(5, 0);
 		playerShip.setComponent(engine, 1, 0);
 		playerShip.setComponent(engine, 2, 0);
 		playerShip.setComponent(engine, 3, 0);
@@ -69,11 +69,11 @@ public final class Test {
 				e.printStackTrace();
 			}
 
-			if(tick == 5){
-			missleComponent.giveOrder(new Order(15, 15, 8, 9, playerShip));
+			if(tick == 1){
+			missleComponent.giveOrder(new Order(5, 6, 8, 9, playerShip));
 			System.out.println("Order has been givin");
 			}
-			if(tick == 10){
+			if(tick == 2){
 			missleComponent.increasePower();
 			System.out.println("Shoot should be fired");
 			}

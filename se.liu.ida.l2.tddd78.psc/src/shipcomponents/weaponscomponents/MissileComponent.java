@@ -12,8 +12,7 @@ public class MissileComponent extends AbstractWeaponComponent
     }
 
     @Override public Projectile shoot() {
-
-	return new MissileProjectile(order.getOriginX(),order.getOriginY(),order.getTargetX(),order.getTargetY(), power*2, order.getTargetShip(), power, (int)(power/2));
+	return new MissileProjectile(order.getOriginX(),order.getOriginY(),order.getTargetX(),order.getTargetY(), power, order.getTargetShip(), power, 2);
     }
 
     @Override public void update() {
@@ -25,6 +24,6 @@ public class MissileComponent extends AbstractWeaponComponent
     }
 
     @Override public void registerFunctionality(final StarShip ship) {
-
+        ship.registerWeaponComponent(this);
     }
 }

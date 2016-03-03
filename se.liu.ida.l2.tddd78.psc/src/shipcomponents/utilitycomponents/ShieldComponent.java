@@ -32,7 +32,7 @@ public class ShieldComponent extends UtilityComponent{
 		draw(g, scale, virtualX, virtualY, Color.CYAN);
     }
 
-	@Override public void registerFunctionality(final StarShip ship) {
+    @Override public void registerFunctionality(final StarShip ship) {
 		ship.registerShieldComponent(this);
 	}
 }

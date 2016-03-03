@@ -20,14 +20,15 @@ public class BattleField {
     }
 
     public void update(){
-        for(StarShip ship : friendlyShips){
-            ship.update();
-        }
         updateProjectiles();
+        for(StarShip ship : friendlyShips){
+            addProjectiles(ship.update());
+        }
+
     }
 
     private void updateProjectiles() {
-        Collection<Projectile> projectilesToRemove = new ArrayList<>();
+        List<Projectile> projectilesToRemove = new ArrayList<>();
         for(Projectile p : projectiles){
             p.update();
             if(p.hasImpact()){
@@ -91,8 +92,8 @@ public class BattleField {
         enemyShips.add(ship);
     }
 
-    public void addProjectile(final Projectile projectile){
-        projectiles.add(projectile);
+    public void addProjectiles(final List<Projectile> projectiles){
+        this.projectiles.addAll(projectiles);
     }
 
     /**

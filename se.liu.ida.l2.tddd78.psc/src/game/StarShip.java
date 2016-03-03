@@ -28,6 +28,7 @@ public class StarShip {
     private List<ReactorComponent> reactorComponents;
     private List<EngineComponent> engineComponents;
     private List<Weapon> weapons;
+    private List<Projectile>firedProjectiles;
     private int shieldPool;
     private int usedShielding;
     private int powerPool;
@@ -65,14 +66,16 @@ public class StarShip {
         this.width = width;
         this.height = height;
 
-		shieldPool = 0;
-		powerPool = 0;
-		usedShielding = 0;
-		usedPower = 0;
-		shieldComponents = new ArrayList<>();
-		reactorComponents = new ArrayList<>();
-		engineComponents = new ArrayList<>();
-		weapons = new ArrayList<>();
+	shieldPool = 0;
+	powerPool = 0;
+	usedShielding = 0;
+	usedPower = 0;
+	shieldComponents = new ArrayList<>();
+	reactorComponents = new ArrayList<>();
+	engineComponents = new ArrayList<>();
+
+	weapons = new ArrayList<>();
+	firedProjectiles = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -105,7 +108,7 @@ public class StarShip {
         return new Random().nextDouble() > dodgeRate;
     }
 
-    
+
     /**
      * Draws this star ship with the specified scaling.
      *
@@ -142,7 +145,8 @@ public class StarShip {
     /**
      * Updates the ships status by going through its components.
      */
-    public void update(){
+    public List<Projectile> update(){
+	firedProjectiles = new ArrayList<>();
 	updatePools();
 	updateShields();
 	for(ShipComponent[] scArray : components){
@@ -153,8 +157,12 @@ public class StarShip {
 	    }
 	}
 	for (Weapon wc : weapons){
-	    wc.updateWeapon();
+	    Projectile p = wc.updateWeapon();
+	    if(p != null){
+		firedProjectiles.add(p);
+	    }
 	}
+	return firedProjectiles;
     }
 
 
