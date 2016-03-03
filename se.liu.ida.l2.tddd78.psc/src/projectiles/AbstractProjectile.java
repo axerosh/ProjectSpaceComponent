@@ -26,6 +26,7 @@ public class AbstractProjectile implements Projectile {
 		this.targetShip = targetShip;
 		this.damageOnImpact = damageOnImpact;
 		this.blastRadius = blastRadius;
+	System.out.println("Projectile spawned at " + selfX + " " + selfY);
 
 		double angle = Math.atan2(targetY - selfY, targetX - selfX);
 		xVelocity = (float)Math.cos(angle) * velocity;
@@ -38,12 +39,13 @@ public class AbstractProjectile implements Projectile {
      * if so applies its effect
      */
     @Override public void update() {
-		selfX += xVelocity;
-		selfY += yVelocity;
+	selfX += xVelocity;
+	selfY += yVelocity;
+	System.out.println(selfX + " " + selfY);
 
-		if(hasImpact()){
-			impact();
-		}
+	if(hasImpact()){
+		impact();
+	}
     }
 
     /**
@@ -108,7 +110,7 @@ public class AbstractProjectile implements Projectile {
      * @param scale scale of which all positions and sizes will be scaled with.
      */
     @Override public void draw(final Graphics g, final float scale) {
-		g.setColor(Color.RED);
-		g.drawLine((int)(scale * selfX), (int)(scale*selfY), (int)((selfX + xVelocity) * scale), (int)((selfY + xVelocity) * scale));
+		g.setColor(Color.YELLOW);
+		g.drawLine((int)(scale * selfX), (int)(scale*selfY), (int)((selfX + xVelocity) * scale), (int)((selfY + yVelocity) * scale));
     }
 }

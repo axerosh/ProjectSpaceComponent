@@ -70,18 +70,14 @@ public final class Test {
 			}
 
 			if(tick == 1){
+			missleComponent.giveOrder(new Order(5, 6, 8, 9, playerShip));
+			System.out.println("Order has been givven");
 				//field.activateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 
 			} else if(tick == 2){
+			missleComponent.increasePower();
+			System.out.println("Shoot should be fired");
 				//field.deactivateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
-
-			} else if(tick == 5){
-				missileComponent.giveOrder(new Order(15, 15, 8, 9, playerShip));
-				System.out.println("Order has been givin");
-
-			} else if(tick == 10){
-				missileComponent.increasePower();
-				System.out.println("Shoot should be fired");
 			}
 			gc.repaint();
 

@@ -8,11 +8,11 @@ import temp.Order;
 
 public abstract class AbstractWeaponComponent extends AbstractShipComponent implements Weapon
 {
-    int rechargeTime;
-    int rechargeCounter;
-    Order order;
+    protected int rechargeTime;
+    protected int rechargeCounter;
+    protected Order order;
 
-    public AbstractWeaponComponent(final int maxHp, final int rechargeTime) {
+    protected AbstractWeaponComponent(final int maxHp, final int rechargeTime) {
 	super(maxHp);
 	this.rechargeTime = rechargeTime;
 	rechargeCounter = 0;
@@ -28,8 +28,9 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
     @Override public Projectile updateWeapon(){
 	rechargeCounter++;
 	if(hasOrder() && canShoot()){
+	    Projectile p = shoot();
 	    order = null;
-	    return shoot();
+	    return p;
 	}
 	return null;
     }
@@ -62,7 +63,7 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
      * @return true if the weapon can fire
      */
     public boolean canShoot(){
-	if (rechargeCounter == rechargeTime && hp > 0 && power > 0){
+	if (rechargeCounter > rechargeTime && hp > 0 && power > 0){
 	    return true;
 	}else{
 	    return false;
