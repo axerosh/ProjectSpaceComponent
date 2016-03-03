@@ -52,6 +52,7 @@ public class AbstractProjectile implements Projectile {
      * Apply the projectiles effect on target component(s).
      */
     @Override public void impact() {
+		System.out.println("Projectile hit target!");
 		if(!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null){
 			for(int relativeRow = -blastRadius +1 ; relativeRow <= blastRadius -1; relativeRow++){
 

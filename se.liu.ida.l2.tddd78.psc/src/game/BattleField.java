@@ -4,14 +4,15 @@ import projectiles.Projectile;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class BattleField {
+public class BattleField extends GeneralVisibleEntity {
 
     private List<StarShip> friendlyShips;
     private List<StarShip> enemyShips;
     private List<Projectile> projectiles;
+
+	private List<VisibleEntityListener> visibleEntityListeners;
 
     public BattleField() {
         friendlyShips = new ArrayList<>();

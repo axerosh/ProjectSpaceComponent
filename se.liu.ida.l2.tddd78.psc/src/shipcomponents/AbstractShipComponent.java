@@ -64,7 +64,8 @@ public abstract class AbstractShipComponent implements ShipComponent {
 
     @Override
     public void inflictDamage(int damage) {
-        hp -= damageThroughShield(damage);
+		int damageTaken = damageThroughShield(damage);
+		hp -= damageTaken;
         hp = Math.max(hp, 0);
     }
 
@@ -96,6 +97,12 @@ public abstract class AbstractShipComponent implements ShipComponent {
 		int screenX = (int)(virtualX * scale);
 		int screenY = (int)(virtualY * scale);
 		int pixelsAcrossComponent = (int)scale;
+		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
+
+		final int maxAlpha = 255 / 2;
+		int alpha = Math.round((maxAlpha * (1 - (float)hp / maxHp)));
+		Color transparentBlackOverlay = new Color(0,0,0, alpha);
+		g.setColor(transparentBlackOverlay);
 		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
 
 		powerBar.draw(g, scale, screenX, screenY, power, MAXPOWER, hasPower());

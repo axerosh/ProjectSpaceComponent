@@ -12,7 +12,11 @@ public class MissileComponent extends AbstractWeaponComponent
     }
 
     @Override public Projectile shoot() {
-	return new MissileProjectile(order.getOriginX(),order.getOriginY(),order.getTargetX(),order.getTargetY(), power, order.getTargetShip(), power, 2);
+		int velocity = 1;
+        int damage = 1;
+		int blastRadius = 3;
+	return new MissileProjectile(order.getOriginX(),order.getOriginY(),order.getTargetX(),order.getTargetY(), velocity,
+								 order.getTargetShip(), damage, blastRadius);
     }
 
     @Override public void update() {

@@ -17,7 +17,7 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class StarShip {
+public class StarShip extends GeneralVisibleEntity {
 
     private float x;
     private float y;
@@ -151,23 +151,23 @@ public class StarShip {
      * Updates the ships status by going through its components.
      */
     public List<Projectile> update(){
-	firedProjectiles = new ArrayList<>();
-	updatePools();
-	updateShields();
-	for(ShipComponent[] scArray : components){
-	    for (ShipComponent sc : scArray){
-		if (sc != null){
-		    sc.update();
+		firedProjectiles = new ArrayList<>();
+		updatePools();
+		updateShields();
+		for(ShipComponent[] scArray : components){
+			for (ShipComponent sc : scArray){
+			if (sc != null){
+				sc.update();
+			}
+			}
 		}
-	    }
-	}
-	for (Weapon wc : weapons){
-	    Projectile p = wc.updateWeapon();
-	    if(p != null){
-		firedProjectiles.add(p);
-	    }
-	}
-	return firedProjectiles;
+		for (Weapon wc : weapons){
+			Projectile p = wc.updateWeapon();
+			if(p != null){
+			firedProjectiles.add(p);
+			}
+		}
+		return firedProjectiles;
     }
 
 

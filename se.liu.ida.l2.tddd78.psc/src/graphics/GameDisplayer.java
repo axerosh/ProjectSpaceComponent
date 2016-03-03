@@ -1,6 +1,7 @@
 package graphics;
 
 import game.BattleField;
+import game.VisibleEntityListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 /**
  * JComponent extension for drawing the game.
  */
-public class GameComponent extends JComponent implements PSCGraphics {
+public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEntityListener {
 
     private BattleField battleField;
 
@@ -16,11 +17,11 @@ public class GameComponent extends JComponent implements PSCGraphics {
 	 * The scale from virtual coordinates/distances to ones one the screen.
 	 * (If set to an integer, it is equal to a components width in pixels.)
 	 */
-    private final static float SCALE = 32.0f;
+    private final static float SCALE = 48.0f;
 	//As of 2016-03-02, this number need to be equal to or greater than ~16 for shielding/power bars to be readable.
 	//Can definelty not be 0! (Will result in division by 0)
 
-    public GameComponent(final BattleField battleField) {
+    public GameDisplayer(final BattleField battleField) {
 	this.battleField = battleField;
     }
 
@@ -44,5 +45,9 @@ public class GameComponent extends JComponent implements PSCGraphics {
 
 	@Override public float getVirtualY(int screenY) {
 		return screenY / SCALE;
+	}
+
+	@Override public void visualUpdateRequested() {
+		repaint();
 	}
 }

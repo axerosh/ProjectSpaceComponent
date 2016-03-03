@@ -52,7 +52,7 @@ public class StatBar {
 		int renderedHeight = Math.round(height * scale);
 
 		//Outline/Background
-		final Color transparentBlack = new Color(0, 0, 0, 70);
+		final Color transparentBlack = new Color(0, 0, 0, 127);
 		g.setColor(transparentBlack);
 		g.fillRect(screenPosX, screenPosY, renderedWidth, renderedHeight);
 

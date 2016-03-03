@@ -1,6 +1,6 @@
 package game;
 
-import graphics.GameComponent;
+import graphics.GameDisplayer;
 import graphics.PSCFrame;
 import shipcomponents.utilitycomponents.EngineComponent;
 import shipcomponents.utilitycomponents.ReactorComponent;
@@ -20,8 +20,8 @@ public final class Test {
 		StarShip playerShip = new StarShip(1f, 1f, 5, 5);
 
 		int componentHP = 2;
-		int shieldOutput = 4;
-		int reactorOutput = 3;
+		int shieldOutput = 4 * 10;
+		int reactorOutput = 3 * 10;
 		int engineOutput = 10;
 		int missileRechargeTime = 5;
 
@@ -51,16 +51,18 @@ public final class Test {
 		playerShip.setComponent(new ReactorComponent(componentHP, reactorOutput), 3, 4);
 
 		field.addFriendlyShip(playerShip);
-		GameComponent gc = new GameComponent(field);
+		GameDisplayer gc = new GameDisplayer(field);
 
 		JFrame frame = new PSCFrame(field, gc);
 		gc.repaint();
 
 		playerShip.printShip();
-		int cursorX = Math.round(5.3f * GameComponent.getSCALE());
-		int cursorY = Math.round(6.5f * GameComponent.getSCALE());
+		int cursorX = Math.round(5.3f * GameDisplayer.getSCALE());
+		int cursorY = Math.round(6.5f * GameDisplayer.getSCALE());
 
-		for(int tick = 0; tick< 20; tick++){
+		boolean running = true;
+		int tick = 0;
+		while (running) {
 			field.update();
 			try{
 				Thread.sleep(1000);
@@ -69,17 +71,20 @@ public final class Test {
 			}
 
 			if(tick == 1){
-			missileComponent.giveOrder(new Order(5, 6, 8, 9, playerShip));
-			System.out.println("Order has been givven");
+			missileComponent.giveOrder(new Order(1, 2, 3, 3, playerShip));
+			System.out.println("Order has been given");
 				//field.activateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 
 			} else if(tick == 2){
 			missileComponent.increasePower();
 			System.out.println("Shoot should be fired");
 				//field.deactivateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+			} else if(tick == 12) {
+				running = false;
 			}
 			gc.repaint();
 
+			tick++;
 		}
 
 		playerShip.printShip();
