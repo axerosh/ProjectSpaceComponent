@@ -9,6 +9,7 @@ import weaponry.projectiles.Projectile;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -159,7 +160,7 @@ public class Starship extends GeneralVisibleEntity {
 	/**
 	 * Updates the ships status by going through its components.
 	 */
-	public List<Projectile> update() {
+	public Collection<Projectile> update() {
 		firedProjectiles = new ArrayList<>();
 		updatePools();
 		updateShields();
@@ -303,8 +304,9 @@ public class Starship extends GeneralVisibleEntity {
 		ShipComponent target = getComponentAt(vx, vy);
 		if (target != null) {
 			if (hasFreeShielding()) {
-				target.increaseShielding();
-				usedShielding++;
+				if (target.increaseShielding()) {
+					usedShielding++;
+				}
 			}
 		}
 	}
@@ -312,8 +314,9 @@ public class Starship extends GeneralVisibleEntity {
 	public void decreaseShieldingOfComponentAt(final float vx, final float vy) {
 		ShipComponent target = getComponentAt(vx, vy);
 		if (target != null) {
-			target.decreaseShielding();
-			usedShielding--;
+			if (target.decreaseShielding()) {
+				usedShielding--;
+			}
 		}
 	}
 
@@ -321,8 +324,9 @@ public class Starship extends GeneralVisibleEntity {
 		ShipComponent target = getComponentAt(vx, vy);
 		if (target != null) {
 			if (hasFreePower()) {
-				target.increasePower();
-				usedPower++;
+				if (target.increasePower()) {
+					usedPower++;
+				}
 			}
 		}
 	}
@@ -330,8 +334,9 @@ public class Starship extends GeneralVisibleEntity {
 	public void decreasePowerOfComponentAt(final float vx, final float vy) {
 		ShipComponent target = getComponentAt(vx, vy);
 		if (target != null) {
-			target.decreasePower();
-			usedPower--;
+			if (target.decreasePower()) {
+				usedPower--;
+			}
 		}
 	}
 

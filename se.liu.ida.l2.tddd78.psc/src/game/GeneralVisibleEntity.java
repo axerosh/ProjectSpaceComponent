@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class GeneralVisibleEntity implements VisibleEntity {
 
-	private List<VisibleEntityListener> visibleEntityListeners;
+	protected List<VisibleEntityListener> visibleEntityListeners;
 
 	public GeneralVisibleEntity() {
 		visibleEntityListeners = new ArrayList<>();
@@ -30,7 +30,7 @@ public class GeneralVisibleEntity implements VisibleEntity {
 		}
 	}
 
-	protected List<VisibleEntityListener> getVisibleEntityListeners() {
+	protected Iterable<VisibleEntityListener> getVisibleEntityListeners() {
 		return visibleEntityListeners;
 	}
 }

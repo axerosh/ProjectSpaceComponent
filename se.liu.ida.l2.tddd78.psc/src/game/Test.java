@@ -20,7 +20,7 @@ public final class Test {
 
 	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
-		Starship playerShip = new Starship(1f, 1f, 5, 5);
+		Starship playerShip = new Starship(1, 1, 5, 5);
 
 		float componentIntegrity = 2;
 		int shieldOutput = 4;
@@ -78,7 +78,7 @@ public final class Test {
 			} else if (tick == 2) {
 				missileComponent.increasePower();
 				System.out.println("Shot should be fired");
-			} else if (tick == 12) {
+			} else if (tick == 30) {
 				running = false;
 			}
 			gameDisplayer.repaint();

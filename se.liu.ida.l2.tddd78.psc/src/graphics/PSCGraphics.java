@@ -1,5 +1,8 @@
 package graphics;
 
+/**
+ * Graphical component for displaying the game.
+ */
 public interface PSCGraphics {
 
 	/**
