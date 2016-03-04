@@ -32,17 +32,17 @@ public interface ShipComponent extends VisibleEntity {
      * Tries to change the shielding of the component by the specified amount.
      *
 	 * @param change amount with which the shielding is to be changed
-     * @return true if successfull, false if shielding is at max value
+     * @return the change that was made
      */
-    public boolean changeShielding(int change);
+    public int changeShielding(int change);
 
 	/**
 	  * Tries to change the power of the component by the specified amount.
 	  *
 	  * @param change amount with which the power is to be changed
-	  * @return true if successfull, false if power is at max value
+	  * @return the change that was made
 	  */
-	 public boolean changePower(int change);
+	 public int changePower(int change);
 
 	/**
 	 * Tries to change the stat, which indicator bar is at the specified virtual position relative to this ship component,
@@ -57,7 +57,11 @@ public interface ShipComponent extends VisibleEntity {
     /**
      * @return true if this shipComponent is shielded.
      */
-    public boolean hasShield();
+    public boolean hasShielding();
+
+	public int getShielding();
+
+	public int getPower();
 
     /**
      *

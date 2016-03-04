@@ -12,8 +12,6 @@ public class BattleField extends GeneralVisibleEntity {
     private List<StarShip> enemyShips;
     private List<Projectile> projectiles;
 
-	private List<VisibleEntityListener> visibleEntityListeners;
-
     public BattleField() {
         friendlyShips = new ArrayList<>();
         enemyShips = new ArrayList<>();

@@ -107,7 +107,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
 
 		powerBar.draw(g, scale, screenX, screenY, power, MAXPOWER, hasPower());
-		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShield());
+		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShielding());
 	}
 
 	@Override public void changeStatIndicatedAt(final float rx, final float ry, final int change) {
@@ -125,77 +125,77 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	  * @param change amount with which the shielding is to be changed
 	  * @return true if successfull, false if shielding is at max value
 	  */
-	@Override public boolean changeShielding(int change) {
+	@Override public int changeShielding(int change) {
 		int oldShielding = shielding;
 		if (change < 0) {
-			shielding = decreaseStat(shielding, 0);
+			shielding = decreaseStat(shielding, 0, change);
 		} else {
-			shielding = increaseStat(shielding, MAXSHIELDING);
+			shielding = increaseStat(shielding, MAXSHIELDING, change);
 		}
-		return hasChanged(shielding, oldShielding);
+		return change(oldShielding, shielding);
     }
 
 	/**
-	  * Tries to change the power of the component by one by the specified amount.
-	  * Requests a visual update if successfull.
+	  * Tries to change the power of the component by the specified amount.
+	  * Requests a visual update if a change was made.
 	  *
 	  * @param change amount with which the power is to be changed
-	  * @return true if successfull, false if power is at max value
+	  * @return the change that was made
 	  */
-	@Override public boolean changePower(final int change) {
+	@Override public int changePower(final int change) {
 		int oldPower = power;
 		if (change < 0) {
-			power = decreaseStat(power, 0);
+			power = decreaseStat(power, 0, change);
 		} else {
-			power = increaseStat(power, MAXPOWER);
+			power = increaseStat(power, MAXPOWER, change);
 		}
-		return hasChanged(power, oldPower);
+		return change(oldPower, power);
 	}
 
 	/**
-	 * Returns true and requests an visual update if the the specified values differ.
+	 * Requests a visual update if a change was made.
 	 *
-	 * @param value1 the value before eventual change
-	 * @param value2 the value after eventual change
-	 * @return true if the the specified values differ
+	 * @param oldValue a value before it was changed
+	 * @param newValue the same value after it was changed
+	 * @return the change from the specifed old vale to the specified new value
 	 */
-	private boolean hasChanged(int value1, int value2) {
-		boolean hasChanged = value1 != value2;
-		if (hasChanged){
+	private int change(int oldValue, int newValue) {
+		int change = newValue - oldValue;
+		if (change != 0) {
 			requestVisualUpdate();
 		}
-		return hasChanged;
+		return change;
 	}
 
 	/**
-	* Increases the specified stat by 1, unless it has reached the specified maximum stat value.
-	*
-	* @param stat the stat to change
-	* @param statMax the maximum value allowed for the specified stat
-	* @return false if the stat was unchanged because it had reached the maximum stat value
-	*/
-	private int increaseStat(int stat, int statMax) {
-		if (stat < statMax){
-			stat++;
-		}
-		return stat;
+	 * Increases the specified stat by the specified amount, unless this will make it greater than the specified stat maximum.
+	 * In this case it is increased to the point where it is equal to the maximum
+	 *
+	 * @param stat the stat to change
+	 * @param statMax the maximum value allowed for the specified stat
+	 * @param increase amount with which the specified stat is to be increased.
+	 * @return the specified stat after the increase; never greater than the specified stat maximum
+	 */
+	private int increaseStat(int stat, int statMax, int increase) {
+		stat += increase;
+		return Math.min(stat, statMax);
 	}
 
 	/**
-	* Decreases the specified stat by 1, unless it has reached the specified minimum stat value.
-	*
-	* @param stat the stat to change
-	* @param statMin the minimum value allowed for the specified stat
-	* @return false if the stat was unchanged because it had reached the minimum stat value
-	*/
-	private int decreaseStat(int stat, int statMin) {
-		if (stat > statMin){
-			stat--;
-		}
-		return stat;
+	 * Decreases the specified stat by the specified amount, unless this will make it lesser than the specified stat minimum.
+	 * In this case it is decreased to the point where it is equal to the minimum
+	 *
+	 * @param stat the stat to change
+	 * @param statMin the minimum value allowed for the specified stat
+	 * @param decrease amount with which the specified stat is to be decreased.
+	 * @return the specified stat after the decrease; never lesser than the specified stat minimum
+	 */
+	private int decreaseStat(int stat, int statMin, int decrease) {
+		stat -= decrease;
+		return Math.max(stat, statMin);
 	}
 
-    @Override public boolean hasShield() {
+    @Override public boolean hasShielding() {
 		return shielding > 0;
     }
 
@@ -203,7 +203,15 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
     		return power > 0;
     }
 
-    @Override public void activate() {
+	@Override public int getShielding() {
+		return shielding;
+	}
+
+	@Override public int getPower() {
+		return power;
+	}
+
+	@Override public void activate() {
 	active = true;
     }
 

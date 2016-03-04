@@ -194,19 +194,42 @@ public class StarShip extends GeneralVisibleEntity {
 	for(ShieldComponent shield : shieldComponents){
 	    shieldPool += shield.getOutput();
 	}
-	stripShielding();
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
 	}
-	stripPower();
 
 	dodgeRate = 0;
 	for(EngineComponent ec : engineComponents){
 	    dodgeRate += ec.getOutput();
 	}
+
+		stripPoolUsage();
     }
+
+	private void updatePoolUsage() {
+		usedShielding = 0;
+		usedPower = 0;
+		for (int col = 0; col < width; col++) {
+			for (int row = 0; row < height; row++) {
+				ShipComponent component = components[col][row];
+				if (component != null) {
+					usedShielding += component.getShielding();
+					usedPower += component.getPower();
+				}
+			}
+		}
+	}
+
+	/**
+  	 * Strips the use of all pools so that usage does not exceed what is available from the pools.
+  	 *
+  	 */
+	private void stripPoolUsage() {
+		stripShielding();
+		stripPower();
+	}
 
     /**
      * Strips use of the shielding so that shield usage does not exceed the available shielding from the shielding pool.
@@ -227,7 +250,7 @@ public class StarShip extends GeneralVisibleEntity {
 						return;
 					}
 
-					while(component.hasShield() && usedShielding > shieldPool){
+					while(component.hasShielding() && usedShielding > shieldPool){
 						component.changeShielding(-1);
 						if(usedShielding <= shieldPool){
 							return;
@@ -257,7 +280,7 @@ public class StarShip extends GeneralVisibleEntity {
 					return;
 				}
 
-				while(component.hasShield() && usedPower > powerPool){
+				while(component.hasShielding() && usedPower > powerPool){
 					component.changePower(-1);
 					if(usedPower <= powerPool){
 						return;
@@ -278,9 +301,8 @@ public class StarShip extends GeneralVisibleEntity {
 	public void changeShielding(final float x, final float y, int change){
 		ShipComponent componentToChange = getComponentAt(x,y);
 		if (componentToChange != null) {
-			if(getComponentAt(x,y).changeShielding(change)){
-				usedShielding -= change;
-			}
+			usedShielding -= getComponentAt(x,y).changeShielding(change);
+			stripShielding();
 		}
 	 }
 
@@ -294,11 +316,28 @@ public class StarShip extends GeneralVisibleEntity {
     public void changePower(final float x, final float y, int change){
 		ShipComponent componentToChange = getComponentAt(x,y);
 		if (componentToChange != null) {
-			if(getComponentAt(x,y).changePower(change)){
-				usedPower -= change;
-			}
+			usedPower -= getComponentAt(x,y).changePower(change);
+			stripPower();
 		}
     }
+
+	/**
+	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
+	 *
+	 * @param vx a virtual x-position
+	 * @param vy a virtual y-position
+	 * @param change amount with which the stat is to be changed
+	 */
+	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
+		ShipComponent clickedComponent = getComponentAt(vx, vy);
+		if (clickedComponent != null) {
+			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
+			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
+			clickedComponent.changeStatIndicatedAt(xRelativeToComponent, yRelativeToComponent, change);
+			updatePoolUsage();
+			stripPoolUsage();
+		}
+	}
 
     /**
      * Prints the stats of the ship and then
@@ -315,20 +354,12 @@ public class StarShip extends GeneralVisibleEntity {
 		System.out.println();
     }
 
-	/**
-	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
-	 *
-	 * @param vx a virtual x-position
-	 * @param vy a virtual y-position
-	 * @param change amount with which the stat is to be changed
-	 */
-	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
-		ShipComponent clickedComponent = getComponentAt(vx, vy);
-		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
-			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
-			clickedComponent.changeStatIndicatedAt(xRelativeToComponent, yRelativeToComponent, change);
-		}
+	public int shieldingAvailable() {
+		return shieldPool - usedShielding;
+	}
+
+	public int powerAvailable() {
+		return powerPool - usedPower;
 	}
 
 	private float getXRelativeToShip(float x) {

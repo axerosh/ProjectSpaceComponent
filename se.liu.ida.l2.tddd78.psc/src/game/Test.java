@@ -20,8 +20,8 @@ public final class Test {
 		StarShip playerShip = new StarShip(1f, 1f, 5, 5);
 
 		int componentHP = 2;
-		int shieldOutput = 4 * 10;
-		int reactorOutput = 3 * 10;
+		int shieldOutput = 4;
+		int reactorOutput = 3;
 		int engineOutput = 10;
 		int missileRechargeTime = 5;
 
