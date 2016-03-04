@@ -1,6 +1,6 @@
 package ship_components.utility_components;
 
-import game.StarShip;
+import game.StarshipTemp;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ public class ReactorComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.GREEN);
 	}
 
-	@Override public void registerFunctionality(final StarShip ship) {
+	@Override public void registerFunctionality(final StarshipTemp ship) {
 		ship.registerReactorComponent(this);
 	}
 }

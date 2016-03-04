@@ -1,6 +1,6 @@
 package ship_components.weapon_components;
 
-import game.StarShip;
+import game.StarshipTemp;
 import ship_components.AbstractShipComponent;
 import weaponry.FiringOrder;
 import weaponry.Weapon;
@@ -72,7 +72,7 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 		return rechargeCounter > rechargeTime && isIntact() && hasPower();
 	}
 
-	@Override public void registerFunctionality(final StarShip ship) {
+	@Override public void registerFunctionality(final StarshipTemp ship) {
 		ship.registerWeaponComponent(this);
 	}
 }

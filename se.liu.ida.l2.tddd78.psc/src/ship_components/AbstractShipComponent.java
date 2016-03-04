@@ -1,7 +1,7 @@
 package ship_components;
 
 import game.GeneralVisibleEntity;
-import graphics.StatBar;
+import graphics.StatbarTemp;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -100,11 +100,11 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 		int levelsPerCell = 1;
 		if (hasShielding()) {
-			StatBar.drawHorizontal(g, barX, shieldBarY, barWidth, barHeight, shielding, MAXSHIELDING, levelsPerCell,
-								   Color.CYAN);
+			StatbarTemp.drawHorizontal(g, barX, shieldBarY, barWidth, barHeight, shielding, MAXSHIELDING, levelsPerCell,
+									   Color.CYAN);
 		}
 		if (hasPower()) {
-			StatBar.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, MAXPOWER, levelsPerCell, Color.GREEN);
+			StatbarTemp.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, MAXPOWER, levelsPerCell, Color.GREEN);
 		}
 	}
 

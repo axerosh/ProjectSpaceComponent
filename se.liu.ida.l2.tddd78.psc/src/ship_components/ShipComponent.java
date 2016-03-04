@@ -1,6 +1,6 @@
 package ship_components;
 
-import game.StarShip;
+import game.StarshipTemp;
 import game.VisibleEntity;
 
 import java.awt.Graphics;
@@ -9,7 +9,7 @@ import java.awt.Graphics;
  * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
  * be drawn with with some of its stats depicted with a graphical representation.
  *
- * @see StarShip
+ * @see StarshipTemp
  */
 public interface ShipComponent extends VisibleEntity {
 
@@ -65,7 +65,7 @@ public interface ShipComponent extends VisibleEntity {
 	 *
 	 * @param ship the ship with which this component is registered.
 	 */
-	public void registerFunctionality(StarShip ship);
+	public void registerFunctionality(StarshipTemp ship);
 
 	/**
 	 * Increases shielding unless it is at maximum capacity.
