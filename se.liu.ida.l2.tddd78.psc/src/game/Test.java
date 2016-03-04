@@ -19,8 +19,8 @@ public final class Test {
 	private Test() {}
 
 	public static void main(String[] args) {
-		BattlefieldTemp arena = new BattlefieldTemp();
-		StarshipTemp playerShip = new StarshipTemp(1f, 1f, 5, 5);
+		Battlefield arena = new Battlefield();
+		Starship playerShip = new Starship(1f, 1f, 5, 5);
 
 		float componentIntegrity = 2;
 		int shieldOutput = 4;

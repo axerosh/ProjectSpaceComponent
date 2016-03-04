@@ -10,15 +10,15 @@ import java.util.List;
 /**
  * An area for two teams of starships to battle each other.
  *
- * @see StarshipTemp
+ * @see Starship
  */
-public class BattlefieldTemp extends GeneralVisibleEntity {
+public class Battlefield extends GeneralVisibleEntity {
 
-	private List<StarshipTemp> friendlyShips;
-	private List<StarshipTemp> enemyShips;
+	private List<Starship> friendlyShips;
+	private List<Starship> enemyShips;
 	private List<Projectile> projectiles;
 
-	public BattlefieldTemp() {
+	public Battlefield() {
 		friendlyShips = new ArrayList<>();
 		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
@@ -26,7 +26,7 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 
 	public void update() {
 		updateProjectiles();
-		for (StarshipTemp ship : friendlyShips) {
+		for (Starship ship : friendlyShips) {
 			addProjectiles(ship.update());
 		}
 	}
@@ -46,13 +46,13 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 	}
 
 	public void increaseShieldingOfShipAt(final float vx, final float vy) {
-		for (StarshipTemp ship : friendlyShips) {
+		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.increaseShieldingOfComponentAt(vx, vy);
 				return;
 			}
 		}
-		for (StarshipTemp ship : enemyShips) {
+		for (Starship ship : enemyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.increaseShieldingOfComponentAt(vx, vy);
 				return;
@@ -61,13 +61,13 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 	}
 
 	public void decreaseShieldingOfShipAt(final float vx, final float vy) {
-		for (StarshipTemp ship : friendlyShips) {
+		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.decreaseShieldingOfComponentAt(vx, vy);
 				return;
 			}
 		}
-		for (StarshipTemp ship : enemyShips) {
+		for (Starship ship : enemyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.decreaseShieldingOfComponentAt(vx, vy);
 				return;
@@ -76,13 +76,13 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 	}
 
 	public void increasePowerOfShipAt(final float vx, final float vy) {
-		for (StarshipTemp ship : friendlyShips) {
+		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.increasePowerOfComponentAt(vx, vy);
 				return;
 			}
 		}
-		for (StarshipTemp ship : enemyShips) {
+		for (Starship ship : enemyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.increasePowerOfComponentAt(vx, vy);
 				return;
@@ -91,13 +91,13 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 	}
 
 	public void decreasePowerOfShipAt(final float vx, final float vy) {
-		for (StarshipTemp ship : friendlyShips) {
+		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.decreasePowerOfComponentAt(vx, vy);
 				return;
 			}
 		}
-		for (StarshipTemp ship : enemyShips) {
+		for (Starship ship : enemyShips) {
 			if (ship.contains(vx, vy)) {
 				ship.decreasePowerOfComponentAt(vx, vy);
 				return;
@@ -105,11 +105,11 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 		}
 	}
 
-	public void addFriendlyShip(final StarshipTemp ship) {
+	public void addFriendlyShip(final Starship ship) {
 		friendlyShips.add(ship);
 	}
 
-	public void addEnemyShip(final StarshipTemp ship) {
+	public void addEnemyShip(final Starship ship) {
 		enemyShips.add(ship);
 	}
 
@@ -124,10 +124,10 @@ public class BattlefieldTemp extends GeneralVisibleEntity {
 	 * @param scale the scale with which to scale virtual positions to get on-screen positions
 	 */
 	public void draw(final Graphics g, final float scale) {
-		for (StarshipTemp friendly : friendlyShips) {
+		for (Starship friendly : friendlyShips) {
 			friendly.draw(g, scale);
 		}
-		for (StarshipTemp enemy : enemyShips) {
+		for (Starship enemy : enemyShips) {
 			enemy.draw(g, scale);
 		}
 		for (Projectile projectile : projectiles) {

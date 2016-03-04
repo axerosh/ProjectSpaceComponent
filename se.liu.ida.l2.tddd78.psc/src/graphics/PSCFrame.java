@@ -1,6 +1,6 @@
 package graphics;
 
-import game.BattlefieldTemp;
+import game.Battlefield;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -16,10 +16,10 @@ import java.awt.event.MouseEvent;
  */
 public class PSCFrame extends JFrame {
 
-	private BattlefieldTemp arena;
+	private Battlefield arena;
 	private GameDisplayer gameDisplayer;
 
-	public PSCFrame(BattlefieldTemp arena, GameDisplayer gameDisplayer) throws HeadlessException {
+	public PSCFrame(Battlefield arena, GameDisplayer gameDisplayer) throws HeadlessException {
 		super("Project Space Component");
 		this.arena = arena;
 		this.gameDisplayer = gameDisplayer;

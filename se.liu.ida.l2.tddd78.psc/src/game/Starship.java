@@ -17,7 +17,7 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class StarshipTemp extends GeneralVisibleEntity {
+public class Starship extends GeneralVisibleEntity {
 
 
 	/**
@@ -61,7 +61,7 @@ public class StarshipTemp extends GeneralVisibleEntity {
 	 * @throws IllegalArgumentException if specified width and/or the specified height are negative or 0
 	 * @see ShipComponent
 	 */
-	public StarshipTemp(final float x, final float y, final int width, final int height) {
+	public Starship(final float x, final float y, final int width, final int height) {
 		if (width <= 0 || height <= 0) {
 			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
 											   "Only positive integers are permitted.");

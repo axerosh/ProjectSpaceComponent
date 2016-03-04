@@ -1,6 +1,6 @@
 package ship_components.utility_components;
 
-import game.StarshipTemp;
+import game.Starship;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,7 +22,7 @@ public class ShieldComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.CYAN);
 	}
 
-	@Override public void registerFunctionality(final StarshipTemp ship) {
+	@Override public void registerFunctionality(final Starship ship) {
 		ship.registerShieldComponent(this);
 	}
 }

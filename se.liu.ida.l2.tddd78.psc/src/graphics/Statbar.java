@@ -6,9 +6,9 @@ import java.awt.Graphics;
 /**
  * A utility class for drawing stat bars.
  */
-public final class StatbarTemp {
+public final class Statbar {
 
-	private StatbarTemp() {}
+	private Statbar() {}
 
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 									  final int renderedHeight, final int currentStatLevel, final int maxStatLevel,
