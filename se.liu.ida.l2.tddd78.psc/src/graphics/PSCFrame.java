@@ -3,10 +3,10 @@ package graphics;
 import game.BattleField;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.HeadlessException;
 
 public class PSCFrame extends JFrame{
 
@@ -34,7 +34,6 @@ public class PSCFrame extends JFrame{
 		private class PSCMouseWheelListener implements MouseWheelListener {
 
 			@Override public void mouseWheelMoved(final MouseWheelEvent e) {
-				System.out.println("\nWheel moved!");
 				if (e.getWheelRotation() < 0) {
 					arena.activateWithCursor(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
 				} else if (e.getWheelRotation() > 0){

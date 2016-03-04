@@ -142,7 +142,12 @@ public class StarShip extends GeneralVisibleEntity {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
 		}
+		if (component != null) {
 			component.registerFunctionality(this);
+			for(VisibleEntityListener listener: visibleEntityListeners) {
+				component.addVisibleEntityListener(listener);
+			}
+		}
 
 		components[col][row] = component;
 	}
@@ -305,7 +310,6 @@ public class StarShip extends GeneralVisibleEntity {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void activateWithCursor(final float vx, final float vy) {
-		System.out.println("Starship recieved activation at virtual position x = " + vx + ", y = " + vy);
 		ShipComponent clickedComponent = getComponentAt(vx, vy);
 		if (clickedComponent != null) {
 			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
@@ -321,7 +325,6 @@ public class StarShip extends GeneralVisibleEntity {
 	 * @param vy the cursor's virtual y-position
 	 */
 	public void deactivateWithCursor(final float vx, final float vy) {
-		System.out.println("Starship recieved deactivation at virtual position x = " + vx + ", y = " + vy);
 		ShipComponent clickedComponent = getComponentAt(vx, vy);
 		if (clickedComponent != null) {
 			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
@@ -365,4 +368,22 @@ public class StarShip extends GeneralVisibleEntity {
     public void registerWeaponComponent(final Weapon weapon){
 	weapons.add(weapon);
     }
+
+	/**
+	 * Adds the specified listener to this VisibleEntity and all its Ship Components.
+	 *
+	 * @param listener the lister to add
+	 */
+	@Override public void addVisibleEntityListener(final VisibleEntityListener listener) {
+		super.addVisibleEntityListener(listener);
+		for (int col = 0; col < width; col++) {
+			for (int row = 0; row < height; row++) {
+				VisibleEntity visibleComponent = components[col][row];
+				if (visibleComponent != null) {
+					visibleComponent.addVisibleEntityListener(listener);
+					System.out.println("Listener added to " + visibleComponent);
+				}
+			}
+		}
+	}
 }

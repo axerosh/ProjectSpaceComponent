@@ -1,13 +1,14 @@
 package shipcomponents;
 
 import game.StarShip;
+import game.VisibleEntity;
 
 import java.awt.*;
 
 /**
  * Interface defining the ship component and general functions including once for recieving damage and activation.
  */
-public interface ShipComponent {
+public interface ShipComponent extends VisibleEntity {
 
     /**
      * Damages this ship component by reducing its HP by the specified number of hit points.

@@ -1,5 +1,6 @@
 package shipcomponents;
 
+import game.GeneralVisibleEntity;
 import temp.StatBar;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
  * An abstract implementation of the ShipComponent interface. Handles general ship component fucntionality including HP and
  * HP loss.
  */
-public abstract class AbstractShipComponent implements ShipComponent {
+public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent {
 
 	/**
 	 * The maximum level of shielding a ship component may recieve.
@@ -117,12 +118,9 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
 	@Override public void activateWithCursor(final float rx, final float ry) {
-		System.out.println("ShipComponent recieved activation at relative virtual position x = " + rx + ", y = " + ry);
 		if (powerBar.contains(rx, ry)) {
-			System.out.println("Power increased!");
 			increasePower();
 		} else if (shieldingBar.contains(rx, ry)) {
-			System.out.println("PShielding increased!");
 			increaseShielding();
 		}
 	}
@@ -135,51 +133,108 @@ public abstract class AbstractShipComponent implements ShipComponent {
 	 * @param ry the cursor's virtual y-position relative to this ship component
 	 */
 	@Override public void deactivateWithCursor(final float rx, final float ry) {
-		System.out.println("ShipComponent recieved deactivation at relative virtual position x = " + rx + ", y = " + ry);
 		if (powerBar.contains(rx, ry)) {
-			System.out.println("Power decreased!");
 			decreasePower();
 		} else if (shieldingBar.contains(rx, ry)) {
-			System.out.println("Shielding decreased!");
 			decreaseShielding();
 		}
 	}
 
+	/**
+	 * Tries to increase the shielding of the component by one.
+	 * Requests a visual update if successfull.
+	 *
+	 * @return true if successfull
+	 */
 	@Override public boolean increaseShielding() {
-		if (shielding < MAXSHIELDING){
-			shielding++;
-			return true;
-		} else {
-			return false;
-		}
+		int oldShielding = shielding;
+		shielding = increaseStat(shielding, MAXSHIELDING);
+		return hasChanged(shielding, oldShielding);
     }
 
+	/**
+	 * Tries to decrease the shielding of the component by one.
+	 * Requests a visual update if successfull.
+	 *
+	 * @return true if successfull
+	 */
     @Override public boolean decreaseShielding() {
-		if (shielding > 0){
-	    	shielding--;
-			return true;
-		} else {
-			return false;
-		}
+		int oldShielding = shielding;
+		shielding = decreaseStat(shielding, 0);
+		return hasChanged(shielding, oldShielding);
     }
 
+	/**
+	 * Tries to increase the power of the component by one.
+	 * Requests a visual update if successfull.
+	 *
+	 * @return true if successfull
+	 */
     @Override public boolean increasePower() {
-		if (power < MAXPOWER){
-			power++;
-			return true;
-		} else {
-			return false;
-		}
+		int oldPower = power;
+		power = increaseStat(power, MAXPOWER);
+		return hasChanged(power, oldPower);
     }
 
+	/**
+	 * Tries to decrease the power of the component by one.
+	 * Requests a visual update if successfull.
+	 *
+	 * @return true if successfull
+	 */
     @Override public boolean decreasePower() {
-		if (power > 0){
-			power--;
-			return true;
-		} else {
-			return false;
+		int oldPower = power;
+		power = decreaseStat(power, 0);
+		boolean hasChanged = power != oldPower;
+		if (hasChanged){
+			requestVisualUpdate();
 		}
+		return hasChanged;
+
     }
+
+	/**
+	 * Returns true and requests an visual update if the the specified values differ.
+	 *
+	 * @param value1 the value before eventual change
+	 * @param value2 the value after eventual change
+	 * @return true if the the specified values differ
+	 */
+	private boolean hasChanged(int value1, int value2) {
+		boolean hasChanged = value1 != value2;
+		if (hasChanged){
+			requestVisualUpdate();
+		}
+		return hasChanged;
+	}
+
+	/**
+	* Increases the specified stat by 1, unless it has reached the specified maximum stat value.
+	*
+	* @param stat the stat to change
+	* @param statMax the maximum value allowed for the specified stat
+	* @return false if the stat was unchanged because it had reached the maximum stat value
+	*/
+	private int increaseStat(int stat, int statMax) {
+		if (stat < statMax){
+			stat++;
+		}
+		return stat;
+	}
+
+	/**
+	* Decreases the specified stat by 1, unless it has reached the specified minimum stat value.
+	*
+	* @param stat the stat to change
+	* @param statMin the minimum value allowed for the specified stat
+	* @return false if the stat was unchanged because it had reached the minimum stat value
+	*/
+	private int decreaseStat(int stat, int statMin) {
+		if (stat > statMin){
+			stat--;
+		}
+		return stat;
+	}
 
     @Override public boolean hasShield() {
 		return shielding > 0;
@@ -202,6 +257,6 @@ public abstract class AbstractShipComponent implements ShipComponent {
     }
 
     @Override public String toString() {
-		return ("HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
+		return (this.getClass() + " HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

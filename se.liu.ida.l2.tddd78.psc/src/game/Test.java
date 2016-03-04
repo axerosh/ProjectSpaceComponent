@@ -52,6 +52,7 @@ public final class Test {
 
 		field.addFriendlyShip(playerShip);
 		GameDisplayer gc = new GameDisplayer(field);
+		playerShip.addVisibleEntityListener(gc);
 
 		JFrame frame = new PSCFrame(field, gc);
 		gc.repaint();

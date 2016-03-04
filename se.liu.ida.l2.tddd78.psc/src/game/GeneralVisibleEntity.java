@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class GeneralVisibleEntity implements VisibleEntity {
 
-	private List<VisibleEntityListener> visibleEntityListeners;
+	protected List<VisibleEntityListener> visibleEntityListeners;
 
 	public GeneralVisibleEntity() {
 		visibleEntityListeners = new ArrayList<>();
@@ -16,7 +16,7 @@ public class GeneralVisibleEntity implements VisibleEntity {
 
 	@Override public void addVisibleEntityListener(final VisibleEntityListener listener) {
 		if (!visibleEntityListeners.contains(listener)) {
-			listener.visualUpdateRequested();
+			visibleEntityListeners.add(listener);
 		}
 	}
 
