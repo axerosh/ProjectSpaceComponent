@@ -1,6 +1,6 @@
-package shipcomponents.utilitycomponents;
+package ship_components.utility_components;
 
-import game.StarShip;
+import game.Starship;
 
 import java.awt.*;
 
@@ -9,19 +9,19 @@ import java.awt.*;
  */
 public class ShieldComponent extends UtilityComponent{
 
-    public ShieldComponent(final int maxHp, final int shieldOutput) {
-        super(maxHp, shieldOutput);
+    public ShieldComponent(final float integrity, final int shieldOutput) {
+        super(integrity, shieldOutput);
     }
 
-    public void update(){
-		setOutput(power * 2);
+	@Override public void update(){
+		setOutput(getPower() * 2);
     }
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.CYAN);
     }
 
-    @Override public void registerFunctionality(final StarShip ship) {
+    @Override public void registerFunctionality(final Starship ship) {
 		ship.registerShieldComponent(this);
 	}
 }

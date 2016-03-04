@@ -1,6 +1,6 @@
-package shipcomponents.utilitycomponents;
+package ship_components.utility_components;
 
-import shipcomponents.AbstractShipComponent;
+import ship_components.AbstractShipComponent;
 
 /**
  * The utility componets are components that have no active effect,
@@ -10,13 +10,13 @@ public abstract class UtilityComponent extends AbstractShipComponent {
 
     private int output;
 
-    protected UtilityComponent(final int maxHp, int output) {
-		super(maxHp);
+    protected UtilityComponent(final float integrity, int output) {
+		super(integrity);
 		this.output = output;
     }
 
     public int getOutput(){
-		if (hp > 0 && isActive()) {
+		if (isIntact() && isActive()) {
 			return output;
 		} else {
 			return 0;

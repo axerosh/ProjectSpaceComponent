@@ -1,6 +1,6 @@
-package shipcomponents.utilitycomponents;
+package ship_components.utility_components;
 
-import game.StarShip;
+import game.Starship;
 
 import java.awt.*;
 
@@ -9,8 +9,8 @@ import java.awt.*;
  */
 public class EngineComponent extends UtilityComponent {
 
-    public EngineComponent(final int maxHp, final int dodgePercentage) {
-		super(maxHp, dodgePercentage);
+    public EngineComponent(final float integrity, final int dodgePercentage) {
+		super(integrity, dodgePercentage);
     }
 
     @Override public void update() {
@@ -20,7 +20,7 @@ public class EngineComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.RED);
     }
 
-	@Override public void registerFunctionality(final StarShip ship) {
+	@Override public void registerFunctionality(final Starship ship) {
 		ship.registerEngineComponent(this);
 	}
 }

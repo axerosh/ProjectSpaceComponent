@@ -1,7 +1,7 @@
-package shipcomponents;
+package ship_components;
 
 import game.GeneralVisibleEntity;
-import temp.StatBar;
+import graphics.Statbar;
 
 import java.awt.*;
 
@@ -22,62 +22,45 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
     public static final int MAXPOWER = 6;
 
     /**
-     * The maximum HP of this ship component. The damage it can take before it is destroyed.
+     * The maximum integrity of this ship component. The damage it can take before it is destroyed.
      */
-    private final int maxHp;
+    private final float maxIntegrity;
 
     /**
-     * The HP left until destruction.
+     * The current integrity left until destruction. The remaining damage it can take before it is destroyed.
      */
-    protected int hp;
+    private float integrity;
 
-    protected boolean active;
+    private boolean active;
 
-	private StatBar shieldingBar;
-	private StatBar powerBar;
-
-    private int shielding; // 0 - 6
-    protected int power;
+    private int shielding;
+    private int power;
 
     /**
-     * Contrucs an abstract ship component with the specified maximum HP.
+     * Construcs an abstract ship component with the specified maximum HP.
      *
-     * @param maxHp the maximum HP if the ship component
+     * @param integrity the damage the ship component can take before it is destroyed
      */
-    protected AbstractShipComponent(final int maxHp) {
-        this.maxHp = maxHp;
-        hp = maxHp;
+    protected AbstractShipComponent(final float integrity) {
+		this.integrity = integrity;
+		maxIntegrity = integrity;
         shielding = 0;
 		power = 0;
-
-		int componentWidth = 1;
-		float barWidth = (float)componentWidth / 4;
-		float barHeight = (float)componentWidth / 2;
-		float barPosY = (componentWidth - barHeight) / 2;
-
-		int numberOfBars = 2;
-		float powerBarPosX = (componentWidth - barWidth * numberOfBars) / 2;
-		float shieldBarPosX = powerBarPosX + barWidth;
-
-		powerBar = new StatBar(Color.GREEN, powerBarPosX, barPosY, barWidth, barHeight);
-		shieldingBar = new StatBar(Color.CYAN, shieldBarPosX, barPosY, barWidth, barHeight);
     }
 
-    @Override
-    public void inflictDamage(int damage) {
-		int damageTaken = damageThroughShield(damage);
-		hp -= damageTaken;
-        hp = Math.max(hp, 0);
+    @Override public void inflictDamage(float damage) {
+		integrity -= damageThroughShield(damage);
+		integrity = Math.max(integrity, 0);
     }
 
     /**
      * @param damage the damage taken if not for the shielding
      * @return the damage that the component will take after its shield has reduced it
      */
-    private int damageThroughShield(int damage) {
+    private float damageThroughShield(float damage) {
 		final float shieldRatePerShielding = 0.15f;
 		float shieldRate = shieldRatePerShielding * shielding;
-		return Math.round(damage * (1 - shieldRate));
+		return damage * (1 - shieldRate);
     }
 
     @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
@@ -97,17 +80,35 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		g.setColor(color);
 		int screenX = (int)(virtualX * scale);
 		int screenY = (int)(virtualY * scale);
-		int pixelsAcrossComponent = (int)scale;
-		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
+		int pixelsAcross = (int)scale;
+		g.fillRect(screenX, screenY, pixelsAcross, pixelsAcross);
 
 		final int maxAlpha = 255 / 2;
-		int alpha = Math.round((maxAlpha * (1 - (float)hp / maxHp)));
+		int alpha = Math.round((maxAlpha * (1 - integrity / maxIntegrity)));
 		Color transparentBlackOverlay = new Color(0,0,0, alpha);
 		g.setColor(transparentBlackOverlay);
-		g.fillRect(screenX, screenY, pixelsAcrossComponent, pixelsAcrossComponent);
+		g.fillRect(screenX, screenY, pixelsAcross, pixelsAcross);
 
-		powerBar.draw(g, scale, screenX, screenY, power, MAXPOWER, hasPower());
-		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShielding());
+		int numberOfBars = 2;
+		int numberOfGaps = numberOfBars - 1;
+		int gapBetweenBars = pixelsAcross / 10;
+		int barHeight = pixelsAcross / 5;
+		int barWidth = 3 * barHeight;
+
+		int totalBarsHeight = (numberOfBars * barHeight + numberOfGaps * gapBetweenBars);
+		int barX = screenX + (pixelsAcross - barWidth) / 2;
+		int shieldBarY = screenY + (pixelsAcross - totalBarsHeight) / 2;
+		int powerBarY = shieldBarY + barHeight + gapBetweenBars;
+
+		int levelsPerCell = 1;
+		if (hasShielding()) {
+			Statbar.drawHorizontal(g, scale, barX, shieldBarY, barWidth, barHeight,
+								   shielding, MAXSHIELDING, levelsPerCell, Color.CYAN);
+		}
+		if (hasPower()) {
+			Statbar.drawHorizontal(g, scale, barX, powerBarY, barWidth, barHeight,
+								   power, MAXPOWER, levelsPerCell, Color.GREEN);
+		}
 	}
 
 	/**
@@ -202,7 +203,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		return areDifferent(power, oldPower);
 	}
 
-
     @Override public boolean hasShielding() {
 		return shielding > 0;
     }
@@ -211,7 +211,15 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
     		return power > 0;
     }
 
-    @Override public void activate() {
+	public boolean isIntact() {
+		return integrity > 0;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	@Override public void activate() {
 	active = true;
     }
 
@@ -224,6 +232,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
     }
 
     @Override public String toString() {
-		return (this.getClass() + " HP = "+ hp + ", Shielding = " + shielding + ", Power = " + power);
+		return (this.getClass() + " HP = " + integrity + ", Shielding = " + shielding + ", Power = " + power);
     }
 }

@@ -1,11 +1,11 @@
 package game;
 
-import projectiles.Projectile;
-import shipcomponents.ShipComponent;
-import shipcomponents.utilitycomponents.EngineComponent;
-import shipcomponents.utilitycomponents.ReactorComponent;
-import shipcomponents.utilitycomponents.ShieldComponent;
-import shipcomponents.weaponscomponents.Weapon;
+import ship_components.ShipComponent;
+import ship_components.utility_components.EngineComponent;
+import ship_components.utility_components.ReactorComponent;
+import ship_components.utility_components.ShieldComponent;
+import weaponry.Weapon;
+import weaponry.projectiles.Projectile;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class StarShip extends GeneralVisibleEntity {
+public class Starship extends GeneralVisibleEntity {
 
     private float x;
     private float y;
@@ -25,9 +25,9 @@ public class StarShip extends GeneralVisibleEntity {
     private int height;
 
 	/**
-	 * The virtual width of a ship component.
+	 * Random Number Generator
 	 */
-	private static final int COMPONENT_WDITH = 1;
+	private Random rng;
 
     private List<ShieldComponent> shieldComponents;
     private List<ReactorComponent> reactorComponents;
@@ -61,7 +61,7 @@ public class StarShip extends GeneralVisibleEntity {
      * @throws IllegalArgumentException if specified width and/or the specified height are negative or 0
      * @see ShipComponent
      */
-    public StarShip(final float x, final float y, final int width, final int height) {
+    public Starship(final float x, final float y, final int width, final int height) {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
                                                "Only positive integers are permitted.");
@@ -71,16 +71,18 @@ public class StarShip extends GeneralVisibleEntity {
         this.width = width;
         this.height = height;
 
-	shieldPool = 0;
-	powerPool = 0;
-	usedShielding = 0;
-	usedPower = 0;
-	shieldComponents = new ArrayList<>();
-	reactorComponents = new ArrayList<>();
-	engineComponents = new ArrayList<>();
+		rng = new Random();
 
-	weapons = new ArrayList<>();
-	firedProjectiles = new ArrayList<>();
+		shieldPool = 0;
+		powerPool = 0;
+		usedShielding = 0;
+		usedPower = 0;
+		shieldComponents = new ArrayList<>();
+		reactorComponents = new ArrayList<>();
+		engineComponents = new ArrayList<>();
+
+		weapons = new ArrayList<>();
+		firedProjectiles = new ArrayList<>();
 
         components = new ShipComponent[width][height];
     }
@@ -110,7 +112,8 @@ public class StarShip extends GeneralVisibleEntity {
      * @return true if an attcked missed
      */
     public boolean successfullyDodged() {
-        return new Random().nextDouble() > dodgeRate;
+		int maximumRateNeededToDodge = 100;
+        return rng.nextDouble() * maximumRateNeededToDodge < dodgeRate;
     }
 
 
@@ -194,11 +197,13 @@ public class StarShip extends GeneralVisibleEntity {
 	for(ShieldComponent shield : shieldComponents){
 	    shieldPool += shield.getOutput();
 	}
+		stripShielding();
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
 	}
+		stripPower();
 
 	dodgeRate = 0;
 	for(EngineComponent ec : engineComponents){
@@ -266,21 +271,6 @@ public class StarShip extends GeneralVisibleEntity {
 		}
 	}
 
-    /**
-     * Prints the stats of the ship and then
-     * each of the ships components stats.
-     * Used only in debugging and testing
-     */
-    public void printShip(){
-		System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
-		for(ShipComponent[] scArray: components){
-			for(ShipComponent sc : scArray){
-				System.out.println(sc);
-			}
-		}
-		System.out.println();
-    }
-
 	private float getXRelativeToShip(float x) {
 		return x - this.x;
 	}
@@ -299,40 +289,6 @@ public class StarShip extends GeneralVisibleEntity {
 	public boolean contains(float x, float y) {
 		return x >= this.x && x <= this.x + this.width &&
 			   y >= this.y && y <= this.y + this.height;
-	}
-
-    public void registerShieldComponent(final ShieldComponent shield) {
-	    shieldComponents.add(shield);
-    }
-
-    public void registerReactorComponent(final ReactorComponent reactor) {
-	    reactorComponents.add(reactor);
-    }
-
-    public void registerEngineComponent(final EngineComponent engine) {
-	    engineComponents.add(engine);
-    }
-
-    public void registerWeaponComponent(final Weapon weapon){
-	weapons.add(weapon);
-    }
-
-	/**
-	 * Adds the specified listener to this VisibleEntity and all its Ship Components.
-	 *
-	 * @param listener the lister to add
-	 */
-	@Override public void addVisibleEntityListener(final VisibleEntityListener listener) {
-		super.addVisibleEntityListener(listener);
-		for (int col = 0; col < width; col++) {
-			for (int row = 0; row < height; row++) {
-				VisibleEntity visibleComponent = components[col][row];
-				if (visibleComponent != null) {
-					visibleComponent.addVisibleEntityListener(listener);
-					System.out.println("Listener added to " + visibleComponent);
-				}
-			}
-		}
 	}
 
 	public void increaseShieldingOfComponentAt(final float vx, final float vy) {
@@ -361,5 +317,54 @@ public class StarShip extends GeneralVisibleEntity {
 		if (target != null) {
 			target.decreasePower();
 		}
+	}
+
+	public void registerShieldComponent(final ShieldComponent shield) {
+  shieldComponents.add(shield);
+ }
+
+	public void registerReactorComponent(final ReactorComponent reactor) {
+	  reactorComponents.add(reactor);
+	 }
+
+	public void registerEngineComponent(final EngineComponent engine) {
+	  engineComponents.add(engine);
+	 }
+
+	public void registerWeaponComponent(final Weapon weapon){
+	weapons.add(weapon);
+	 }
+
+	/**
+	 * Adds the specified listener to this VisibleEntity and all its Ship Components.
+	 *
+	 * @param listener the lister to add
+	 */
+	@Override public void addVisibleEntityListener(final VisibleEntityListener listener) {
+		super.addVisibleEntityListener(listener);
+		for (int col = 0; col < width; col++) {
+			for (int row = 0; row < height; row++) {
+				VisibleEntity visibleComponent = components[col][row];
+				if (visibleComponent != null) {
+					visibleComponent.addVisibleEntityListener(listener);
+					System.out.println("Listener added to " + visibleComponent);
+				}
+			}
+		}
+	}
+
+	/**
+	  * Prints the stats of the ship and then
+	  * each of the ships components stats.
+	  * Used only in debugging and testing
+	  */
+	public void printShip(){
+		System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldPool + ", Powerpool = " + powerPool);
+		for(ShipComponent[] scArray: components){
+			for(ShipComponent sc : scArray){
+				System.out.println(sc);
+			}
+		}
+		System.out.println();
 	}
 }

@@ -1,6 +1,6 @@
-package shipcomponents.utilitycomponents;
+package ship_components.utility_components;
 
-import game.StarShip;
+import game.Starship;
 
 import java.awt.*;
 
@@ -9,18 +9,18 @@ import java.awt.*;
  */
 public class ReactorComponent extends UtilityComponent{
 
-    public ReactorComponent(final int maxHp, final int powerOutput) {
-		super(maxHp, powerOutput);
+    public ReactorComponent(final float integrity, final int powerOutput) {
+		super(integrity, powerOutput);
     }
 
-    public void update(){
+	@Override public void update(){
     }
 
     @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.GREEN);
     }
 
-	@Override public void registerFunctionality(final StarShip ship) {
+	@Override public void registerFunctionality(final Starship ship) {
 		ship.registerReactorComponent(this);
 	}
 }

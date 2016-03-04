@@ -1,28 +1,28 @@
 package graphics;
 
-import game.BattleField;
+import game.Battlefield;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 
-public class PSCFrame extends JFrame{
+public class PSCFrame extends JFrame {
 
-	private BattleField arena;
-	private GameDisplayer gc;
+	private Battlefield arena;
+	private GameDisplayer gameDisplayer;
 
-	public PSCFrame(BattleField arena, GameDisplayer gc) throws HeadlessException {
+	public PSCFrame(Battlefield arena, GameDisplayer gameDisplayer) throws HeadlessException {
 		super("Project Space Component");
 		this.arena = arena;
-		this.gc = gc;
-		add(gc);
+		this.gameDisplayer = gameDisplayer;
+		add(gameDisplayer);
 		pack();
 		add(new MouseAndKeyboardHandler());
 		setVisible(true);
+		gameDisplayer.repaint();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
@@ -38,15 +38,19 @@ public class PSCFrame extends JFrame{
 			@Override public void mouseClicked(final MouseEvent e) {
 				if (e.isControlDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						arena.increasePowerOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+						arena.increasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+													gameDisplayer.getVirtualY(e.getY()));
 					} else if (e.getButton() == MouseEvent.BUTTON3) {
-						arena.decreasePowerOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+						arena.decreasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+													gameDisplayer.getVirtualY(e.getY()));
 					}
 				} else if (e.isShiftDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						arena.increaseShieldingOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+						arena.increaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+														gameDisplayer.getVirtualY(e.getY()));
 					} else if (e.getButton() == MouseEvent.BUTTON3) {
-						arena.decreaseShieldingOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+						arena.decreaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+														gameDisplayer.getVirtualY(e.getY()));
 					}
 				}
 			}

@@ -1,6 +1,6 @@
-package projectiles;
+package weaponry.projectiles;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 public interface Projectile {
 

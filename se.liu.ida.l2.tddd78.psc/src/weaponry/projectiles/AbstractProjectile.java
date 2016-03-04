@@ -1,7 +1,7 @@
-package projectiles;
+package weaponry.projectiles;
 
-import game.StarShip;
-import shipcomponents.ShipComponent;
+import game.Starship;
+import ship_components.ShipComponent;
 
 import java.awt.*;
 
@@ -11,14 +11,14 @@ public class AbstractProjectile implements Projectile {
     private float targetX, targetY;
     private float xVelocity;
     private float yVelocity;
-    private StarShip targetShip;
+    private Starship targetShip;
 
-    private int damageOnImpact;
+    private float damageOnImpact;
     private int blastRadius;
 
     public AbstractProjectile(final float selfX, final float selfY, final float targetX, final float targetY,
-							  final float velocity, final StarShip targetShip,
-							  final int damageOnImpact, final int blastRadius) {
+							  final float velocity, final Starship targetShip,
+							  final float damageOnImpact, final int blastRadius) {
 		this.selfX = selfX;
 		this.selfY = selfY;
 		this.targetX = targetX;
@@ -52,8 +52,8 @@ public class AbstractProjectile implements Projectile {
      * Apply the projectiles effect on target component(s).
      */
     @Override public void impact() {
-		System.out.println("Projectile hit target!");
 		if(!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null){
+			System.out.println("Projectile hit target!");
 			for(int relativeRow = -blastRadius +1 ; relativeRow <= blastRadius -1; relativeRow++){
 
 				int startCol = Math.abs(relativeRow) +1 -blastRadius;
@@ -69,6 +69,9 @@ public class AbstractProjectile implements Projectile {
 			} catch(Throwable t) {
 				t.printStackTrace();
 			}
+		} else {
+			System.out.println("Missed!");
+			System.out.println("Component at " + targetX + " " + targetY + ": " + targetShip.getComponentAt(targetX, targetY));
 		}
     }
 

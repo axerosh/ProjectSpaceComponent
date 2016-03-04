@@ -1,14 +1,15 @@
-package temp;
+package weaponry;
 
-import game.StarShip;
+import game.Starship;
 
-public class Order {
-    float originX, originY;
-    float targetX, targetY;
-    StarShip targetShip;
+public class FiringOrder
+{
+    private float originX, originY;
+    private float targetX, targetY;
+    private Starship targetShip;
 
-    public Order(final float originX, final float originY, final float targetX, final float targetY,
-		 final StarShip targetShip)
+    public FiringOrder(final float originX, final float originY, final float targetX, final float targetY,
+					   final Starship targetShip)
     {
 	this.originX = originX;
 	this.originY = originY;
@@ -33,7 +34,7 @@ public class Order {
 	return originX;
     }
 
-    public StarShip getTargetShip() {
+    public Starship getTargetShip() {
 	return targetShip;
     }
 }

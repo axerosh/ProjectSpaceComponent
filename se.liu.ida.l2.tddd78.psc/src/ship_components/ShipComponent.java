@@ -1,6 +1,6 @@
-package shipcomponents;
+package ship_components;
 
-import game.StarShip;
+import game.Starship;
 import game.VisibleEntity;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ public interface ShipComponent extends VisibleEntity {
      *
      * @param damage the number of hit points by which this ship component's HP is reduced
      */
-    public void inflictDamage(int damage);
+    public void inflictDamage(float damage);
 
     /**
      * Draws this ship component with the specified scaling.
@@ -64,7 +64,7 @@ public interface ShipComponent extends VisibleEntity {
      *
      * @param ship the ship with which this component is registered.
      */
-    public void registerFunctionality(StarShip ship);
+    public void registerFunctionality(Starship ship);
 
 	/**
 	 * Increases shielding unless it is at maximum capacity.
