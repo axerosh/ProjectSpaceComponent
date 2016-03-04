@@ -14,17 +14,10 @@ public class ShieldComponent extends UtilityComponent{
     }
 
     public void update(){
-
-		if (active) {
-			if (hp == 0) {
-				output = 0;
-			} else {
-				output = power * 2;
-			}
-		}
+		setOutput(power * 2);
     }
 
-    @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.CYAN);
     }
 
