@@ -194,13 +194,11 @@ public class StarShip extends GeneralVisibleEntity {
 	for(ShieldComponent shield : shieldComponents){
 	    shieldPool += shield.getOutput();
 	}
-	stripShielding();
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
 	}
-	stripPower();
 
 	dodgeRate = 0;
 	for(EngineComponent ec : engineComponents){
@@ -227,7 +225,7 @@ public class StarShip extends GeneralVisibleEntity {
 						return;
 					}
 
-					while(component.hasShield() && usedShielding > shieldPool){
+					while(component.hasShielding() && usedShielding > shieldPool){
 						component.decreaseShielding();
 						if(usedShielding <= shieldPool){
 							return;
@@ -257,7 +255,7 @@ public class StarShip extends GeneralVisibleEntity {
 					return;
 				}
 
-				while(component.hasShield() && usedPower > powerPool){
+				while(component.hasShielding() && usedPower > powerPool){
 					component.decreasePower();
 					if(usedPower <= powerPool){
 						return;

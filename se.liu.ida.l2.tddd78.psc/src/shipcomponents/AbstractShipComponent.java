@@ -138,7 +138,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		return stat;
 	}
 
-    @Override public boolean hasShielding() {
 	/**
 	 * Returns true and
 	 * requests an visual update if the the specified values differ.
@@ -204,7 +203,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	}
 
 
-    @Override public boolean hasShield() {
+    @Override public boolean hasShielding() {
 		return shielding > 0;
     }
 
