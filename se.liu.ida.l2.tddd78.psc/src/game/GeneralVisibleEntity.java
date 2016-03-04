@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class GeneralVisibleEntity implements VisibleEntity {
 
-	protected List<VisibleEntityListener> visibleEntityListeners;
+	private List<VisibleEntityListener> visibleEntityListeners;
 
 	public GeneralVisibleEntity() {
 		visibleEntityListeners = new ArrayList<>();
