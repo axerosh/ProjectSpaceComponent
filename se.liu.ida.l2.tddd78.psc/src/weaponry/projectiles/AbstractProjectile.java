@@ -1,6 +1,6 @@
 package weaponry.projectiles;
 
-import game.Starship;
+import game.StarShip;
 import ship_components.ShipComponent;
 
 import java.awt.Color;
@@ -15,12 +15,12 @@ public class AbstractProjectile implements Projectile {
 	private float targetX, targetY;
 	private float xVelocity;
 	private float yVelocity;
-	private Starship targetShip;
+	private StarShip targetShip;
 	private float damageOnImpact;
 	private int blastRadius;
 
 	public AbstractProjectile(final float selfX, final float selfY, final float targetX, final float targetY,
-							  final float velocity, final Starship targetShip, final float damageOnImpact,
+							  final float velocity, final StarShip targetShip, final float damageOnImpact,
 							  final int blastRadius) {
 		this.selfX = selfX;
 		this.selfY = selfY;

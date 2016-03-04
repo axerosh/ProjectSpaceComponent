@@ -1,6 +1,6 @@
 package graphics;
 
-import game.Battlefield;
+import game.BattleField;
 import game.VisibleEntityListener;
 
 import javax.swing.JComponent;
@@ -17,12 +17,12 @@ public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEnt
 	 * width in pixels.)
 	 */
 	private final static float SCALE = 48.0f;
-	private Battlefield battlefield;
+	private BattleField battleField;
 	//As of 2016-03-02, this number need to be equal to or greater than ~16 for shielding/power bars to be readable.
 	//Can definelty not be 0! (Will result in division by 0)
 
-	public GameDisplayer(final Battlefield battlefield) {
-		this.battlefield = battlefield;
+	public GameDisplayer(final BattleField battleField) {
+		this.battleField = battleField;
 	}
 
 	@Override public Dimension getPreferredSize() {
@@ -31,7 +31,7 @@ public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEnt
 
 	@Override protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);
-		battlefield.draw(g, SCALE);
+		battleField.draw(g, SCALE);
 	}
 
 	@Override public float getVirtualX(int screenX) {

@@ -1,19 +1,23 @@
 package graphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
-public final class Statbar {
+/**
+ * A utility class for drawing stat bars.
+ */
+public final class StatBar {
 
-	private Statbar() {}
+	private StatBar() {}
 
-	public static void drawHorizontal(final Graphics g, final float scale, final int screenPosX, final int screenPosY,
-									  final int renderedWidth, final int renderedHeight, final int currentStatLevel,
-									  final int maxStatLevel, final int levelsPerCell, final Color fillColor) {
+	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
+									  final int renderedHeight, final int currentStatLevel, final int maxStatLevel,
+									  final int levelsPerCell, final Color fillColor) {
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
-      		throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
+			throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
 											   renderedHeight + ". Only positive integers are permitted.");
-  		} else if (currentStatLevel < 0) {
-			throw new IllegalArgumentException("The specified stat level current stat level = " +  currentStatLevel +
+		} else if (currentStatLevel < 0) {
+			throw new IllegalArgumentException("The specified stat level current stat level = " + currentStatLevel +
 											   " is invalid. It can not be negative.");
 		} else if (maxStatLevel <= 0) {
 			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
@@ -35,17 +39,15 @@ public final class Statbar {
 		int containerWidth = renderedWidth - 2 * outlineThickness;
 		int numberOfCells = maxStatLevel / levelsPerCell;
 		int numberOfGaps = numberOfCells - 1;
-		float avarageCellWidth = (containerWidth - numberOfGaps * gapThickness) / (float)numberOfCells;
+		float avarageCellWidth = (containerWidth - numberOfGaps * gapThickness) / (float) numberOfCells;
 
 		//Fill
 		g.setColor(fillColor);
 		int usedContainerWidth = 0;
-		for (int cellNr = 1; cellNr <= currentStatLevel; cellNr ++) {
+		for (int cellNr = 1; cellNr <= currentStatLevel; cellNr++) {
 			int nextUsedContainerWidth = Math.round(cellNr * (avarageCellWidth + gapThickness));
 			int cellWidth = nextUsedContainerWidth - usedContainerWidth - gapThickness;
-			g.fillRect(screenPosX + outlineThickness + usedContainerWidth,
-					   screenPosY + outlineThickness,
-					   cellWidth,
+			g.fillRect(screenPosX + outlineThickness + usedContainerWidth, screenPosY + outlineThickness, cellWidth,
 					   containerHeight);
 			usedContainerWidth = nextUsedContainerWidth;
 		}

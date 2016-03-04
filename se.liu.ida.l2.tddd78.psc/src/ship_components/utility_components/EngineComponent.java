@@ -1,6 +1,6 @@
 package ship_components.utility_components;
 
-import game.Starship;
+import game.StarShip;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ public class EngineComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.RED);
 	}
 
-	@Override public void registerFunctionality(final Starship ship) {
+	@Override public void registerFunctionality(final StarShip ship) {
 		ship.registerEngineComponent(this);
 	}
 }
