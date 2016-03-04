@@ -5,8 +5,10 @@ import game.BattleField;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 public class PSCFrame extends JFrame{
 
@@ -19,27 +21,48 @@ public class PSCFrame extends JFrame{
 		this.gc = gc;
 		add(gc);
 		pack();
-		add(new MouseInputComponent());
+		add(new MouseAndKeyboardHandler());
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
-	private class MouseInputComponent extends JComponent {
+	private class MouseAndKeyboardHandler extends JComponent{
 
-		public MouseInputComponent() {
-			addMouseWheelListener(new PSCMouseWheelListener());
-			addMouseListener(new PSCMouseListener());
+		protected MouseAndKeyboardHandler() {
+			addMouseListener(new MouseAndKeyboardListener());
+			addKeyListener(new MouseAndKeyboardListener());
 		}
 
-		private class PSCMouseWheelListener implements MouseWheelListener {
+		private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener {
 
-			@Override public void mouseWheelMoved(final MouseWheelEvent e) {
-				arena.changeStatIndicatedAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()), -e.getWheelRotation());
+			@Override public void mouseClicked(final MouseEvent e) {
+				if (e.isControlDown()) {
+					if (e.getButton() == MouseEvent.BUTTON1) {
+						arena.increasePowerOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+					} else if (e.getButton() == MouseEvent.BUTTON3) {
+						arena.decreasePowerOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+					}
+				} else if (e.isShiftDown()) {
+					if (e.getButton() == MouseEvent.BUTTON1) {
+						arena.increaseShieldingOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+					} else if (e.getButton() == MouseEvent.BUTTON3) {
+						arena.decreaseShieldingOfShipAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
+					}
+				}
+			}
+
+			@Override public void keyPressed(final KeyEvent e) {
+
+			}
+
+			@Override public void keyReleased(final KeyEvent e) {
+
+			}
+
+			@Override public void keyTyped(final KeyEvent e) {
+
 			}
 		}
-
-		private class PSCMouseListener extends MouseAdapter {
-
-		}
 	}
+
 }

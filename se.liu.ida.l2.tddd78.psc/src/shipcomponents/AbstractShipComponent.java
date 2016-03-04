@@ -110,92 +110,101 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShielding());
 	}
 
-	@Override public void changeStatIndicatedAt(final float rx, final float ry, final int change) {
-		if (powerBar.contains(rx, ry)) {
-			changePower(change);
-		} else if (shieldingBar.contains(rx, ry)) {
-			changeShielding(change);
+	/**
+	* Increases the specified stat by 1, unless it has reached the specified maximum stat value.
+	*
+	* @param stat the stat to change
+	* @param statMax the maximum value allowed for the specified stat
+	* @return false if the stat was unchanged because it had reached the maximum stat value
+	*/
+	private int increaseStat(int stat, int statMax) {
+		if (stat < statMax){
+			stat++;
 		}
+		return stat;
 	}
 
 	/**
-	  * Tries to change the shielding of the component by one by the specified amount.
-	  * Requests a visual update if successfull.
-	  *
-	  * @param change amount with which the shielding is to be changed
-	  * @return true if successfull, false if shielding is at max value
-	  */
-	@Override public int changeShielding(int change) {
-		int oldShielding = shielding;
-		if (change < 0) {
-			shielding = decreaseStat(shielding, 0, change);
-		} else {
-			shielding = increaseStat(shielding, MAXSHIELDING, change);
+	* Decreases the specified stat by 1, unless it has reached the specified minimum stat value.
+	*
+	* @param stat the stat to change
+	* @param statMin the minimum value allowed for the specified stat
+	* @return false if the stat was unchanged because it had reached the minimum stat value
+	*/
+	private int decreaseStat(int stat, int statMin) {
+		if (stat > statMin){
+			stat--;
 		}
-		return change(oldShielding, shielding);
-    }
-
-	/**
-	  * Tries to change the power of the component by the specified amount.
-	  * Requests a visual update if a change was made.
-	  *
-	  * @param change amount with which the power is to be changed
-	  * @return the change that was made
-	  */
-	@Override public int changePower(final int change) {
-		int oldPower = power;
-		if (change < 0) {
-			power = decreaseStat(power, 0, change);
-		} else {
-			power = increaseStat(power, MAXPOWER, change);
-		}
-		return change(oldPower, power);
-	}
-
-	/**
-	 * Requests a visual update if a change was made.
-	 *
-	 * @param oldValue a value before it was changed
-	 * @param newValue the same value after it was changed
-	 * @return the change from the specifed old vale to the specified new value
-	 */
-	private int change(int oldValue, int newValue) {
-		int change = newValue - oldValue;
-		if (change != 0) {
-			requestVisualUpdate();
-		}
-		return change;
-	}
-
-	/**
-	 * Increases the specified stat by the specified amount, unless this will make it greater than the specified stat maximum.
-	 * In this case it is increased to the point where it is equal to the maximum
-	 *
-	 * @param stat the stat to change
-	 * @param statMax the maximum value allowed for the specified stat
-	 * @param increase amount with which the specified stat is to be increased.
-	 * @return the specified stat after the increase; never greater than the specified stat maximum
-	 */
-	private int increaseStat(int stat, int statMax, int increase) {
-		stat += increase;
-		return Math.min(stat, statMax);
-	}
-
-	/**
-	 * Decreases the specified stat by the specified amount, unless this will make it lesser than the specified stat minimum.
-	 * In this case it is decreased to the point where it is equal to the minimum
-	 *
-	 * @param stat the stat to change
-	 * @param statMin the minimum value allowed for the specified stat
-	 * @param decrease amount with which the specified stat is to be decreased.
-	 * @return the specified stat after the decrease; never lesser than the specified stat minimum
-	 */
-	private int decreaseStat(int stat, int statMin, int decrease) {
-		stat -= decrease;
-		return Math.max(stat, statMin);
+		return stat;
 	}
 
     @Override public boolean hasShielding() {
+	/**
+	 * Returns true and
+	 * requests an visual update if the the specified values differ.
+	 *
+	 * @param value1 the value before eventual change
+	 * @param value2 the value after eventual change
+	 * @return true if the the specified values differ
+	 */
+	private boolean areDifferent(int value1, int value2) {
+		boolean areDifferent = value1 != value2;
+		if (areDifferent) {
+			requestVisualUpdate();
+		}
+		return areDifferent;
+	}
+
+	/**
+	 * Increases shielding unless it is at maximum capacity.
+	 * Requests a visual update if shielding was increased.
+	 *
+	 * @return true if shielding was increased, false if it was not
+	 */
+	@Override public boolean increaseShielding() {
+		int oldShielding = shielding;
+		shielding = increaseStat(shielding, MAXSHIELDING);
+		return areDifferent(shielding, oldShielding);
+	}
+
+	/**
+	 * Decreases shielding unless it is at minimum capacity.
+	 * Requests a visual update if shielding was decreased.
+	 *
+	 * @return true if shielding was decreased, false if it was not
+	 */
+	@Override public boolean decreaseShielding() {
+		int oldShielding = shielding;
+		shielding = decreaseStat(shielding, 0);
+		return areDifferent(shielding, oldShielding);
+	}
+
+	/**
+	 * Increases power unless it is at maximum capacity.
+	 * Requests a visual update if powerg was increased.
+	 *
+	 * @return true if power was increased, false if it was not
+	 */
+	@Override public boolean increasePower() {
+		int oldPower = power;
+		power = increaseStat(power, MAXPOWER);
+		return areDifferent(power, oldPower);
+	}
+
+	/**
+	 * Decreases power unless it is at minimum capacity.
+	 * Requests a visual update if powerg was decreased.
+	 *
+	 * @return true if power was decreased, false if it was not
+	 */
+	@Override public boolean decreasePower() {
+		int oldPower = power;
+		power = decreaseStat(power, 0);
+		return areDifferent(power, oldPower);
+	}
+
+
+    @Override public boolean hasShield() {
 		return shielding > 0;
     }
 
@@ -203,15 +212,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
     		return power > 0;
     }
 
-	@Override public int getShielding() {
-		return shielding;
-	}
-
-	@Override public int getPower() {
-		return power;
-	}
-
-	@Override public void activate() {
+    @Override public void activate() {
 	active = true;
     }
 

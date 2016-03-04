@@ -8,7 +8,7 @@ import shipcomponents.AbstractShipComponent;
  */
 public abstract class UtilityComponent extends AbstractShipComponent {
 
-    int output;
+    private int output;
 
     protected UtilityComponent(final int maxHp, int output) {
 		super(maxHp);
@@ -16,6 +16,14 @@ public abstract class UtilityComponent extends AbstractShipComponent {
     }
 
     public int getOutput(){
-		return output;
+		if (hp > 0 && isActive()) {
+			return output;
+		} else {
+			return 0;
+		}
     }
+
+	protected void setOutput(int output) {
+		this.output = output;
+	}
 }

@@ -29,39 +29,9 @@ public interface ShipComponent extends VisibleEntity {
     public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY);
 
     /**
-     * Tries to change the shielding of the component by the specified amount.
-     *
-	 * @param change amount with which the shielding is to be changed
-     * @return the change that was made
-     */
-    public int changeShielding(int change);
-
-	/**
-	  * Tries to change the power of the component by the specified amount.
-	  *
-	  * @param change amount with which the power is to be changed
-	  * @return the change that was made
-	  */
-	 public int changePower(int change);
-
-	/**
-	 * Tries to change the stat, which indicator bar is at the specified virtual position relative to this ship component,
-	 * with the specified amount.
-	 *
-	 * @param rx a virtual x-position relative to this ship component
-	 * @param ry a virtual y-position relative to this ship component
-	 * @param change amount with which the stat is to be changed
-	 */
-    public void changeStatIndicatedAt(final float rx, final float ry, int change);
-
-    /**
      * @return true if this shipComponent is shielded.
      */
     public boolean hasShielding();
-
-	public int getShielding();
-
-	public int getPower();
 
     /**
      *
@@ -95,4 +65,32 @@ public interface ShipComponent extends VisibleEntity {
      * @param ship the ship with which this component is registered.
      */
     public void registerFunctionality(StarShip ship);
+
+	/**
+	 * Increases shielding unless it is at maximum capacity.
+	 *
+	 * @return true if shielding was increased, false if it was not
+	 */
+	public boolean increaseShielding();
+
+	/**
+	 * Decreases shielding unless it is at minimum capacity.
+	 *
+	 * @return true if shielding was decreased, false if it was not
+	 */
+	public boolean decreaseShielding();
+
+	/**
+	 * Increases power unless it is at maximum capacity.
+	 *
+	 * @return true if power was increased, false if it was not
+	 */
+	public boolean increasePower();
+
+	/**
+	 * Decreases power unless it is at minimum capacity.
+	 *
+	 * @return true if power was decreased, false if it was not
+	 */
+	public boolean decreasePower();
 }

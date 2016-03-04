@@ -41,23 +41,61 @@ public class BattleField extends GeneralVisibleEntity {
 
     }
 
-	/**
-	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
-	 *
-	 * @param vx a virtual x-position
-	 * @param vy a virtual y-position
-	 * @param change amount with which the stat is to be changed
-	 */
-	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
+	public void increaseShieldingOfShipAt(final float vx, final float vy) {
 		for (StarShip ship: friendlyShips) {
 			if (ship.contains(vx, vy)) {
-				ship.changeStatIndicatedAt(vx, vy, change);
+				ship.increaseShieldingOfComponentAt(vx, vy);
 				return;
 			}
 		}
 		for (StarShip ship: enemyShips) {
 			if (ship.contains(vx, vy)) {
-				ship.changeStatIndicatedAt(vx, vy, change);
+				ship.increaseShieldingOfComponentAt(vx, vy);
+				return;
+			}
+		}
+	}
+
+	public void decreaseShieldingOfShipAt(final float vx, final float vy) {
+		for (StarShip ship: friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.decreaseShieldingOfComponentAt(vx, vy);
+				return;
+			}
+		}
+		for (StarShip ship: enemyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.decreaseShieldingOfComponentAt(vx, vy);
+				return;
+			}
+		}
+	}
+
+	public void increasePowerOfShipAt(final float vx, final float vy) {
+		for (StarShip ship: friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.increasePowerOfComponentAt(vx, vy);
+				return;
+			}
+		}
+		for (StarShip ship: enemyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.increasePowerOfComponentAt(vx, vy);
+				return;
+			}
+		}
+	}
+
+	public void decreasePowerOfShipAt(final float vx, final float vy) {
+		for (StarShip ship: friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.decreasePowerOfComponentAt(vx, vy);
+				return;
+			}
+		}
+		for (StarShip ship: enemyShips) {
+			if (ship.contains(vx, vy)) {
+				ship.decreasePowerOfComponentAt(vx, vy);
 				return;
 			}
 		}

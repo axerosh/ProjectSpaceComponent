@@ -194,42 +194,19 @@ public class StarShip extends GeneralVisibleEntity {
 	for(ShieldComponent shield : shieldComponents){
 	    shieldPool += shield.getOutput();
 	}
+	stripShielding();
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
 	}
+	stripPower();
 
 	dodgeRate = 0;
 	for(EngineComponent ec : engineComponents){
 	    dodgeRate += ec.getOutput();
 	}
-
-		stripPoolUsage();
     }
-
-	private void updatePoolUsage() {
-		usedShielding = 0;
-		usedPower = 0;
-		for (int col = 0; col < width; col++) {
-			for (int row = 0; row < height; row++) {
-				ShipComponent component = components[col][row];
-				if (component != null) {
-					usedShielding += component.getShielding();
-					usedPower += component.getPower();
-				}
-			}
-		}
-	}
-
-	/**
-  	 * Strips the use of all pools so that usage does not exceed what is available from the pools.
-  	 *
-  	 */
-	private void stripPoolUsage() {
-		stripShielding();
-		stripPower();
-	}
 
     /**
      * Strips use of the shielding so that shield usage does not exceed the available shielding from the shielding pool.
@@ -250,8 +227,8 @@ public class StarShip extends GeneralVisibleEntity {
 						return;
 					}
 
-					while(component.hasShielding() && usedShielding > shieldPool){
-						component.changeShielding(-1);
+					while(component.hasShield() && usedShielding > shieldPool){
+						component.decreaseShielding();
 						if(usedShielding <= shieldPool){
 							return;
 						}
@@ -280,62 +257,14 @@ public class StarShip extends GeneralVisibleEntity {
 					return;
 				}
 
-				while(component.hasShielding() && usedPower > powerPool){
-					component.changePower(-1);
+				while(component.hasShield() && usedPower > powerPool){
+					component.decreasePower();
 					if(usedPower <= powerPool){
 						return;
 					}
 				}
 			}
 		}
-		}
-	}
-
-	/**
-	  * Changes the shielding to the component, at the specified virtual position, with the specified amount.
-	  *
-	  * @param x the x-coordinate of the position
-	  * @param y the y-coordinate of the position
-	  * @param change amount with which the shielding is to be changed
-	  */
-	public void changeShielding(final float x, final float y, int change){
-		ShipComponent componentToChange = getComponentAt(x,y);
-		if (componentToChange != null) {
-			usedShielding -= getComponentAt(x,y).changeShielding(change);
-			stripShielding();
-		}
-	 }
-
-    /**
-     * Changes the power to the component, at the specified virtual position, with the specified amount.
-	 *
-     * @param x the x-coordinate of the position
-     * @param y the y-coordinate of the position
-	 * @param change amount with which the power is to be changed
-	 */
-    public void changePower(final float x, final float y, int change){
-		ShipComponent componentToChange = getComponentAt(x,y);
-		if (componentToChange != null) {
-			usedPower -= getComponentAt(x,y).changePower(change);
-			stripPower();
-		}
-    }
-
-	/**
-	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
-	 *
-	 * @param vx a virtual x-position
-	 * @param vy a virtual y-position
-	 * @param change amount with which the stat is to be changed
-	 */
-	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
-		ShipComponent clickedComponent = getComponentAt(vx, vy);
-		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
-			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
-			clickedComponent.changeStatIndicatedAt(xRelativeToComponent, yRelativeToComponent, change);
-			updatePoolUsage();
-			stripPoolUsage();
 		}
 	}
 
@@ -353,14 +282,6 @@ public class StarShip extends GeneralVisibleEntity {
 		}
 		System.out.println();
     }
-
-	public int shieldingAvailable() {
-		return shieldPool - usedShielding;
-	}
-
-	public int powerAvailable() {
-		return powerPool - usedPower;
-	}
 
 	private float getXRelativeToShip(float x) {
 		return x - this.x;
@@ -413,6 +334,34 @@ public class StarShip extends GeneralVisibleEntity {
 					System.out.println("Listener added to " + visibleComponent);
 				}
 			}
+		}
+	}
+
+	public void increaseShieldingOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.increaseShielding();
+		}
+	}
+
+	public void decreaseShieldingOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.decreaseShielding();
+		}
+	}
+
+	public void increasePowerOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.increasePower();
+		}
+	}
+
+	public void decreasePowerOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.decreasePower();
 		}
 	}
 }
