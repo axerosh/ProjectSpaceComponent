@@ -110,63 +110,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShield());
 	}
 
-	@Override public void changeStatIndicatedAt(final float rx, final float ry, final int change) {
-		if (powerBar.contains(rx, ry)) {
-			changePower(change);
-		} else if (shieldingBar.contains(rx, ry)) {
-			changeShielding(change);
-		}
-	}
-
-	/**
-	  * Tries to change the shielding of the component by one by the specified amount.
-	  * Requests a visual update if successfull.
-	  *
-	  * @param change amount with which the shielding is to be changed
-	  * @return true if successfull, false if shielding is at max value
-	  */
-	@Override public boolean changeShielding(int change) {
-		int oldShielding = shielding;
-		if (change < 0) {
-			shielding = decreaseStat(shielding, 0);
-		} else {
-			shielding = increaseStat(shielding, MAXSHIELDING);
-		}
-		return hasChanged(shielding, oldShielding);
-    }
-
-	/**
-	  * Tries to change the power of the component by one by the specified amount.
-	  * Requests a visual update if successfull.
-	  *
-	  * @param change amount with which the power is to be changed
-	  * @return true if successfull, false if power is at max value
-	  */
-	@Override public boolean changePower(final int change) {
-		int oldPower = power;
-		if (change < 0) {
-			power = decreaseStat(power, 0);
-		} else {
-			power = increaseStat(power, MAXPOWER);
-		}
-		return hasChanged(power, oldPower);
-	}
-
-	/**
-	 * Returns true and requests an visual update if the the specified values differ.
-	 *
-	 * @param value1 the value before eventual change
-	 * @param value2 the value after eventual change
-	 * @return true if the the specified values differ
-	 */
-	private boolean hasChanged(int value1, int value2) {
-		boolean hasChanged = value1 != value2;
-		if (hasChanged){
-			requestVisualUpdate();
-		}
-		return hasChanged;
-	}
-
 	/**
 	* Increases the specified stat by 1, unless it has reached the specified maximum stat value.
 	*
@@ -194,6 +137,71 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		}
 		return stat;
 	}
+
+	/**
+	 * Returns true and
+	 * requests an visual update if the the specified values differ.
+	 *
+	 * @param value1 the value before eventual change
+	 * @param value2 the value after eventual change
+	 * @return true if the the specified values differ
+	 */
+	private boolean areDifferent(int value1, int value2) {
+		boolean areDifferent = value1 != value2;
+		if (areDifferent) {
+			requestVisualUpdate();
+		}
+		return areDifferent;
+	}
+
+	/**
+	 * Increases shielding unless it is at maximum capacity.
+	 * Requests a visual update if shielding was increased.
+	 *
+	 * @return true if shielding was increased, false if it was not
+	 */
+	@Override public boolean increaseShielding() {
+		int oldShielding = shielding;
+		shielding = increaseStat(shielding, MAXSHIELDING);
+		return areDifferent(shielding, oldShielding);
+	}
+
+	/**
+	 * Decreases shielding unless it is at minimum capacity.
+	 * Requests a visual update if shielding was decreased.
+	 *
+	 * @return true if shielding was decreased, false if it was not
+	 */
+	@Override public boolean decreaseShielding() {
+		int oldShielding = shielding;
+		shielding = decreaseStat(shielding, 0);
+		return areDifferent(shielding, oldShielding);
+	}
+
+	/**
+	 * Increases power unless it is at maximum capacity.
+	 * Requests a visual update if powerg was increased.
+	 *
+	 * @return true if power was increased, false if it was not
+	 */
+	@Override public boolean increasePower() {
+		int oldPower = power;
+		power = increaseStat(power, MAXPOWER);
+		return areDifferent(power, oldPower);
+	}
+
+	/**
+	 * Decreases power unless it is at minimum capacity.
+	 * Requests a visual update if powerg was decreased.
+	 *
+	 * @return true if power was decreased, false if it was not
+	 */
+	@Override public boolean decreasePower() {
+		int oldPower = power;
+		power = decreaseStat(power, 0);
+		return areDifferent(power, oldPower);
+	}
+
 
     @Override public boolean hasShield() {
 		return shielding > 0;

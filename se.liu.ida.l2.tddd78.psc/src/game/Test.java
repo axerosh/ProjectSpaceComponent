@@ -77,7 +77,7 @@ public final class Test {
 				//field.increaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 
 			} else if(tick == 2){
-			missileComponent.changePower(+1);
+			missileComponent.increasePower();
 			System.out.println("Shoot should be fired");
 				//field.decreaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 			} else if(tick == 12) {

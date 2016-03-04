@@ -228,7 +228,7 @@ public class StarShip extends GeneralVisibleEntity {
 					}
 
 					while(component.hasShield() && usedShielding > shieldPool){
-						component.changeShielding(-1);
+						component.decreaseShielding();
 						if(usedShielding <= shieldPool){
 							return;
 						}
@@ -258,7 +258,7 @@ public class StarShip extends GeneralVisibleEntity {
 				}
 
 				while(component.hasShield() && usedPower > powerPool){
-					component.changePower(-1);
+					component.decreasePower();
 					if(usedPower <= powerPool){
 						return;
 					}
@@ -267,38 +267,6 @@ public class StarShip extends GeneralVisibleEntity {
 		}
 		}
 	}
-
-	/**
-	  * Changes the shielding to the component, at the specified virtual position, with the specified amount.
-	  *
-	  * @param x the x-coordinate of the position
-	  * @param y the y-coordinate of the position
-	  * @param change amount with which the shielding is to be changed
-	  */
-	public void changeShielding(final float x, final float y, int change){
-		ShipComponent componentToChange = getComponentAt(x,y);
-		if (componentToChange != null) {
-			if(getComponentAt(x,y).changeShielding(change)){
-				usedShielding -= change;
-			}
-		}
-	 }
-
-    /**
-     * Changes the power to the component, at the specified virtual position, with the specified amount.
-	 *
-     * @param x the x-coordinate of the position
-     * @param y the y-coordinate of the position
-	 * @param change amount with which the power is to be changed
-	 */
-    public void changePower(final float x, final float y, int change){
-		ShipComponent componentToChange = getComponentAt(x,y);
-		if (componentToChange != null) {
-			if(getComponentAt(x,y).changePower(change)){
-				usedPower -= change;
-			}
-		}
-    }
 
     /**
      * Prints the stats of the ship and then
@@ -314,22 +282,6 @@ public class StarShip extends GeneralVisibleEntity {
 		}
 		System.out.println();
     }
-
-	/**
-	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
-	 *
-	 * @param vx a virtual x-position
-	 * @param vy a virtual y-position
-	 * @param change amount with which the stat is to be changed
-	 */
-	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
-		ShipComponent clickedComponent = getComponentAt(vx, vy);
-		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
-			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
-			clickedComponent.changeStatIndicatedAt(xRelativeToComponent, yRelativeToComponent, change);
-		}
-	}
 
 	private float getXRelativeToShip(float x) {
 		return x - this.x;
@@ -382,6 +334,34 @@ public class StarShip extends GeneralVisibleEntity {
 					System.out.println("Listener added to " + visibleComponent);
 				}
 			}
+		}
+	}
+
+	public void increaseShieldingOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.increaseShielding();
+		}
+	}
+
+	public void decreaseShieldingOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.decreaseShielding();
+		}
+	}
+
+	public void increasePowerOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.increasePower();
+		}
+	}
+
+	public void decreasePowerOfComponentAt(final float vx, final float vy) {
+		ShipComponent target = getComponentAt(vx, vy);
+		if (target != null) {
+			target.decreasePower();
 		}
 	}
 }
