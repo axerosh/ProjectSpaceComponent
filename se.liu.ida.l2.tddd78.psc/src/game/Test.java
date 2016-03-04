@@ -9,13 +9,16 @@ import ship_components.weapon_components.AbstractWeaponComponent;
 import ship_components.weapon_components.MissileComponent;
 import weaponry.FiringOrder;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
+/**
+ * Class for testing the game.
+ */
 public final class Test {
 
 	private Test() {}
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
 		Starship playerShip = new Starship(1f, 1f, 5, 5);
 
@@ -62,22 +65,20 @@ public final class Test {
 		int tick = 0;
 		while (running) {
 			arena.update();
-			try{
+			try {
 				Thread.sleep(1000);
-			} catch(InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			if(tick == 1){
-			missileComponent.giveFiringOrder(new FiringOrder(1, 2, 3, 3, playerShip));
-			System.out.println("Firing order has been given");
-				//field.increaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+			if (tick == 1) {
+				missileComponent.giveFiringOrder(new FiringOrder(1, 2, 3, 3, playerShip));
+				System.out.println("Firing order has been given");
 
-			} else if(tick == 2){
-			missileComponent.increasePower();
-			System.out.println("Shot should be fired");
-				//field.decreaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
-			} else if(tick == 12) {
+			} else if (tick == 2) {
+				missileComponent.increasePower();
+				System.out.println("Shot should be fired");
+			} else if (tick == 12) {
 				running = false;
 			}
 			gameDisplayer.repaint();
@@ -88,5 +89,5 @@ public final class Test {
 		playerShip.printShip();
 
 
-		}
+	}
 }

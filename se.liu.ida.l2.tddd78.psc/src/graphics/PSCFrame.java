@@ -2,13 +2,18 @@ package graphics;
 
 import game.Battlefield;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * JFrame extension that displays and handles input for a game.
+ */
 public class PSCFrame extends JFrame {
 
 	private Battlefield arena;
@@ -26,7 +31,7 @@ public class PSCFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
-	private class MouseAndKeyboardHandler extends JComponent{
+	private class MouseAndKeyboardHandler extends JComponent {
 
 		protected MouseAndKeyboardHandler() {
 			addMouseListener(new MouseAndKeyboardListener());
@@ -38,11 +43,9 @@ public class PSCFrame extends JFrame {
 			@Override public void mouseClicked(final MouseEvent e) {
 				if (e.isControlDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						arena.increasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()),
-													gameDisplayer.getVirtualY(e.getY()));
+						arena.increasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 					} else if (e.getButton() == MouseEvent.BUTTON3) {
-						arena.decreasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()),
-													gameDisplayer.getVirtualY(e.getY()));
+						arena.decreasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 					}
 				} else if (e.isShiftDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
@@ -55,17 +58,11 @@ public class PSCFrame extends JFrame {
 				}
 			}
 
-			@Override public void keyPressed(final KeyEvent e) {
+			@Override public void keyPressed(final KeyEvent e) {}
 
-			}
+			@Override public void keyReleased(final KeyEvent e) {}
 
-			@Override public void keyReleased(final KeyEvent e) {
-
-			}
-
-			@Override public void keyTyped(final KeyEvent e) {
-
-			}
+			@Override public void keyTyped(final KeyEvent e) {}
 		}
 	}
 

@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class GeneralVisibleEntity implements VisibleEntity {
 
-	protected List<VisibleEntityListener> visibleEntityListeners;
+	private List<VisibleEntityListener> visibleEntityListeners;
 
 	public GeneralVisibleEntity() {
 		visibleEntityListeners = new ArrayList<>();
@@ -21,12 +21,16 @@ public class GeneralVisibleEntity implements VisibleEntity {
 	}
 
 	/**
-	 * Request an visual update from all VisibleEntityListeners.
-	 * Each unique VisibleEntityListener may only be requested once per call of this method.
+	 * Request an visual update from all VisibleEntityListeners. Each unique VisibleEntityListener may only be requested once
+	 * per call of this method.
 	 */
 	protected void requestVisualUpdate() {
-		for (VisibleEntityListener listener: visibleEntityListeners) {
+		for (VisibleEntityListener listener : visibleEntityListeners) {
 			listener.visualUpdateRequested();
 		}
+	}
+
+	protected List<VisibleEntityListener> getVisibleEntityListeners() {
+		return visibleEntityListeners;
 	}
 }

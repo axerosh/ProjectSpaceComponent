@@ -2,23 +2,23 @@ package ship_components.utility_components;
 
 import game.Starship;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
- * Components that adds power to a ships power pool.
+ * A utility components that contributes with shielding.
  */
-public class ReactorComponent extends UtilityComponent{
+public class ReactorComponent extends UtilityComponent {
 
-    public ReactorComponent(final float integrity, final int powerOutput) {
+	public ReactorComponent(final float integrity, final int powerOutput) {
 		super(integrity, powerOutput);
-    }
+	}
 
-	@Override public void update(){
-    }
+	@Override public void update() {}
 
-    @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.GREEN);
-    }
+	}
 
 	@Override public void registerFunctionality(final Starship ship) {
 		ship.registerReactorComponent(this);

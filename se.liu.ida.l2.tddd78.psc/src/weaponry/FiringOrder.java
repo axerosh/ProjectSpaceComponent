@@ -2,39 +2,41 @@ package weaponry;
 
 import game.Starship;
 
-public class FiringOrder
-{
-    private float originX, originY;
-    private float targetX, targetY;
-    private Starship targetShip;
+/**
+ * A firing order providing information of where a shot comes from, where it is targeted at and what vessel it is targeting.
+ */
+public class FiringOrder {
 
-    public FiringOrder(final float originX, final float originY, final float targetX, final float targetY,
-					   final Starship targetShip)
-    {
-	this.originX = originX;
-	this.originY = originY;
-	this.targetX = targetX;
-	this.targetY = targetY;
-	this.targetShip = targetShip;
-    }
+	private float originX, originY;
+	private float targetX, targetY;
+	private Starship targetShip;
 
-    public float getTargetX() {
-	return targetX;
-    }
+	public FiringOrder(final float originX, final float originY, final float targetX, final float targetY,
+					   final Starship targetShip) {
+		this.originX = originX;
+		this.originY = originY;
+		this.targetX = targetX;
+		this.targetY = targetY;
+		this.targetShip = targetShip;
+	}
 
-    public float getTargetY() {
-	return targetY;
-    }
+	public float getTargetX() {
+		return targetX;
+	}
 
-    public float getOriginY() {
-	return originY;
-    }
+	public float getTargetY() {
+		return targetY;
+	}
 
-    public float getOriginX() {
-	return originX;
-    }
+	public float getOriginY() {
+		return originY;
+	}
 
-    public Starship getTargetShip() {
-	return targetShip;
-    }
+	public float getOriginX() {
+		return originX;
+	}
+
+	public Starship getTargetShip() {
+		return targetShip;
+	}
 }
