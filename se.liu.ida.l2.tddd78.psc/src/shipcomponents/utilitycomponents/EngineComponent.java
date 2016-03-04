@@ -23,10 +23,6 @@ public class EngineComponent extends UtilityComponent {
 	}
     }
 
-    @Override public void performAction() {
-
-    }
-
     @Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.RED);
     }

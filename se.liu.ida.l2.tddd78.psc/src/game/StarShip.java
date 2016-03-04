@@ -194,13 +194,13 @@ public class StarShip extends GeneralVisibleEntity {
 	for(ShieldComponent shield : shieldComponents){
 	    shieldPool += shield.getOutput();
 	}
-	stripPoolUsage(shieldPool, usedShielding);
+	stripShielding();
 
 	powerPool = 0;
 	for(ReactorComponent rc : reactorComponents){
 	    powerPool += rc.getOutput();
 	}
-	stripPoolUsage(powerPool, usedPower);
+	stripPower();
 
 	dodgeRate = 0;
 	for(EngineComponent ec : engineComponents){
@@ -209,82 +209,94 @@ public class StarShip extends GeneralVisibleEntity {
     }
 
     /**
-     * Strips use of the resources from the specified pool so that usage does not over exceed availability
+     * Strips use of the shielding so that shield usage does not exceed the available shielding from the shielding pool.
      *
-     * @param pool a pool of available resources
-     * @param poolUsage the number of resources, from the specified pool, that is used
      */
-    private void stripPoolUsage(int pool, int poolUsage) {
-	if(poolUsage > pool){
-	    for(ShipComponent[] componentCol : components){
+    private void stripShielding() {
+		if(usedShielding > shieldPool){
+			for(ShipComponent[] componentCol : components){
 
-		if(poolUsage <= pool){
-		    return;
+				if(usedShielding <= shieldPool){
+					return;
+				}
+
+				for(ShipComponent component : componentCol){
+					if (component == null){
+						continue;
+					} else if (usedShielding <= shieldPool) {
+						return;
+					}
+
+					while(component.hasShield() && usedShielding > shieldPool){
+						component.changeShielding(-1);
+						if(usedShielding <= shieldPool){
+							return;
+						}
+					}
+				}
+			}
 		}
+	}
 
-		for(ShipComponent component : componentCol){
-		    if (component == null){
-			    continue;
-		    } else if (poolUsage <= pool) {
-			return;
-		    }
+	/**
+     * Strips use of the power so that shield usage does not exceed the available power from the power pool.
+     *
+	 */
+ 	private void stripPower() {
+		if(usedPower > powerPool){
+		for(ShipComponent[] componentCol : components){
 
-		    while(component.hasShield() && poolUsage > pool){
-			component.decreaseShielding();
-			if(poolUsage <= pool){
+			if(usedPower <= powerPool){
 				return;
 			}
-		    }
-		}
-	    }
-	}
-    }
 
-    /**
-     * Increases the shielding of the component at the position.
-     * @param x the x-coordinate of the position
-     * @param y the y-coordinate of the position
-     */
-    public void increaseShielding(final float x, final float y){
-		if(shieldPool > usedShielding){
-			if(getComponentAt(x,y).increaseShielding()){
-				usedShielding++;
+			for(ShipComponent component : componentCol){
+				if (component == null){
+					continue;
+				} else if (usedPower <= powerPool) {
+					return;
+				}
+
+				while(component.hasShield() && usedPower > powerPool){
+					component.changePower(-1);
+					if(usedPower <= powerPool){
+						return;
+					}
+				}
 			}
 		}
-    }
-
-    /**
-     * Decreases the shielding of the component at the position.
-     * @param x the x-coordinate of the position
-     * @param y the y-coordinate of the position
-     */
-    public void decreaseShielding(final float x, final float y){
-	if(getComponentAt(x,y).decreaseShielding()){
-	    usedShielding--;
+		}
 	}
-    }
 
-    /**
-     * Increases the power to the component at the position.
-     * @param x the x-coordinate of the position
-     * @param y the y-coordinate of the position
-     */
-    public void increasePower(final float x, final float y){
-		if(powerPool > usedPower){
-			if(getComponentAt(x,y).increasePower()){
-				usedPower++;
+	/**
+	  * Changes the shielding to the component, at the specified virtual position, with the specified amount.
+	  *
+	  * @param x the x-coordinate of the position
+	  * @param y the y-coordinate of the position
+	  * @param change amount with which the shielding is to be changed
+	  */
+	public void changeShielding(final float x, final float y, int change){
+		ShipComponent componentToChange = getComponentAt(x,y);
+		if (componentToChange != null) {
+			if(getComponentAt(x,y).changeShielding(change)){
+				usedShielding -= change;
 			}
 		}
-    }
+	 }
 
     /**
-     * Decreases the power to the component at the position.
+     * Changes the power to the component, at the specified virtual position, with the specified amount.
+	 *
      * @param x the x-coordinate of the position
      * @param y the y-coordinate of the position
-     */
-    public void decreasePower(final float x, final float y){
-		if(getComponentAt(x,y).decreasePower()){
-			usedPower--;
+	 * @param change amount with which the power is to be changed
+	 */
+    public void changePower(final float x, final float y, int change){
+		ShipComponent componentToChange = getComponentAt(x,y);
+		if (componentToChange != null) {
+			if(getComponentAt(x,y).changePower(change)){
+				usedPower -= change;
+			}
 		}
     }
 
@@ -304,32 +316,18 @@ public class StarShip extends GeneralVisibleEntity {
     }
 
 	/**
-	 * Performs the activation action of the ship component that the cursor hovers over.
+	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
 	 *
-	 * @param vx the cursor's virtual x-position
-	 * @param vy the cursor's virtual y-position
+	 * @param vx a virtual x-position
+	 * @param vy a virtual y-position
+	 * @param change amount with which the stat is to be changed
 	 */
-	public void activateWithCursor(final float vx, final float vy) {
+	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
 		ShipComponent clickedComponent = getComponentAt(vx, vy);
 		if (clickedComponent != null) {
 			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
 			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
-			clickedComponent.activateWithCursor(xRelativeToComponent, yRelativeToComponent);
-		}
-	}
-
-	/**
-	 * Performs the deactivation action of the ship component that the cursor hovers over.
-	 *
-	 * @param vx the cursor's virtual x-position
-	 * @param vy the cursor's virtual y-position
-	 */
-	public void deactivateWithCursor(final float vx, final float vy) {
-		ShipComponent clickedComponent = getComponentAt(vx, vy);
-		if (clickedComponent != null) {
-			float xRelativeToComponent = getXRelativeToShip(vx) % COMPONENT_WDITH;
-			float yRelativeToComponent = getYRelativeToShip(vy) % COMPONENT_WDITH;
-			clickedComponent.deactivateWithCursor(xRelativeToComponent, yRelativeToComponent);
+			clickedComponent.changeStatIndicatedAt(xRelativeToComponent, yRelativeToComponent, change);
 		}
 	}
 
