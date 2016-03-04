@@ -34,11 +34,7 @@ public class PSCFrame extends JFrame{
 		private class PSCMouseWheelListener implements MouseWheelListener {
 
 			@Override public void mouseWheelMoved(final MouseWheelEvent e) {
-				if (e.getWheelRotation() < 0) {
-					arena.activateWithCursor(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
-				} else if (e.getWheelRotation() > 0){
-					arena.deactivateWithCursor(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()));
-				}
+				arena.changeStatIndicatedAt(gc.getVirtualX(e.getX()), gc.getVirtualY(e.getY()), -e.getWheelRotation());
 			}
 		}
 

@@ -23,10 +23,6 @@ public class MissileComponent extends AbstractWeaponComponent
 
     }
 
-    @Override public void performAction() {
-
-    }
-
     @Override public void registerFunctionality(final StarShip ship) {
         ship.registerWeaponComponent(this);
     }

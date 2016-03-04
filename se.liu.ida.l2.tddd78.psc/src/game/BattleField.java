@@ -43,43 +43,23 @@ public class BattleField extends GeneralVisibleEntity {
 
     }
 
-    /**
-	 * Performs the activation action of the ship that the cursor hovers over.
-	 *
-	 * @param vx the cursor's virtual x-position
-	 * @param vy the cursor's virtual y-position
-	 */
-	public void activateWithCursor(final float vx, final float vy) {
-		for (StarShip ship: friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.activateWithCursor(vx, vy);
-				return;
-			}
-		}
-		for (StarShip ship: enemyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.activateWithCursor(vx, vy);
-				return;
-			}
-		}
-	}
-
 	/**
-	 * Performs the deactivation action of the ship that the cursor hovers over.
+	 * Tries to change the stat, which indicator bar is at the specified virtual position, with the specified amount.
 	 *
-	 * @param vx the cursor's virtual x-position
-	 * @param vy the cursor's virtual y-position
+	 * @param vx a virtual x-position
+	 * @param vy a virtual y-position
+	 * @param change amount with which the stat is to be changed
 	 */
-	public void deactivateWithCursor(final float vx, final float vy) {
+	public void changeStatIndicatedAt(final float vx, final float vy, int change) {
 		for (StarShip ship: friendlyShips) {
 			if (ship.contains(vx, vy)) {
-				ship.deactivateWithCursor(vx, vy);
+				ship.changeStatIndicatedAt(vx, vy, change);
 				return;
 			}
 		}
 		for (StarShip ship: enemyShips) {
 			if (ship.contains(vx, vy)) {
-				ship.deactivateWithCursor(vx, vy);
+				ship.changeStatIndicatedAt(vx, vy, change);
 				return;
 			}
 		}

@@ -110,88 +110,47 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		shieldingBar.draw(g, scale, screenX, screenY, shielding, MAXSHIELDING, hasShield());
 	}
 
-	/**
-	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
-	 * Increases the level of of any stat which indication bar the cursor hovers over.
-	 *
-	 * @param rx the cursor's virtual x-position relative to this ship component
-	 * @param ry the cursor's virtual y-position relative to this ship component
-	 */
-	@Override public void activateWithCursor(final float rx, final float ry) {
+	@Override public void changeStatIndicatedAt(final float rx, final float ry, final int change) {
 		if (powerBar.contains(rx, ry)) {
-			increasePower();
+			changePower(change);
 		} else if (shieldingBar.contains(rx, ry)) {
-			increaseShielding();
+			changeShielding(change);
 		}
 	}
 
 	/**
-	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
-	 * Decreases the level of of any stat which indication bar the cursor hovers over.
-	 *
-	 * @param rx the cursor's virtual x-position relative to this ship component
-	 * @param ry the cursor's virtual y-position relative to this ship component
-	 */
-	@Override public void deactivateWithCursor(final float rx, final float ry) {
-		if (powerBar.contains(rx, ry)) {
-			decreasePower();
-		} else if (shieldingBar.contains(rx, ry)) {
-			decreaseShielding();
+	  * Tries to change the shielding of the component by one by the specified amount.
+	  * Requests a visual update if successfull.
+	  *
+	  * @param change amount with which the shielding is to be changed
+	  * @return true if successfull, false if shielding is at max value
+	  */
+	@Override public boolean changeShielding(int change) {
+		int oldShielding = shielding;
+		if (change < 0) {
+			shielding = decreaseStat(shielding, 0);
+		} else {
+			shielding = increaseStat(shielding, MAXSHIELDING);
 		}
-	}
-
-	/**
-	 * Tries to increase the shielding of the component by one.
-	 * Requests a visual update if successfull.
-	 *
-	 * @return true if successfull
-	 */
-	@Override public boolean increaseShielding() {
-		int oldShielding = shielding;
-		shielding = increaseStat(shielding, MAXSHIELDING);
 		return hasChanged(shielding, oldShielding);
     }
 
 	/**
-	 * Tries to decrease the shielding of the component by one.
-	 * Requests a visual update if successfull.
-	 *
-	 * @return true if successfull
-	 */
-    @Override public boolean decreaseShielding() {
-		int oldShielding = shielding;
-		shielding = decreaseStat(shielding, 0);
-		return hasChanged(shielding, oldShielding);
-    }
-
-	/**
-	 * Tries to increase the power of the component by one.
-	 * Requests a visual update if successfull.
-	 *
-	 * @return true if successfull
-	 */
-    @Override public boolean increasePower() {
+	  * Tries to change the power of the component by one by the specified amount.
+	  * Requests a visual update if successfull.
+	  *
+	  * @param change amount with which the power is to be changed
+	  * @return true if successfull, false if power is at max value
+	  */
+	@Override public boolean changePower(final int change) {
 		int oldPower = power;
-		power = increaseStat(power, MAXPOWER);
+		if (change < 0) {
+			power = decreaseStat(power, 0);
+		} else {
+			power = increaseStat(power, MAXPOWER);
+		}
 		return hasChanged(power, oldPower);
-    }
-
-	/**
-	 * Tries to decrease the power of the component by one.
-	 * Requests a visual update if successfull.
-	 *
-	 * @return true if successfull
-	 */
-    @Override public boolean decreasePower() {
-		int oldPower = power;
-		power = decreaseStat(power, 0);
-		boolean hasChanged = power != oldPower;
-		if (hasChanged){
-			requestVisualUpdate();
-		}
-		return hasChanged;
-
-    }
+	}
 
 	/**
 	 * Returns true and requests an visual update if the the specified values differ.

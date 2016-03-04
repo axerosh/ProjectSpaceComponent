@@ -74,12 +74,12 @@ public final class Test {
 			if(tick == 1){
 			missileComponent.giveOrder(new Order(1, 2, 3, 3, playerShip));
 			System.out.println("Order has been given");
-				//field.activateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+				//field.increaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 
 			} else if(tick == 2){
-			missileComponent.increasePower();
+			missileComponent.changePower(+1);
 			System.out.println("Shoot should be fired");
-				//field.deactivateWithCursor(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
+				//field.decreaseStatIndicatedAt(gc.getVirtualX(cursorX), gc.getVirtualY(cursorY));
 			} else if(tick == 12) {
 				running = false;
 			}

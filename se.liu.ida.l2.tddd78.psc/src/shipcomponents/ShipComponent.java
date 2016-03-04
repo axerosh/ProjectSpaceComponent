@@ -7,6 +7,7 @@ import java.awt.*;
 
 /**
  * Interface defining the ship component and general functions including once for recieving damage and activation.
+ * Has stats and a stat bar for them.
  */
 public interface ShipComponent extends VisibleEntity {
 
@@ -16,11 +17,6 @@ public interface ShipComponent extends VisibleEntity {
      * @param damage the number of hit points by which this ship component's HP is reduced
      */
     public void inflictDamage(int damage);
-
-    /**
-     * Activates this ship component, performing its component-type specific action.
-     */
-    public void performAction();
 
     /**
      * Draws this ship component with the specified scaling.
@@ -33,32 +29,30 @@ public interface ShipComponent extends VisibleEntity {
     public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY);
 
     /**
-     * Tries to increase the shielding of the component by one.
+     * Tries to change the shielding of the component by the specified amount.
      *
-     * @return true if successfull
+	 * @param change amount with which the shielding is to be changed
+     * @return true if successfull, false if shielding is at max value
      */
-    public boolean increaseShielding();
+    public boolean changeShielding(int change);
 
-    /**
-     * Tries to decrease the shielding of the component by one.
-     *
-     * @return true if successfull
-     */
-    public boolean decreaseShielding();
+	/**
+	  * Tries to change the power of the component by the specified amount.
+	  *
+	  * @param change amount with which the power is to be changed
+	  * @return true if successfull, false if power is at max value
+	  */
+	 public boolean changePower(int change);
 
-    /**
-     * Tries to increase the power yo the component by one.
-     *
-     * @return true if successfull
-     */
-    public boolean increasePower();
-
-    /**
-     * Tries to decrease the power to the component by one.
-     *
-     * @return true if successfull
-     */
-    public boolean decreasePower();
+	/**
+	 * Tries to change the stat, which indicator bar is at the specified virtual position relative to this ship component,
+	 * with the specified amount.
+	 *
+	 * @param rx a virtual x-position relative to this ship component
+	 * @param ry a virtual y-position relative to this ship component
+	 * @param change amount with which the stat is to be changed
+	 */
+    public void changeStatIndicatedAt(final float rx, final float ry, int change);
 
     /**
      * @return true if this shipComponent is shielded.
@@ -97,20 +91,4 @@ public interface ShipComponent extends VisibleEntity {
      * @param ship the ship with which this component is registered.
      */
     public void registerFunctionality(StarShip ship);
-
-	/**
-	 * Performs activation action for this ship component, depending on where the cursor is relative to this ship component.
-	 *
-	 * @param rx the cursor's virtual x-position relative to this ship component
-	 * @param ry the cursor's virtual y-position relative to this ship component
-	 */
-    public void activateWithCursor(final float rx, final float ry);
-
-	/**
-	 * Performs deactivation action for this ship component, depending on where the cursor is relative to this ship component.
-	 *
-	 * @param rx the cursor's virtual x-position relative to this ship component
-	 * @param ry the cursor's virtual y-position relative to this ship component
-	 */
-    public void deactivateWithCursor(final float rx, final float ry);
 }
