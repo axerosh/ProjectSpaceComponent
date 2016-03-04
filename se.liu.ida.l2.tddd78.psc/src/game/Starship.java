@@ -149,7 +149,7 @@ public class Starship extends GeneralVisibleEntity {
 		}
 		if (component != null) {
 			component.registerFunctionality(this);
-			for (VisibleEntityListener listener : getVisibleEntityListeners()) {
+			for (VisibleEntityListener listener : visibleEntityListeners) {
 				component.addVisibleEntityListener(listener);
 			}
 		}
