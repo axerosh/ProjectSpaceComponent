@@ -77,7 +77,7 @@ public class Battlefield extends GeneralVisibleEntity {
 			selectedComponent.deactivate();
 		}
 	}
-	
+
 	public void increaseShieldingOfShipAt(final float vx, final float vy) {
 		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {

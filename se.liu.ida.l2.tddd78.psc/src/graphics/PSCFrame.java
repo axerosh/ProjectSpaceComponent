@@ -25,6 +25,7 @@ public class PSCFrame extends JFrame {
 		super("Project Space Component");
 		this.battlefield = battlefield;
 		this.gameDisplayer = gameDisplayer;
+		selectedComponent = null;
 		add(gameDisplayer);
 		pack();
 		add(new MouseAndKeyboardHandler());
