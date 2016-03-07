@@ -94,4 +94,11 @@ public interface ShipComponent extends VisibleEntity {
 	 * @return true if power was decreased, false if it was not
 	 */
 	public boolean decreasePower();
+
+	/**
+	 * @return true if needs target for activation effect.
+	 *
+	 * @see #activate()
+	 */
+	public boolean needsTarget();
 }

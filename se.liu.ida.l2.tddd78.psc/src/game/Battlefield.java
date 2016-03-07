@@ -1,5 +1,6 @@
 package game;
 
+import ship_components.ShipComponent;
 import weaponry.projectiles.Projectile;
 
 import java.awt.Graphics;
@@ -45,6 +46,38 @@ public class Battlefield extends GeneralVisibleEntity {
 
 	}
 
+	public ShipComponent getComponentAt(final float vx, final float vy) {
+		for (Starship ship : friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				return ship.getComponentAt(vx, vy);
+			}
+		}
+		for (Starship ship : friendlyShips) {
+			if (ship.contains(vx, vy)) {
+				return ship.getComponentAt(vx, vy);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return the ShipComponent that is activated
+	 */
+	public ShipComponent activateComponentAt(final float vx, final float vy) {
+		ShipComponent selectedComponent = getComponentAt(vx, vy);
+		if (selectedComponent != null) {
+			selectedComponent.activate();
+		}
+		return selectedComponent;
+	}
+
+	public void deactivateComponentAt(final float vx, final float vy) {
+		ShipComponent selectedComponent = getComponentAt(vx, vy);
+		if (selectedComponent != null) {
+			selectedComponent.deactivate();
+		}
+	}
+	
 	public void increaseShieldingOfShipAt(final float vx, final float vy) {
 		for (Starship ship : friendlyShips) {
 			if (ship.contains(vx, vy)) {

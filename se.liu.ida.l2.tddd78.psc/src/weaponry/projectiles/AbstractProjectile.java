@@ -63,13 +63,6 @@ public class AbstractProjectile implements Projectile {
 					dealDamage(targetX + relativeCol, targetY + relativeRow);
 				}
 			}
-
-			try {
-				//this = null;
-				finalize();
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
 		} else {
 			System.out.println("Missed!");
 			System.out.println("Component at " + targetX + " " + targetY + ": " + targetShip.getComponentAt(targetX, targetY));

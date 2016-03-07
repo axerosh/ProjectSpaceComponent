@@ -10,7 +10,7 @@ public abstract class UtilityComponent extends AbstractShipComponent {
 	private int output;
 
 	protected UtilityComponent(final float integrity, int output) {
-		super(integrity);
+		super(integrity, false);
 		this.output = output;
 	}
 

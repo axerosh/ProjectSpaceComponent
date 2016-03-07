@@ -31,15 +31,17 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 */
 	private float integrity;
 	private boolean active;
+	private boolean needsTarget;
 
 	/**
 	 * Construcs an abstract ship component with the specified maximum HP.
 	 *
 	 * @param integrity the damage the ship component can take before it is destroyed
 	 */
-	protected AbstractShipComponent(final float integrity) {
+	protected AbstractShipComponent(final float integrity, final boolean needsTarget) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
+		this.needsTarget = needsTarget;
 		shielding = 0;
 		power = 0;
 		active = true;
@@ -224,6 +226,10 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	@Override public boolean isActive() {
 		return active;
+	}
+
+	@Override public boolean needsTarget() {
+		return needsTarget;
 	}
 
 	@Override public String toString() {

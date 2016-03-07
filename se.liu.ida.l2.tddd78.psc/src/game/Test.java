@@ -78,7 +78,7 @@ public final class Test {
 			} else if (tick == 2) {
 				missileComponent.increasePower();
 				System.out.println("Shot should be fired");
-			} else if (tick == 30) {
+			} else if (tick == 9) {
 				running = false;
 			}
 			gameDisplayer.repaint();

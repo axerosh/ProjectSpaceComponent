@@ -1,6 +1,7 @@
 package graphics;
 
 import game.Battlefield;
+import ship_components.ShipComponent;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -16,12 +17,13 @@ import java.awt.event.MouseEvent;
  */
 public class PSCFrame extends JFrame {
 
-	private Battlefield arena;
+	private Battlefield battlefield;
 	private GameDisplayer gameDisplayer;
+	private ShipComponent selectedComponent;
 
-	public PSCFrame(Battlefield arena, GameDisplayer gameDisplayer) throws HeadlessException {
+	public PSCFrame(Battlefield battlefield, GameDisplayer gameDisplayer) throws HeadlessException {
 		super("Project Space Component");
-		this.arena = arena;
+		this.battlefield = battlefield;
 		this.gameDisplayer = gameDisplayer;
 		add(gameDisplayer);
 		pack();
@@ -43,17 +45,37 @@ public class PSCFrame extends JFrame {
 			@Override public void mouseClicked(final MouseEvent e) {
 				if (e.isControlDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						arena.increasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+						battlefield.increasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 					} else if (e.getButton() == MouseEvent.BUTTON3) {
-						arena.decreasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+						battlefield.decreasePowerOfShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 					}
 				} else if (e.isShiftDown()) {
 					if (e.getButton() == MouseEvent.BUTTON1) {
-						arena.increaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
-														gameDisplayer.getVirtualY(e.getY()));
+						battlefield.increaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+															  gameDisplayer.getVirtualY(e.getY()));
 					} else if (e.getButton() == MouseEvent.BUTTON3) {
-						arena.decreaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
-														gameDisplayer.getVirtualY(e.getY()));
+						battlefield.decreaseShieldingOfShipAt(gameDisplayer.getVirtualX(e.getX()),
+															  gameDisplayer.getVirtualY(e.getY()));
+					}
+				} else {
+					if (e.getButton() == MouseEvent.BUTTON1) {
+						if (selectedComponent == null) {
+							selectedComponent = battlefield.activateComponentAt(gameDisplayer.getVirtualX(e.getX()),
+																				gameDisplayer.getVirtualY(e.getY()));
+							if (!selectedComponent.needsTarget()) {
+								selectedComponent = null;
+							}
+						} else {
+							//selectedComponent.activateWithTarget(battlefield.get)
+						}
+
+					} else if (e.getButton() == MouseEvent.BUTTON3) {
+						if (selectedComponent == null) {
+							battlefield.deactivateComponentAt(gameDisplayer.getVirtualX(e.getX()),
+															  gameDisplayer.getVirtualY(e.getY()));
+						} else {
+							selectedComponent = null;
+						}
 					}
 				}
 			}

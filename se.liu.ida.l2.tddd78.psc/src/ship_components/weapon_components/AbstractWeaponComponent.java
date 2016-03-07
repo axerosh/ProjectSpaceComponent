@@ -19,7 +19,7 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 	private int rechargeCounter;
 
 	protected AbstractWeaponComponent(final float integrity, final int rechargeTime) {
-		super(integrity);
+		super(integrity, true);
 		this.rechargeTime = rechargeTime;
 		rechargeCounter = 0;
 		firingOrder = null;
