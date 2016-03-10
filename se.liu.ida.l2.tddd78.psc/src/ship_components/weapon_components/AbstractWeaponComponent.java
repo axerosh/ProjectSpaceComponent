@@ -18,26 +18,26 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 	protected FiringOrder firingOrder;
 	private int rechargeTime;
 	private int rechargeCounter;
+	private Projectile projectileToFire;
 
 	protected AbstractWeaponComponent(final float integrity, final int rechargeTime) {
 		super(integrity, true);
 		this.rechargeTime = rechargeTime;
 		rechargeCounter = 0;
 		firingOrder = null;
+		projectileToFire = null;
 	}
 
 	/**
 	 * Updates the weaponComponent, recharge the weapon by one and if there is a standing firingOrder and the weapon can shoot,
 	 * a shot will be fired.
 	 */
-	@Override public Projectile updateWeapon() {
+	@Override public void updateWeapon() {
 		rechargeCounter++;
 		if (hasOrder() && canShoot()) {
-			Projectile p = shoot();
+			projectileToFire = shoot();
 			firingOrder = null;
-			return p;
 		}
-		return null;
 	}
 
 	/**
@@ -47,6 +47,13 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 	 */
 	@Override public void giveFiringOrder(FiringOrder order) {
 		this.firingOrder = order;
+	}
+
+	/**
+	 * @return a projectile if the weapon has fired.
+	 */
+	@Override public Projectile getProjectileToFire() {
+		return projectileToFire;
 	}
 
 	/**

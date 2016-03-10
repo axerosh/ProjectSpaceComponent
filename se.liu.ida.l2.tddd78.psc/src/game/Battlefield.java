@@ -29,8 +29,10 @@ public class Battlefield extends GeneralVisibleEntity
 	public void update() {
 		updateProjectiles();
 		for (Starship ship : friendlyShips) {
-			addProjectiles(ship.update());
+			ship.update();
+			addProjectiles(ship.getProjectilesToFire());
 		}
+
 	}
 
 	private void updateProjectiles() {
