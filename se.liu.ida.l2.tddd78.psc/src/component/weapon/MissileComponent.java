@@ -1,8 +1,8 @@
-package ship_components.weapon_components;
+package component.weapon;
 
 import weaponry.FiringOrder;
-import weaponry.projectiles.MissileProjectile;
-import weaponry.projectiles.Projectile;
+import weaponry.projectile.MissileProjectile;
+import weaponry.projectile.Projectile;
 
 /**
  * A weapon component that can fire missiles according to firing orders.

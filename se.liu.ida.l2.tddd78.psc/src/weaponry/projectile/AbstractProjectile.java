@@ -1,7 +1,7 @@
-package weaponry.projectiles;
+package weaponry.projectile;
 
+import component.ShipComponent;
 import game.Starship;
-import ship_components.ShipComponent;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -37,7 +37,7 @@ public class AbstractProjectile implements Projectile {
 	}
 
 	/**
-	 * Updates the projectiles position, checks if the the projetile is at its target, if so applies its effect
+	 * Updates the projectile position, checks if the the projetile is at its target, if so applies its effect
 	 */
 	@Override public void update() {
 		selfX += xVelocity;
@@ -50,7 +50,7 @@ public class AbstractProjectile implements Projectile {
 	}
 
 	/**
-	 * Apply the projectiles effect on target component(s).
+	 * Apply the projectile effect on target component(s).
 	 */
 	@Override public void impact() {
 		if (!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null) {

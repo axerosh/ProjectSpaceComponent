@@ -1,7 +1,7 @@
 package game;
 
-import ship_components.ShipComponent;
-import weaponry.projectiles.Projectile;
+import component.ShipComponent;
+import weaponry.projectile.Projectile;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -69,10 +69,8 @@ public class Battlefield extends GeneralVisibleEntity {
 	public ShipComponent getComponentAt(final float vx, final float vy) {
 		Starship targetShip = getShipAt(vx, vy);
 		if (targetShip != null) {
-			System.out.println("Ship");
 			return targetShip.getComponentAt(vx, vy);
 		} else {
-			System.out.println("No ship");
 			return null;
 		}
 	}

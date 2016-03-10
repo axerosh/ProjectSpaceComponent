@@ -1,4 +1,4 @@
-package weaponry.projectiles;
+package weaponry.projectile;
 
 import game.Starship;
 

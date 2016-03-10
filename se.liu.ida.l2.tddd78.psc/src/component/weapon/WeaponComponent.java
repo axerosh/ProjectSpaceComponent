@@ -1,13 +1,13 @@
-package ship_components.weapon_components;
+package component.weapon;
 
+import component.AbstractShipComponent;
 import game.Starship;
-import ship_components.AbstractShipComponent;
 import weaponry.FiringOrder;
 import weaponry.Weapon;
-import weaponry.projectiles.Projectile;
+import weaponry.projectile.Projectile;
 
 /**
- * A ship component that can fires projectiles according to firing orders.
+ * A ship component that can fires projectile according to firing orders.
  *
  * @see Projectile
  * @see FiringOrder

@@ -1,4 +1,4 @@
-package ship_components;
+package component;
 
 import game.Starship;
 import game.VisibleEntity;

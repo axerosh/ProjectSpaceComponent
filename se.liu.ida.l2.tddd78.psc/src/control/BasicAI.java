@@ -1,9 +1,9 @@
 package control;
 
+import component.ShipComponent;
 import game.Battlefield;
 import game.Starship;
-import ship_components.ShipComponent;
-import weaponry.projectiles.Projectile;
+import weaponry.projectile.Projectile;
 
 import java.util.ArrayList;
 import java.util.Collection;

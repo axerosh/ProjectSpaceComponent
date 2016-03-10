@@ -1,12 +1,12 @@
 package game;
 
+import component.utility.EngineComponent;
+import component.utility.ReactorComponent;
+import component.utility.ShieldComponent;
+import component.weapon.MissileComponent;
 import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
-import ship_components.utility_components.EngineComponent;
-import ship_components.utility_components.ReactorComponent;
-import ship_components.utility_components.ShieldComponent;
-import ship_components.weapon_components.MissileComponent;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

@@ -1,6 +1,6 @@
-package ship_components.utility_components;
+package component.utility;
 
-import ship_components.AbstractShipComponent;
+import component.AbstractShipComponent;
 
 /**
  * A ship component with an output.

@@ -1,9 +1,9 @@
 package weaponry;
 
-import weaponry.projectiles.Projectile;
+import weaponry.projectile.Projectile;
 
 /**
- * A weapon that can shoot projectiles to follow firing orders.
+ * A weapon that can shoot projectile to follow firing orders.
  *
  * @see Projectile
  * @see FiringOrder

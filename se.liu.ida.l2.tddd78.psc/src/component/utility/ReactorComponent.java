@@ -1,4 +1,4 @@
-package ship_components.utility_components;
+package component.utility;
 
 import game.Starship;
 

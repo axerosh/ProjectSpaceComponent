@@ -1,11 +1,11 @@
 package game;
 
-import ship_components.ShipComponent;
-import ship_components.utility_components.EngineComponent;
-import ship_components.utility_components.ReactorComponent;
-import ship_components.utility_components.ShieldComponent;
+import component.ShipComponent;
+import component.utility.EngineComponent;
+import component.utility.ReactorComponent;
+import component.utility.ShieldComponent;
 import weaponry.Weapon;
-import weaponry.projectiles.Projectile;
+import weaponry.projectile.Projectile;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
@@ -44,7 +44,7 @@ public class Starship extends GeneralVisibleEntity {
 	private int team;
 
 	/**
-	 * The dodge rate of this ship. The rate of which projectiles will miss the ship.
+	 * The dodge rate of this ship. The rate of which projectile will miss the ship.
 	 *
 	 * @see Projectile
 	 */
