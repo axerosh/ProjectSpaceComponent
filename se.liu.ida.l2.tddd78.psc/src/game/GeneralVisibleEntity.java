@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * General implementation of the VisibleEnity interface.
  */
-public class GeneralVisibleEntity implements VisibleEntity
-{
+public class GeneralVisibleEntity implements VisibleEntity {
 
 	protected List<VisibleEntityListener> visibleEntityListeners;
 

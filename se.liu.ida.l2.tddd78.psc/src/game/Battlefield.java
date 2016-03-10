@@ -16,14 +16,12 @@ import java.util.Set;
  *
  * @see Starship
  */
-public class Battlefield extends GeneralVisibleEntity
-{
-
-	private Random rng;
+public class Battlefield extends GeneralVisibleEntity {
 
 	private final List<Starship> friendlyShips;
 	private final List<Starship> enemyShips;
 	private final Set<Projectile> projectiles;
+	private Random rng;
 
 	public Battlefield() {
 		rng = new Random();
@@ -94,12 +92,12 @@ public class Battlefield extends GeneralVisibleEntity
 		this.projectiles.addAll(projectiles);
 	}
 
-	public Starship getRandomFriendlyShip(){
+	public Starship getRandomFriendlyShip() {
 		return friendlyShips.get(rng.nextInt(friendlyShips.size()));
 	}
 
-	public Starship getRandomEnemyShip(){
-			return friendlyShips.get(rng.nextInt(enemyShips.size()));
+	public Starship getRandomEnemyShip() {
+		return friendlyShips.get(rng.nextInt(enemyShips.size()));
 	}
 
 	/**

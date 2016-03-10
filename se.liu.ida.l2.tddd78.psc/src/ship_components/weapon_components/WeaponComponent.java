@@ -12,8 +12,7 @@ import weaponry.projectiles.Projectile;
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class WeaponComponent extends AbstractShipComponent implements Weapon
-{
+public abstract class WeaponComponent extends AbstractShipComponent implements Weapon {
 
 	protected FiringOrder firingOrder;
 	private int rechargeTime;
@@ -34,7 +33,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 */
 	@Override public void updateWeapon() {
 		projectileToFire = null;
-		rechargeCounter += (1 + (getPower()/2));
+		rechargeCounter += (1 + (getPower() / 2));
 		if (hasOrder() && canShoot()) {
 			projectileToFire = shoot();
 			firingOrder = null;

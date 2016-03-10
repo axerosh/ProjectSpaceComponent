@@ -8,8 +8,7 @@ import java.awt.Graphics;
 /**
  * A utility components that contributes with power.
  */
-public class ShieldComponent extends UtilityComponent
-{
+public class ShieldComponent extends UtilityComponent {
 
 	public ShieldComponent(final float integrity, final int shieldOutput) {
 		super(integrity, shieldOutput);

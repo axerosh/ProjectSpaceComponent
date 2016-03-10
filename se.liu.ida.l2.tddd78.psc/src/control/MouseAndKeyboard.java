@@ -37,7 +37,7 @@ public class MouseAndKeyboard extends JComponent {
 
 		@Override public void mouseClicked(final MouseEvent e) {
 			ShipComponent clickedLocalComponent = controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()),
-																		   gameDisplayer.getVirtualY(e.getY()));
+																				gameDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
 				if (e.isControlDown()) {
 					managePower(e, clickedLocalComponent);
@@ -105,9 +105,9 @@ public class MouseAndKeyboard extends JComponent {
 															gameDisplayer.getVirtualY(e.getY()));
 				Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 				System.out.println(clickedComponent);
-				selectedWeapon.giveFiringOrder(new FiringOrder((float) originPos.getX(), (float) originPos.getY(),
-															   (float) targetPos.getX(), (float) targetPos.getY(),
-															   targetShip));
+				selectedWeapon.giveFiringOrder(
+						new FiringOrder((float) originPos.getX(), (float) originPos.getY(), (float) targetPos.getX(),
+										(float) targetPos.getY(), targetShip));
 			}
 
 		}

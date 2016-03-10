@@ -22,13 +22,13 @@ public class BasicAI {
 		projetilesToFire = new ArrayList<>();
 	}
 
-	public void update(){
+	public void update() {
 		aiShip.update();
 		addProjectiles(aiShip.getProjectilesToFire());
 
 		Starship targetShip;
 		ShipComponent targetComponent;
-		for(Projectile p: projetilesToFire){
+		for (Projectile p : projetilesToFire) {
 			targetShip = field.getRandomFriendlyShip();
 
 
