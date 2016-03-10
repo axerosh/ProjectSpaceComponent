@@ -26,7 +26,9 @@ public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEnt
 	}
 
 	@Override public Dimension getPreferredSize() {
-		return new Dimension(600, 480);
+		final int battlefieldWidth = 13;
+		final int battlefieldHeight = 7;
+		return new Dimension((int) (battlefieldWidth * SCALE), (int) (battlefieldHeight * SCALE));
 	}
 
 	@Override protected void paintComponent(final Graphics g) {
