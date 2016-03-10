@@ -100,16 +100,16 @@ public class Starship extends GeneralVisibleEntity {
 		if (component == null) {
 			return null;
 		}
+		final float halfComponentWidth = 0.5f;
 		for (int col = 0; col < width; col++) {
 			for (int row = 0; row < width; row++) {
 				if (component.equals(components[col][row])) {
-					return new Point2D.Float(x + col, y + row);
+					return new Point2D.Float(x + col + halfComponentWidth, y + row + halfComponentWidth);
 				}
 			}
 		}
 		return null;
 	}
-
 
 	/**
 	 * Returns the ship component at the specified position.
