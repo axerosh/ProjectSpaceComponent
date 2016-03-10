@@ -10,7 +10,7 @@ import weaponry.projectiles.Projectile;
  * @see MissileProjectile
  * @see FiringOrder
  */
-public class MissileComponent extends AbstractWeaponComponent
+public class MissileComponent extends WeaponComponent
 {
 
 	public MissileComponent(final float integrity, final int rechargeTime) {

@@ -7,7 +7,8 @@ import ship_components.utility_components.ShieldComponent;
 import weaponry.Weapon;
 import weaponry.projectiles.Projectile;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -90,6 +91,25 @@ public class Starship extends GeneralVisibleEntity
 
 		components = new ShipComponent[width][height];
 	}
+
+	/**
+	 * @return the virtual position of the specified component; null if the component is null or not a part of this ship
+	 */
+	public Point2D.Float getPositionOf(ShipComponent component) {
+		if (component == null) {
+			return null;
+		}
+		for (int col = 0; col < width; col ++) {
+			for (int row = 0; row < width; row ++) {
+				if (component.equals(components[col][row])) {
+					return new Point2D.Float(x + col, y + row);
+				}
+			}
+		}
+		return null;
+	}
+
+
 
 	/**
 	 * Returns the ship component at the specified position.

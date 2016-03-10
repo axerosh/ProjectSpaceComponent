@@ -3,7 +3,8 @@ package game;
 import ship_components.ShipComponent;
 import weaponry.projectiles.Projectile;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,18 +48,49 @@ public class Battlefield extends GeneralVisibleEntity
 
 	}
 
-	public ShipComponent getComponentAt(final float vx, final float vy) {
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				return ship.getComponentAt(vx, vy);
+	/**
+	 * @return the virtual position of the specified component; null if the component is null or not on the battlefield.
+	 */
+	public Point2D.Float getPositionOf(ShipComponent component) {
+		if (component == null) {
+			return null;
+		}
+		for (Starship friendly : friendlyShips) {
+			Point2D.Float friendlyComponentPosition = friendly.getPositionOf(component);
+			if (friendlyComponentPosition != null) {
+				return friendlyComponentPosition;
 			}
 		}
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				return ship.getComponentAt(vx, vy);
+		for (Starship enemy : friendlyShips) {
+			Point2D.Float enemyComponentPosition = enemy.getPositionOf(component);
+			if (enemyComponentPosition != null) {
+				return enemyComponentPosition;
 			}
 		}
 		return null;
+	}
+
+	public Starship getShipAt(final float vx, final float vy) {
+		for (Starship friendly : friendlyShips) {
+			if (friendly.contains(vx, vy)) {
+				return friendly;
+			}
+		}
+		for (Starship enemy : friendlyShips) {
+			if (enemy.contains(vx, vy)) {
+				return enemy;
+			}
+		}
+		return null;
+	}
+
+	public ShipComponent getComponentAt(final float vx, final float vy) {
+		Starship targetShip = getShipAt(vx, vy);
+		if (targetShip != null) {
+			return targetShip.getComponentAt(vx, vy);
+		} else {
+			return null;
+		}
 	}
 
 	public void addFriendlyShip(final Starship ship) {

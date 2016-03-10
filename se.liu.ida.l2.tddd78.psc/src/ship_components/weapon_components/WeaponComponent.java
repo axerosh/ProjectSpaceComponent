@@ -12,14 +12,14 @@ import weaponry.projectiles.Projectile;
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class AbstractWeaponComponent extends AbstractShipComponent implements Weapon
+public abstract class WeaponComponent extends AbstractShipComponent implements Weapon
 {
 
 	protected FiringOrder firingOrder;
 	private int rechargeTime;
 	private int rechargeCounter;
 
-	protected AbstractWeaponComponent(final float integrity, final int rechargeTime) {
+	protected WeaponComponent(final float integrity, final int rechargeTime) {
 		super(integrity, true);
 		this.rechargeTime = rechargeTime;
 		rechargeCounter = 0;
