@@ -17,12 +17,14 @@ public interface Weapon
 
 	public void cancelFiringOrder();
 
+	public Projectile getProjectileToFire();
+
 	public boolean hasOrder();
 
 	public boolean canShoot();
 
 	public Projectile shoot();
 
-	public Projectile updateWeapon();
+	public void updateWeapon();
 
 }

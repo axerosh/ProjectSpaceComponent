@@ -36,7 +36,7 @@ public class Starship extends GeneralVisibleEntity
 	private List<ReactorComponent> reactorComponents;
 	private List<EngineComponent> engineComponents;
 	private List<Weapon> weapons;
-	private List<Projectile> firedProjectiles;
+	private List<Projectile> projectilesToFire;
 	private int shieldingPool;
 	private int usedShielding;
 	private int powerPool;
@@ -87,7 +87,7 @@ public class Starship extends GeneralVisibleEntity
 		reactorComponents = new ArrayList<>();
 		engineComponents = new ArrayList<>();
 		weapons = new ArrayList<>();
-		firedProjectiles = new ArrayList<>();
+		projectilesToFire = new ArrayList<>();
 
 		components = new ShipComponent[width][height];
 	}
@@ -190,8 +190,8 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * Updates the ships status by going through its components.
 	 */
-	public Collection<Projectile> update() {
-		firedProjectiles = new ArrayList<>();
+	public void update() {
+		projectilesToFire.clear();
 		updatePools();
 		updateShields();
 		for (ShipComponent[] scArray : components) {
@@ -202,14 +202,17 @@ public class Starship extends GeneralVisibleEntity
 			}
 		}
 		for (Weapon wc : weapons) {
-			Projectile p = wc.updateWeapon();
+			wc.updateWeapon();
+			Projectile p = wc.getProjectileToFire();
 			if (p != null) {
-				firedProjectiles.add(p);
+				projectilesToFire.add(p);
 			}
 		}
-		return firedProjectiles;
 	}
 
+	public List<Projectile> getProjectilesToFire() {
+		return projectilesToFire;
+	}
 
 	/**
 	 * Updates all the ShieldComponents

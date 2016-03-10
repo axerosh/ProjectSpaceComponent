@@ -14,7 +14,14 @@ public class EngineComponent extends UtilityComponent
 		super(integrity, dodgePercentage);
 	}
 
-	@Override public void update() {}
+	@Override public void update() {
+		if(getPower() == 0){
+			setOutput(0);
+		}else{
+			setOutput((int)(getPower()*1.5) + 6);
+		}
+
+	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.RED);
