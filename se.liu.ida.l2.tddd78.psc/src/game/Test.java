@@ -20,17 +20,20 @@ public final class Test {
 
 	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
+
+		final int team1 = 0;
+		final int team2 = 1;
+
 		Starship playerShip = new Starship(1, 1, 5, 5);
 		initShip(playerShip);
+		arena.addShip(playerShip, team1);
+
 		Starship enemyShip = new Starship(7, 1, 5, 5);
 		initShip(enemyShip);
-
-		arena.addFriendlyShip(playerShip);
-		arena.addEnemyShip(enemyShip);
+		arena.addShip(enemyShip, team2);
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
-
 		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer);
 
 		JFrame frame = new PSCFrame();
@@ -43,8 +46,8 @@ public final class Test {
 
 		boolean running = true;
 		int tick = 0;
-
 		final int runTime = 60;
+
 		while (running) {
 			arena.update();
 			try {

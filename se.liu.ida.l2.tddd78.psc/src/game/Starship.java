@@ -41,6 +41,8 @@ public class Starship extends GeneralVisibleEntity {
 	private int powerPool;
 	private int usedPower;
 	private int numberOfComponents;
+	private int team;
+
 	/**
 	 * The dodge rate of this ship. The rate of which projectiles will miss the ship.
 	 *
@@ -387,6 +389,14 @@ public class Starship extends GeneralVisibleEntity {
 		} else {
 			return false;
 		}
+	}
+
+	public int getTeam() {
+		return team;
+	}
+
+	public void setTeam(final int team) {
+		this.team = team;
 	}
 
 	public void registerShieldComponent(final ShieldComponent shield) {

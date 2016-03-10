@@ -29,9 +29,7 @@ public class BasicAI {
 		Starship targetShip;
 		ShipComponent targetComponent;
 		for (Projectile p : projetilesToFire) {
-			targetShip = field.getRandomFriendlyShip();
-
-
+			targetShip = field.getRandomShipOfTeam(aiShip.getTeam());
 		}
 	}
 

@@ -18,28 +18,28 @@ import java.util.Set;
  */
 public class Battlefield extends GeneralVisibleEntity {
 
-	private final List<Starship> friendlyShips;
-	private final List<Starship> enemyShips;
+	private final List<List<Starship>> teams;
 	private final Set<Projectile> projectiles;
 	private Random rng;
 
 	public Battlefield() {
 		rng = new Random();
 
-		friendlyShips = new ArrayList<>();
-		enemyShips = new ArrayList<>();
+		teams = new ArrayList<>();
+		teams.add(new ArrayList<>());
+		teams.add(new ArrayList<>());
 		projectiles = new HashSet<>();
 	}
 
 	public void update() {
 		updateProjectiles();
-		for (Starship ship : friendlyShips) {
-			ship.update();
-			addProjectiles(ship.getProjectilesToFire());
+		for (List<Starship> team : teams) {
+			for (Starship ship : team) {
+				ship.update();
+				addProjectiles(ship.getProjectilesToFire());
+			}
 		}
-
 	}
-
 	private void updateProjectiles() {
 		Collection<Projectile> projectilesToRemove = new ArrayList<>();
 		for (Projectile p : projectiles) {
@@ -56,14 +56,11 @@ public class Battlefield extends GeneralVisibleEntity {
 	}
 
 	public Starship getShipAt(final float vx, final float vy) {
-		for (Starship friendly : friendlyShips) {
-			if (friendly.contains(vx, vy)) {
-				return friendly;
-			}
-		}
-		for (Starship enemy : enemyShips) {
-			if (enemy.contains(vx, vy)) {
-				return enemy;
+		for (List<Starship> team : teams) {
+			for (Starship ship : team) {
+				if (ship.contains(vx, vy)) {
+					return ship;
+				}
 			}
 		}
 		return null;
@@ -80,26 +77,49 @@ public class Battlefield extends GeneralVisibleEntity {
 		}
 	}
 
-	public void addFriendlyShip(final Starship ship) {
-		friendlyShips.add(ship);
+	/**
+	 * Adds the specified ship to the specified team.
+	 *
+	 * @param team team number from 0 to number of teams - 1
+	 *
+	 * @return false if failed
+	 * @see #getNumberOfTeams
+	 */
+	public boolean addShip(final Starship ship, final int team) {
+		if (team >= teams.size()) {
+			return false;
+		} else {
+			teams.get(team).add(ship);
+			ship.setTeam(team);
+			return true;
+		}
 	}
 
-	public void addEnemyShip(final Starship ship) {
-		enemyShips.add(ship);
+	/**
+	 * Adds an addition team.
+	 */
+	public void addTeam() {
+		teams.add(new ArrayList<>());
+	}
+
+	public int getNumberOfTeams() {
+		return teams.size();
 	}
 
 	public void addProjectiles(final Collection<Projectile> projectiles) {
 		this.projectiles.addAll(projectiles);
 	}
 
-	public Starship getRandomFriendlyShip() {
-		return friendlyShips.get(rng.nextInt(friendlyShips.size()));
+	public Starship getRandomShipOfTeam(final int teamNumber) {
+		if (teamNumber >= teams.size()) {
+			throw new IllegalArgumentException(teamNumber + ": No such team!");
+		}
+		List<Starship> team = teams.get(teamNumber);
+		if (team.isEmpty()) {
+			return null;
+		}
+		return team.get(rng.nextInt(team.size()));
 	}
-
-	public Starship getRandomEnemyShip() {
-		return friendlyShips.get(rng.nextInt(enemyShips.size()));
-	}
-
 	/**
 	 * Draws this battlefield with the specified scaling.
 	 *
@@ -107,11 +127,10 @@ public class Battlefield extends GeneralVisibleEntity {
 	 * @param scale the scale with which to scale virtual positions to get on-screen positions
 	 */
 	public void draw(final Graphics g, final float scale) {
-		for (Starship friendly : friendlyShips) {
-			friendly.draw(g, scale);
-		}
-		for (Starship enemy : enemyShips) {
-			enemy.draw(g, scale);
+		for (List<Starship> team : teams) {
+			for (Starship ship : team) {
+				ship.draw(g, scale);
+			}
 		}
 		synchronized (projectiles) {
 			for (Projectile projectile : projectiles) {
