@@ -1,14 +1,15 @@
 package game;
 
+import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
 import ship_components.utility_components.EngineComponent;
 import ship_components.utility_components.ReactorComponent;
 import ship_components.utility_components.ShieldComponent;
-import ship_components.weapon_components.WeaponComponent;
 import ship_components.weapon_components.MissileComponent;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 /**
  * Class for testing the game.
@@ -44,7 +45,7 @@ public final class Test
 		boolean running = true;
 		int tick = 0;
 
-		final int runTime = 3*60;
+		final int runTime = 60;
 		while (running) {
 			arena.update();
 			try {
@@ -53,14 +54,7 @@ public final class Test
 				e.printStackTrace();
 			}
 
-			/*if (tick == 1) {
-				missileComponent.giveFiringOrder(new FiringOrder(1, 2, 3, 3, playerShip));
-				System.out.println("Firing order has been given");
-
-			} else if (tick == 2) {
-				missileComponent.increasePower();
-				System.out.println("Shot should be fired");
-			} else*/ if (tick == runTime) {
+			if (tick == runTime) {
 				running = false;
 			}
 			gameDisplayer.repaint();
@@ -82,8 +76,7 @@ public final class Test
 		starship.setComponent(new EngineComponent(componentIntegrity, engineOutput), 2, 0);
 		starship.setComponent(new EngineComponent(componentIntegrity, engineOutput), 3, 0);
 
-		WeaponComponent missileComponent = new MissileComponent(componentIntegrity, missileRechargeTime);
-		starship.setComponent(missileComponent, 0, 1);
+		starship.setComponent(new MissileComponent(componentIntegrity, missileRechargeTime), 0, 1);
 		starship.setComponent(new ShieldComponent(componentIntegrity, shieldOutput), 1, 1);
 		starship.setComponent(new ShieldComponent(componentIntegrity, shieldOutput), 2, 1);
 		starship.setComponent(new ShieldComponent(componentIntegrity, shieldOutput), 3, 1);

@@ -2,7 +2,8 @@ package ship_components.utility_components;
 
 import game.Starship;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A utility components that contributes with dodge rate.
@@ -15,10 +16,12 @@ public class EngineComponent extends UtilityComponent
 	}
 
 	@Override public void update() {
-		if(getPower() == 0){
+		if (getPower() == 0) {
 			setOutput(0);
-		}else{
-			setOutput((int)(getPower()*1.5) + 6);
+		} else {
+			final float outputPerPower = 1.5f;
+			final int baseOutput = 6;
+			setOutput((int) (getPower() * outputPerPower) + baseOutput);
 		}
 
 	}

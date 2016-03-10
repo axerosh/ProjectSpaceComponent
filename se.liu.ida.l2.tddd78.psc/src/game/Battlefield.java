@@ -3,12 +3,13 @@ package game;
 import ship_components.ShipComponent;
 import weaponry.projectiles.Projectile;
 
-import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * An area for two teams of starships to battle each other.
@@ -20,16 +21,16 @@ public class Battlefield extends GeneralVisibleEntity
 
 	private Random rng;
 
-	private List<Starship> friendlyShips;
-	private List<Starship> enemyShips;
-	private List<Projectile> projectiles;
+	private final List<Starship> friendlyShips;
+	private final List<Starship> enemyShips;
+	private final Set<Projectile> projectiles;
 
 	public Battlefield() {
 		rng = new Random();
 
 		friendlyShips = new ArrayList<>();
 		enemyShips = new ArrayList<>();
-		projectiles = new ArrayList<>();
+		projectiles = new HashSet<>();
 	}
 
 	public void update() {
@@ -49,32 +50,11 @@ public class Battlefield extends GeneralVisibleEntity
 				projectilesToRemove.add(p);
 			}
 		}
-		for (Projectile p : projectilesToRemove) {
-			projectiles.remove(p);
-		}
-
-	}
-
-	/**
-	 * @return the virtual position of the specified component; null if the component is null or not on the battlefield.
-	 */
-	public Point2D.Float getPositionOf(ShipComponent component) {
-		if (component == null) {
-			return null;
-		}
-		for (Starship friendly : friendlyShips) {
-			Point2D.Float friendlyComponentPosition = friendly.getPositionOf(component);
-			if (friendlyComponentPosition != null) {
-				return friendlyComponentPosition;
+		synchronized (projectiles) {
+			for (Projectile p : projectilesToRemove) {
+				projectiles.remove(p);
 			}
 		}
-		for (Starship enemy : friendlyShips) {
-			Point2D.Float enemyComponentPosition = enemy.getPositionOf(component);
-			if (enemyComponentPosition != null) {
-				return enemyComponentPosition;
-			}
-		}
-		return null;
 	}
 
 	public Starship getShipAt(final float vx, final float vy) {
@@ -83,7 +63,7 @@ public class Battlefield extends GeneralVisibleEntity
 				return friendly;
 			}
 		}
-		for (Starship enemy : friendlyShips) {
+		for (Starship enemy : enemyShips) {
 			if (enemy.contains(vx, vy)) {
 				return enemy;
 			}
@@ -94,8 +74,10 @@ public class Battlefield extends GeneralVisibleEntity
 	public ShipComponent getComponentAt(final float vx, final float vy) {
 		Starship targetShip = getShipAt(vx, vy);
 		if (targetShip != null) {
+			System.out.println("Ship");
 			return targetShip.getComponentAt(vx, vy);
 		} else {
+			System.out.println("No ship");
 			return null;
 		}
 	}
@@ -133,8 +115,10 @@ public class Battlefield extends GeneralVisibleEntity
 		for (Starship enemy : enemyShips) {
 			enemy.draw(g, scale);
 		}
-		for (Projectile projectile : projectiles) {
-			projectile.draw(g, scale);
+		synchronized (projectiles) {
+			for (Projectile projectile : projectiles) {
+				projectile.draw(g, scale);
+			}
 		}
 	}
 }

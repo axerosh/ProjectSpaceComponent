@@ -1,18 +1,18 @@
-package ai;
+package control;
 
 import game.Battlefield;
 import game.Starship;
 import ship_components.ShipComponent;
 import weaponry.projectiles.Projectile;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 public class BasicAI {
 	private Battlefield field;
-	Starship aiShip;
+	private Starship aiShip;
 	private List<Projectile> projetilesToFire;
 	private Random random;
 

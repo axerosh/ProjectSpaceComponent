@@ -7,8 +7,8 @@ import ship_components.utility_components.ShieldComponent;
 import weaponry.Weapon;
 import weaponry.projectiles.Projectile;
 
-import java.awt.geom.Point2D;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -210,7 +210,7 @@ public class Starship extends GeneralVisibleEntity
 		}
 	}
 
-	public List<Projectile> getProjectilesToFire() {
+	public Collection<Projectile> getProjectilesToFire() {
 		return projectilesToFire;
 	}
 

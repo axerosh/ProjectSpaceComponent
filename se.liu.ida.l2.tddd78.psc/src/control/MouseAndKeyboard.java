@@ -1,17 +1,22 @@
-package game;
+package control;
 
+import game.Battlefield;
+import game.Starship;
 import graphics.GameDisplayer;
 import ship_components.ShipComponent;
 import ship_components.weapon_components.WeaponComponent;
 import weaponry.FiringOrder;
 
-import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
+/**
+ * Mouse and Keyboard input for controlling a ship.
+ */
 public class MouseAndKeyboard extends JComponent {
 
 	private Battlefield battlefield;
@@ -23,6 +28,7 @@ public class MouseAndKeyboard extends JComponent {
 		this.battlefield = battlefield;
 		this.controlledShip = controlledShip;
 		this.gameDisplayer = gameDisplayer;
+		selectedWeapon = null;
 		addMouseListener(new MouseAndKeyboardListener());
 		addKeyListener(new MouseAndKeyboardListener());
 	}
@@ -40,10 +46,18 @@ public class MouseAndKeyboard extends JComponent {
 				} else {
 					manageActivation(e, clickedLocalComponent);
 				}
-			} else {
+			} else if (selectedWeapon != null) {
 				ShipComponent clickedGlobalComponent = battlefield.getComponentAt(gameDisplayer.getVirtualX(e.getX()),
 																				  gameDisplayer.getVirtualY(e.getY()));
-				manageTargeting(e, clickedGlobalComponent );
+
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					if (clickedGlobalComponent != null) {
+						manageTargeting(e, clickedGlobalComponent);
+					}
+
+				} else if (e.getButton() == MouseEvent.BUTTON3) {
+					selectedWeapon = null;
+				}
 			}
 		}
 

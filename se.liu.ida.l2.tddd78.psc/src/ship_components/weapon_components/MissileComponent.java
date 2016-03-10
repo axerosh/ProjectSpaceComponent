@@ -18,9 +18,15 @@ public class MissileComponent extends WeaponComponent
 	}
 
 	@Override public Projectile shoot() {
+		final float damagePerPower = 0.5f;
+		final int baseDamage = 1;
+
+		final float blastRadiusPerPower = 0.25f;
+		final float baseBlastDamage = 2.5f;
+
 		int velocity = 1;
-		int damage = 1 + (getPower()/2);
-		int blastRadius = (int)(2.5 + (getPower()/4));
+		int damage = baseDamage + (int) (getPower() * damagePerPower);
+		int blastRadius = (int) (baseBlastDamage + getPower() * blastRadiusPerPower);
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
 									 firingOrder.getTargetY(), velocity, firingOrder.getTargetShip(), damage, blastRadius);
 	}

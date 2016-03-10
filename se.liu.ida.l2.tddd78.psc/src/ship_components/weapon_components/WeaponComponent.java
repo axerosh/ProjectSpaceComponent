@@ -58,13 +58,6 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	}
 
 	/**
-	 * Cancel the standing firingOrder of the weapon.
-	 */
-	@Override public void cancelFiringOrder() {
-		firingOrder = null;
-	}
-
-	/**
 	 * @return true if an firingOrder exists.
 	 */
 	@Override public boolean hasOrder() {

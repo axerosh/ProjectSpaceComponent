@@ -2,7 +2,8 @@ package ship_components.utility_components;
 
 import game.Starship;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A utility components that contributes with power.
@@ -15,7 +16,8 @@ public class ShieldComponent extends UtilityComponent
 	}
 
 	@Override public void update() {
-		setOutput(getPower() * 2);
+		final int outputPerPower = 2;
+		setOutput(getPower() * outputPerPower);
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
