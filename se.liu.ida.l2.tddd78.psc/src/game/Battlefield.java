@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 /**
  * An area for two teams of starships to battle each other.
@@ -16,11 +17,15 @@ import java.util.List;
 public class Battlefield extends GeneralVisibleEntity
 {
 
+	private Random rng;
+
 	private List<Starship> friendlyShips;
 	private List<Starship> enemyShips;
 	private List<Projectile> projectiles;
 
 	public Battlefield() {
+		rng = new Random();
+
 		friendlyShips = new ArrayList<>();
 		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
@@ -73,6 +78,14 @@ public class Battlefield extends GeneralVisibleEntity
 
 	public void addProjectiles(final Collection<Projectile> projectiles) {
 		this.projectiles.addAll(projectiles);
+	}
+
+	public Starship getRandomFriendlyShip(){
+		return friendlyShips.get(rng.nextInt(friendlyShips.size()));
+	}
+
+	public Starship getRandomEnemyShip(){
+			return friendlyShips.get(rng.nextInt(enemyShips.size()));
 	}
 
 	/**
