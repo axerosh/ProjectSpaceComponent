@@ -218,7 +218,7 @@ public class Starship extends GeneralVisibleEntity
 
 		dodgeRate = 0;
 		for (EngineComponent ec : engineComponents) {
-			dodgeRate += ec.getOutput() / (float)100;
+			dodgeRate += ec.getOutput() / (float) 100;
 		}
 
 		dodgeRate -= numberOfComponents * COMPONENT_WEIGHT;
