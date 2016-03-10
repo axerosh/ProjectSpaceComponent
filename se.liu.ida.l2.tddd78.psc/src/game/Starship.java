@@ -171,7 +171,7 @@ public class Starship extends GeneralVisibleEntity
 	 * Updates the ships status by going through its components.
 	 */
 	public void update() {
-		projectilesToFire = new ArrayList<>();
+		projectilesToFire.clear();
 		updatePools();
 		updateShields();
 		for (ShipComponent[] scArray : components) {
