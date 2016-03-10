@@ -11,7 +11,8 @@ import java.awt.*;
  *
  * @see Starship
  */
-public interface ShipComponent extends VisibleEntity {
+public interface ShipComponent extends VisibleEntity
+{
 
 	/**
 	 * Damages this ship component by reducing its HP by the specified number of hit points.
@@ -69,8 +70,8 @@ public interface ShipComponent extends VisibleEntity {
 	public void registerOwner(final Starship owner);
 
 	/**
-	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
-	 * the registered ship. If shielding is increased, drains the shielding pool of the ship.
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
+	 * registered ship. If shielding is increased, drains the shielding pool of the ship.
 	 *
 	 * @see #registerOwner
 	 */
@@ -102,7 +103,6 @@ public interface ShipComponent extends VisibleEntity {
 
 	/**
 	 * @return true if needs target for activation effect.
-	 *
 	 * @see #activate()
 	 * @see #registerOwner
 	 */

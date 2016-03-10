@@ -14,7 +14,8 @@ import javax.swing.*;
 /**
  * Class for testing the game.
  */
-public final class Test {
+public final class Test
+{
 
 	private Test() {}
 

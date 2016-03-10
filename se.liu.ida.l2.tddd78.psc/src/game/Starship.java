@@ -18,9 +18,11 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class Starship extends GeneralVisibleEntity {
+public class Starship extends GeneralVisibleEntity
+{
 
 
+	private final static float COMPONENT_WEIGHT = 3.5f;
 	/**
 	 * Random Number Generator
 	 */
@@ -39,8 +41,6 @@ public class Starship extends GeneralVisibleEntity {
 	private int powerPool;
 	private int usedPower;
 	private int numberOfComponents;
-	private final static float COMPONENT_WEIGHT = 3.5f;
-
 	/**
 	 * The dodge rate of this ship. The rate of which projectiles will miss the ship.
 	 *
@@ -150,19 +150,19 @@ public class Starship extends GeneralVisibleEntity {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
 		}
-	    	boolean isSomethingThere = getComponentAt(col, row) != null;
+		boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {
 			component.registerOwner(this);
 			for (VisibleEntityListener listener : visibleEntityListeners) {
 				component.addVisibleEntityListener(listener);
 			}
-		    if(!isSomethingThere){
-			numberOfComponents++;
-		    }
-		}else{
-		    if(isSomethingThere){
-			numberOfComponents--;
-		    }
+			if (!isSomethingThere) {
+				numberOfComponents++;
+			}
+		} else {
+			if (isSomethingThere) {
+				numberOfComponents--;
+			}
 		}
 		components[col][row] = component;
 

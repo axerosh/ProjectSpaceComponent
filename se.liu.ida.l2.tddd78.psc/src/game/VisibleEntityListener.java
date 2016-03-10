@@ -5,7 +5,8 @@ package game;
  *
  * @see #visualUpdateRequested()
  */
-public interface VisibleEntityListener {
+public interface VisibleEntityListener
+{
 
 	/**
 	 * Is invoked when a VisibleEntity requests a visual update.

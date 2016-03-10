@@ -10,7 +10,8 @@ import java.awt.*;
  * A generalship component. Handles general ship component functionality including integrity, shielding and power as well as
  * graphical projection of itself and some of its stats.
  */
-public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent {
+public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent
+{
 
 	/**
 	 * The maximum level of shielding a ship component may recieve.
@@ -37,8 +38,9 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	/**
 	 * Construcs an abstract ship component with the specified maximum HP.
 	 *
-	 * @param integrity the damage the ship component can take before it is destroyed
+	 * @param integrity   the damage the ship component can take before it is destroyed
 	 * @param needsTarget set to true if the components activation requires a target.
+	 *
 	 * @see #activate()
 	 */
 	protected AbstractShipComponent(final float integrity, final boolean needsTarget) {
@@ -119,9 +121,9 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	}
 
 	/**
-	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
-	 * the registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual update if
-	 * shielding was increased.
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
+	 * registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual update if shielding
+	 * was increased.
 	 *
 	 * @see #registerOwner
 	 */

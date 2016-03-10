@@ -5,7 +5,8 @@ import ship_components.AbstractShipComponent;
 /**
  * A ship component with an output.
  */
-public abstract class UtilityComponent extends AbstractShipComponent {
+public abstract class UtilityComponent extends AbstractShipComponent
+{
 
 	private int output;
 

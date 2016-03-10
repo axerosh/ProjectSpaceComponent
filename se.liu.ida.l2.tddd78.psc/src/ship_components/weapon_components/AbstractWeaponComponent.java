@@ -12,7 +12,8 @@ import weaponry.projectiles.Projectile;
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class AbstractWeaponComponent extends AbstractShipComponent implements Weapon {
+public abstract class AbstractWeaponComponent extends AbstractShipComponent implements Weapon
+{
 
 	protected FiringOrder firingOrder;
 	private int rechargeTime;

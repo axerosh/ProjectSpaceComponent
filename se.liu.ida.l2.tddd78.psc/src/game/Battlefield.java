@@ -13,7 +13,8 @@ import java.util.List;
  *
  * @see Starship
  */
-public class Battlefield extends GeneralVisibleEntity {
+public class Battlefield extends GeneralVisibleEntity
+{
 
 	private List<Starship> friendlyShips;
 	private List<Starship> enemyShips;

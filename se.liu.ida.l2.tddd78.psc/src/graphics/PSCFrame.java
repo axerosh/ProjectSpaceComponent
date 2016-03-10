@@ -13,7 +13,8 @@ import java.awt.event.MouseEvent;
 /**
  * JFrame extension that displays and handles input for a game.
  */
-public class PSCFrame extends JFrame {
+public class PSCFrame extends JFrame
+{
 
 	private Battlefield battlefield;
 	private GameDisplayer gameDisplayer;
@@ -32,14 +33,16 @@ public class PSCFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
-	private class MouseAndKeyboardHandler extends JComponent {
+	private class MouseAndKeyboardHandler extends JComponent
+	{
 
 		protected MouseAndKeyboardHandler() {
 			addMouseListener(new MouseAndKeyboardListener());
 			addKeyListener(new MouseAndKeyboardListener());
 		}
 
-		private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener {
+		private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
+		{
 
 			@Override public void mouseClicked(final MouseEvent e) {
 				ShipComponent clickedComponent =

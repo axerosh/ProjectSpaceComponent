@@ -3,13 +3,13 @@ package weaponry.projectiles;
 import game.Starship;
 import ship_components.ShipComponent;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A general projectile that ill move towards a target and inflict damage.
  */
-public class AbstractProjectile implements Projectile {
+public class AbstractProjectile implements Projectile
+{
 
 	private float selfX, selfY;
 	private float targetX, targetY;
@@ -21,7 +21,8 @@ public class AbstractProjectile implements Projectile {
 
 	public AbstractProjectile(final float selfX, final float selfY, final float targetX, final float targetY,
 							  final float velocity, final Starship targetShip, final float damageOnImpact,
-							  final int blastRadius) {
+							  final int blastRadius)
+	{
 		this.selfX = selfX;
 		this.selfY = selfY;
 		this.targetX = targetX;
