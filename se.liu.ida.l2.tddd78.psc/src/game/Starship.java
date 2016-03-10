@@ -22,7 +22,7 @@ public class Starship extends GeneralVisibleEntity
 {
 
 
-	private final static float COMPONENT_WEIGHT = 3.5f;
+	private final static float COMPONENT_WEIGHT = 0.035f;
 	/**
 	 * Random Number Generator
 	 */
@@ -117,8 +117,7 @@ public class Starship extends GeneralVisibleEntity
 	 * @return true if an attcked missed
 	 */
 	public boolean successfullyDodged() {
-		int maximumRateNeededToDodge = 100;
-		return rng.nextDouble() * maximumRateNeededToDodge < dodgeRate;
+		return rng.nextDouble() < dodgeRate;
 	}
 
 
@@ -214,13 +213,12 @@ public class Starship extends GeneralVisibleEntity
 		powerPool = 0;
 		for (ReactorComponent rc : reactorComponents) {
 			powerPool += rc.getOutput();
-			System.out.println("Reactor power: " + rc.getOutput());
 		}
 		stripPower();
 
 		dodgeRate = 0;
 		for (EngineComponent ec : engineComponents) {
-			dodgeRate += ec.getOutput();
+			dodgeRate += ec.getOutput() / (float)100;
 		}
 
 		dodgeRate -= numberOfComponents * COMPONENT_WEIGHT;
