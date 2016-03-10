@@ -2,8 +2,7 @@ package ship_components.utility_components;
 
 import game.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility components that contributes with dodge rate.
@@ -20,7 +19,8 @@ public class EngineComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.RED);
 	}
 
-	@Override public void registerFunctionality(final Starship ship) {
-		ship.registerEngineComponent(this);
+	@Override public void registerOwner(final Starship owner) {
+		super.registerOwner(owner);
+		owner.registerEngineComponent(this);
 	}
 }

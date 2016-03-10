@@ -3,7 +3,7 @@ package game;
 import ship_components.ShipComponent;
 import weaponry.projectiles.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,84 +58,6 @@ public class Battlefield extends GeneralVisibleEntity {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * @return the ShipComponent that is activated
-	 */
-	public ShipComponent activateComponentAt(final float vx, final float vy) {
-		ShipComponent selectedComponent = getComponentAt(vx, vy);
-		if (selectedComponent != null) {
-			selectedComponent.activate();
-		}
-		return selectedComponent;
-	}
-
-	public void deactivateComponentAt(final float vx, final float vy) {
-		ShipComponent selectedComponent = getComponentAt(vx, vy);
-		if (selectedComponent != null) {
-			selectedComponent.deactivate();
-		}
-	}
-
-	public void increaseShieldingOfShipAt(final float vx, final float vy) {
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.increaseShieldingOfComponentAt(vx, vy);
-				return;
-			}
-		}
-		for (Starship ship : enemyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.increaseShieldingOfComponentAt(vx, vy);
-				return;
-			}
-		}
-	}
-
-	public void decreaseShieldingOfShipAt(final float vx, final float vy) {
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.decreaseShieldingOfComponentAt(vx, vy);
-				return;
-			}
-		}
-		for (Starship ship : enemyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.decreaseShieldingOfComponentAt(vx, vy);
-				return;
-			}
-		}
-	}
-
-	public void increasePowerOfShipAt(final float vx, final float vy) {
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.increasePowerOfComponentAt(vx, vy);
-				return;
-			}
-		}
-		for (Starship ship : enemyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.increasePowerOfComponentAt(vx, vy);
-				return;
-			}
-		}
-	}
-
-	public void decreasePowerOfShipAt(final float vx, final float vy) {
-		for (Starship ship : friendlyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.decreasePowerOfComponentAt(vx, vy);
-				return;
-			}
-		}
-		for (Starship ship : enemyShips) {
-			if (ship.contains(vx, vy)) {
-				ship.decreasePowerOfComponentAt(vx, vy);
-				return;
-			}
-		}
 	}
 
 	public void addFriendlyShip(final Starship ship) {

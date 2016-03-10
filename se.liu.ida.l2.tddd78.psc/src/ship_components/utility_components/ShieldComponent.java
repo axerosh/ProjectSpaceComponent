@@ -2,8 +2,7 @@ package ship_components.utility_components;
 
 import game.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility components that contributes with power.
@@ -22,7 +21,8 @@ public class ShieldComponent extends UtilityComponent {
 		draw(g, scale, virtualX, virtualY, Color.CYAN);
 	}
 
-	@Override public void registerFunctionality(final Starship ship) {
-		ship.registerShieldComponent(this);
+	@Override public void registerOwner(final Starship owner) {
+		super.registerOwner(owner);
+		owner.registerShieldComponent(this);
 	}
 }

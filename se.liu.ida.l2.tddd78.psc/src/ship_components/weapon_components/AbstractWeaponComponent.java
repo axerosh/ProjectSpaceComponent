@@ -72,7 +72,8 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 		return rechargeCounter > rechargeTime && isIntact() && hasPower();
 	}
 
-	@Override public void registerFunctionality(final Starship ship) {
-		ship.registerWeaponComponent(this);
+	@Override public void registerOwner(final Starship owner) {
+		super.registerOwner(owner);
+		owner.registerWeaponComponent(this);
 	}
 }

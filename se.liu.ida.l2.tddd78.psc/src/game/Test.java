@@ -9,7 +9,7 @@ import ship_components.weapon_components.AbstractWeaponComponent;
 import ship_components.weapon_components.MissileComponent;
 import weaponry.FiringOrder;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Class for testing the game.
@@ -63,6 +63,8 @@ public final class Test {
 
 		boolean running = true;
 		int tick = 0;
+
+		final int runTime = 60;
 		while (running) {
 			arena.update();
 			try {
@@ -78,7 +80,7 @@ public final class Test {
 			} else if (tick == 2) {
 				missileComponent.increasePower();
 				System.out.println("Shot should be fired");
-			} else if (tick == 9) {
+			} else if (tick == runTime) {
 				running = false;
 			}
 			gameDisplayer.repaint();

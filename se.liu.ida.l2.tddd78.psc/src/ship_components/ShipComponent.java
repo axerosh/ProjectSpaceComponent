@@ -3,7 +3,7 @@ package ship_components;
 import game.Starship;
 import game.VisibleEntity;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
@@ -61,44 +61,50 @@ public interface ShipComponent extends VisibleEntity {
 	public boolean isActive();
 
 	/**
-	 * Registers this component with the specified ship, indicating it's functionality.
+	 * Registers this component with the specified ship, indicating that the component is a part of the specified ship and
+	 * registers special ship component type functionality with the ship.
 	 *
-	 * @param ship the ship with which this component is registered.
+	 * @param owner the ship with which this component is registered.
 	 */
-	public void registerFunctionality(Starship ship);
+	public void registerOwner(final Starship owner);
 
 	/**
-	 * Increases shielding unless it is at maximum capacity.
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
+	 * the registered ship. If shielding is increased, drains the shielding pool of the ship.
 	 *
-	 * @return true if shielding was increased, false if it was not
+	 * @see #registerOwner
 	 */
-	public boolean increaseShielding();
+	public void increaseShielding();
 
 	/**
-	 * Decreases shielding unless it is at minimum capacity.
+	 * Increases power unless it is at maximum capacity or if there is no registered ship or no available power from the
+	 * registered ship. If power is increased, drains the shielding pool of the ship.
 	 *
-	 * @return true if shielding was decreased, false if it was not
+	 * @see #registerOwner
 	 */
-	public boolean decreaseShielding();
+	public void increasePower();
 
 	/**
-	 * Increases power unless it is at maximum capacity.
+	 * Decreases shielding unless it is at minimum capacity. If shielding is decreased, lets loose power to the shielding pool
+	 * of the registered ship.
 	 *
-	 * @return true if power was increased, false if it was not
+	 * @see #registerOwner
 	 */
-	public boolean increasePower();
+	public void decreaseShielding();
 
 	/**
-	 * Decreases power unless it is at minimum capacity.
+	 * Decreases power unless it is at minimum capacity. If Power is decreased, lets loose power to the power pool of the
+	 * registered ship.
 	 *
-	 * @return true if power was decreased, false if it was not
+	 * @see #registerOwner
 	 */
-	public boolean decreasePower();
+	public void decreasePower();
 
 	/**
 	 * @return true if needs target for activation effect.
 	 *
 	 * @see #activate()
+	 * @see #registerOwner
 	 */
 	public boolean needsTarget();
 }

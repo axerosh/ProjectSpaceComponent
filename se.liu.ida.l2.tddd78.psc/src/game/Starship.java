@@ -7,7 +7,7 @@ import ship_components.utility_components.ShieldComponent;
 import weaponry.Weapon;
 import weaponry.projectiles.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -140,7 +140,7 @@ public class Starship extends GeneralVisibleEntity {
 	}
 
 	/**
-	 * Adds the specified component at the specified position.
+	 * Adds the specified component at the specified position. Registers the component with this ship.
 	 *
 	 * @param component the component to add
 	 * @param col       column in which to add the component
@@ -152,7 +152,7 @@ public class Starship extends GeneralVisibleEntity {
 		}
 	    	boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {
-			component.registerFunctionality(this);
+			component.registerOwner(this);
 			for (VisibleEntityListener listener : visibleEntityListeners) {
 				component.addVisibleEntityListener(listener);
 			}
@@ -305,51 +305,68 @@ public class Starship extends GeneralVisibleEntity {
 			   y >= this.y && y <= this.y + this.height;
 	}
 
-	private boolean hasFreeShielding() {
+	public boolean hasFreeShielding() {
 		return usedShielding < shieldingPool;
 	}
 
-	private boolean hasFreePower() {
+	public boolean hasFreePower() {
 		return usedPower < powerPool;
 	}
 
-	public void increaseShieldingOfComponentAt(final float vx, final float vy) {
-		ShipComponent target = getComponentAt(vx, vy);
-		if (target != null) {
-			if (hasFreeShielding()) {
-				if (target.increaseShielding()) {
-					usedShielding++;
-				}
-			}
+	/**
+	 * Tries to increase shielding usage.
+	 *
+	 * @return true if successfull
+	 */
+	public boolean increaseShieldingUsage() {
+		if (usedShielding < shieldingPool) {
+			usedShielding++;
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	public void decreaseShieldingOfComponentAt(final float vx, final float vy) {
-		ShipComponent target = getComponentAt(vx, vy);
-		if (target != null) {
-			if (target.decreaseShielding()) {
-				usedShielding--;
-			}
+	/**
+	 * Tries to increase power usage.
+	 *
+	 * @return true if successfull
+	 */
+	public boolean increasePowerUsage() {
+		if (usedPower < powerPool) {
+			usedPower++;
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	public void increasePowerOfComponentAt(final float vx, final float vy) {
-		ShipComponent target = getComponentAt(vx, vy);
-		if (target != null) {
-			if (hasFreePower()) {
-				if (target.increasePower()) {
-					usedPower++;
-				}
-			}
+	/**
+	 * Tries to decrease shielding usage.
+	 *
+	 * @return true if successfull
+	 */
+	public boolean decreaseShieldingUsage() {
+		if (usedShielding > 0) {
+			usedShielding--;
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	public void decreasePowerOfComponentAt(final float vx, final float vy) {
-		ShipComponent target = getComponentAt(vx, vy);
-		if (target != null) {
-			if (target.decreasePower()) {
-				usedPower--;
-			}
+	/**
+	 * Tries to decrease power usage.
+	 *
+	 * @return true if successfull
+	 */
+
+	public boolean decreasePowerUsage() {
+		if (usedPower > 0) {
+			usedPower--;
+			return true;
+		} else {
+			return false;
 		}
 	}
 

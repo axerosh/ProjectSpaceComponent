@@ -1,10 +1,10 @@
 package ship_components;
 
 import game.GeneralVisibleEntity;
+import game.Starship;
 import graphics.Statbar;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A generalship component. Handles general ship component functionality including integrity, shielding and power as well as
@@ -32,19 +32,27 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	private float integrity;
 	private boolean active;
 	private boolean needsTarget;
+	private Starship owner;
 
 	/**
 	 * Construcs an abstract ship component with the specified maximum HP.
 	 *
 	 * @param integrity the damage the ship component can take before it is destroyed
+	 * @param needsTarget set to true if the components activation requires a target.
+	 * @see #activate()
 	 */
 	protected AbstractShipComponent(final float integrity, final boolean needsTarget) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
 		this.needsTarget = needsTarget;
+		owner = null;
 		shielding = 0;
 		power = 0;
 		active = true;
+	}
+
+	@Override public void registerOwner(final Starship owner) {
+		this.owner = owner;
 	}
 
 	@Override public void inflictDamage(float damage) {
@@ -111,93 +119,77 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	}
 
 	/**
-	 * Increases the specified stat by 1, unless it has reached the specified maximum stat value.
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
+	 * the registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual update if
+	 * shielding was increased.
 	 *
-	 * @param stat    the stat to change
-	 * @param statMax the maximum value allowed for the specified stat
-	 *
-	 * @return false if the stat was unchanged because it had reached the maximum stat value
+	 * @see #registerOwner
 	 */
-	private int increaseStat(int stat, int statMax) {
-		if (stat < statMax) {
-			stat++;
+	@Override public void increaseShielding() {
+		if (owner != null) {
+
+			if (shielding < MAXSHIELDING) {
+				if (owner.increaseShieldingUsage()) {
+					shielding++;
+					requestVisualUpdate();
+				}
+			}
 		}
-		return stat;
 	}
 
 	/**
-	 * Decreases the specified stat by 1, unless it has reached the specified minimum stat value.
+	 * Increases power unless it is at maximum capacity or if there is no registered ship or no available power from the
+	 * registered ship. If power is increased, drains the shielding pool of the ship. Requests a visual update if power was
+	 * increased.
 	 *
-	 * @param stat    the stat to change
-	 * @param statMin the minimum value allowed for the specified stat
-	 *
-	 * @return false if the stat was unchanged because it had reached the minimum stat value
+	 * @see #registerOwner
 	 */
-	private int decreaseStat(int stat, int statMin) {
-		if (stat > statMin) {
-			stat--;
+	@Override public void increasePower() {
+		if (owner != null) {
+
+			if (power < MAXPOWER) {
+				if (owner.increasePowerUsage()) {
+					power++;
+					requestVisualUpdate();
+				}
+			}
 		}
-		return stat;
 	}
 
 	/**
-	 * Returns true and requests an visual update if the the specified values differ.
+	 * Decreases shielding unless it is at minimum capacity. If shielding is decreased, lets loose power to the shielding pool
+	 * of the registered ship. Requests a visual update if shielding was decreased.
 	 *
-	 * @param value1 the value before eventual change
-	 * @param value2 the value after eventual change
-	 *
-	 * @return true if the the specified values differ
+	 * @see #registerOwner
 	 */
-	private boolean areDifferent(int value1, int value2) {
-		boolean areDifferent = value1 != value2;
-		if (areDifferent) {
-			requestVisualUpdate();
+	@Override public void decreaseShielding() {
+		if (owner != null) {
+
+			if (shielding > 0) {
+				if (owner.decreaseShieldingUsage()) {
+					shielding--;
+					requestVisualUpdate();
+				}
+			}
 		}
-		return areDifferent;
 	}
 
 	/**
-	 * Increases shielding unless it is at maximum capacity. Requests a visual update if shielding was increased.
+	 * Decreases power unless it is at minimum capacity. If Power is decreased, lets loose power to the power pool of the
+	 * registered ship. Requests a visual update if power was decreased.
 	 *
-	 * @return true if shielding was increased, false if it was not
+	 * @see #registerOwner
 	 */
-	@Override public boolean increaseShielding() {
-		int oldShielding = shielding;
-		shielding = increaseStat(shielding, MAXSHIELDING);
-		return areDifferent(shielding, oldShielding);
-	}
+	@Override public void decreasePower() {
+		if (owner != null) {
 
-	/**
-	 * Decreases shielding unless it is at minimum capacity. Requests a visual update if shielding was decreased.
-	 *
-	 * @return true if shielding was decreased, false if it was not
-	 */
-	@Override public boolean decreaseShielding() {
-		int oldShielding = shielding;
-		shielding = decreaseStat(shielding, 0);
-		return areDifferent(shielding, oldShielding);
-	}
-
-	/**
-	 * Increases power unless it is at maximum capacity. Requests a visual update if powerg was increased.
-	 *
-	 * @return true if power was increased, false if it was not
-	 */
-	@Override public boolean increasePower() {
-		int oldPower = power;
-		power = increaseStat(power, MAXPOWER);
-		return areDifferent(power, oldPower);
-	}
-
-	/**
-	 * Decreases power unless it is at minimum capacity. Requests a visual update if powerg was decreased.
-	 *
-	 * @return true if power was decreased, false if it was not
-	 */
-	@Override public boolean decreasePower() {
-		int oldPower = power;
-		power = decreaseStat(power, 0);
-		return areDifferent(power, oldPower);
+			if (power > 0) {
+				if (owner.decreasePowerUsage()) {
+					power--;
+					requestVisualUpdate();
+				}
+			}
+		}
 	}
 
 	@Override public boolean hasShielding() {
