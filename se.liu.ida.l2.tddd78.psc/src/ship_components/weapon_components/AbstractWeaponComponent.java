@@ -33,6 +33,7 @@ public abstract class AbstractWeaponComponent extends AbstractShipComponent impl
 	 * a shot will be fired.
 	 */
 	@Override public void updateWeapon() {
+		projectileToFire = null;
 		rechargeCounter += (1 + (getPower()/2));
 		if (hasOrder() && canShoot()) {
 			projectileToFire = shoot();

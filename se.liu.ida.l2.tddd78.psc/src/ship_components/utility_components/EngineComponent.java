@@ -15,7 +15,12 @@ public class EngineComponent extends UtilityComponent
 	}
 
 	@Override public void update() {
-		setOutput((int)(getPower()*1.5) + 8);
+		if(getPower() == 0){
+			setOutput(0);
+		}else{
+			setOutput((int)(getPower()*1.5) + 6);
+		}
+
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
