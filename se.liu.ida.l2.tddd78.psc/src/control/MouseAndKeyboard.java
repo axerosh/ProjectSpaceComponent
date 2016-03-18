@@ -7,7 +7,7 @@ import game.Starship;
 import graphics.GameDisplayer;
 import weaponry.FiringOrder;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -103,13 +103,15 @@ public class MouseAndKeyboard extends JComponent {
 			if (originPos != null) {
 				Starship targetShip = battlefield.getShipAt(gameDisplayer.getVirtualX(e.getX()),
 															gameDisplayer.getVirtualY(e.getY()));
-				Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
-				System.out.println(clickedComponent);
-				selectedWeapon.giveFiringOrder(
-						new FiringOrder((float) originPos.getX(), (float) originPos.getY(), (float) targetPos.getX(),
-										(float) targetPos.getY(), targetShip));
-			}
+				if (targetShip != null) {
+					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
+					System.out.println(clickedComponent);
+					selectedWeapon.giveFiringOrder(
+							new FiringOrder((float) originPos.getX(), (float) originPos.getY(), (float) targetPos.getX(),
+											(float) targetPos.getY(), targetShip));
+				}
+			}
 		}
 
 		@Override public void keyPressed(final KeyEvent e) {}
