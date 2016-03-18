@@ -24,7 +24,7 @@ public class MissileComponent extends WeaponComponent
 		final float blastRadiusPerPower = 0.25f;
 		final float baseBlastDamage = 2.5f;
 
-		int velocity = 1;
+		int velocity = 10;
 		int damage = baseDamage + (int) (getPower() * damagePerPower);
 		int blastRadius = (int) (baseBlastDamage + getPower() * blastRadiusPerPower);
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),

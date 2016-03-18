@@ -37,9 +37,9 @@ public class Battlefield extends GeneralVisibleEntity
 		gameover = false;
 	}
 
-	public void update() {
+	public void update(float deltaSeconds) {
 		if (!gameover) {
-			updateProjectiles();
+			updateProjectiles(deltaSeconds);
 			List<Team> undefeatedTeams = new ArrayList<>();
 			for (Team team : teams) {
 				if (team.isDefeated()) {
@@ -55,15 +55,15 @@ public class Battlefield extends GeneralVisibleEntity
 				winningTeam = undefeatedTeams.get(0);
 			}
 			if (undefeatedTeams.size() <= 1) {
-				gameover = true;
+				//gameover = true;
 			}
 		}
 	}
 
-	private void updateProjectiles() {
+	private void updateProjectiles(float deltaSeconds) {
 		Collection<Projectile> projectilesToRemove = new ArrayList<>();
 		for (Projectile p : projectiles) {
-			p.update();
+			p.updateMovement(deltaSeconds);
 			if (p.hasImpact()) {
 				projectilesToRemove.add(p);
 			}

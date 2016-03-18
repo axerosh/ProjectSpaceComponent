@@ -124,7 +124,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	/**
 	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
-	 * registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual update if shielding
+	 * registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual updateMovement if shielding
 	 * was increased.
 	 *
 	 * @see #registerOwner
@@ -143,7 +143,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	/**
 	 * Increases power unless it is at maximum capacity or if there is no registered ship or no available power from the
-	 * registered ship. If power is increased, drains the shielding pool of the ship. Requests a visual update if power was
+	 * registered ship. If power is increased, drains the shielding pool of the ship. Requests a visual updateMovement if power was
 	 * increased.
 	 *
 	 * @see #registerOwner
@@ -162,7 +162,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	/**
 	 * Decreases shielding unless it is at minimum capacity. If shielding is decreased, lets loose power to the shielding pool
-	 * of the registered ship. Requests a visual update if shielding was decreased.
+	 * of the registered ship. Requests a visual updateMovement if shielding was decreased.
 	 *
 	 * @see #registerOwner
 	 */
@@ -180,7 +180,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	/**
 	 * Decreases power unless it is at minimum capacity. If Power is decreased, lets loose power to the power pool of the
-	 * registered ship. Requests a visual update if power was decreased.
+	 * registered ship. Requests a visual updateMovement if power was decreased.
 	 *
 	 * @see #registerOwner
 	 */

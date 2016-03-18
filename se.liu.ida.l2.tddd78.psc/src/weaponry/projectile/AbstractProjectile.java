@@ -40,9 +40,9 @@ public class AbstractProjectile implements Projectile
 	/**
 	 * Updates the projectile position, checks if the the projetile is at its target, if so applies its effect
 	 */
-	@Override public void update() {
-		selfX += xVelocity;
-		selfY += yVelocity;
+	@Override public void updateMovement(float deltaSeconds) {
+		selfX += xVelocity * deltaSeconds;
+		selfY += yVelocity * deltaSeconds;
 		System.out.println(selfX + " " + selfY);
 
 		if (hasImpact()) {
@@ -112,7 +112,7 @@ public class AbstractProjectile implements Projectile
 	 */
 	@Override public void draw(final Graphics g, final float scale) {
 		g.setColor(Color.YELLOW);
-		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity) * scale),
-				   (int) ((selfY + yVelocity) * scale));
+		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity / 10f) * scale),
+				   (int) ((selfY + yVelocity / 10f) * scale));
 	}
 }

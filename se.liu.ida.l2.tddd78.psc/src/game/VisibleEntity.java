@@ -1,8 +1,8 @@
 package game;
 
 /**
- * An enity that requests VisibleEntityListeners to update their visual representation. Each unique VisibleEntityListener may
- * only be notified once per update request.
+ * An enity that requests VisibleEntityListeners to updateMovement their visual representation. Each unique VisibleEntityListener may
+ * only be notified once per updateMovement request.
  */
 public interface VisibleEntity
 {

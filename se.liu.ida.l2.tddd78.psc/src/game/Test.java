@@ -10,6 +10,7 @@ import graphics.GameDisplayer;
 import graphics.PSCFrame;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Class for testing the game.
@@ -48,26 +49,20 @@ public final class Test
 
 		playerShip.printShip();
 
-		boolean running = true;
-		int tick = 0;
-		final int runTime = 60;
+		Timer timer = new Timer(10, new AbstractAction() {
+			private long lastTime = System.nanoTime();
 
-		while (running) {
-			AI.update();
-			arena.update();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			@Override public void actionPerformed(final ActionEvent e) {
+				final long nanosPerSecond = 1000000000;
+				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
+				lastTime = System.nanoTime();
+				AI.update();
+				arena.update(passedSeconds);
+				gameDisplayer.repaint();
 			}
-
-			if (tick == runTime) {
-				running = false;
-			}
-			gameDisplayer.repaint();
-
-			tick++;
-		}
+		});
+		timer.setCoalesce(true);
+		timer.start();
 
 		playerShip.printShip();
 	}

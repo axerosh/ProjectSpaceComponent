@@ -8,7 +8,7 @@ import java.awt.*;
 public interface Projectile
 {
 
-	public void update();
+	public void updateMovement(float deltaSeconds);
 
 	public void impact();
 

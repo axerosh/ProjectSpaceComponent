@@ -22,7 +22,7 @@ public class GeneralVisibleEntity implements VisibleEntity
 	}
 
 	/**
-	 * Request an visual update from all VisibleEntityListeners. Each unique VisibleEntityListener may only be requested once
+	 * Request an visual updateMovement from all VisibleEntityListeners. Each unique VisibleEntityListener may only be requested once
 	 * per call of this method.
 	 */
 	protected void requestVisualUpdate() {

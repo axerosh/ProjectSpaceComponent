@@ -9,7 +9,7 @@ public interface VisibleEntityListener
 {
 
 	/**
-	 * Is invoked when a VisibleEntity requests a visual update.
+	 * Is invoked when a VisibleEntity requests a visual updateMovement.
 	 */
 	public void visualUpdateRequested();
 }
