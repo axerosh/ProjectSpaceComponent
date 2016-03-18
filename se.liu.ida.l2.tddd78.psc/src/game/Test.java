@@ -4,6 +4,7 @@ import component.utility.EngineComponent;
 import component.utility.ReactorComponent;
 import component.utility.ShieldComponent;
 import component.weapon.MissileComponent;
+import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
@@ -31,6 +32,7 @@ public final class Test
 		Starship enemyShip = new Starship(7, 1, 5, 5);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
+		BasicAI AI = new BasicAI(arena, enemyShip);
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
@@ -49,6 +51,7 @@ public final class Test
 		final int runTime = 60;
 
 		while (running) {
+			AI.update();
 			arena.update();
 			try {
 				Thread.sleep(1000);

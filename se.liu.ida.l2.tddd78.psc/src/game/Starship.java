@@ -4,18 +4,21 @@ import component.ShipComponent;
 import component.utility.EngineComponent;
 import component.utility.ReactorComponent;
 import component.utility.ShieldComponent;
+import component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 /**
- * A starship consisting of ship components. Manages power and shielding distribution for its components.
+ * A starship consisting of ship components. The collective shielding and power usage of its components may not exceed its
+ * shielding and power pools respectively.
  *
  * @see ShipComponent
  */
@@ -211,6 +214,10 @@ public class Starship extends GeneralVisibleEntity
 		}
 	}
 
+	/**
+	 *
+	 * @return projetiles the ship wants to fire this tick
+	 */
 	public Collection<Projectile> getProjectilesToFire() {
 		return projectilesToFire;
 	}
@@ -445,5 +452,48 @@ public class Starship extends GeneralVisibleEntity
 			}
 		}
 		System.out.println();
+	}
+
+	/**
+	 * @return Returns a 1D ArrayList of all non null components the ship has.
+	 */
+	public List<ShipComponent> getShipComponents(){
+		List<ShipComponent> shipComponents = new ArrayList<>();
+		for(ShipComponent[] componentList:components){
+			for(ShipComponent sc : componentList){
+				if(sc != null){
+					shipComponents.add(sc);
+				}
+			}
+		}
+		return shipComponents;
+	}
+
+	/**
+	 * @return a List of all WeaponComponents the ship has.
+	 */
+	public List<WeaponComponent> getWeaponComponents(){
+		List<WeaponComponent> weaponComponents = new ArrayList<>();
+		for(ShipComponent[] componentList:components){
+			for(ShipComponent sc : componentList){
+				if(sc instanceof WeaponComponent){
+					weaponComponents.add((WeaponComponent) sc);
+				}
+			}
+		}
+		return weaponComponents;
+	}
+
+	/**
+	 * @return a non null random ShipComponent from the ship unless there is no components in the ship, then null will be returned.
+	 */
+	public ShipComponent getRandomComponent(){
+		List<ShipComponent> shipComponents = getShipComponents();
+
+		if(shipComponents.isEmpty()){
+			return null;
+		}
+
+		return shipComponents.get(rng.nextInt(shipComponents.size()));
 	}
 }
