@@ -38,6 +38,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 		if (hasOrder() && canShoot()) {
 			projectileToFire = shoot();
 			firingOrder = null;
+			rechargeCounter = 0;
 		}
 	}
 
