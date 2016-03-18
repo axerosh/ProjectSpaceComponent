@@ -19,25 +19,43 @@ import java.util.Set;
 public class Battlefield extends GeneralVisibleEntity
 {
 
-	private final List<List<Starship>> teams;
+	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
 	private Random rng;
+	private Team winningTeam;
+	private boolean gameover;
 
 	public Battlefield() {
 		rng = new Random();
 
 		teams = new ArrayList<>();
-		teams.add(new ArrayList<>());
-		teams.add(new ArrayList<>());
+		teams.add(new Team());
+		teams.add(new Team());
+
 		projectiles = new HashSet<>();
+		winningTeam = null;
+		gameover = false;
 	}
 
 	public void update() {
-		updateProjectiles();
-		for (List<Starship> team : teams) {
-			for (Starship ship : team) {
-				ship.update();
-				addProjectiles(ship.getProjectilesToFire());
+		if (!gameover) {
+			updateProjectiles();
+			List<Team> undefeatedTeams = new ArrayList<>();
+			for (Team team : teams) {
+				if (team.isDefeated()) {
+					continue;
+				}
+				for (Starship ship : team) {
+					ship.update();
+					addProjectiles(ship.getProjectilesToFire());
+				}
+				undefeatedTeams.add(team);
+			}
+			if (undefeatedTeams.size() == 1) {
+				winningTeam = undefeatedTeams.get(0);
+			}
+			if (undefeatedTeams.size() <= 1) {
+				gameover = true;
 			}
 		}
 	}
@@ -58,7 +76,7 @@ public class Battlefield extends GeneralVisibleEntity
 	}
 
 	public Starship getShipAt(final float vx, final float vy) {
-		for (List<Starship> team : teams) {
+		for (Team team : teams) {
 			for (Starship ship : team) {
 				if (ship.contains(vx, vy)) {
 					return ship;
@@ -80,17 +98,17 @@ public class Battlefield extends GeneralVisibleEntity
 	/**
 	 * Adds the specified ship to the specified team.
 	 *
-	 * @param team team number from 0 to number of teams - 1
+	 * @param teamNumber team number from 0 to number of teams - 1
 	 *
 	 * @return false if failed
 	 * @see #getNumberOfTeams
 	 */
-	public boolean addShip(final Starship ship, final int team) {
-		if (team >= teams.size()) {
+	public boolean addShip(final Starship ship, final int teamNumber) {
+		if (teamNumber >= teams.size() || teamNumber < 0) {
 			return false;
 		} else {
-			teams.get(team).add(ship);
-			ship.setTeam(team);
+			teams.get(teamNumber).add(ship);
+			ship.setTeam(teamNumber);
 			return true;
 		}
 	}
@@ -99,7 +117,7 @@ public class Battlefield extends GeneralVisibleEntity
 	 * Adds an addition team.
 	 */
 	public void addTeam() {
-		teams.add(new ArrayList<>());
+		teams.add(new Team());
 	}
 
 	public int getNumberOfTeams() {
@@ -113,14 +131,10 @@ public class Battlefield extends GeneralVisibleEntity
 	}
 
 	public Starship getRandomShipOfTeam(final int teamNumber) {
-		if (teamNumber >= teams.size()) {
+		if (teamNumber >= teams.size() || teamNumber < 0) {
 			throw new IllegalArgumentException(teamNumber + ": No such team!");
 		}
-		List<Starship> team = teams.get(teamNumber);
-		if (team.isEmpty()) {
-			return null;
-		}
-		return team.get(rng.nextInt(team.size()));
+		return teams.get(teamNumber).getRandomMember();
 	}
 
 	/**
@@ -130,7 +144,7 @@ public class Battlefield extends GeneralVisibleEntity
 	 * @param scale the scale with which to scale virtual positions to get on-screen positions
 	 */
 	public void draw(final Graphics g, final float scale) {
-		for (List<Starship> team : teams) {
+		for (Team team : teams) {
 			for (Starship ship : team) {
 				ship.draw(g, scale);
 			}

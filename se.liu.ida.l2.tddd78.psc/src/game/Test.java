@@ -23,12 +23,14 @@ public final class Test
 
 		final int team1 = 0;
 		final int team2 = 1;
+		final float shipIntegrity = 10;
 
-		Starship playerShip = new Starship(1, 1, 5, 5);
+
+		Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
 		initShip(playerShip);
 		arena.addShip(playerShip, team1);
 
-		Starship enemyShip = new Starship(7, 1, 5, 5);
+		Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 

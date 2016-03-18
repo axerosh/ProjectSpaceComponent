@@ -40,7 +40,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 *
 	 * @param integrity   the damage the ship component can take before it is destroyed
 	 * @param needsTarget set to true if the components activation requires a target.
-	 *
+	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #activate()
 	 */
 	protected AbstractShipComponent(final float integrity, final boolean needsTarget) {
@@ -58,8 +58,10 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	}
 
 	@Override public void inflictDamage(float damage) {
-		integrity -= damageThroughShield(damage);
+		float damageTaken = damageThroughShield(damage);
+		integrity -= damageTaken;
 		integrity = Math.max(integrity, 0);
+		owner.inflictDamage(damageTaken);
 	}
 
 	/**

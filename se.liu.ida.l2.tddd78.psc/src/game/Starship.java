@@ -43,6 +43,7 @@ public class Starship extends GeneralVisibleEntity
 	private int usedPower;
 	private int numberOfComponents;
 	private int team;
+	private float integrity;
 
 	/**
 	 * The dodge rate of this ship. The rate of which projectile will miss the ship.
@@ -59,23 +60,32 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * Constructs a star ship with the specifed position, width and height.
 	 *
-	 * @param x      the x-position of the ship
-	 * @param y      the y-position of the ship
-	 * @param width  the width of the ship i.e. the number of ship components that can fit along the width
-	 * @param height the height of the ship i.e. the number of ship components that can fit along the height
-	 *
-	 * @throws IllegalArgumentException if specified width and/or the specified height are negative or 0
+	 * @param x        the x-position of the ship
+	 * @param y        the y-position of the ship
+	 * @param width    the width of the ship i.e. the number of ship components that can fit along the width
+	 * @param height    the height of the ship i.e. the number of ship components that can fit along the height
+	 * @param integrity the damage the ship can take before it is destroyed
+	 * @throws IllegalArgumentException if one of the following is true:
+	 * <ul>
+	 * <li>the specified width is negative or 0</li>
+	 * <li>the specified height is negative or 0</li>
+	 * <li>the specified integrity is negative or 0</li>
+	 * </ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final float x, final float y, final int width, final int height) {
+	public Starship(final float x, final float y, final int width, final int height, final float integrity) {
 		if (width <= 0 || height <= 0) {
 			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
 											   "Only positive integers are permitted.");
+		}
+		if (integrity <= 0) {
+			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive valujes are permitted.");
 		}
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.integrity = integrity;
 
 		rng = new Random();
 
@@ -92,6 +102,15 @@ public class Starship extends GeneralVisibleEntity
 		projectilesToFire = new ArrayList<>();
 
 		components = new ShipComponent[width][height];
+	}
+
+	public void inflictDamage(float damage) {
+		integrity -= damage;
+		integrity = Math.max(integrity, 0);
+	}
+
+	public boolean isIntact() {
+		return integrity > 0;
 	}
 
 	/**
