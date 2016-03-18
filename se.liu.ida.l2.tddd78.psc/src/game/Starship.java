@@ -7,7 +7,7 @@ import component.utility.ShieldComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,7 +19,8 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class Starship extends GeneralVisibleEntity {
+public class Starship extends GeneralVisibleEntity
+{
 
 
 	private final static float COMPONENT_WEIGHT = 0.035f;

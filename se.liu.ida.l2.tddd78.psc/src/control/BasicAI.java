@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class BasicAI {
+public class BasicAI
+{
 	private Battlefield field;
 	private Starship aiShip;
 	private List<Projectile> projetilesToFire;

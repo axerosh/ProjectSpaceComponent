@@ -2,13 +2,13 @@ package component.utility;
 
 import game.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility components that contributes with shielding.
  */
-public class ReactorComponent extends UtilityComponent {
+public class ReactorComponent extends UtilityComponent
+{
 
 	public ReactorComponent(final float integrity, final int powerOutput) {
 		super(integrity, powerOutput);

@@ -1,13 +1,13 @@
 package graphics;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-import java.awt.HeadlessException;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * JFrame extension that displays and handles input for a game.
  */
-public class PSCFrame extends JFrame {
+public class PSCFrame extends JFrame
+{
 
 	public PSCFrame() throws HeadlessException {
 		super("Project Space Component");

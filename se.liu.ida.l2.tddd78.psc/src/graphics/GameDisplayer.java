@@ -3,14 +3,14 @@ package graphics;
 import game.Battlefield;
 import game.VisibleEntityListener;
 
-import javax.swing.JComponent;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * JComponent extension that displays a game.
  */
-public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEntityListener {
+public class GameDisplayer extends JComponent implements PSCGraphics, VisibleEntityListener
+{
 
 	/**
 	 * The scale from virtual coordinates/distances to ones one the screen. (If set to an integer, it is equal to a components

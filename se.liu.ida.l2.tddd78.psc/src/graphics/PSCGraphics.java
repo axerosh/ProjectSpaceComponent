@@ -3,7 +3,8 @@ package graphics;
 /**
  * Graphical component for displaying the game.
  */
-public interface PSCGraphics {
+public interface PSCGraphics
+{
 
 	/**
 	 * Returns the specified screen x-position converted to the corresponding virtual x-position

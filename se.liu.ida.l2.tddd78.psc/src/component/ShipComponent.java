@@ -3,7 +3,7 @@ package component;
 import game.Starship;
 import game.VisibleEntity;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
@@ -11,7 +11,8 @@ import java.awt.Graphics;
  *
  * @see Starship
  */
-public interface ShipComponent extends VisibleEntity {
+public interface ShipComponent extends VisibleEntity
+{
 
 	/**
 	 * Damages this ship component by reducing its HP by the specified number of hit points.
@@ -69,8 +70,7 @@ public interface ShipComponent extends VisibleEntity {
 	public void registerOwner(final Starship owner);
 
 	/**
-	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
-	 * the
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
 	 * registered ship. If shielding is increased, drains the shielding pool of the ship.
 	 *
 	 * @see #registerOwner

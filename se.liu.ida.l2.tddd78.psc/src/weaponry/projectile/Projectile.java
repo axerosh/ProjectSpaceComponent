@@ -1,11 +1,12 @@
 package weaponry.projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A projectile which can be fired and inflict damage.
  */
-public interface Projectile {
+public interface Projectile
+{
 
 	public void update();
 

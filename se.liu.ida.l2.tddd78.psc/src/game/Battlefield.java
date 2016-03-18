@@ -3,7 +3,7 @@ package game;
 import component.ShipComponent;
 import weaponry.projectile.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,7 +16,8 @@ import java.util.Set;
  *
  * @see Starship
  */
-public class Battlefield extends GeneralVisibleEntity {
+public class Battlefield extends GeneralVisibleEntity
+{
 
 	private final List<List<Starship>> teams;
 	private final Set<Projectile> projectiles;
@@ -40,6 +41,7 @@ public class Battlefield extends GeneralVisibleEntity {
 			}
 		}
 	}
+
 	private void updateProjectiles() {
 		Collection<Projectile> projectilesToRemove = new ArrayList<>();
 		for (Projectile p : projectiles) {
@@ -120,6 +122,7 @@ public class Battlefield extends GeneralVisibleEntity {
 		}
 		return team.get(rng.nextInt(team.size()));
 	}
+
 	/**
 	 * Draws this battlefield with the specified scaling.
 	 *

@@ -8,13 +8,13 @@ import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Class for testing the game.
  */
-public final class Test {
+public final class Test
+{
 
 	private Test() {}
 

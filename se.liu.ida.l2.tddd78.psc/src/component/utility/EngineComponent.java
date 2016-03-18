@@ -2,13 +2,13 @@ package component.utility;
 
 import game.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility components that contributes with dodge rate.
  */
-public class EngineComponent extends UtilityComponent {
+public class EngineComponent extends UtilityComponent
+{
 
 	public EngineComponent(final float integrity, final int dodgePercentage) {
 		super(integrity, dodgePercentage);

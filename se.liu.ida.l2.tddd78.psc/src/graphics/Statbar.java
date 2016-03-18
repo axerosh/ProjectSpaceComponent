@@ -1,18 +1,19 @@
 package graphics;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility class for drawing stat bars.
  */
-public final class Statbar {
+public final class Statbar
+{
 
 	private Statbar() {}
 
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 									  final int renderedHeight, final int currentStatLevel, final int maxStatLevel,
-									  final int levelsPerCell, final Color fillColor) {
+									  final int levelsPerCell, final Color fillColor)
+	{
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
 											   renderedHeight + ". Only positive integers are permitted.");

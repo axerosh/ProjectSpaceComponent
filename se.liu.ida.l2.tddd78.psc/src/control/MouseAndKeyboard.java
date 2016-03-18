@@ -17,7 +17,8 @@ import java.awt.geom.Point2D;
 /**
  * Mouse and Keyboard input for controlling a ship.
  */
-public class MouseAndKeyboard extends JComponent {
+public class MouseAndKeyboard extends JComponent
+{
 
 	private Battlefield battlefield;
 	private Starship controlledShip;
@@ -33,11 +34,12 @@ public class MouseAndKeyboard extends JComponent {
 		addKeyListener(new MouseAndKeyboardListener());
 	}
 
-	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener {
+	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
+	{
 
 		@Override public void mouseClicked(final MouseEvent e) {
-			ShipComponent clickedLocalComponent = controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()),
-																				gameDisplayer.getVirtualY(e.getY()));
+			ShipComponent clickedLocalComponent =
+					controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
 				if (e.isControlDown()) {
 					managePower(e, clickedLocalComponent);
@@ -47,8 +49,8 @@ public class MouseAndKeyboard extends JComponent {
 					manageActivation(e, clickedLocalComponent);
 				}
 			} else if (selectedWeapon != null) {
-				ShipComponent clickedGlobalComponent = battlefield.getComponentAt(gameDisplayer.getVirtualX(e.getX()),
-																				  gameDisplayer.getVirtualY(e.getY()));
+				ShipComponent clickedGlobalComponent =
+						battlefield.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					if (clickedGlobalComponent != null) {
@@ -101,8 +103,8 @@ public class MouseAndKeyboard extends JComponent {
 		private void manageTargeting(final MouseEvent e, ShipComponent clickedComponent) {
 			Point2D.Float originPos = controlledShip.getPositionOf(selectedWeapon);
 			if (originPos != null) {
-				Starship targetShip = battlefield.getShipAt(gameDisplayer.getVirtualX(e.getX()),
-															gameDisplayer.getVirtualY(e.getY()));
+				Starship targetShip =
+						battlefield.getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
