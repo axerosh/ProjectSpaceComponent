@@ -105,7 +105,9 @@ public class Battlefield extends GeneralVisibleEntity {
 	}
 
 	public void addProjectiles(final Collection<Projectile> projectiles) {
-		this.projectiles.addAll(projectiles);
+		synchronized (projectiles) {
+			this.projectiles.addAll(projectiles);
+		}
 	}
 
 	public Starship getRandomShipOfTeam(final int teamNumber) {
