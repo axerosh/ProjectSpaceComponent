@@ -21,6 +21,6 @@ public interface Weapon
 
 	public Projectile shoot();
 
-	public void updateWeapon();
+	public void updateWeapon(float deltaSeconds);
 
 }

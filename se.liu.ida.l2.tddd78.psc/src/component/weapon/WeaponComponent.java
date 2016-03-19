@@ -15,15 +15,15 @@ import weaponry.projectile.Projectile;
 public abstract class WeaponComponent extends AbstractShipComponent implements Weapon
 {
 
+	private final float baseRechargeTime;
 	protected FiringOrder firingOrder;
-	private int rechargeTime;
-	private int rechargeCounter;
+	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
 	protected WeaponComponent(final float integrity, final int rechargeTime) {
 		super(integrity, true);
-		this.rechargeTime = rechargeTime;
-		rechargeCounter = 0;
+		this.baseRechargeTime = rechargeTime;
+		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
 	}
@@ -32,13 +32,14 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 * Updates the weaponComponent, recharge the weapon by one and if there is a standing firingOrder and the weapon can shoot,
 	 * a shot will be fired.
 	 */
-	@Override public void updateWeapon() {
+	@Override public void updateWeapon(float deltaSeconds) {
 		projectileToFire = null;
-		rechargeCounter += (1 + (getPower() / 2));
+		rechargeTimeLeft -= deltaSeconds;
 		if (hasOrder() && canShoot()) {
 			projectileToFire = shoot();
 			firingOrder = null;
-			rechargeCounter = 0;
+			float rechargeTimeCoefficient = 1 / (1 + (float) (getPower() / 2));
+			rechargeTimeLeft = baseRechargeTime * rechargeTimeCoefficient;
 		}
 	}
 
@@ -72,7 +73,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 * @return true if the weapon can fire
 	 */
 	@Override public boolean canShoot() {
-		return rechargeCounter > rechargeTime && isIntact() && hasPower();
+		return rechargeTimeLeft <= 0 && isIntact() && hasPower();
 	}
 
 	@Override public void registerOwner(final Starship owner) {

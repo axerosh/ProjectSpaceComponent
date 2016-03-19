@@ -8,9 +8,8 @@ import component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -213,7 +212,7 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * Updates the ships status by going through its components.
 	 */
-	public void update() {
+	public void update(float deltaSeconds) {
 		projectilesToFire.clear();
 		updatePools();
 		updateShields();
@@ -225,7 +224,7 @@ public class Starship extends GeneralVisibleEntity
 			}
 		}
 		for (Weapon wc : weapons) {
-			wc.updateWeapon();
+			wc.updateWeapon(deltaSeconds);
 			Projectile p = wc.getProjectileToFire();
 			if (p != null) {
 				projectilesToFire.add(p);

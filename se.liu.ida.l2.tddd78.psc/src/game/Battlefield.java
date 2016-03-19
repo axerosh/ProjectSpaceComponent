@@ -3,7 +3,7 @@ package game;
 import component.ShipComponent;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,7 +46,7 @@ public class Battlefield extends GeneralVisibleEntity
 					continue;
 				}
 				for (Starship ship : team) {
-					ship.update();
+					ship.update(deltaSeconds);
 					addProjectiles(ship.getProjectilesToFire());
 				}
 				undefeatedTeams.add(team);
