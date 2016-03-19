@@ -2,9 +2,13 @@ package component.weapon;
 
 import component.AbstractShipComponent;
 import game.Starship;
+import graphics.Statbar;
 import weaponry.FiringOrder;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
+
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A ship component that can fires projectile according to firing orders.
@@ -17,6 +21,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 
 	private final float baseRechargeTime;
 	protected FiringOrder firingOrder;
+	private float currentRechargeTime;
 	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
@@ -26,6 +31,10 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
+	}
+
+	private boolean isRecharging() {
+		return rechargeTimeLeft > 0;
 	}
 
 	/**
@@ -39,7 +48,24 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 			projectileToFire = shoot();
 			firingOrder = null;
 			float rechargeTimeCoefficient = 1 / (1 + (float) (getPower() / 2));
-			rechargeTimeLeft = baseRechargeTime * rechargeTimeCoefficient;
+			currentRechargeTime = baseRechargeTime * rechargeTimeCoefficient;
+			rechargeTimeLeft = currentRechargeTime;
+		}
+	}
+
+	@Override
+	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY, final Color color) {
+		super.draw(g, scale, virtualX, virtualY, color);
+
+		if (isRecharging()) {
+			int indicatorScreenX = (int) (virtualX * scale);
+			int indicatorScreenY = (int) (virtualY * scale);
+
+			int pixelsAcrossComponent = (int) scale;
+			int pixelsAcrossIndicator = pixelsAcrossComponent / 5;
+
+			Statbar.drawOval(g, indicatorScreenX, indicatorScreenY, pixelsAcrossIndicator, pixelsAcrossIndicator,
+							 rechargeTimeLeft, currentRechargeTime, Color.ORANGE);
 		}
 	}
 
@@ -73,7 +99,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 * @return true if the weapon can fire
 	 */
 	@Override public boolean canShoot() {
-		return rechargeTimeLeft <= 0 && isIntact() && hasPower();
+		return !isRecharging() && isIntact() && hasPower();
 	}
 
 	@Override public void registerOwner(final Starship owner) {

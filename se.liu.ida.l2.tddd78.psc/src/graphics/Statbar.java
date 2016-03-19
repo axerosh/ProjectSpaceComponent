@@ -1,6 +1,7 @@
 package graphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A utility class for drawing stat bars.
@@ -11,7 +12,7 @@ public final class Statbar
 	private Statbar() {}
 
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
-									  final int renderedHeight, final int currentStatLevel, final int maxStatLevel,
+									  final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
 									  final int levelsPerCell, final Color fillColor)
 	{
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
@@ -38,7 +39,7 @@ public final class Statbar
 
 		int containerHeight = renderedHeight - 2 * outlineThickness;
 		int containerWidth = renderedWidth - 2 * outlineThickness;
-		int numberOfCells = maxStatLevel / levelsPerCell;
+		int numberOfCells = (int) (maxStatLevel / levelsPerCell);
 		int numberOfGaps = numberOfCells - 1;
 		float avarageCellWidth = (containerWidth - numberOfGaps * gapThickness) / (float) numberOfCells;
 
@@ -52,5 +53,33 @@ public final class Statbar
 					   containerHeight);
 			usedContainerWidth = nextUsedContainerWidth;
 		}
+	}
+
+	public static void drawOval(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
+								final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
+								final Color fillColor) {
+		if (renderedWidth <= 0 || renderedHeight <= 0) {
+			throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
+											   renderedHeight + ". Only positive integers are permitted.");
+		} else if (currentStatLevel < 0) {
+			throw new IllegalArgumentException("The specified stat level current stat level = " + currentStatLevel +
+											   " is invalid. It can not be negative.");
+		} else if (maxStatLevel <= 0) {
+			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
+											   "It must be greater than 0.");
+		}
+
+		//Outline/Background
+		final Color backgroundColor = new Color(0, 0, 0, 127);
+		g.setColor(backgroundColor);
+		g.fillOval(screenPosX, screenPosY, renderedWidth, renderedHeight);
+
+		final int topRotation = 90;
+		final int fullRotation = 360;
+		int fillAngle = (int) (fullRotation * currentStatLevel / maxStatLevel);
+
+		//Fill
+		g.setColor(fillColor);
+		g.fillArc(screenPosX, screenPosY, renderedWidth, renderedHeight, topRotation, fillAngle);
 	}
 }
