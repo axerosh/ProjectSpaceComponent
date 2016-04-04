@@ -95,6 +95,7 @@ public class MouseAndKeyboard extends JComponent
 				if (selectedWeapon == null) {
 					clickedComponent.deactivate();
 				} else {
+					selectedWeapon.deactivate();
 					selectedWeapon = null;
 				}
 			}
