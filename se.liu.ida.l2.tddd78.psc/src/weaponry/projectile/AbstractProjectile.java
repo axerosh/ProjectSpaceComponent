@@ -112,7 +112,7 @@ public class AbstractProjectile implements Projectile
 	 */
 	@Override public void draw(final Graphics g, final float scale) {
 		g.setColor(Color.YELLOW);
-		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity / 10f) * scale),
-				   (int) ((selfY + yVelocity / 10f) * scale));
+		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity / 10) * scale),
+				   (int) ((selfY + yVelocity / 10) * scale));
 	}
 }

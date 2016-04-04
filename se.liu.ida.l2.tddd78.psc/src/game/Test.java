@@ -49,7 +49,7 @@ public final class Test
 
 		playerShip.printShip();
 
-		Timer timer = new Timer(10, new AbstractAction() {
+		Timer timer = new Timer(8, new AbstractAction() {
 			private long lastTime = System.nanoTime();
 
 			@Override public void actionPerformed(final ActionEvent e) {
