@@ -1,17 +1,17 @@
 package control;
 
-import component.ShipComponent;
-import component.weapon.WeaponComponent;
 import game.Battlefield;
-import game.Starship;
+import ship.Starship;
+import ship.component.ShipComponent;
+import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
-import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+
 
 public class BasicAI
 {

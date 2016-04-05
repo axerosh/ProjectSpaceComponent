@@ -1,12 +1,12 @@
-package component;
+package ship.component;
 
-import game.Starship;
 import game.VisibleEntity;
+import ship.Starship;
 
 import java.awt.*;
 
 /**
- * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
+ * A ship ship.component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
  * be drawn with with some of its stats depicted with a graphical representation.
  *
  * @see Starship
@@ -15,19 +15,19 @@ public interface ShipComponent extends VisibleEntity
 {
 
 	/**
-	 * Damages this ship component by reducing its HP by the specified number of hit points.
+	 * Damages this ship ship.component by reducing its HP by the specified number of hit points.
 	 *
-	 * @param damage the number of hit points by which this ship component's HP is reduced
+	 * @param damage the number of hit points by which this ship ship.component's HP is reduced
 	 */
 	public void inflictDamage(float damage);
 
 	/**
-	 * Draws this ship component with the specified scaling.
+	 * Draws this ship ship.component with the specified scaling.
 	 *
-	 * @param g        the Graphics object with which to draw this ship component
+	 * @param g        the Graphics object with which to draw this ship ship.component
 	 * @param scale    the scale with which to scale virtual positions to get on-screen positions
-	 * @param virtualX the virtual x-position at which the ship component is to be drawn.
-	 * @param virtualY the virtual y-position at which the ship component is to be drawn.
+	 * @param virtualX the virtual x-position at which the ship ship.component is to be drawn.
+	 * @param virtualY the virtual y-position at which the ship ship.component is to be drawn.
 	 */
 	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY);
 
@@ -42,30 +42,30 @@ public interface ShipComponent extends VisibleEntity
 	public boolean hasPower();
 
 	/**
-	 * Updates the component
+	 * Updates the ship.component
 	 */
 	public void update();
 
 	/**
-	 * Activates the component
+	 * Activates the ship.component
 	 */
 	public void activate();
 
 	/**
-	 * Deactivates the component
+	 * Deactivates the ship.component
 	 */
 	public void deactivate();
 
 	/**
-	 * @return true if component is active
+	 * @return true if ship.component is active
 	 */
 	public boolean isActive();
 
 	/**
-	 * Registers this component with the specified ship, indicating that the component is a part of the specified ship and
-	 * registers special ship component type functionality with the ship.
+	 * Registers this ship.component with the specified ship, indicating that the ship.component is a part of the specified ship and
+	 * registers special ship ship.component type functionality with the ship.
 	 *
-	 * @param owner the ship with which this component is registered.
+	 * @param owner the ship with which this ship.component is registered.
 	 */
 	public void registerOwner(final Starship owner);
 

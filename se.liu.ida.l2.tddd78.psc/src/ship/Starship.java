@@ -1,14 +1,17 @@
-package game;
+package ship;
 
-import component.ShipComponent;
-import component.utility.EngineComponent;
-import component.utility.ReactorComponent;
-import component.utility.ShieldComponent;
-import component.weapon.WeaponComponent;
+import game.GeneralVisibleEntity;
+import game.VisibleEntity;
+import game.VisibleEntityListener;
+import ship.component.ShipComponent;
+import ship.component.utility.EngineComponent;
+import ship.component.utility.ReactorComponent;
+import ship.component.utility.ShieldComponent;
+import ship.component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -116,7 +119,7 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * @return the virtual position of the specified component; null if the component is null or not a part of this ship
+	 * @return the virtual position of the specified ship.component; null if the ship.component is null or not a part of this ship
 	 */
 	public Point2D.Float getPositionOf(ShipComponent component) {
 		if (component == null) {
@@ -134,12 +137,12 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * Returns the ship component at the specified position.
+	 * Returns the ship ship.component at the specified position.
 	 *
 	 * @param x the x-coordinate of the position
 	 * @param y the y-coordinate of the position
 	 *
-	 * @return the ship component at the specified position; <code>null</code> if the specified position is outside of ship
+	 * @return the ship ship.component at the specified position; <code>null</code> if the specified position is outside of ship
 	 * bounds
 	 */
 	public ShipComponent getComponentAt(final float x, final float y) {
@@ -181,11 +184,11 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * Adds the specified component at the specified position. Registers the component with this ship.
+	 * Adds the specified ship.component at the specified position. Registers the ship.component with this ship.
 	 *
-	 * @param component the component to add
-	 * @param col       column in which to add the component
-	 * @param row       row in which to add the component
+	 * @param component the ship.component to add
+	 * @param col       column in which to add the ship.component
+	 * @param row       row in which to add the ship.component
 	 */
 	public void setComponent(final ShipComponent component, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {

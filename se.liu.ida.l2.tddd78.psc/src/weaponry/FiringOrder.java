@@ -1,6 +1,6 @@
 package weaponry;
 
-import game.Starship;
+import ship.Starship;
 
 /**
  * A firing order providing information of where a shot comes from, where it is targeted at and what vessel it is targeting.

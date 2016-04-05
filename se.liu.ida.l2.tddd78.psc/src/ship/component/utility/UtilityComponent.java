@@ -1,9 +1,9 @@
-package component.utility;
+package ship.component.utility;
 
-import component.AbstractShipComponent;
+import ship.component.AbstractShipComponent;
 
 /**
- * A ship component with an output.
+ * A ship ship.component with an output.
  */
 public abstract class UtilityComponent extends AbstractShipComponent
 {

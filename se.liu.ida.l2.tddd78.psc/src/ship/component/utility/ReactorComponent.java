@@ -1,6 +1,6 @@
-package component.utility;
+package ship.component.utility;
 
-import game.Starship;
+import ship.Starship;
 
 import java.awt.*;
 

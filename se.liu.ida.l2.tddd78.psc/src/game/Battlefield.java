@@ -1,9 +1,10 @@
 package game;
 
-import component.ShipComponent;
+import ship.Starship;
+import ship.component.ShipComponent;
 import weaponry.projectile.Projectile;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,6 +1,6 @@
 package weaponry.projectile;
 
-import game.Starship;
+import ship.Starship;
 
 /**
  * A missile that ill move towards a target and inflict damage.

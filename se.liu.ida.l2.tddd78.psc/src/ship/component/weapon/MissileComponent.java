@@ -1,11 +1,11 @@
-package component.weapon;
+package ship.component.weapon;
 
 import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
 /**
- * A weapon component that can fire missiles according to firing orders.
+ * A weapon ship.component that can fire missiles according to firing orders.
  *
  * @see MissileProjectile
  * @see FiringOrder

@@ -1,13 +1,14 @@
 package game;
 
-import component.utility.EngineComponent;
-import component.utility.ReactorComponent;
-import component.utility.ShieldComponent;
-import component.weapon.MissileComponent;
 import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
+import ship.Starship;
+import ship.component.utility.EngineComponent;
+import ship.component.utility.ReactorComponent;
+import ship.component.utility.ShieldComponent;
+import ship.component.weapon.MissileComponent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

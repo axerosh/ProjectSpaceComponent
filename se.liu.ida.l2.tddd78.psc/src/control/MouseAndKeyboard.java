@@ -1,10 +1,10 @@
 package control;
 
-import component.ShipComponent;
-import component.weapon.WeaponComponent;
 import game.Battlefield;
-import game.Starship;
 import graphics.GameDisplayer;
+import ship.Starship;
+import ship.component.ShipComponent;
+import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
 
 import javax.swing.*;
