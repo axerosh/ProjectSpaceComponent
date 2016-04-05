@@ -4,7 +4,9 @@ import component.ShipComponent;
 import component.weapon.WeaponComponent;
 import game.Battlefield;
 import game.Starship;
+import game.Test;
 import graphics.GameDisplayer;
+import graphics.WorkshopDisplayer;
 import weaponry.FiringOrder;
 
 import javax.swing.*;
@@ -23,12 +25,15 @@ public class MouseAndKeyboard extends JComponent
 	private Battlefield battlefield;
 	private Starship controlledShip;
 	private GameDisplayer gameDisplayer;
+	private WorkshopDisplayer workshopDisplayer;
 	private WeaponComponent selectedWeapon;
 
-	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer) {
+	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
+							WorkshopDisplayer workshopDisplayer) {
 		this.battlefield = battlefield;
 		this.controlledShip = controlledShip;
 		this.gameDisplayer = gameDisplayer;
+		this.workshopDisplayer = workshopDisplayer;
 		selectedWeapon = null;
 		addMouseListener(new MouseAndKeyboardListener());
 		addKeyListener(new MouseAndKeyboardListener());
@@ -61,6 +66,11 @@ public class MouseAndKeyboard extends JComponent
 					selectedWeapon = null;
 				}
 			}
+		}
+
+		//TODO
+		@Override public void mouseDragged(final MouseEvent e) {
+
 		}
 
 		private void managePower(final MouseEvent e, ShipComponent clickedComponent) {
@@ -117,11 +127,27 @@ public class MouseAndKeyboard extends JComponent
 			}
 		}
 
-		@Override public void keyPressed(final KeyEvent e) {}
+		@Override public void keyPressed(final KeyEvent e) {
+			System.out.println("Toho Tryckt!");
+		}
 
 		@Override public void keyReleased(final KeyEvent e) {}
 
-		@Override public void keyTyped(final KeyEvent e) {}
+		@Override public void keyTyped(final KeyEvent e) {
+			System.out.println("Toho! Typed");
+			if(e.getKeyChar() == 'c'){
+				if(Test.getGamemode() == -1){
+					Test.changeGamemode(0, gameDisplayer, workshopDisplayer);
+				}
+				if(Test.getGamemode() == 0){
+					Test.changeGamemode(1, gameDisplayer, workshopDisplayer);
+				}
+				if(Test.getGamemode() == 1){
+					Test.changeGamemode(0, gameDisplayer, workshopDisplayer);
+				}
+
+			}
+		}
 	}
 }
 

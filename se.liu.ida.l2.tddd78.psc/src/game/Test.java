@@ -8,6 +8,7 @@ import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
+import graphics.WorkshopDisplayer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,15 +19,23 @@ import java.awt.event.ActionEvent;
 public final class Test
 {
 
+	private static JFrame frame;
+
 	private Test() {}
+	private static int gameMode = -1;
 
 	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
+
+
 
 		final int team1 = 0;
 		final int team2 = 1;
 		final float shipIntegrity = 10;
 
+		Workshop workshop = new Workshop();
+
+		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop);
 
 		Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
 		initShip(playerShip);
@@ -39,15 +48,15 @@ public final class Test
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
-		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer);
+		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer);
 
-		JFrame frame = new PSCFrame();
-		frame.add(gameDisplayer);
-		frame.pack();
+		frame = new PSCFrame();
+		//frame.add(gameDisplayer);
+		//frame.pack();
 		frame.add(playerController);
-		gameDisplayer.repaint();
+		//gameDisplayer.repaint();
 
-		playerShip.printShip();
+		//playerShip.printShip();
 
 		Timer timer = new Timer(8, new AbstractAction() {
 			private long lastTime = System.nanoTime();
@@ -56,15 +65,40 @@ public final class Test
 				final long nanosPerSecond = 1000000000;
 				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
 				lastTime = System.nanoTime();
-				AI.update();
-				arena.update(passedSeconds);
-				gameDisplayer.repaint();
+
+				if(gameMode == 0){
+					workshop.update();
+					workshopDisplayer.repaint();
+				}else if(gameMode == 1){
+					AI.update();
+					arena.update(passedSeconds);
+					gameDisplayer.repaint();
+				}
+
+
 			}
 		});
 		timer.setCoalesce(true);
 		timer.start();
 
-		playerShip.printShip();
+		//playerShip.printShip();
+	}
+
+	public static void changeGamemode(int i, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer){
+		frame.removeAll();
+		switch (gameMode){
+			case(0):
+				frame.add(workshopDisplayer);
+				break;
+			case(1):
+				frame.add(gameDisplayer);
+				break;
+		}
+		frame.pack();
+	}
+
+	public static int getGamemode(){
+		return gameMode;
 	}
 
 	private static void initShip(Starship starship) {
