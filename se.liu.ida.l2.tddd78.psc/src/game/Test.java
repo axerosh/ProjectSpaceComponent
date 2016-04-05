@@ -36,7 +36,7 @@ public final class Test
 		Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
-		BasicAI AI = new BasicAI(arena, enemyShip);
+		BasicAI ai = new BasicAI(arena, enemyShip);
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
@@ -57,7 +57,7 @@ public final class Test
 				final long nanosPerSecond = 1000000000;
 				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
 				lastTime = System.nanoTime();
-				AI.update();
+				ai.update();
 				arena.update(passedSeconds);
 				gameDisplayer.repaint();
 			}

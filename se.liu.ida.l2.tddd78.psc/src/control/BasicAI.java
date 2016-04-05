@@ -5,25 +5,19 @@ import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
-import weaponry.projectile.Projectile;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 
 
+/**
+ * Basic AI for basic AI fucntionallity.
+ */
 public class BasicAI
 {
 	private Battlefield field;
 	private Starship aiShip;
-	private List<Projectile> projetilesToFire;
-	private Random random;
 
 	public BasicAI(final Battlefield field, final Starship aiShip) {
 		this.field = field;
 		this.aiShip = aiShip;
-		projetilesToFire = new ArrayList<>();
 	}
 
 	private void orderPoolUsage(){
@@ -36,11 +30,9 @@ public class BasicAI
 
 	private void orderWeaponsUsage(){
 
-		Starship targetShip;
-		ShipComponent targetComponent;
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
-			targetShip = field.getRandomShipOfTeam(0);
-			targetComponent = targetShip.getRandomComponent();
+			Starship targetShip = field.getRandomShipOfTeam(0);
+			ShipComponent targetComponent = targetShip.getRandomComponent();
 
 			float originX = aiShip.getPositionOf(wc).x;
 			float originY = aiShip.getPositionOf(wc).y;
@@ -60,9 +52,5 @@ public class BasicAI
 		orderPoolUsage();
 		orderWeaponsUsage();
 
-	}
-
-	public void addProjectiles(final Collection<Projectile> projectiles) {
-		projetilesToFire.addAll(projectiles);
 	}
 }

@@ -493,8 +493,8 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * @return a List of all WeaponComponents the ship has.
 	 */
-	public List<WeaponComponent> getWeaponComponents(){
-		List<WeaponComponent> weaponComponents = new ArrayList<>();
+	public Iterable<WeaponComponent> getWeaponComponents() {
+		Collection<WeaponComponent> weaponComponents = new ArrayList<>();
 		for(ShipComponent[] componentList:components){
 			for(ShipComponent sc : componentList){
 				if(sc instanceof WeaponComponent){
