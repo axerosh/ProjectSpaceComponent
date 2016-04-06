@@ -49,6 +49,7 @@ public final class Test
 		gameDisplayer.repaint();
 
 		playerShip.printShip();
+		System.out.println(playerShip.getTextRepresentation());
 
 		Timer timer = new Timer(8, new AbstractAction() {
 			private long lastTime = System.nanoTime();

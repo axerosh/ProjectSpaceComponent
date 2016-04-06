@@ -49,6 +49,7 @@ public class Starship extends GeneralVisibleEntity
 	private int numberOfComponents;
 	private int team;
 	private float integrity;
+	private float maxIntegrity;
 
 	/**
 	 * The dodge rate of this ship. The rate of which projectile will miss the ship.
@@ -84,13 +85,14 @@ public class Starship extends GeneralVisibleEntity
 											   "Only positive integers are permitted.");
 		}
 		if (integrity <= 0) {
-			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive valujes are permitted.");
+			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive values are permitted.");
 		}
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.integrity = integrity;
+		this.maxIntegrity = integrity;
 
 		rng = new Random();
 
@@ -107,6 +109,36 @@ public class Starship extends GeneralVisibleEntity
 		projectilesToFire = new ArrayList<>();
 
 		components = new ShipComponent[width][height];
+	}
+
+	/**
+	 * Constructs a star ship with the specifed position, width and height.
+	 *
+	 * @param x            the x-position of the ship
+	 * @param y            the y-position of the ship
+	 * @param width        the width of the ship i.e. the number of ship components that can fit along the width
+	 * @param height       the height of the ship i.e. the number of ship components that can fit along the height
+	 * @param integrity    the current damage the ship can take before it is destroyed
+	 * @param maxIntegrity the damage the ship can take before it is destroyed when undamaged
+	 *
+	 * @throws IllegalArgumentException if one of the following is true: <ul> <li>the specified width is negative or 0</li>
+	 *                                  <li>the specified height is negative or 0</li> <li>the specified integrity is negative
+	 *                                  or 0</li> <li>the specified maxIntegrity is less than the specified integrity</li>
+	 *                                  </ul>
+	 * @see ShipComponent
+	 */
+	public Starship(final float x, final float y, final int width, final int height, final float integrity,
+					final float maxIntegrity)
+	{
+		this(x, y, width, height, integrity);
+
+		if (maxIntegrity < integrity) {
+			throw new IllegalArgumentException(
+					"Invalid maximum integrity = " + maxIntegrity + ". Must be equal to or greater " +
+					"than the integrity = " + integrity + ".");
+		} else {
+			this.maxIntegrity = maxIntegrity;
+		}
 	}
 
 	public void inflictDamage(float damage) {
@@ -511,10 +543,36 @@ public class Starship extends GeneralVisibleEntity
 	public ShipComponent getRandomComponent(){
 		List<ShipComponent> shipComponents = getShipComponents();
 
-		if(shipComponents.isEmpty()){
+		if (shipComponents.isEmpty()) {
 			return null;
 		}
 
 		return shipComponents.get(rng.nextInt(shipComponents.size()));
+	}
+
+	public String getTextRepresentation() {
+		StringBuilder textRep = new StringBuilder();
+		textRep.append("width=");
+		textRep.append(width);
+		textRep.append(", height=");
+		textRep.append(height);
+		textRep.append(", integrity=");
+		textRep.append(integrity);
+		textRep.append(", maxIntegrity=");
+		textRep.append(maxIntegrity);
+		textRep.append("; \n");
+
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				ShipComponent component = components[col][row];
+				if (component != null) {
+					textRep.append(component.getSymbolRepresentation());
+				} else {
+					textRep.append(".");
+				}
+			}
+			textRep.append("\n");
+		}
+		return textRep.toString();
 	}
 }

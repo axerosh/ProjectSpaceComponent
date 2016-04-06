@@ -11,8 +11,7 @@ import java.awt.*;
  *
  * @see Starship
  */
-public interface ShipComponent extends VisibleEntity
-{
+public interface ShipComponent extends VisibleEntity {
 
 	/**
 	 * Damages this ship ship.component by reducing its HP by the specified number of hit points.
@@ -102,9 +101,7 @@ public interface ShipComponent extends VisibleEntity
 	public void decreasePower();
 
 	/**
-	 * @return true if needs target for activation effect.
-	 * @see #activate()
-	 * @see #registerOwner
+	 * @return the symbol that represents a component of this type
 	 */
-	public boolean needsTarget();
+	public char getSymbolRepresentation();
 }

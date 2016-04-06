@@ -1,6 +1,5 @@
 package ship;
 
-import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
@@ -38,7 +37,7 @@ public final class ShipIO {
 	 *
 	 * @return a text representation of the the specified ship
 	 */
-	public static String toText(Starship ship) {
+	/*public static String toText(Starship ship) {
 		StringBuilder textRep = new StringBuilder();
 
 		textRep.append("width=" + ship.getWidth() + "; ") textRep.append("height=" + ship.getHeight() + "; ")
@@ -50,7 +49,7 @@ public final class ShipIO {
 		}
 
 		return textRep.toString();
-	}
+	}*/
 
 	/**
 	 * Returns a ship of the design of the specified ship text representation.
@@ -61,7 +60,7 @@ public final class ShipIO {
 	 *
 	 * @return a ship of the design of the specified ship text representation
 	 */
-	public static Starship toShip(float x, float y, String textRep) {
+	/*public static Starship toShip(float x, float y, String textRep) {
 		int shipWidth = 5;
 		int shipHeight = 5;
 		float shipIntegerity = 2;
@@ -74,5 +73,5 @@ public final class ShipIO {
 		}
 
 		return ship;
-	}
+	}*/
 }

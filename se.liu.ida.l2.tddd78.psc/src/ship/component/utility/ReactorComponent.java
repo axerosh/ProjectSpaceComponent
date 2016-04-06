@@ -24,4 +24,8 @@ public class ReactorComponent extends UtilityComponent
 		super.registerOwner(owner);
 		owner.registerReactorComponent(this);
 	}
+
+	@Override public char getSymbolRepresentation() {
+		return 'R';
+	}
 }

@@ -27,4 +27,8 @@ public class ShieldComponent extends UtilityComponent
 		super.registerOwner(owner);
 		owner.registerShieldComponent(this);
 	}
+
+	@Override public char getSymbolRepresentation() {
+		return 'S';
+	}
 }

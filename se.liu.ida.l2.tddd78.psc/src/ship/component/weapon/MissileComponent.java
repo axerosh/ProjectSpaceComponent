@@ -32,4 +32,8 @@ public class MissileComponent extends WeaponComponent
 	}
 
 	@Override public void update() {}
+
+	@Override public char getSymbolRepresentation() {
+		return 'M';
+	}
 }
