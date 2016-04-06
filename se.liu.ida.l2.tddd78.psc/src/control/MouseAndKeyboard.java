@@ -5,8 +5,9 @@ import component.weapon.WeaponComponent;
 import game.Battlefield;
 import game.Starship;
 import game.Test;
-import graphics.GameDisplayer;
-import graphics.WorkshopDisplayer;
+import graphics.displayers.GameDisplayer;
+import graphics.displayers.MenuDisplayer;
+import graphics.displayers.WorkshopDisplayer;
 import weaponry.FiringOrder;
 
 import javax.swing.*;
@@ -26,17 +27,25 @@ public class MouseAndKeyboard extends JComponent
 	private Starship controlledShip;
 	private GameDisplayer gameDisplayer;
 	private WorkshopDisplayer workshopDisplayer;
+	private MenuDisplayer menuDisplayer;
 	private WeaponComponent selectedWeapon;
 
 	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
-							WorkshopDisplayer workshopDisplayer) {
+							WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer) {
 		this.battlefield = battlefield;
 		this.controlledShip = controlledShip;
 		this.gameDisplayer = gameDisplayer;
 		this.workshopDisplayer = workshopDisplayer;
+		this.menuDisplayer = menuDisplayer;
+
 		selectedWeapon = null;
-		addMouseListener(new MouseAndKeyboardListener());
-		addKeyListener(new MouseAndKeyboardListener());
+
+		MouseAndKeyboardListener m = new MouseAndKeyboardListener();
+		addMouseListener(m);
+		addKeyListener(m);
+		setFocusable(true);
+		requestFocusInWindow();
+
 	}
 
 	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
@@ -128,25 +137,31 @@ public class MouseAndKeyboard extends JComponent
 		}
 
 		@Override public void keyPressed(final KeyEvent e) {
-			System.out.println("Toho Tryckt!");
 		}
 
-		@Override public void keyReleased(final KeyEvent e) {}
+		@Override public void keyReleased(final KeyEvent e) {
+		}
 
 		@Override public void keyTyped(final KeyEvent e) {
-			System.out.println("Toho! Typed");
+
 			if(e.getKeyChar() == 'c'){
-				if(Test.getGamemode() == -1){
-					Test.changeGamemode(0, gameDisplayer, workshopDisplayer);
-				}
-				if(Test.getGamemode() == 0){
-					Test.changeGamemode(1, gameDisplayer, workshopDisplayer);
-				}
-				if(Test.getGamemode() == 1){
-					Test.changeGamemode(0, gameDisplayer, workshopDisplayer);
+				System.out.println("Toho! Typed");
+
+				switch(Test.gameMode){
+					case MENU:
+						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer);
+						break;
+					case WORKSHOP:
+						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer);
+						break;
+					case BATTLE:
+						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer);
+						break;
+
 				}
 
 			}
+
 		}
 	}
 }

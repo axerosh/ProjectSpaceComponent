@@ -6,9 +6,10 @@ import component.utility.ShieldComponent;
 import component.weapon.MissileComponent;
 import control.BasicAI;
 import control.MouseAndKeyboard;
-import graphics.GameDisplayer;
+import graphics.displayers.GameDisplayer;
+import graphics.displayers.MenuDisplayer;
 import graphics.PSCFrame;
-import graphics.WorkshopDisplayer;
+import graphics.displayers.WorkshopDisplayer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,19 +23,19 @@ public final class Test
 	private static JFrame frame;
 
 	private Test() {}
-	private static int gameMode = -1;
+	public static Gamemode gameMode = Gamemode.MENU;
 
 	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
-
-
 
 		final int team1 = 0;
 		final int team2 = 1;
 		final float shipIntegrity = 10;
 
-		Workshop workshop = new Workshop();
+		Menu menu = new Menu();
+		MenuDisplayer menuDisplayer = new MenuDisplayer(menu);
 
+		Workshop workshop = new Workshop();
 		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop);
 
 		Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
@@ -48,13 +49,13 @@ public final class Test
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
-		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer);
+		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer, menuDisplayer);
 
 		frame = new PSCFrame();
-		//frame.add(gameDisplayer);
-		//frame.pack();
+		frame.add(menuDisplayer);
+		frame.pack();
 		frame.add(playerController);
-		//gameDisplayer.repaint();
+		gameDisplayer.repaint();
 
 		//playerShip.printShip();
 
@@ -66,10 +67,10 @@ public final class Test
 				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
 				lastTime = System.nanoTime();
 
-				if(gameMode == 0){
+				if(gameMode == Gamemode.WORKSHOP){
 					workshop.update();
 					workshopDisplayer.repaint();
-				}else if(gameMode == 1){
+				}else if(gameMode == Gamemode.BATTLE){
 					AI.update();
 					arena.update(passedSeconds);
 					gameDisplayer.repaint();
@@ -84,20 +85,45 @@ public final class Test
 		//playerShip.printShip();
 	}
 
-	public static void changeGamemode(int i, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer){
-		frame.removeAll();
+	public static enum Gamemode{
+		MENU, WORKSHOP, BATTLE
+	}
+
+	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer){
 		switch (gameMode){
-			case(0):
+			case MENU:
+				System.out.println("cheking in! ;)");
+				frame.remove(menuDisplayer);
+				break;
+			case WORKSHOP:
+				frame.remove(workshopDisplayer);
+				break;
+			case BATTLE:
+				frame.remove(gameDisplayer);
+				break;
+		}
+
+		switch (mode){
+			case MENU:
+				System.out.println("Show men that menu ;)");
+				frame.add(menuDisplayer);
+				break;
+			case WORKSHOP:
+				System.out.println("Work it babe ;)");
 				frame.add(workshopDisplayer);
 				break;
-			case(1):
+			case BATTLE:
+				System.out.println("Do you wanna play a game? ;)");
 				frame.add(gameDisplayer);
 				break;
 		}
 		frame.pack();
+		frame.repaint();
+		gameMode = mode;
+		System.out.println("Looking good babe ;)");
 	}
 
-	public static int getGamemode(){
+	public static Gamemode getGamemode(){
 		return gameMode;
 	}
 
