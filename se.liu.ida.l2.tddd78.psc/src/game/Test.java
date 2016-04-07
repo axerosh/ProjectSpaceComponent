@@ -24,6 +24,7 @@ public final class Test
 
 	private Test() {}
 	public static Gamemode gameMode = Gamemode.MENU;
+	private static float SCALE = 40.0f;
 
 	public static void main(String[] args) {
 		Battlefield arena = new Battlefield();
@@ -35,7 +36,7 @@ public final class Test
 		Menu menu = new Menu();
 		MenuDisplayer menuDisplayer = new MenuDisplayer(menu);
 
-		Workshop workshop = new Workshop();
+		Workshop workshop = new Workshop(32,18, SCALE);
 		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop);
 
 		Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);

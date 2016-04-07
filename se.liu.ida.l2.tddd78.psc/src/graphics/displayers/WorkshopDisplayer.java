@@ -12,7 +12,8 @@ public class WorkshopDisplayer extends Displayer{
 		this.workshop = workshop;
 	}
 
-	@Override public Dimension getPreferredSize(){
-		return new Dimension(400, 400);
+	@Override protected void paintComponent(final Graphics g) {
+		workshop.draw(g);
 	}
+
 }

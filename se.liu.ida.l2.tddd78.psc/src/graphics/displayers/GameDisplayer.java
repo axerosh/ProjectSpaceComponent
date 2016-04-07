@@ -18,11 +18,6 @@ public class GameDisplayer extends Displayer
 		this.battlefield = battlefield;
 	}
 
-	@Override public Dimension getPreferredSize() {
-		final int battlefieldWidth = 13;
-		final int battlefieldHeight = 7;
-		return new Dimension((int) (battlefieldWidth * SCALE), (int) (battlefieldHeight * SCALE));
-	}
 
 	@Override protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);
