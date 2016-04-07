@@ -39,11 +39,12 @@ public final class Test
 		Workshop workshop = new Workshop(32,18, SCALE);
 		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop);
 
-		Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
+		Starship playerShip = new Starship(5, 5, shipIntegrity);
 		initShip(playerShip);
+		workshop.addShip(playerShip);
 		arena.addShip(playerShip, team1);
 
-		Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
+		Starship enemyShip = new Starship(5, 5, shipIntegrity);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 		BasicAI AI = new BasicAI(arena, enemyShip);
