@@ -34,7 +34,10 @@ public final class ShipFactory {
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
 	public static Starship getStarship(final float x, final float y, String textRepresentation) {
-		Map<String, Float> parameterValues = getParameterMap(textRepresentation);
+		String cleanRep = textRepresentation.replaceAll("\\s+", "");
+		System.out.println(cleanRep);
+
+		Map<String, Float> parameterValues = getParameterMap(cleanRep);
 
 		Float width = parameterValues.get("width");
 		if (width == null) {
@@ -72,19 +75,21 @@ public final class ShipFactory {
 	private static Map<String, Float> getParameterMap(String textRepresentation) {
 		Map<String, Float> parameterValues = new HashMap<>();
 
-		Class rolf = EngineComponent.class;
-
 		int endIndex = textRepresentation.indexOf(';');
+		if (endIndex < 0) {
+			endIndex = textRepresentation.length();
+		}
+
+		String parameters = textRepresentation.substring(0, endIndex);
 		int startIndex = 0;
 		while (startIndex < endIndex) {
 
-			int nextStop = textRepresentation.indexOf(',');
+			int nextStop = parameters.indexOf(',', startIndex);
 			if (nextStop < 0) {
 				nextStop = endIndex;
 			}
 
-			String parameter = textRepresentation.substring(startIndex, nextStop);
-			parameter = parameter.replaceAll("\\s", "");
+			String parameter = parameters.substring(startIndex, nextStop);
 
 			int seperationIndex = parameter.indexOf('=');
 			if (seperationIndex < 0) {
@@ -110,10 +115,16 @@ public final class ShipFactory {
 		int row = 0;
 		int col = 0;
 
-		while (cursor < textRepresentation.length()) {
-			char symbol = textRepresentation.charAt(cursor);
-			ShipComponent componentToAdd = null;
+		int endIndex = textRepresentation.indexOf(';', cursor);
+		if (endIndex < 0) {
+			endIndex = textRepresentation.length();
+		}
+
+		while (cursor < endIndex) {
 			float componentIntegrity = 2;
+			ShipComponent componentToAdd = null;
+
+			char symbol = textRepresentation.charAt(cursor);
 
 			switch (symbol) {
 				case 'E':
@@ -132,27 +143,24 @@ public final class ShipFactory {
 					int missileRechargeTime = 5;
 					componentToAdd = new MissileComponent(componentIntegrity, missileRechargeTime);
 					break;
-				case ';':
-					cursor++;
-					row++;
-					col = 0;
-					continue;
-				case '\\':
-					int nextPosition = cursor + 1;
-					if (nextPosition < textRepresentation.length()) {
-						if (textRepresentation.charAt(nextPosition) == 'n') {
-							cursor += 2;
-							continue;
-						}
-					}
+				case '.':
 					break;
+				case ',':
+					col = 0;
+					row++;
+					cursor++;
+					continue;
+				default:
+					cursor++;
+					continue;
 			}
 			if (componentToAdd != null) {
 				ship.setComponent(componentToAdd, col, row);
 			}
+			System.out.println(symbol + " at c = " + col + ", r = " + row);
 
-			cursor++;
 			col++;
+			cursor++;
 		}
 	}
 }

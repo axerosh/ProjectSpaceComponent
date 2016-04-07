@@ -27,22 +27,29 @@ public final class Test
 
 		final int team1 = 0;
 		final int team2 = 1;
-		final float shipIntegrity = 10;
 
 		String playerShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
-										  " EEE ;\n" +
-										  "MSSSM;\n" +
-										  "E E E;\n" +
-										  "EEMEE;\n" +
-										  " R R ;";
+										  ".RSS.,\n" +
+										  "EE.RS,\n" +
+										  ".SSMR,\n" +
+										  "EE.RS,\n" +
+										  ".RSS.;";
+
+		String enemyShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
+										 ".S.RE,\n" +
+										 "SRSSE,\n" +
+										 "..MR.,\n" +
+										 "SRSSE,\n" +
+										 ".S.RE;";
 
 		Starship playerShip = ShipFactory.getStarship(1, 1, playerShipRepresentaiton);
 		//Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
 		//initShip(playerShip);
 		arena.addShip(playerShip, team1);
 
-		Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
-		initShip(enemyShip);
+		Starship enemyShip = ShipFactory.getStarship(7, 1, enemyShipRepresentaiton);
+		//Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
+		//initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 		BasicAI ai = new BasicAI(arena, enemyShip);
 
