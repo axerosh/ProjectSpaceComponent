@@ -75,10 +75,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		return damage * (1 - shieldRate);
 	}
 
-	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		draw(g, scale, virtualX, virtualY, Color.GRAY);
-	}
-
 	/**
 	 * Draws this ship ship.component with the specified scaling and the specified color.
 	 *

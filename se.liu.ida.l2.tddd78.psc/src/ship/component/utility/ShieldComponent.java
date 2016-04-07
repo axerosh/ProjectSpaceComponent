@@ -20,7 +20,8 @@ public class ShieldComponent extends UtilityComponent
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		draw(g, scale, virtualX, virtualY, Color.CYAN);
+		final Color blue = new Color(0, 150, 255);
+		draw(g, scale, virtualX, virtualY, blue);
 	}
 
 	@Override public void registerOwner(final Starship owner) {

@@ -4,6 +4,8 @@ import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
+import java.awt.*;
+
 /**
  * A weapon ship.component that can fire missiles according to firing orders.
  *
@@ -29,6 +31,11 @@ public class MissileComponent extends WeaponComponent
 		int blastRadius = (int) (baseBlastDamage + getPower() * blastRadiusPerPower);
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
 									 firingOrder.getTargetY(), velocity, firingOrder.getTargetShip(), damage, blastRadius);
+	}
+
+	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+		final Color gray = new Color(100, 100, 100);
+		draw(g, scale, virtualX, virtualY, gray);
 	}
 
 	@Override public void update() {}
