@@ -101,7 +101,6 @@ public final class ShipFactory {
 
 			String parameterName = parameter.substring(0, seperationIndex);
 			String parameterValueText = parameter.substring(seperationIndex + 1, parameter.length());
-			System.out.println(parameterValueText);
 			Float parameterValue = Float.valueOf(parameterValueText);
 
 			parameterValues.put(parameterName, parameterValue);
@@ -159,7 +158,6 @@ public final class ShipFactory {
 			if (componentToAdd != null) {
 				ship.setComponent(componentToAdd, col, row);
 			}
-			System.out.println(symbol + " at c = " + col + ", r = " + row);
 
 			col++;
 			cursor++;

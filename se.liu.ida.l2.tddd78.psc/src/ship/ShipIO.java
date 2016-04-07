@@ -1,5 +1,12 @@
 package ship;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
+
 /**
  * Utility class for saving and loading Staship designs.
  *
@@ -7,51 +14,53 @@ package ship;
  */
 public final class ShipIO {
 
+	private final static String SAVE_FOLDER =
+			"/home/axeno840/IdeaProjects/TDDD78/ProjectSpaceComponent/se.liu.ida.l2.tddd78.psc/resources/ship_designs/";
+	private final static String SAVE_FORMAT = ".ship";
+
 	private ShipIO() {
 	}
 
 	/**
-	 * Returns a text representation of the the specified ship.
+	 * Saves the specified ship to the specified path.
 	 *
-	 * @param ship a starship
-	 *
+	 * @param ship a starship to save
 	 * @return a text representation of the the specified ship
 	 */
-	/*public static String toText(Starship ship) {
-		StringBuilder textRep = new StringBuilder();
-
-		textRep.append("width=" + ship.getWidth() + "; ") textRep.append("height=" + ship.getHeight() + "; ")
-		textRep.append("intergrity=" + ship.getMax() + "; ")
-
-		Iterable<ShipComponent> components = ship.getShipComponents();
-		for (ShipComponent component : components) {
-			textRep.append(componentSymbolMap.get(component.getClass()));
+	public static void save(Starship ship, String fileName) {
+		String filePath = SAVE_FOLDER + fileName + SAVE_FORMAT;
+		/*try (ObjectOutputStream os =
+					 new ObjectOutputStream(
+							 new BufferedOutputStream(
+							 	new FileOutputStream(filePath)))) {
+			String textRepresentation = ship.getTextRepresentation();
+			os.writeUTF(textRepresentation);
+			System.out.println("Saved to " + filePath);*/
+		try (OutputStream os = new FileOutputStream(filePath)) {
+			String textRepresentation = ship.getTextRepresentation();
+			byte[] byteOutput = textRepresentation.getBytes("UTF-8");
+			os.write(byteOutput);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
-
-		return textRep.toString();
-	}*/
+	}
 
 	/**
-	 * Returns a ship of the design of the specified ship text representation.
+	 * Returns a ship loaded from the specified path.
 	 *
 	 * @param x       the x position at which the ship is to be located
 	 * @param y       the y position at which the ship is to be located
-	 * @param textRep a text representation of a starship
-	 *
-	 * @return a ship of the design of the specified ship text representation
+	 * @return a ship loaded from the specified path
 	 */
-	/*public static Starship toShip(float x, float y, String textRep) {
-		int shipWidth = 5;
-		int shipHeight = 5;
-		float shipIntegerity = 2;
-
-		Starship ship = new Starship(x, y, shipWidth, shipHeight, shipIntegerity);
-
-		Iterable<ShipComponent> components = ship.getShipComponents();
-		for (ShipComponent component : components) {
-			textRep.append(componentSymbolMap.get(component.getClass()));
+	public static Starship load(float x, float y, String fileName) {
+		String filePath = SAVE_FOLDER + fileName + SAVE_FORMAT;
+		try (ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
+			String textRepresentation = is.readUTF();
+			Starship ship = ShipFactory.getStarship(x, y, textRepresentation);
+			return ship;
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
-
-		return ship;
-	}*/
+		return null;
+	}
 }

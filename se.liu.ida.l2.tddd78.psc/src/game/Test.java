@@ -53,6 +53,9 @@ public final class Test
 		arena.addShip(enemyShip, team2);
 		BasicAI ai = new BasicAI(arena, enemyShip);
 
+		//ShipIO.save(playerShip, "the_manta");
+		//ShipIO.save(enemyShip, "the_governator");
+
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
 		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer);
