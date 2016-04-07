@@ -224,10 +224,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		return active;
 	}
 
-	@Override public boolean needsTarget() {
-		return needsTarget;
-	}
-
 	@Override public String toString() {
 		return (this.getClass() + " HP = " + integrity + ", Shielding = " + shielding + ", Power = " + power);
 	}

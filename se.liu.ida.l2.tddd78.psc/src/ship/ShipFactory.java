@@ -1,6 +1,10 @@
 package ship;
 
+import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
+import ship.component.utility.ReactorComponent;
+import ship.component.utility.ShieldComponent;
+import ship.component.weapon.MissileComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +33,7 @@ public final class ShipFactory {
 	 *                                  specified integrity</li> </ul>
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
-	public Starship getStarship(final float x, final float y, String textRepresentation) {
+	public static Starship getStarship(final float x, final float y, String textRepresentation) {
 		Map<String, Float> parameterValues = getParameterMap(textRepresentation);
 
 		Float width = parameterValues.get("width");
@@ -65,7 +69,7 @@ public final class ShipFactory {
 	 * @return a map of the parameter names and their respecive values
 	 * @throws NumberFormatException if one of the parameter values is not a parsable number.
 	 */
-	private Map<String, Float> getParameterMap(String textRepresentation) {
+	private static Map<String, Float> getParameterMap(String textRepresentation) {
 		Map<String, Float> parameterValues = new HashMap<>();
 
 		Class rolf = EngineComponent.class;
@@ -79,7 +83,7 @@ public final class ShipFactory {
 				nextStop = endIndex;
 			}
 
-			String parameter = textRepresentation.substring(startIndex, endIndex);
+			String parameter = textRepresentation.substring(startIndex, nextStop);
 			parameter = parameter.replaceAll("\\s", "");
 
 			int seperationIndex = parameter.indexOf('=');
@@ -90,6 +94,7 @@ public final class ShipFactory {
 
 			String parameterName = parameter.substring(0, seperationIndex);
 			String parameterValueText = parameter.substring(seperationIndex + 1, parameter.length());
+			System.out.println(parameterValueText);
 			Float parameterValue = Float.valueOf(parameterValueText);
 
 			parameterValues.put(parameterName, parameterValue);
@@ -100,12 +105,54 @@ public final class ShipFactory {
 		return parameterValues;
 	}
 
-	private void addComponents(Starship ship, String textRepresentation) {
-		int startIndex = textRepresentation.indexOf(';') + 1;
+	private static void addComponents(Starship ship, String textRepresentation) {
+		int cursor = textRepresentation.indexOf(';') + 1;
+		int row = 0;
+		int col = 0;
 
-		char characterThingy = '2';
-		switch (characterThingy) {
+		while (cursor < textRepresentation.length()) {
+			char symbol = textRepresentation.charAt(cursor);
+			ShipComponent componentToAdd = null;
+			float componentIntegrity = 2;
 
+			switch (symbol) {
+				case 'E':
+					int engineOutput = 10;
+					componentToAdd = new EngineComponent(componentIntegrity, engineOutput);
+					break;
+				case 'R':
+					int reactorOutput = 3;
+					componentToAdd = new ReactorComponent(componentIntegrity, reactorOutput);
+					break;
+				case 'S':
+					int shieldOutput = 4;
+					componentToAdd = new ShieldComponent(componentIntegrity, shieldOutput);
+					break;
+				case 'M':
+					int missileRechargeTime = 5;
+					componentToAdd = new MissileComponent(componentIntegrity, missileRechargeTime);
+					break;
+				case ';':
+					cursor++;
+					row++;
+					col = 0;
+					continue;
+				case '\\':
+					int nextPosition = cursor + 1;
+					if (nextPosition < textRepresentation.length()) {
+						if (textRepresentation.charAt(nextPosition) == 'n') {
+							cursor += 2;
+							continue;
+						}
+					}
+					break;
+			}
+			if (componentToAdd != null) {
+				ship.setComponent(componentToAdd, col, row);
+			}
+
+			cursor++;
+			col++;
 		}
 	}
 }
