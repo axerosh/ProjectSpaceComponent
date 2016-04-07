@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public final class ShipFactory {
 
+	private ShipFactory() {}
+
 	/**
 	 * Creates a star ship with at specifed position, acoording to the specified text representation.
 	 *

@@ -1,31 +1,11 @@
 package ship;
 
-import ship.component.utility.EngineComponent;
-import ship.component.utility.ReactorComponent;
-import ship.component.utility.ShieldComponent;
-import ship.component.weapon.MissileComponent;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Utility class for saving and loading Staship designs.
  *
  * @see Starship
  */
 public final class ShipIO {
-
-	private final static Map<Class<?>, Character> componentSymbolMap = new HashMap<>();
-
-	static {
-		//Utility
-		componentSymbolMap.put(EngineComponent.class, 'E');
-		componentSymbolMap.put(ReactorComponent.class, 'R');
-		componentSymbolMap.put(ShieldComponent.class, 'S');
-
-		//Weapons
-		componentSymbolMap.put(MissileComponent.class, 'M');
-	}
 
 	private ShipIO() {
 	}

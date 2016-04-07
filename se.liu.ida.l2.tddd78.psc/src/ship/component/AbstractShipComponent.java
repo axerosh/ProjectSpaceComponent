@@ -32,21 +32,18 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 */
 	private float integrity;
 	private boolean active;
-	private boolean needsTarget;
 	private Starship owner;
 
 	/**
 	 * Construcs an abstract ship ship.component with the specified maximum HP.
 	 *
 	 * @param integrity   the damage the ship ship.component can take before it is destroyed
-	 * @param needsTarget set to true if the components activation requires a target.
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #activate()
 	 */
-	protected AbstractShipComponent(final float integrity, final boolean needsTarget) {
+	protected AbstractShipComponent(final float integrity) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
-		this.needsTarget = needsTarget;
 		owner = null;
 		shielding = 0;
 		power = 0;

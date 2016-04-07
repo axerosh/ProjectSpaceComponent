@@ -26,7 +26,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	private Projectile projectileToFire;
 
 	protected WeaponComponent(final float integrity, final int rechargeTime) {
-		super(integrity, true);
+		super(integrity);
 		this.baseRechargeTime = rechargeTime;
 		rechargeTimeLeft = 0;
 		firingOrder = null;
