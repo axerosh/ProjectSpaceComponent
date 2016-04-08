@@ -27,10 +27,12 @@ public final class Test
 	private static float SCALE = 40.0f;
 
 	public static void main(String[] args) {
-		Battlefield arena = new Battlefield();
 
-		final int team1 = 0;
-		final int team2 = 1;
+
+		final Team team1 = new Team("Team 1");
+		final Team team2 = new Team("Team 2");
+		Battlefield arena = new Battlefield(team1, team2);
+
 		final float shipIntegrity = 10;
 
 		Menu menu = new Menu();
@@ -41,17 +43,17 @@ public final class Test
 
 		Starship playerShip = new Starship(5, 5, shipIntegrity);
 		initShip(playerShip);
-		workshop.addShip(playerShip);
 		arena.addShip(playerShip, team1);
 
 		Starship enemyShip = new Starship(5, 5, shipIntegrity);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
+		arena.placeShip(enemyShip);
 		BasicAI AI = new BasicAI(arena, enemyShip);
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
-		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer, menuDisplayer);
+		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer, menuDisplayer, workshop);
 
 		frame = new PSCFrame();
 		frame.add(menuDisplayer);
@@ -91,7 +93,8 @@ public final class Test
 		MENU, WORKSHOP, BATTLE
 	}
 
-	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer){
+	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Battlefield arena, Workshop shop,
+									  Starship playerShip){
 		switch (gameMode){
 			case MENU:
 				System.out.println("cheking in! ;)");
@@ -107,15 +110,14 @@ public final class Test
 
 		switch (mode){
 			case MENU:
-				System.out.println("Show men that menu ;)");
 				frame.add(menuDisplayer);
 				break;
 			case WORKSHOP:
-				System.out.println("Work it babe ;)");
+				shop.addWorkingShip(playerShip);
 				frame.add(workshopDisplayer);
 				break;
 			case BATTLE:
-				System.out.println("Do you wanna play a game? ;)");
+				arena.placeShip(playerShip);
 				frame.add(gameDisplayer);
 				break;
 		}

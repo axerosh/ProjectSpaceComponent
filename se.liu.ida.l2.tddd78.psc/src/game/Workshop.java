@@ -41,10 +41,14 @@ public class Workshop {
 
 	}
 
-	public void addShip(Starship ship){
+	public void addWorkingShip(Starship ship){
 		workingShip = ship;
 		workingShip.setXPosition(0);
 		workingShip.setYPosition(1);
+	}
+
+	public void removeShip(){
+		workingShip = null;
 	}
 
 	public void draw(final Graphics g){

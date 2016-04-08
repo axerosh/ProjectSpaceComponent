@@ -39,7 +39,7 @@ public class BasicAI
 		Starship targetShip;
 		ShipComponent targetComponent;
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
-			targetShip = field.getRandomShipOfTeam(0);
+			targetShip = field.getRandomShipOfTeam(field.getRandomHostileTeam(aiShip.getTeam()));
 			targetComponent = targetShip.getRandomComponent();
 
 			float originX = aiShip.getPositionOf(wc).x;

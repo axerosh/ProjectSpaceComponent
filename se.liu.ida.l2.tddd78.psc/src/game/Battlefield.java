@@ -25,12 +25,12 @@ public class Battlefield extends GeneralVisibleEntity
 	private Team winningTeam;
 	private boolean gameover;
 
-	public Battlefield() {
+	public Battlefield(Team team1, Team team2) {
 		rng = new Random();
 
 		teams = new ArrayList<>();
-		teams.add(new Team());
-		teams.add(new Team());
+		teams.add(team1);
+		teams.add(team2);
 
 		projectiles = new HashSet<>();
 		winningTeam = null;
@@ -98,26 +98,22 @@ public class Battlefield extends GeneralVisibleEntity
 	/**
 	 * Adds the specified ship to the specified team.
 	 *
-	 * @param teamNumber team number from 0 to number of teams - 1
-	 *
+	 * @param ship a StarShip to add
+	 * @param team the Team to add the ship to.
 	 * @return false if failed
 	 * @see #getNumberOfTeams
 	 */
-	public boolean addShip(final Starship ship, final int teamNumber) {
-		if (teamNumber >= teams.size() || teamNumber < 0) {
-			return false;
-		} else {
-			teams.get(teamNumber).add(ship);
-			ship.setTeam(teamNumber);
-			return true;
-		}
+	public boolean addShip(final Starship ship, final Team team) {
+		team.add(ship);
+		ship.setTeam(team);
+		return true;
 	}
 
 	/**
 	 * Adds an addition team.
 	 */
-	public void addTeam() {
-		teams.add(new Team());
+	public void addTeam(String teamName) {
+		teams.add(new Team(teamName));
 	}
 
 	public int getNumberOfTeams() {
@@ -130,11 +126,19 @@ public class Battlefield extends GeneralVisibleEntity
 		}
 	}
 
-	public Starship getRandomShipOfTeam(final int teamNumber) {
-		if (teamNumber >= teams.size() || teamNumber < 0) {
-			throw new IllegalArgumentException(teamNumber + ": No such team!");
+	//TODO Detta är otrolig fulprogramering, fixa FFS! :P
+	public Team getRandomHostileTeam(Team ownTeam){
+		teams.remove(teams.indexOf(ownTeam));
+		Team hostileTeam = teams.get(rng.nextInt(teams.size()));
+		teams.add(ownTeam);
+		return hostileTeam;
+	}
+
+	public Starship getRandomShipOfTeam(final Team team) {
+		if (!teams.contains(team)) {
+			throw new IllegalArgumentException(team.getTeamName() + ": No such team!");
 		}
-		return teams.get(teamNumber).getRandomMember();
+		return teams.get(teams.indexOf(team)).getRandomMember();
 	}
 
 	/**
@@ -153,6 +157,16 @@ public class Battlefield extends GeneralVisibleEntity
 			for (Projectile projectile : projectiles) {
 				projectile.draw(g, scale);
 			}
+		}
+	}
+
+	public void placeShip(Starship ship){
+		if(ship.getTeam().getTeamName() == teams.get(0).getTeamName()){
+			ship.setXPosition(1);
+			ship.setYPosition((teams.get(0).getTeamSize() - 1) * 8);
+		}else if (ship.getTeam().getTeamName() == teams.get(1).getTeamName()){
+			ship.setXPosition(17);
+			ship.setYPosition((teams.get(1).getTeamSize() - 1) * 8);
 		}
 	}
 }

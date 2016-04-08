@@ -5,6 +5,7 @@ import component.weapon.WeaponComponent;
 import game.Battlefield;
 import game.Starship;
 import game.Test;
+import game.Workshop;
 import graphics.displayers.GameDisplayer;
 import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
@@ -24,6 +25,7 @@ public class MouseAndKeyboard extends JComponent
 {
 
 	private Battlefield battlefield;
+	private Workshop workshop;
 	private Starship controlledShip;
 	private GameDisplayer gameDisplayer;
 	private WorkshopDisplayer workshopDisplayer;
@@ -31,12 +33,13 @@ public class MouseAndKeyboard extends JComponent
 	private WeaponComponent selectedWeapon;
 
 	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
-							WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer) {
+							WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Workshop workshop) {
 		this.battlefield = battlefield;
 		this.controlledShip = controlledShip;
 		this.gameDisplayer = gameDisplayer;
 		this.workshopDisplayer = workshopDisplayer;
 		this.menuDisplayer = menuDisplayer;
+		this.workshop = workshop;
 
 		selectedWeapon = null;
 
@@ -149,13 +152,13 @@ public class MouseAndKeyboard extends JComponent
 
 				switch(Test.gameMode){
 					case MENU:
-						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer);
+						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
 						break;
 					case WORKSHOP:
-						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer);
+						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
 						break;
 					case BATTLE:
-						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer);
+						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
 						break;
 
 				}

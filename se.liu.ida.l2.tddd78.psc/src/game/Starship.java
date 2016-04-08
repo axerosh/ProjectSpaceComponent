@@ -44,7 +44,7 @@ public class Starship extends GeneralVisibleEntity
 	private int powerPool;
 	private int usedPower;
 	private int numberOfComponents;
-	private int team;
+	private Team team;
 	private float integrity;
 
 	/**
@@ -422,11 +422,11 @@ public class Starship extends GeneralVisibleEntity
 		}
 	}
 
-	public int getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
-	public void setTeam(final int team) {
+	public void setTeam(final Team team) {
 		this.team = team;
 	}
 
