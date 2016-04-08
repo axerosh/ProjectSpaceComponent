@@ -17,35 +17,24 @@ public class Workshop {
 
 	private int shipWidth = 14;
 	private int shipHeight = 8;
-	private float shipSpaceScale;
-
-	private int topAndBottomSpace;
 
 	private Starship workingShip;
 
 	public Workshop(final int width, final int height, final float scale) {
-		this.scale = scale;
-		this.width = (int)(width * this.scale);
-		this.height = (int)(height * this.scale);
+		this.scale = (int)(2*scale);
+		this.width = width / 2;
+		this.height = height/2;
 
 		init();
 	}
 
 	private void init(){
 
-		sidebarWidth = width / 4;
+		sidebarWidth = 32 / 2 - shipWidth;
 		sidebarX = width - sidebarWidth;
 
-		shipSpaceScale = (width - sidebarWidth) / shipWidth;
-		System.out.println(shipSpaceScale);
+		topBarHeight = height - shipHeight;
 
-		topBarHeight = (int)(height / shipHeight);
-		System.out.println(topBarHeight);
-
-		int shipSpaceHeigth = (int)(8 * shipSpaceScale);
-
-		topAndBottomSpace = ((height - topBarHeight) - shipSpaceHeigth) / 2;
-		System.out.println(topAndBottomSpace);
 	}
 
 	public void update(){
@@ -55,29 +44,27 @@ public class Workshop {
 	public void addShip(Starship ship){
 		workingShip = ship;
 		workingShip.setXPosition(0);
-		workingShip.setYPosition((int)((topBarHeight + topAndBottomSpace) / shipSpaceScale + 0.5));
+		workingShip.setYPosition(1);
 	}
 
 	public void draw(final Graphics g){
 
-		workingShip.draw(g, shipSpaceScale);
+		workingShip.draw(g, scale);
 
 		g.setColor(Color.BLACK);
 		for(int x = 0; x < shipWidth + 1; x++){
-			g.drawLine((int)(x*shipSpaceScale), topBarHeight + topAndBottomSpace, (int)(x * shipSpaceScale), topAndBottomSpace +
-																											 topBarHeight + (int)(shipHeight * shipSpaceScale));
+			g.drawLine((int)(x*scale), (int)(topBarHeight * scale), (int)(x*scale), (int)(height*scale));
 		}
 
-		for(int y = 0; y < shipHeight + 1; y++){
-			g.drawLine(0, (int)(y*shipSpaceScale) + topBarHeight + topAndBottomSpace, (int)(shipWidth * shipSpaceScale), (int)(y * shipSpaceScale) +
-																														 topBarHeight + topAndBottomSpace);
+		for(int y = 0; y < height + 1; y++){
+			g.drawLine(0, (int)((y + topBarHeight) * scale), (int)((width - sidebarWidth) * scale), (int)((y + topBarHeight) * scale));
 		}
 
 		g.setColor(Color.ORANGE);
-		g.fillRect(0, 0, width, topBarHeight);
+		g.fillRect(0, 0, (int)(width* scale), (int)(topBarHeight * scale));
 
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(sidebarX, 0 ,sidebarWidth, height);
+		g.fillRect((int)(sidebarX * scale), 0 ,(int)(sidebarWidth*scale), (int)(height*scale));
 
 
 	}
