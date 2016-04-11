@@ -318,7 +318,7 @@ public class Starship extends GeneralVisibleEntity
 						return;
 					}
 
-					while (component.hasShielding() && usedPower > powerPool) {
+					while (component.hasPower() && usedPower > powerPool) {
 						component.decreasePower();
 						if (usedPower <= powerPool) {
 							return;

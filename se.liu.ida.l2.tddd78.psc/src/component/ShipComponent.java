@@ -107,4 +107,6 @@ public interface ShipComponent extends VisibleEntity
 	 * @see #registerOwner
 	 */
 	public boolean needsTarget();
+
+	public ShipComponent clone() throws CloneNotSupportedException;
 }

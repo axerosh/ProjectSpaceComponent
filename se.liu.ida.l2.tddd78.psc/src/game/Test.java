@@ -97,11 +97,11 @@ public final class Test
 									  Starship playerShip){
 		switch (gameMode){
 			case MENU:
-				System.out.println("cheking in! ;)");
 				frame.remove(menuDisplayer);
 				break;
 			case WORKSHOP:
 				frame.remove(workshopDisplayer);
+				shop.removeShip();
 				break;
 			case BATTLE:
 				frame.remove(gameDisplayer);

@@ -82,7 +82,18 @@ public class MouseAndKeyboard extends JComponent
 
 		//TODO
 		@Override public void mouseDragged(final MouseEvent e) {
+			if(Test.gameMode == Test.Gamemode.WORKSHOP){
+				ShipComponent draggingLocalComponent =
+									workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
+				try{
+					draggingLocalComponent = draggingLocalComponent.clone();
+				}catch(CloneNotSupportedException ex){
+					ex.printStackTrace();
+				}
 
+				//TODO draggingLocalComponent.
+
+			}
 		}
 
 		private void managePower(final MouseEvent e, ShipComponent clickedComponent) {

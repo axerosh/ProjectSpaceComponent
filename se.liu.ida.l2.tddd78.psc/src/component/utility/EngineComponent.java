@@ -33,4 +33,8 @@ public class EngineComponent extends UtilityComponent
 		super.registerOwner(owner);
 		owner.registerEngineComponent(this);
 	}
+
+	@Override public Object clone() throws CloneNotSupportedException {
+		return new EngineComponent(maxIntegrity, output);
+	}
 }

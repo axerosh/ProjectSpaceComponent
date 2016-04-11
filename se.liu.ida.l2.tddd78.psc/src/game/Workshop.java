@@ -1,6 +1,14 @@
 package game;
 
+import component.ShipComponent;
+import component.utility.EngineComponent;
+import component.utility.ReactorComponent;
+import component.utility.ShieldComponent;
+import component.weapon.MissileComponent;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Workshop {
 
@@ -13,6 +21,7 @@ public class Workshop {
 
 	private int sidebarWidth;
 	private int sidebarX;
+	private List<ShipComponent> sidebarComponents;
 
 
 	private int shipWidth = 14;
@@ -25,6 +34,8 @@ public class Workshop {
 		this.width = width / 2;
 		this.height = height/2;
 
+		sidebarComponents = new ArrayList<>();
+
 		init();
 	}
 
@@ -35,6 +46,10 @@ public class Workshop {
 
 		topBarHeight = height - shipHeight;
 
+		sidebarComponents.add(new EngineComponent(5, 50));
+		sidebarComponents.add(new ReactorComponent(5, 50));
+		sidebarComponents.add(new ShieldComponent(5, 50));
+		sidebarComponents.add(new MissileComponent(5, 50));
 	}
 
 	public void update(){
@@ -70,6 +85,9 @@ public class Workshop {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect((int)(sidebarX * scale), 0 ,(int)(sidebarWidth*scale), (int)(height*scale));
 
+	}
 
+	public ShipComponent getComponentAtSidebar(int x, int y){
+		return sidebarComponents.get(0);
 	}
 }

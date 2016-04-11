@@ -8,7 +8,7 @@ import component.AbstractShipComponent;
 public abstract class UtilityComponent extends AbstractShipComponent
 {
 
-	private int output;
+	protected int output;
 
 	protected UtilityComponent(final float integrity, int output) {
 		super(integrity, false);
