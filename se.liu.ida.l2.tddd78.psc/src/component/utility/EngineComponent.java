@@ -1,5 +1,6 @@
 package component.utility;
 
+import component.ShipComponent;
 import game.Starship;
 
 import java.awt.*;
@@ -27,6 +28,7 @@ public class EngineComponent extends UtilityComponent
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		draw(g, scale, virtualX, virtualY, Color.RED);
+		
 	}
 
 	@Override public void registerOwner(final Starship owner) {
@@ -34,7 +36,7 @@ public class EngineComponent extends UtilityComponent
 		owner.registerEngineComponent(this);
 	}
 
-	@Override public Object clone() throws CloneNotSupportedException {
+	@Override public ShipComponent clone() throws CloneNotSupportedException {
 		return new EngineComponent(maxIntegrity, output);
 	}
 }

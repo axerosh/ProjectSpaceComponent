@@ -13,7 +13,7 @@ public interface PSCGraphics
 	 *
 	 * @return the virtual x-coordinate that corresponds to the specified screen x-coordinate
 	 */
-	public int getVirtualX(int screenX);
+	public float getVirtualX(int screenX);
 
 	/**
 	 * Returns the specified screen y-position converted to the corresponding virtual y-position
@@ -22,5 +22,5 @@ public interface PSCGraphics
 	 *
 	 * @return the virtual y-coordinate that corresponds to the specified screen y-coordinate
 	 */
-	public int getVirtualY(int screenY);
+	public float getVirtualY(int screenY);
 }

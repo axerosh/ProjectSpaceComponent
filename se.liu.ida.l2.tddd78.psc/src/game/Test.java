@@ -59,7 +59,7 @@ public final class Test
 		frame.add(menuDisplayer);
 		frame.pack();
 		frame.add(playerController);
-		gameDisplayer.repaint();
+
 
 		//playerShip.printShip();
 

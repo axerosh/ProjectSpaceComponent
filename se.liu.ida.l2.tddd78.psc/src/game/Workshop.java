@@ -21,7 +21,7 @@ public class Workshop {
 
 	private int sidebarWidth;
 	private int sidebarX;
-	private List<ShipComponent> sidebarComponents;
+	private List<List<ShipComponent>> sidebarComponents;
 
 
 	private int shipWidth = 14;
@@ -29,12 +29,16 @@ public class Workshop {
 
 	private Starship workingShip;
 
+	private boolean draggingComponent;
+
 	public Workshop(final int width, final int height, final float scale) {
 		this.scale = (int)(2*scale);
 		this.width = width / 2;
 		this.height = height/2;
 
 		sidebarComponents = new ArrayList<>();
+
+		draggingComponent = false;
 
 		init();
 	}
@@ -46,10 +50,13 @@ public class Workshop {
 
 		topBarHeight = height - shipHeight;
 
-		sidebarComponents.add(new EngineComponent(5, 50));
-		sidebarComponents.add(new ReactorComponent(5, 50));
-		sidebarComponents.add(new ShieldComponent(5, 50));
-		sidebarComponents.add(new MissileComponent(5, 50));
+		for(int i = 0; i < height; i++){
+			sidebarComponents.add(new ArrayList<>());
+		}
+		sidebarComponents.get(0).add(new EngineComponent(1, 1));
+		sidebarComponents.get(0).add(new ReactorComponent(1, 1));
+		sidebarComponents.get(1).add(new ShieldComponent(1, 1));
+		sidebarComponents.get(1).add(new MissileComponent(1, 1));
 	}
 
 	public void update(){
@@ -85,9 +92,19 @@ public class Workshop {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect((int)(sidebarX * scale), 0 ,(int)(sidebarWidth*scale), (int)(height*scale));
 
+		for(List<ShipComponent> row :sidebarComponents){
+			for(ShipComponent sc: row){
+				sc.draw(g, scale, 14 + row.indexOf(sc), sidebarComponents.indexOf(row));
+			}
+		}
+
+
+
 	}
 
-	public ShipComponent getComponentAtSidebar(int x, int y){
-		return sidebarComponents.get(0);
+	public ShipComponent getComponentAtSidebar(float x, float y){
+		return sidebarComponents.get((int)y).get((int)x);
 	}
+
+
 }

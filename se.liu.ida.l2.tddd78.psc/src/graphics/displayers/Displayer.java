@@ -19,11 +19,11 @@ public abstract class Displayer extends JComponent implements PSCGraphics, Visib
 	protected final int WIDTH = (int) (32 * SCALE);
 	protected final int HEIGHT = (int) (18 * SCALE);
 
-	@Override public int getVirtualX(int screenX) {
+	@Override public float getVirtualX(int screenX) {
 		return (int)(screenX / SCALE);
 	}
 
-	@Override public int getVirtualY(int screenY) {
+	@Override public float getVirtualY(int screenY) {
 		return (int)(screenY / SCALE);
 	}
 

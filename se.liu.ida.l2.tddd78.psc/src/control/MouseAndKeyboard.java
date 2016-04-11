@@ -32,6 +32,7 @@ public class MouseAndKeyboard extends JComponent
 	private MenuDisplayer menuDisplayer;
 	private WeaponComponent selectedWeapon;
 
+
 	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
 							WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Workshop workshop) {
 		this.battlefield = battlefield;
@@ -55,6 +56,14 @@ public class MouseAndKeyboard extends JComponent
 	{
 
 		@Override public void mouseClicked(final MouseEvent e) {
+
+			if(Test.gameMode == Test.Gamemode.WORKSHOP){
+				System.out.println("Activating!");
+				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
+				clickedLocalComponent.activate();
+			}
+
+
 			ShipComponent clickedLocalComponent =
 					controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
@@ -80,21 +89,7 @@ public class MouseAndKeyboard extends JComponent
 			}
 		}
 
-		//TODO
-		@Override public void mouseDragged(final MouseEvent e) {
-			if(Test.gameMode == Test.Gamemode.WORKSHOP){
-				ShipComponent draggingLocalComponent =
-									workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
-				try{
-					draggingLocalComponent = draggingLocalComponent.clone();
-				}catch(CloneNotSupportedException ex){
-					ex.printStackTrace();
-				}
 
-				//TODO draggingLocalComponent.
-
-			}
-		}
 
 		private void managePower(final MouseEvent e, ShipComponent clickedComponent) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
