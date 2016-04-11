@@ -571,7 +571,12 @@ public class Starship extends GeneralVisibleEntity
 					textRep.append(".");
 				}
 			}
-			textRep.append("\n");
+			boolean lastRow = row == height - 1;
+			if (lastRow) {
+				textRep.append(";");
+			} else {
+				textRep.append(",\n");
+			}
 		}
 		return textRep.toString();
 	}

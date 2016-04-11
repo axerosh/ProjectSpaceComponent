@@ -62,7 +62,7 @@ public final class ShipFactory {
 		}
 
 		Starship ship = new Starship(x, y, width.intValue(), height.intValue(), integrity, maxIntegrity);
-		addComponents(ship, textRepresentation);
+		addComponents(ship, cleanRep);
 		return ship;
 	}
 
@@ -126,6 +126,7 @@ public final class ShipFactory {
 			ShipComponent componentToAdd = null;
 
 			char symbol = textRepresentation.charAt(cursor);
+			System.out.println(cursor + " = " + symbol + "\t row = " + row + "\t col = " + col);
 
 			switch (symbol) {
 				case 'E':

@@ -1,11 +1,14 @@
 package ship;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility class for saving and loading Staship designs.
@@ -17,6 +20,7 @@ public final class ShipIO {
 	private final static String SAVE_FOLDER =
 			"/home/axeno840/IdeaProjects/TDDD78/ProjectSpaceComponent/se.liu.ida.l2.tddd78.psc/resources/ship_designs/";
 	private final static String SAVE_FORMAT = ".ship";
+	private final static Charset CHARSET = StandardCharsets.UTF_8;
 
 	private ShipIO() {
 	}
@@ -25,21 +29,12 @@ public final class ShipIO {
 	 * Saves the specified ship to the specified path.
 	 *
 	 * @param ship a starship to save
-	 * @return a text representation of the the specified ship
 	 */
 	public static void save(Starship ship, String fileName) {
 		String filePath = SAVE_FOLDER + fileName + SAVE_FORMAT;
-		/*try (ObjectOutputStream os =
-					 new ObjectOutputStream(
-							 new BufferedOutputStream(
-							 	new FileOutputStream(filePath)))) {
+		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), CHARSET))) {
 			String textRepresentation = ship.getTextRepresentation();
-			os.writeUTF(textRepresentation);
-			System.out.println("Saved to " + filePath);*/
-		try (OutputStream os = new FileOutputStream(filePath)) {
-			String textRepresentation = ship.getTextRepresentation();
-			byte[] byteOutput = textRepresentation.getBytes("UTF-8");
-			os.write(byteOutput);
+			writer.write(textRepresentation);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -54,10 +49,17 @@ public final class ShipIO {
 	 */
 	public static Starship load(float x, float y, String fileName) {
 		String filePath = SAVE_FOLDER + fileName + SAVE_FORMAT;
-		try (ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
-			String textRepresentation = is.readUTF();
-			Starship ship = ShipFactory.getStarship(x, y, textRepresentation);
-			return ship;
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
+			StringBuilder textRepresentation = new StringBuilder();
+
+			String nextLine = reader.readLine();
+			while (nextLine != null) {
+				textRepresentation.append(nextLine);
+				nextLine = reader.readLine();
+			}
+
+			return ShipFactory.getStarship(x, y, textRepresentation.toString());
+
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}

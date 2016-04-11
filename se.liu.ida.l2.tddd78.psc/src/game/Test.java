@@ -4,7 +4,7 @@ import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.GameDisplayer;
 import graphics.PSCFrame;
-import ship.ShipFactory;
+import ship.ShipIO;
 import ship.Starship;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
@@ -28,7 +28,7 @@ public final class Test
 		final int team1 = 0;
 		final int team2 = 1;
 
-		String playerShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
+		/*String playerShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
 										  ".RSS.,\n" +
 										  "EE.RS,\n" +
 										  ".SSMR,\n" +
@@ -40,16 +40,16 @@ public final class Test
 										 "SRSSE,\n" +
 										 "..MR.,\n" +
 										 "SRSSE,\n" +
-										 ".S.RE;";
+										 ".S.RE;";*/
 
-		Starship playerShip = ShipFactory.getStarship(1, 1, playerShipRepresentaiton);
-		//Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity);
-		//initShip(playerShip);
+		Starship playerShip = ShipIO.load(1, 1, "the_manta");
+		//Starship playerShip = ShipFactory.getStarship(1, 1, playerShipRepresentaiton);
+		//Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity); initShip(playerShip);
 		arena.addShip(playerShip, team1);
 
-		Starship enemyShip = ShipFactory.getStarship(7, 1, enemyShipRepresentaiton);
-		//Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity);
-		//initShip(enemyShip);
+		Starship enemyShip = ShipIO.load(7, 1, "the_governator");
+		//Starship enemyShip = ShipFactory.getStarship(7, 1, enemyShipRepresentaiton);
+		//Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity); initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 		BasicAI ai = new BasicAI(arena, enemyShip);
 
@@ -57,7 +57,11 @@ public final class Test
 		//ShipIO.save(enemyShip, "the_governator");
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
-		playerShip.addVisibleEntityListener(gameDisplayer);
+		if (playerShip != null) {
+			playerShip.addVisibleEntityListener(gameDisplayer);
+			playerShip.printShip();
+			System.out.println(playerShip.getTextRepresentation());
+		}
 		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer);
 
 		JFrame frame = new PSCFrame();
@@ -65,9 +69,6 @@ public final class Test
 		frame.pack();
 		frame.add(playerController);
 		gameDisplayer.repaint();
-
-		playerShip.printShip();
-		System.out.println(playerShip.getTextRepresentation());
 
 		Timer timer = new Timer(8, new AbstractAction() {
 			private long lastTime = System.nanoTime();
@@ -84,7 +85,9 @@ public final class Test
 		timer.setCoalesce(true);
 		timer.start();
 
-		playerShip.printShip();
+		if (playerShip != null) {
+			playerShip.printShip();
+		}
 	}
 
 	private static void initShip(Starship starship) {
