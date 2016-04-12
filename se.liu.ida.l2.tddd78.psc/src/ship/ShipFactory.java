@@ -37,7 +37,6 @@ public final class ShipFactory {
 	 */
 	public static Starship getStarship(final float x, final float y, String textRepresentation) {
 		String cleanRep = textRepresentation.replaceAll("\\s+", "");
-		System.out.println(cleanRep);
 
 		Map<String, Float> parameterValues = getParameterMap(cleanRep);
 
@@ -126,7 +125,6 @@ public final class ShipFactory {
 			ShipComponent componentToAdd = null;
 
 			char symbol = textRepresentation.charAt(cursor);
-			System.out.println(cursor + " = " + symbol + "\t row = " + row + "\t col = " + col);
 
 			switch (symbol) {
 				case 'E':

@@ -3,7 +3,8 @@ package weaponry.projectile;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A general projectile that ill move towards a target and inflict damage.
@@ -43,7 +44,7 @@ public class AbstractProjectile implements Projectile
 	@Override public void updateMovement(float deltaSeconds) {
 		selfX += xVelocity * deltaSeconds;
 		selfY += yVelocity * deltaSeconds;
-		System.out.println(selfX + " " + selfY);
+		//System.out.println(selfX + " " + selfY);
 
 		if (hasImpact()) {
 			impact();

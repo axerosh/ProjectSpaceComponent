@@ -11,7 +11,10 @@ import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 
 /**
@@ -59,8 +62,6 @@ public final class Test
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		if (playerShip != null) {
 			playerShip.addVisibleEntityListener(gameDisplayer);
-			playerShip.printShip();
-			System.out.println(playerShip.getTextRepresentation());
 		}
 		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer);
 
@@ -84,10 +85,6 @@ public final class Test
 		});
 		timer.setCoalesce(true);
 		timer.start();
-
-		if (playerShip != null) {
-			playerShip.printShip();
-		}
 	}
 
 	private static void initShip(Starship starship) {

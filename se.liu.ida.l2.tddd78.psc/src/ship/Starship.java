@@ -11,7 +11,7 @@ import ship.component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -488,7 +488,6 @@ public class Starship extends GeneralVisibleEntity
 				VisibleEntity visibleComponent = components[col][row];
 				if (visibleComponent != null) {
 					visibleComponent.addVisibleEntityListener(listener);
-					System.out.println("Listener added to " + visibleComponent);
 				}
 			}
 		}
