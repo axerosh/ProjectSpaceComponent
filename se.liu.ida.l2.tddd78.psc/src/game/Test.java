@@ -4,7 +4,6 @@ import component.utility.EngineComponent;
 import component.utility.ReactorComponent;
 import component.utility.ShieldComponent;
 import component.weapon.MissileComponent;
-import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.displayers.GameDisplayer;
 import graphics.displayers.MenuDisplayer;
@@ -24,7 +23,15 @@ public final class Test
 
 	private Test() {}
 	public static Gamemode gameMode = Gamemode.MENU;
-	private final static float SCALE = 40.0f;
+	private static final int gameWidth = 32;
+	private static final int gameHeight = 18;
+	private static final int workshopWidth = gameWidth / 2;
+	private static final int workshopHeight = gameHeight / 2;
+	private static final int menuWidth = 10;
+	private static final int menuHeight = 20;
+	private static final float GAMESCALE = 40.0f;
+	private static final float WORKSHOPSCALE = 2*GAMESCALE;
+	private static final float MENUSCALE = GAMESCALE;
 
 	public static void main(String[] args) {
 
@@ -36,22 +43,22 @@ public final class Test
 		final float shipIntegrity = 10;
 
 		Menu menu = new Menu();
-		MenuDisplayer menuDisplayer = new MenuDisplayer(menu);
+		MenuDisplayer menuDisplayer = new MenuDisplayer(menu, MENUSCALE,menuWidth, menuHeight);
 
-		Workshop workshop = new Workshop(32,18, SCALE);
-		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop);
+		Workshop workshop = new Workshop(workshopWidth, workshopHeight, WORKSHOPSCALE);
+		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop, WORKSHOPSCALE, workshopWidth, workshopHeight);
 
-		Starship playerShip = new Starship(5, 5, shipIntegrity);
+		Starship playerShip = new Starship(14, 8, shipIntegrity);
 		initShip(playerShip);
 		arena.addShip(playerShip, team1);
 
-		Starship enemyShip = new Starship(5, 5, shipIntegrity);
+		Starship enemyShip = new Starship(14, 8, shipIntegrity);
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 		arena.placeShip(enemyShip);
 		//BasicAI AI = new BasicAI(arena, enemyShip);
 
-		GameDisplayer gameDisplayer = new GameDisplayer(arena);
+		GameDisplayer gameDisplayer = new GameDisplayer(arena, GAMESCALE, gameWidth, gameHeight);
 		playerShip.addVisibleEntityListener(gameDisplayer);
 		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer, menuDisplayer, workshop);
 
@@ -116,12 +123,12 @@ public final class Test
 			case WORKSHOP:
 				shop.addWorkingShip(playerShip);
 				frame.add(workshopDisplayer);
-				playerController.setBounds(0,0, (int)(32* SCALE), (int)(18 * SCALE));
+				playerController.setBounds(0, 0, (int)(32 * GAMESCALE), (int)(18 * GAMESCALE));
 				break;
 			case BATTLE:
 				arena.placeShip(playerShip);
 				frame.add(gameDisplayer);
-				playerController.setBounds(0,0, (int)(32* SCALE), (int)(18 * SCALE));
+				playerController.setBounds(0, 0, (int)(32 * GAMESCALE), (int)(18 * GAMESCALE));
 				break;
 		}
 

@@ -19,7 +19,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 {
 
 	private final static Color HIGHLIGHT_COLOR = Color.YELLOW;
-	private final float baseRechargeTime;
+	protected final float baseRechargeTime;
 	protected FiringOrder firingOrder;
 	private float currentRechargeTime;
 	private float rechargeTimeLeft;

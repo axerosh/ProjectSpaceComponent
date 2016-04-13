@@ -1,5 +1,6 @@
 package component.weapon;
 
+import component.ShipComponent;
 import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
@@ -32,4 +33,8 @@ public class MissileComponent extends WeaponComponent
 	}
 
 	@Override public void update() {}
+
+	@Override public ShipComponent clone() throws CloneNotSupportedException {
+		return new MissileComponent(maxIntegrity, (int)baseRechargeTime);
+	}
 }

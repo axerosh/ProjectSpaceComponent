@@ -32,9 +32,9 @@ public class Workshop {
 	private boolean draggingComponent;
 
 	public Workshop(final int width, final int height, final float scale) {
-		this.scale = (int)(2*scale);
-		this.width = width / 2;
-		this.height = height/2;
+		this.scale = (int)(scale);
+		this.width = width;
+		this.height = height;
 
 		sidebarComponents = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class Workshop {
 
 	private void init(){
 
-		sidebarWidth = 32 / 2 - shipWidth;
+		sidebarWidth = width - shipWidth;
 		sidebarX = width - sidebarWidth;
 
 		topBarHeight = height - shipHeight;
@@ -102,8 +102,15 @@ public class Workshop {
 
 	}
 
+	public Starship getWorkingShip() {
+		return workingShip;
+	}
+
 	public ShipComponent getComponentAtSidebar(float x, float y){
-		return sidebarComponents.get((int)y).get((int)x);
+		if(x - sidebarX < 0){
+			return null;
+		}
+		return sidebarComponents.get((int)y).get((int)x - sidebarX);
 	}
 
 

@@ -8,7 +8,8 @@ public class WorkshopDisplayer extends Displayer{
 
 	final private Workshop workshop;
 
-	public WorkshopDisplayer(Workshop workshop) {
+	public WorkshopDisplayer(Workshop workshop, float scale, int width, int height) {
+		super(scale, width, height);
 		this.workshop = workshop;
 	}
 

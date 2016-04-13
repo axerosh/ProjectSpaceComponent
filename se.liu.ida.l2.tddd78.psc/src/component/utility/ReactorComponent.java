@@ -1,5 +1,6 @@
 package component.utility;
 
+import component.ShipComponent;
 import game.Starship;
 
 import java.awt.*;
@@ -23,5 +24,9 @@ public class ReactorComponent extends UtilityComponent
 	@Override public void registerOwner(final Starship owner) {
 		super.registerOwner(owner);
 		owner.registerReactorComponent(this);
+	}
+
+	@Override public ShipComponent clone() throws CloneNotSupportedException {
+		return new ReactorComponent(maxIntegrity, output);
 	}
 }

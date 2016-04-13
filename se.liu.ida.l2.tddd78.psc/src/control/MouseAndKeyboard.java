@@ -31,6 +31,7 @@ public class MouseAndKeyboard extends JComponent
 	private WorkshopDisplayer workshopDisplayer;
 	private MenuDisplayer menuDisplayer;
 	private WeaponComponent selectedWeapon;
+	private ShipComponent selectedComponentInWorkshop;
 	private JComponent playerController;
 
 
@@ -46,6 +47,7 @@ public class MouseAndKeyboard extends JComponent
 		playerController = this;
 
 		selectedWeapon = null;
+		selectedComponentInWorkshop = null;
 
 		MouseAndKeyboardListener m = new MouseAndKeyboardListener();
 		addMouseListener(m);
@@ -60,11 +62,11 @@ public class MouseAndKeyboard extends JComponent
 
 		@Override public void mouseClicked(final MouseEvent e) {
 
-			/*if(Test.gameMode == Test.Gamemode.WORKSHOP){
-				System.out.println("Activating!");
+			if(Test.gameMode == Test.Gamemode.WORKSHOP){
 				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
-				clickedLocalComponent.activate();
-			}*/
+				managePlacing(e, clickedLocalComponent);
+				return;
+			}
 
 
 			ShipComponent clickedLocalComponent =
@@ -130,6 +132,34 @@ public class MouseAndKeyboard extends JComponent
 					selectedWeapon = null;
 				}
 			}
+		}
+
+		private void managePlacing(final MouseEvent e, ShipComponent clickedShipComponent){
+			if(e.getButton() == MouseEvent.BUTTON1){
+				if(selectedComponentInWorkshop == null){
+					selectedComponentInWorkshop = clickedShipComponent;
+				}else{
+					ShipComponent sc = null;
+					try{
+						sc = selectedComponentInWorkshop.clone();
+					}catch(CloneNotSupportedException error){
+						error.printStackTrace();
+					}
+					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - 1);
+				}
+			}else if(e.getButton() == MouseEvent.BUTTON3){
+				if(selectedComponentInWorkshop != null){
+					selectedComponentInWorkshop = null;
+				}else{
+					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - 1);
+				}
+
+			}
+		}
+
+
+		private void placeOnShip(ShipComponent sc, int posX, int posY){
+			workshop.getWorkingShip().setComponent(sc, posX, posY);
 		}
 
 		private void manageTargeting(final MouseEvent e, ShipComponent clickedComponent) {
