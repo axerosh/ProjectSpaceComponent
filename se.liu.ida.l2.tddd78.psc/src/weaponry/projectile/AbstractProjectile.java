@@ -43,7 +43,6 @@ public class AbstractProjectile implements Projectile
 	@Override public void updateMovement(float deltaSeconds) {
 		selfX += xVelocity * deltaSeconds;
 		selfY += yVelocity * deltaSeconds;
-		System.out.println(selfX + " " + selfY);
 
 		if (hasImpact()) {
 			impact();

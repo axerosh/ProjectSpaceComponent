@@ -31,6 +31,7 @@ public class MouseAndKeyboard extends JComponent
 	private WorkshopDisplayer workshopDisplayer;
 	private MenuDisplayer menuDisplayer;
 	private WeaponComponent selectedWeapon;
+	private JComponent playerController;
 
 
 	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
@@ -41,6 +42,8 @@ public class MouseAndKeyboard extends JComponent
 		this.workshopDisplayer = workshopDisplayer;
 		this.menuDisplayer = menuDisplayer;
 		this.workshop = workshop;
+
+		playerController = this;
 
 		selectedWeapon = null;
 
@@ -57,11 +60,11 @@ public class MouseAndKeyboard extends JComponent
 
 		@Override public void mouseClicked(final MouseEvent e) {
 
-			if(Test.gameMode == Test.Gamemode.WORKSHOP){
+			/*if(Test.gameMode == Test.Gamemode.WORKSHOP){
 				System.out.println("Activating!");
 				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
 				clickedLocalComponent.activate();
-			}
+			}*/
 
 
 			ShipComponent clickedLocalComponent =
@@ -77,7 +80,7 @@ public class MouseAndKeyboard extends JComponent
 			} else if (selectedWeapon != null) {
 				ShipComponent clickedGlobalComponent =
 						battlefield.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
-
+				System.out.println("Found " + clickedGlobalComponent);
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					if (clickedGlobalComponent != null) {
 						manageTargeting(e, clickedGlobalComponent);
@@ -134,6 +137,7 @@ public class MouseAndKeyboard extends JComponent
 			if (originPos != null) {
 				Starship targetShip =
 						battlefield.getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+				System.out.println("Target ship aquired");
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
@@ -154,17 +158,16 @@ public class MouseAndKeyboard extends JComponent
 		@Override public void keyTyped(final KeyEvent e) {
 
 			if(e.getKeyChar() == 'c'){
-				System.out.println("Toho! Typed");
 
 				switch(Test.gameMode){
 					case MENU:
-						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
+						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
 						break;
 					case WORKSHOP:
-						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
+						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
 						break;
 					case BATTLE:
-						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip);
+						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
 						break;
 
 				}

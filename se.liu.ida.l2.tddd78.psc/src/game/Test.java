@@ -24,7 +24,7 @@ public final class Test
 
 	private Test() {}
 	public static Gamemode gameMode = Gamemode.MENU;
-	private static float SCALE = 40.0f;
+	private final static float SCALE = 40.0f;
 
 	public static void main(String[] args) {
 
@@ -49,7 +49,7 @@ public final class Test
 		initShip(enemyShip);
 		arena.addShip(enemyShip, team2);
 		arena.placeShip(enemyShip);
-		BasicAI AI = new BasicAI(arena, enemyShip);
+		//BasicAI AI = new BasicAI(arena, enemyShip);
 
 		GameDisplayer gameDisplayer = new GameDisplayer(arena);
 		playerShip.addVisibleEntityListener(gameDisplayer);
@@ -75,7 +75,7 @@ public final class Test
 					workshop.update();
 					workshopDisplayer.repaint();
 				}else if(gameMode == Gamemode.BATTLE){
-					AI.update();
+					//AI.update();
 					arena.update(passedSeconds);
 					gameDisplayer.repaint();
 				}
@@ -94,7 +94,7 @@ public final class Test
 	}
 
 	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Battlefield arena, Workshop shop,
-									  Starship playerShip){
+									  Starship playerShip, JComponent playerController){
 		switch (gameMode){
 			case MENU:
 				frame.remove(menuDisplayer);
@@ -111,20 +111,24 @@ public final class Test
 		switch (mode){
 			case MENU:
 				frame.add(menuDisplayer);
+				playerController.setBounds(0,0, 400, 800);
 				break;
 			case WORKSHOP:
 				shop.addWorkingShip(playerShip);
 				frame.add(workshopDisplayer);
+				playerController.setBounds(0,0, (int)(32* SCALE), (int)(18 * SCALE));
 				break;
 			case BATTLE:
 				arena.placeShip(playerShip);
 				frame.add(gameDisplayer);
+				playerController.setBounds(0,0, (int)(32* SCALE), (int)(18 * SCALE));
 				break;
 		}
+
 		frame.pack();
 		frame.repaint();
 		gameMode = mode;
-		System.out.println("Looking good babe ;)");
+
 	}
 
 	public static Gamemode getGamemode(){
