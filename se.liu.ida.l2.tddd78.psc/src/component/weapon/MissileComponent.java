@@ -1,11 +1,12 @@
-package component.weapon;
+package ship.component.weapon;
 
+import ship.component.ShipComponent;
 import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
 /**
- * A weapon component that can fire missiles according to firing orders.
+ * A weapon ship.component that can fire missiles according to firing orders.
  *
  * @see MissileProjectile
  * @see FiringOrder
@@ -32,4 +33,8 @@ public class MissileComponent extends WeaponComponent
 	}
 
 	@Override public void update() {}
+
+	@Override public ShipComponent clone() throws CloneNotSupportedException {
+		return new MissileComponent(maxIntegrity, (int)baseRechargeTime);
+	}
 }

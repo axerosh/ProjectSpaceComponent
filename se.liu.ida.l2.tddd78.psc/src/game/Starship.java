@@ -7,6 +7,7 @@ import component.utility.ShieldComponent;
 import component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
+import game.Team;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
