@@ -2,10 +2,10 @@ package game;
 
 import control.BasicAI;
 import control.MouseAndKeyboard;
-import graphics.displayers.GameDisplayer;
-import graphics.displayers.WorkshopDisplayer;
-import graphics.displayers.MenuDisplayer;
 import graphics.PSCFrame;
+import graphics.displayers.GameDisplayer;
+import graphics.displayers.MenuDisplayer;
+import graphics.displayers.WorkshopDisplayer;
 import ship.ShipIO;
 import ship.Starship;
 import ship.component.utility.EngineComponent;
@@ -22,19 +22,22 @@ import java.awt.event.ActionEvent;
 public final class Test
 {
 
-	private static JFrame frame;
-
-	private Test() {}
-	public static Gamemode gameMode = Gamemode.MENU;
-	private static final int gameWidth = 32;
-	private static final int gameHeight = 18;
-	private static final int workshopWidth = gameWidth / 2;
-	private static final int workshopHeight = gameHeight / 2;
-	private static final int menuWidth = 10;
-	private static final int menuHeight = 20;
+	private static final int GAME_WIDTH = 32;
+	private static final int GAME_HEIGHT = 18;
+	private static final int WORKSHOP_WIDTH = GAME_WIDTH / 2;
+	private static final int WORKSHOP_HEIGHT = GAME_HEIGHT / 2;
+	private static final int MENU_WIDTH = 10;
+	private static final int MENU_HEIGHT = 20;
 	private static final float GAMESCALE = 40.0f;
-	private static final float WORKSHOPSCALE = 2*GAMESCALE;
+	private static final float WORKSHOPSCALE = 2 * GAMESCALE;
 	private static final float MENUSCALE = GAMESCALE;
+	private static final float MAX_FRAMERATE = 60;
+	/**
+	 * The current Gamemode
+	 */
+	public static Gamemode gamemode = Gamemode.MENU;
+	private static JFrame frame;// = new PSCFrame();
+	private Test() {}
 
 	public static void main(String[] args) {
 
@@ -58,11 +61,11 @@ public final class Test
 										 ".S.RE;";*/
 
 		Menu menu = new Menu();
-		MenuDisplayer menuDisplayer = new MenuDisplayer(menu, MENUSCALE,menuWidth, menuHeight);
+		MenuDisplayer menuDisplayer = new MenuDisplayer(menu, MENUSCALE, MENU_WIDTH, MENU_HEIGHT);
 
 
-		Workshop workshop = new Workshop(workshopWidth, workshopHeight, WORKSHOPSCALE);
-		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop, WORKSHOPSCALE, workshopWidth, workshopHeight);
+		Workshop workshop = new Workshop(WORKSHOP_WIDTH, WORKSHOP_HEIGHT, WORKSHOPSCALE);
+		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop, WORKSHOPSCALE, WORKSHOP_WIDTH, WORKSHOP_HEIGHT);
 
 
 		Starship playerShip = ShipIO.load(1, 1, "the_manta");
@@ -84,7 +87,7 @@ public final class Test
 		//ShipIO.save(playerShip, "the_manta");
 		//ShipIO.save(enemyShip, "the_governator");
 
-		GameDisplayer gameDisplayer = new GameDisplayer(arena, GAMESCALE, gameWidth, gameHeight);
+		GameDisplayer gameDisplayer = new GameDisplayer(arena, GAMESCALE, GAME_WIDTH, GAME_HEIGHT);
 		if (playerShip != null) {
 			playerShip.addVisibleEntityListener(gameDisplayer);
 		}
@@ -97,8 +100,10 @@ public final class Test
 
 
 		//playerShip.printShip();
-
-		Timer timer = new Timer(8, new AbstractAction() {
+		final long millisPerSecond = 1000;
+		int wantedBetweenUpdates = Math.round(millisPerSecond / MAX_FRAMERATE);
+		int timeBetweenUpdates = (int) Math.ceil(wantedBetweenUpdates);
+		Timer timer = new Timer(timeBetweenUpdates, new AbstractAction() {
 			private long lastTime = System.nanoTime();
 
 			@Override public void actionPerformed(final ActionEvent e) {
@@ -106,11 +111,11 @@ public final class Test
 				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
 				lastTime = System.nanoTime();
 
-				if(gameMode == Gamemode.WORKSHOP){
+				if (gamemode == Gamemode.WORKSHOP){
 					workshop.update();
 					workshopDisplayer.repaint();
-				}else if(gameMode == Gamemode.BATTLE){
-					//AI.update();
+				} else if (gamemode == Gamemode.BATTLE) {
+					//ai.update();
 					arena.update(passedSeconds);
 					gameDisplayer.repaint();
 				}
@@ -124,13 +129,11 @@ public final class Test
 		//playerShip.printShip();
 	}
 
-	public static enum Gamemode{
-		MENU, WORKSHOP, BATTLE
-	}
-
-	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Battlefield arena, Workshop shop,
-									  Starship playerShip, JComponent playerController){
-		switch (gameMode){
+	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer,
+									  MenuDisplayer menuDisplayer, Battlefield arena, Workshop shop, Starship playerShip,
+									  JComponent playerController)
+	{
+		switch (gamemode) {
 			case MENU:
 				frame.remove(menuDisplayer);
 				break;
@@ -143,31 +146,31 @@ public final class Test
 				break;
 		}
 
-		switch (mode){
+		switch (mode) {
 			case MENU:
 				frame.add(menuDisplayer);
-				playerController.setBounds(0,0, 400, 800);
+				playerController.setBounds(0, 0, 400, 800);
 				break;
 			case WORKSHOP:
 				shop.addWorkingShip(playerShip);
 				frame.add(workshopDisplayer);
-				playerController.setBounds(0, 0, (int)(32 * GAMESCALE), (int)(18 * GAMESCALE));
+				playerController.setBounds(0, 0, (int) (32 * GAMESCALE), (int) (18 * GAMESCALE));
 				break;
 			case BATTLE:
 				arena.placeShip(playerShip);
 				frame.add(gameDisplayer);
-				playerController.setBounds(0, 0, (int)(32 * GAMESCALE), (int)(18 * GAMESCALE));
+				playerController.setBounds(0, 0, (int) (32 * GAMESCALE), (int) (18 * GAMESCALE));
 				break;
 		}
 
 		frame.pack();
 		frame.repaint();
-		gameMode = mode;
+		gamemode = mode;
 
 	}
 
-	public static Gamemode getGamemode(){
-		return gameMode;
+	public static Gamemode getGamemode() {
+		return gamemode;
 	}
 
 	private static void initShip(Starship starship) {
@@ -199,5 +202,22 @@ public final class Test
 
 		starship.setComponent(new ReactorComponent(componentIntegrity, reactorOutput), 1, 4);
 		starship.setComponent(new ReactorComponent(componentIntegrity, reactorOutput), 3, 4);
+	}
+
+	public static enum Gamemode {
+		/**
+		 * Menu mode.
+		 */
+		MENU,
+
+		/**
+		 * Workshop (ship editing) mode.
+		 */
+		WORKSHOP,
+
+		/**
+		 * Battle mode.
+		 */
+		BATTLE
 	}
 }

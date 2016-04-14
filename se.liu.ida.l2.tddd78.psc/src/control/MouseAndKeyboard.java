@@ -1,12 +1,12 @@
 package control;
 
 import game.Battlefield;
-import ship.Starship;
 import game.Test;
 import game.Workshop;
 import graphics.displayers.GameDisplayer;
 import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
+import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
@@ -62,7 +62,7 @@ public class MouseAndKeyboard extends JComponent
 
 		@Override public void mouseClicked(final MouseEvent e) {
 
-			if(Test.gameMode == Test.Gamemode.WORKSHOP){
+			if (Test.gamemode == Test.Gamemode.WORKSHOP) {
 				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
 				managePlacing(e, clickedLocalComponent);
 				return;
@@ -184,7 +184,7 @@ public class MouseAndKeyboard extends JComponent
 
 			if(e.getKeyChar() == 'c'){
 
-				switch(Test.gameMode){
+				switch (Test.gamemode) {
 					case MENU:
 						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
 						break;
