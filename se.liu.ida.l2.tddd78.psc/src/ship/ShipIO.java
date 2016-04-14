@@ -19,13 +19,14 @@ import java.nio.charset.StandardCharsets;
 public final class ShipIO {
 
 	private final static File SAVE_LOCATION;
-	private final static String SAVE_FORMAT = ".ship";
+	private final static String SAVE_EXTENSION = ".ship";
 	private final static Charset CHARSET = StandardCharsets.UTF_8;
 
 	static {
 		File project = new File("se.liu.ida.l2.tddd78.psc");
 		File resources = new File(project, "resources");
 		SAVE_LOCATION = new File(resources, "ship_designs");
+		//SAVE_LOCATION = new File(resources, "ship_designs");
 	}
 
 	private ShipIO() {
@@ -37,7 +38,7 @@ public final class ShipIO {
 	 * @param ship a starship to save
 	 */
 	public static void save(Starship ship, String fileName) {
-		File filePath = new File(SAVE_LOCATION, fileName + SAVE_FORMAT);
+		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), CHARSET))) {
 			String textRepresentation = ship.getTextRepresentation();
 			writer.write(textRepresentation);
@@ -54,7 +55,7 @@ public final class ShipIO {
 	 * @return a ship loaded from the specified path
 	 */
 	public static Starship load(float x, float y, String fileName) {
-		File filePath = new File(SAVE_LOCATION, fileName + SAVE_FORMAT);
+		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
 

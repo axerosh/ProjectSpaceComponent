@@ -14,23 +14,24 @@ public final class PropertiesCreator {
 
 	public static void main(String[] args) {
 
-		String fileName = "componentRepresentations";
-		String saveFormat = ".properties";
+		String fileName = "ship_saves";
+		String fileExtension = ".properties";
 
 		File project = new File("se.liu.ida.l2.tddd78.psc");
 		File resources = new File(project, "resources");
 		File saveLocation = new File(resources, "properties");
-		File filePath = new File(saveLocation, fileName + saveFormat);
+		File filePath = new File(saveLocation, fileName + fileExtension);
 
 		Properties shipProperties = new Properties();
+		shipProperties.setProperty("savePath", "se.liu.ida.l2.tddd78.psc/resources/ship_designs");
+		shipProperties.setProperty("fileExtension", ".ship");
 		shipProperties.setProperty("engine", "E");
 		shipProperties.setProperty("reactor", "R");
 		shipProperties.setProperty("shield", "S");
 		shipProperties.setProperty("missile", "M");
 
 		try (FileOutputStream out = new FileOutputStream(filePath)) {
-			shipProperties.store(out, "the characters that represent each component type. If more than one character is " +
-									  "defined for a singel component, the first oen will be used.");
+			shipProperties.store(out, "Starship save/load settings");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
