@@ -1,6 +1,7 @@
 package ship.component.utility;
 
 import ship.Starship;
+import ship.component.ShipComponent;
 
 import java.awt.*;
 
@@ -28,5 +29,9 @@ public class ReactorComponent extends UtilityComponent
 
 	@Override public char getSymbolRepresentation() {
 		return 'R';
+	}
+
+	@Override public ShipComponent clone() {
+		return new ReactorComponent(maxIntegrity, output);
 	}
 }

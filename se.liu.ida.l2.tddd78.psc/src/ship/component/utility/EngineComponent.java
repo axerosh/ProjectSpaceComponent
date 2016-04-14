@@ -1,6 +1,7 @@
 package ship.component.utility;
 
 import ship.Starship;
+import ship.component.ShipComponent;
 
 import java.awt.*;
 
@@ -37,5 +38,9 @@ public class EngineComponent extends UtilityComponent
 
 	@Override public char getSymbolRepresentation() {
 		return 'E';
+	}
+
+	@Override public ShipComponent clone() {
+		return new EngineComponent(maxIntegrity, output);
 	}
 }

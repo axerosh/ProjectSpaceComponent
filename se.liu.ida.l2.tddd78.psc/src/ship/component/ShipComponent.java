@@ -104,4 +104,6 @@ public interface ShipComponent extends VisibleEntity {
 	 * @return the symbol that represents a component of this type
 	 */
 	public char getSymbolRepresentation();
+
+	public ShipComponent clone() throws CloneNotSupportedException;
 }

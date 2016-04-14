@@ -1,6 +1,7 @@
 package ship;
 
 import game.GeneralVisibleEntity;
+import game.Team;
 import game.VisibleEntity;
 import game.VisibleEntityListener;
 import ship.component.ShipComponent;
@@ -113,8 +114,6 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * Constructs a star ship with the specifed position, width and height.
 	 *
-	 * @param x            the x-position of the ship
-	 * @param y            the y-position of the ship
 	 * @param width        the width of the ship i.e. the number of ship components that can fit along the width
 	 * @param height       the height of the ship i.e. the number of ship components that can fit along the height
 	 * @param integrity    the current damage the ship can take before it is destroyed
@@ -126,10 +125,10 @@ public class Starship extends GeneralVisibleEntity
 	 *                                  </ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final float x, final float y, final int width, final int height, final float integrity,
+	public Starship(final int width, final int height, final float integrity,
 					final float maxIntegrity)
 	{
-		this(x, y, width, height, integrity);
+		this(width, height, integrity);
 
 		if (maxIntegrity < integrity) {
 			throw new IllegalArgumentException(

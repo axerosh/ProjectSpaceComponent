@@ -1,11 +1,11 @@
 package game;
 
-import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
+import ship.Starship;
 
 import java.awt.*;
 import java.util.ArrayList;

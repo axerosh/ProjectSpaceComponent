@@ -60,7 +60,7 @@ public final class ShipFactory {
 			throw new IllegalArgumentException("There was no maxIntegrity specified in the text representation.");
 		}
 
-		Starship ship = new Starship(x, y, width.intValue(), height.intValue(), integrity, maxIntegrity);
+		Starship ship = new Starship(width.intValue(), height.intValue(), integrity, maxIntegrity);
 		addComponents(ship, cleanRep);
 		return ship;
 	}
