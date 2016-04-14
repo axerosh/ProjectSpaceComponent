@@ -1,6 +1,7 @@
 package control;
 
 import game.BattleSpace;
+import game.ProjectSpaceComponent;
 import game.Test;
 import game.Workshop;
 import graphics.displayers.BattleSpaceDisplayer;
@@ -22,32 +23,30 @@ import java.awt.geom.Point2D;
 /**
  * Mouse and Keyboard input for controlling a ship.
  */
-public class MouseAndKeyboard extends JComponent
-{
+public class MouseAndKeyboard extends JComponent {
 
-	private BattleSpace battleSpace;
-	private Workshop workshop;
 	private Starship controlledShip;
+	/*private BattleSpace battleSpace;
+	private Workshop workshop;
 	private BattleSpaceDisplayer battleSpaceDisplayer;
 	private WorkshopDisplayer workshopDisplayer;
-	private MenuDisplayer menuDisplayer;
+	private MenuDisplayer menuDisplayer;*/
+	private ProjectSpaceComponent psc;
 	private WeaponComponent selectedWeapon;
 	private ShipComponent selectedComponentInWorkshop;
-	private JComponent playerController;
 
 	private Gamemode gamemode;
 
 
-	public MouseAndKeyboard(final BattleSpace battleSpace, final BattleSpaceDisplayer battleSpaceDisplayer, final
+	public MouseAndKeyboard(final ProjectSpaceComponent psc, final Gamemode gamemode) {/*final BattleSpace battleSpace, final BattleSpaceDisplayer battleSpaceDisplayer, final
 							WorkshopDisplayer workshopDisplayer, final MenuDisplayer menuDisplayer,final Workshop workshop, final Gamemode gamemode) {
-		this.battleSpace = battleSpace;
+							this.battleSpace = battleSpace;
 		this.battleSpaceDisplayer = battleSpaceDisplayer;
 		this.workshopDisplayer = workshopDisplayer;
 		this.menuDisplayer = menuDisplayer;
-		this.workshop = workshop;
+		this.workshop = workshop;*/
 		this.gamemode = gamemode;
-
-		playerController = this;
+		this.psc = psc;
 
 		selectedWeapon = null;
 		selectedComponentInWorkshop = null;
@@ -64,18 +63,27 @@ public class MouseAndKeyboard extends JComponent
 		this.controlledShip = controlledShip;
 	}
 
+	public void setGamemode(final Gamemode gamemode) {
+		this.gamemode = gamemode;
+	}
+
 	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
 	{
 
 		@Override public void mouseClicked(final MouseEvent e) {
+			if (controlledShip == null) {
+				return;
+			}
 
 			if (gamemode == Gamemode.WORKSHOP) {
-				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
+				WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
+				ShipComponent clickedLocalComponent = psc.getWorkshop().getComponentAtSidebar(
+						workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
 				managePlacing(e, clickedLocalComponent);
 				return;
 			}
 
-
+			BattleSpaceDisplayer battleSpaceDisplayer = psc.getBattleSpaceDisplayer();
 			ShipComponent clickedLocalComponent =
 					controlledShip.getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
@@ -88,7 +96,7 @@ public class MouseAndKeyboard extends JComponent
 				}
 			} else if (selectedWeapon != null) {
 				ShipComponent clickedGlobalComponent =
-						battleSpace.getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer
+						psc.getBattleSpace().getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer
 								.getVirtualY(e.getY()));
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
@@ -151,13 +159,17 @@ public class MouseAndKeyboard extends JComponent
 					}catch(CloneNotSupportedException error){
 						error.printStackTrace();
 					}
-					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - workshop.getTopBarHeight());
+					WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
+					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY())
+																				  - psc.getWorkshop().getTopBarHeight());
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
 				if(selectedComponentInWorkshop != null){
 					selectedComponentInWorkshop = null;
 				}else{
-					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - workshop.getTopBarHeight());
+					WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
+					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY())
+																					- psc.getWorkshop().getTopBarHeight());
 				}
 
 			}
@@ -165,14 +177,15 @@ public class MouseAndKeyboard extends JComponent
 
 
 		private void placeOnShip(ShipComponent sc, int posX, int posY){
-			workshop.getWorkingShip().setComponent(sc, posX, posY);
+			psc.getWorkshop().getWorkingShip().setComponent(sc, posX, posY);
 		}
 
 		private void manageTargeting(final MouseEvent e, ShipComponent clickedComponent) {
 			Point2D.Float originPos = controlledShip.getPositionOf(selectedWeapon);
 			if (originPos != null) {
+				BattleSpaceDisplayer battleSpaceDisplayer = psc.getBattleSpaceDisplayer();
 				Starship targetShip =
-						battleSpace.getShipAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
+						psc.getBattleSpace().getShipAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
@@ -192,16 +205,19 @@ public class MouseAndKeyboard extends JComponent
 
 			if(e.getKeyChar() == 'c'){
 
-				switch (Test.gamemode) {
+				switch (psc.getGamemode()) {
 					case MENU:
-						Test.changeGamemode(Gamemode.WORKSHOP, battleSpaceDisplayer, workshopDisplayer, menuDisplayer,
-											battleSpace, workshop, controlledShip, playerController);
+						//Test.changeGamemode(Gamemode.WORKSHOP, battleSpaceDisplayer, workshopDisplayer, menuDisplayer,
+						//					battleSpace, workshop, controlledShip, playerController);
+						psc.changeGamemode(Gamemode.WORKSHOP);
 						break;
 					case WORKSHOP:
-						Test.changeGamemode(Gamemode.BATTLE, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
+						//Test.changeGamemode(Gamemode.BATTLE, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
+						psc.changeGamemode(Gamemode.BATTLE);
 						break;
 					case BATTLE:
-						Test.changeGamemode(Gamemode.MENU, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
+						//Test.changeGamemode(Gamemode.MENU, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
+						psc.changeGamemode(Gamemode.MENU);
 						break;
 
 				}

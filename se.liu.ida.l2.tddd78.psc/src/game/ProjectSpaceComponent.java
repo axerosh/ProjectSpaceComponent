@@ -1,10 +1,13 @@
 package game;
 
+import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.PSCFrame;
 import graphics.displayers.BattleSpaceDisplayer;
 import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
+import ship.ShipIO;
+import ship.Starship;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,8 +20,6 @@ import java.util.Properties;
 public class ProjectSpaceComponent implements Runnable {
 
 
-	private Gamemode gamemode;
-
 
 	private int menuWidth;
 	private int menuHeight;
@@ -29,34 +30,45 @@ public class ProjectSpaceComponent implements Runnable {
 	private int battleSpaceWidth;
 	private int battleSpaceHeight;
 	private float battleSpaceScale;
-
 	private int shipWidth;
 	private int shipHeight;
-
 	private float maxFramerate;
 
+	private Gamemode gamemode;
 	private final JFrame frame;
 	private final Timer timer;
+	private final Menu menu;
+	private final MenuDisplayer menuDisplayer;
+	private final Workshop workshop;
+	private final WorkshopDisplayer workshopDisplayer;
+	private final BattleSpace battleSpace;
+	private final BattleSpaceDisplayer battleSpaceDisplayer;
+	private final MouseAndKeyboard playerController;
+	private Starship playerShip;
+	private BasicAI ai;
 
 	public ProjectSpaceComponent() {
 
 		loadSettings();
 
-		Menu menu = new Menu();
-		MenuDisplayer menuDisplayer = new MenuDisplayer(menu, menuScale, menuWidth, menuHeight);
+		gamemode = Gamemode.MENU;
 
-		Workshop workshop = new Workshop(workshopWidth, workshopHeight, workshopScale);
-		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop, workshopScale, workshopWidth, workshopHeight);
+		menu = new Menu();
+		menuDisplayer = new MenuDisplayer(menu, menuScale, menuWidth, menuHeight);
 
-		BattleSpace battleSpace = new BattleSpace();
-		BattleSpaceDisplayer battleSpaceDisplayer = new BattleSpaceDisplayer(battleSpace, battleSpaceScale, battleSpaceWidth, battleSpaceHeight);
+		workshop = new Workshop(workshopWidth, workshopHeight, workshopScale);
+		workshopDisplayer = new WorkshopDisplayer(workshop, workshopScale, workshopWidth, workshopHeight);
 
-		MouseAndKeyboard playerController = new MouseAndKeyboard(battleSpace, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, workshop, gamemode);
+		battleSpace = new BattleSpace();
+		battleSpaceDisplayer = new BattleSpaceDisplayer(battleSpace, battleSpaceScale, battleSpaceWidth, battleSpaceHeight);
+
+		playerController = new MouseAndKeyboard(this, gamemode);//battleSpace, battleSpaceDisplayer, workshopDisplayer,
+												//menuDisplayer, workshop, gamemode);
 
 		frame = new PSCFrame();
-		gamemode = Gamemode.MENU;
 		frame.add(menuDisplayer);
 		frame.pack();
+		//frame.setResizable(false);
 		frame.add(playerController);
 
 
@@ -76,7 +88,7 @@ public class ProjectSpaceComponent implements Runnable {
 					workshop.update();
 					workshopDisplayer.repaint();
 				} else if (gamemode == Gamemode.BATTLE) {
-					//ai.update();
+					ai.update();
 					battleSpace.update(passedSeconds);
 					battleSpaceDisplayer.repaint();
 				}
@@ -86,15 +98,21 @@ public class ProjectSpaceComponent implements Runnable {
 
 		timer.setCoalesce(true);
 
-
-
-
-
 		//TODO Add to a match generator or something
 		final Team team1 = new Team("Team 1");
 		final Team team2 = new Team("Team 2");
-		battleSpace.addTeam(team1.getTeamName());
-		battleSpace.addTeam(team2.getTeamName());
+		battleSpace.addTeam(team1);
+		battleSpace.addTeam(team2);
+
+
+		playerShip = ShipIO.load("the_manta");
+		playerController.setControlledShip(playerShip);
+		battleSpace.addShip(playerShip, team1);
+
+		Starship enemyShip = ShipIO.load("the_governator");
+		ai = new BasicAI(battleSpace, enemyShip);
+		battleSpace.addShip(enemyShip, team2);
+		battleSpace.placeShip(enemyShip);
 	}
 
 	@Override public void run() {
@@ -174,6 +192,7 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Integer.parseInt(property);
 		} else {
+			System.out.println("Couldn't find a value for " + propertyName + ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -183,7 +202,77 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Float.parseFloat(property);
 		} else {
+			System.out.println("Couldn't find a value for " + propertyName + ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
+	}
+
+
+
+	public void changeGamemode(Gamemode desiredMode)
+	{
+		switch (gamemode) {
+			case MENU:
+				frame.remove(menuDisplayer);
+				break;
+			case WORKSHOP:
+				frame.remove(workshopDisplayer);
+				workshop.removeShip();
+				break;
+			case BATTLE:
+				frame.remove(battleSpaceDisplayer);
+				break;
+		}
+
+		switch (desiredMode) {
+			case MENU:
+				frame.add(menuDisplayer);
+				playerController.setBounds(0, 0, (int) (menuWidth * menuScale), (int) (menuHeight * menuScale));
+				break;
+			case WORKSHOP:
+				workshop.addWorkingShip(playerShip);
+				frame.add(workshopDisplayer);
+				playerController.setBounds(0, 0, (int) (workshopWidth * workshopScale), (int) (workshopHeight * workshopScale));
+				break;
+			case BATTLE:
+				battleSpace.placeShip(playerShip);
+				frame.add(battleSpaceDisplayer);
+				playerController.setBounds(0, 0, (int) (battleSpaceWidth * battleSpaceScale), (int) (battleSpaceHeight * battleSpaceScale));
+				break;
+		}
+		playerController.setGamemode(desiredMode);
+
+		frame.pack();
+		frame.repaint();
+		gamemode = desiredMode;
+
+	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public MenuDisplayer getMenuDisplayer() {
+		return menuDisplayer;
+	}
+
+	public Workshop getWorkshop() {
+		return workshop;
+	}
+
+	public WorkshopDisplayer getWorkshopDisplayer() {
+		return workshopDisplayer;
+	}
+
+	public BattleSpace getBattleSpace() {
+		return battleSpace;
+	}
+
+	public BattleSpaceDisplayer getBattleSpaceDisplayer() {
+		return battleSpaceDisplayer;
+	}
+
+	public Gamemode getGamemode() {
+		return gamemode;
 	}
 }

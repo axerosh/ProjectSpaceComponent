@@ -110,8 +110,8 @@ public class BattleSpace extends GeneralVisibleEntity {
 	/**
 	 * Adds an addition team.
 	 */
-	public void addTeam(String teamName) {
-		teams.add(new Team(teamName));
+	public void addTeam(Team team) {
+		teams.add(team);
 	}
 
 	public int getNumberOfTeams() {
@@ -159,10 +159,10 @@ public class BattleSpace extends GeneralVisibleEntity {
 	}
 
 	public void placeShip(Starship ship){
-		if(ship.getTeam().getTeamName() == teams.get(0).getTeamName()){
+		if(ship.getTeam().getTeamName().equals(teams.get(0).getTeamName())){
 			ship.setXPosition(1);
 			ship.setYPosition((teams.get(0).getTeamSize() - 1) * 8);
-		}else if (ship.getTeam().getTeamName() == teams.get(1).getTeamName()){
+		}else if (ship.getTeam().getTeamName().equals(teams.get(1).getTeamName())){
 			ship.setXPosition(17);
 			ship.setYPosition((teams.get(1).getTeamSize() - 1) * 8);
 		}

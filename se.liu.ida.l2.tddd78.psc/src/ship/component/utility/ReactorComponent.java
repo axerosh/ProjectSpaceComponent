@@ -18,8 +18,8 @@ public class ReactorComponent extends UtilityComponent
 	@Override public void update() {}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		final Color orange = new Color(255, 110, 0);
-		draw(g, scale, virtualX, virtualY, orange);
+		final Color green = new Color(0, 230, 0);
+		draw(g, scale, virtualX, virtualY, green);
 	}
 
 	@Override public void registerOwner(final Starship owner) {

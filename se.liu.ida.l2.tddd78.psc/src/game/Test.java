@@ -43,8 +43,8 @@ public final class Test {
 		final Team team1 = new Team("Team 1");
 		final Team team2 = new Team("Team 2");
 		BattleSpace arena = new BattleSpace();
-		arena.addTeam(team1.getTeamName());
-		arena.addTeam(team2.getTeamName());
+		//arena.addTeam(team1.getTeamName());
+		//arena.addTeam(team2.getTeamName());
 
 
 		/*String playerShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
@@ -92,13 +92,13 @@ public final class Test {
 		if (playerShip != null) {
 			playerShip.addVisibleEntityListener(battleSpaceDisplayer);
 		}
-		MouseAndKeyboard playerController = new MouseAndKeyboard(arena, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, workshop, gamemode);
-		playerController.setControlledShip(playerShip);
+		//MouseAndKeyboard playerController = new MouseAndKeyboard(arena, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, workshop, gamemode);
+		//playerController.setControlledShip(playerShip);
 
 		frame = new PSCFrame();
 		frame.add(menuDisplayer);
 		frame.pack();
-		frame.add(playerController);
+		//frame.add(playerController);
 
 
 		//playerShip.printShip();

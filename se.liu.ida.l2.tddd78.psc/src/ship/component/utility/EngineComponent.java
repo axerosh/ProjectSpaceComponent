@@ -27,8 +27,8 @@ public class EngineComponent extends UtilityComponent
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		final Color green = new Color(0, 230, 0);
-		draw(g, scale, virtualX, virtualY, green);
+		final Color orange = new Color(255, 110, 0);
+		draw(g, scale, virtualX, virtualY, orange);
 	}
 
 	@Override public void registerOwner(final Starship owner) {
