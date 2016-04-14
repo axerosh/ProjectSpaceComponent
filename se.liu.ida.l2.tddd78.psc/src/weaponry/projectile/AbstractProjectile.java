@@ -1,9 +1,10 @@
 package weaponry.projectile;
 
-import component.ShipComponent;
-import game.Starship;
+import ship.Starship;
+import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A general projectile that ill move towards a target and inflict damage.
@@ -43,7 +44,7 @@ public class AbstractProjectile implements Projectile
 	@Override public void updateMovement(float deltaSeconds) {
 		selfX += xVelocity * deltaSeconds;
 		selfY += yVelocity * deltaSeconds;
-		System.out.println(selfX + " " + selfY);
+		//System.out.println(selfX + " " + selfY);
 
 		if (hasImpact()) {
 			impact();
@@ -51,7 +52,7 @@ public class AbstractProjectile implements Projectile
 	}
 
 	/**
-	 * Apply the projectile effect on target component(s).
+	 * Apply the projectile effect on target ship.component(s).
 	 */
 	@Override public void impact() {
 		if (!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null) {
@@ -71,7 +72,7 @@ public class AbstractProjectile implements Projectile
 	}
 
 	/**
-	 * Deals damage to any ship component at the specified position
+	 * Deals damage to any ship ship.component at the specified position
 	 *
 	 * @param x the x-coordinate of the position
 	 * @param y the x-coordinate of the position

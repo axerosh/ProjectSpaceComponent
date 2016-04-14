@@ -1,7 +1,7 @@
 package graphics;
 
 /**
- * Graphical component for displaying the game.
+ * Graphical ship.component for displaying the game.
  */
 public interface PSCGraphics
 {

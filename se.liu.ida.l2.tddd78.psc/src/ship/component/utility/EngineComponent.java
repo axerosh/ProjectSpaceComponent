@@ -1,6 +1,6 @@
-package component.utility;
+package ship.component.utility;
 
-import game.Starship;
+import ship.Starship;
 
 import java.awt.*;
 
@@ -26,11 +26,16 @@ public class EngineComponent extends UtilityComponent
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		draw(g, scale, virtualX, virtualY, Color.RED);
+		final Color green = new Color(0, 230, 0);
+		draw(g, scale, virtualX, virtualY, green);
 	}
 
 	@Override public void registerOwner(final Starship owner) {
 		super.registerOwner(owner);
 		owner.registerEngineComponent(this);
+	}
+
+	@Override public char getSymbolRepresentation() {
+		return 'E';
 	}
 }

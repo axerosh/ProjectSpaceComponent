@@ -1,10 +1,13 @@
-package game;
+package ship;
 
-import component.ShipComponent;
-import component.utility.EngineComponent;
-import component.utility.ReactorComponent;
-import component.utility.ShieldComponent;
-import component.weapon.WeaponComponent;
+import game.GeneralVisibleEntity;
+import game.VisibleEntity;
+import game.VisibleEntityListener;
+import ship.component.ShipComponent;
+import ship.component.utility.EngineComponent;
+import ship.component.utility.ReactorComponent;
+import ship.component.utility.ShieldComponent;
+import ship.component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 import game.Team;
@@ -47,6 +50,7 @@ public class Starship extends GeneralVisibleEntity
 	private int numberOfComponents;
 	private int team;
 	private float integrity;
+	private float maxIntegrity;
 
 	/**
 	 * The dodge rate of this ship. The rate of which projectile will miss the ship.
@@ -82,13 +86,14 @@ public class Starship extends GeneralVisibleEntity
 											   "Only positive integers are permitted.");
 		}
 		if (integrity <= 0) {
-			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive valujes are permitted.");
+			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive values are permitted.");
 		}
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.integrity = integrity;
+		this.maxIntegrity = integrity;
 
 		rng = new Random();
 
@@ -107,6 +112,36 @@ public class Starship extends GeneralVisibleEntity
 		components = new ShipComponent[width][height];
 	}
 
+	/**
+	 * Constructs a star ship with the specifed position, width and height.
+	 *
+	 * @param x            the x-position of the ship
+	 * @param y            the y-position of the ship
+	 * @param width        the width of the ship i.e. the number of ship components that can fit along the width
+	 * @param height       the height of the ship i.e. the number of ship components that can fit along the height
+	 * @param integrity    the current damage the ship can take before it is destroyed
+	 * @param maxIntegrity the damage the ship can take before it is destroyed when undamaged
+	 *
+	 * @throws IllegalArgumentException if one of the following is true: <ul> <li>the specified width is negative or 0</li>
+	 *                                  <li>the specified height is negative or 0</li> <li>the specified integrity is negative
+	 *                                  or 0</li> <li>the specified maxIntegrity is less than the specified integrity</li>
+	 *                                  </ul>
+	 * @see ShipComponent
+	 */
+	public Starship(final float x, final float y, final int width, final int height, final float integrity,
+					final float maxIntegrity)
+	{
+		this(x, y, width, height, integrity);
+
+		if (maxIntegrity < integrity) {
+			throw new IllegalArgumentException(
+					"Invalid maximum integrity = " + maxIntegrity + ". Must be equal to or greater " +
+					"than the integrity = " + integrity + ".");
+		} else {
+			this.maxIntegrity = maxIntegrity;
+		}
+	}
+
 	public void inflictDamage(float damage) {
 		integrity -= damage;
 		integrity = Math.max(integrity, 0);
@@ -117,7 +152,7 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * @return the virtual position of the specified component; null if the component is null or not a part of this ship
+	 * @return the virtual position of the specified ship.component; null if the ship.component is null or not a part of this ship
 	 */
 	public Point2D.Float getPositionOf(ShipComponent component) {
 		if (component == null) {
@@ -135,12 +170,12 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * Returns the ship component at the specified position.
+	 * Returns the ship ship.component at the specified position.
 	 *
 	 * @param x the x-coordinate of the position
 	 * @param y the y-coordinate of the position
 	 *
-	 * @return the ship component at the specified position; <code>null</code> if the specified position is outside of ship
+	 * @return the ship ship.component at the specified position; <code>null</code> if the specified position is outside of ship
 	 * bounds
 	 */
 	public ShipComponent getComponentAt(final float x, final float y) {
@@ -182,11 +217,11 @@ public class Starship extends GeneralVisibleEntity
 	}
 
 	/**
-	 * Adds the specified component at the specified position. Registers the component with this ship.
+	 * Adds the specified ship.component at the specified position. Registers the ship.component with this ship.
 	 *
-	 * @param component the component to add
-	 * @param col       column in which to add the component
-	 * @param row       row in which to add the component
+	 * @param component the ship.component to add
+	 * @param col       column in which to add the ship.component
+	 * @param row       row in which to add the ship.component
 	 */
 	public void setComponent(final ShipComponent component, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
@@ -454,7 +489,6 @@ public class Starship extends GeneralVisibleEntity
 				VisibleEntity visibleComponent = components[col][row];
 				if (visibleComponent != null) {
 					visibleComponent.addVisibleEntityListener(listener);
-					System.out.println("Listener added to " + visibleComponent);
 				}
 			}
 		}
@@ -491,8 +525,8 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * @return a List of all WeaponComponents the ship has.
 	 */
-	public List<WeaponComponent> getWeaponComponents(){
-		List<WeaponComponent> weaponComponents = new ArrayList<>();
+	public Iterable<WeaponComponent> getWeaponComponents() {
+		Collection<WeaponComponent> weaponComponents = new ArrayList<>();
 		for(ShipComponent[] componentList:components){
 			for(ShipComponent sc : componentList){
 				if(sc instanceof WeaponComponent){
@@ -509,10 +543,41 @@ public class Starship extends GeneralVisibleEntity
 	public ShipComponent getRandomComponent(){
 		List<ShipComponent> shipComponents = getShipComponents();
 
-		if(shipComponents.isEmpty()){
+		if (shipComponents.isEmpty()) {
 			return null;
 		}
 
 		return shipComponents.get(rng.nextInt(shipComponents.size()));
+	}
+
+	public String getTextRepresentation() {
+		StringBuilder textRep = new StringBuilder();
+		textRep.append("width=");
+		textRep.append(width);
+		textRep.append(", height=");
+		textRep.append(height);
+		textRep.append(", integrity=");
+		textRep.append(integrity);
+		textRep.append(", maxIntegrity=");
+		textRep.append(maxIntegrity);
+		textRep.append("; \n");
+
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				ShipComponent component = components[col][row];
+				if (component != null) {
+					textRep.append(component.getSymbolRepresentation());
+				} else {
+					textRep.append(".");
+				}
+			}
+			boolean lastRow = row == height - 1;
+			if (lastRow) {
+				textRep.append(";");
+			} else {
+				textRep.append(",\n");
+			}
+		}
+		return textRep.toString();
 	}
 }

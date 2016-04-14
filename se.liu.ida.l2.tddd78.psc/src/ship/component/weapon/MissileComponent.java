@@ -5,8 +5,10 @@ import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
+import java.awt.*;
+
 /**
- * A weapon ship.component that can fire missiles according to firing orders.
+ * A weapon component that can fire missiles according to firing orders.
  *
  * @see MissileProjectile
  * @see FiringOrder
@@ -32,7 +34,17 @@ public class MissileComponent extends WeaponComponent
 									 firingOrder.getTargetY(), velocity, firingOrder.getTargetShip(), damage, blastRadius);
 	}
 
+	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+		final Color gray = new Color(100, 100, 100);
+		draw(g, scale, virtualX, virtualY, gray);
+	}
+
 	@Override public void update() {}
+
+
+	@Override public char getSymbolRepresentation() {
+		return 'M';
+	}
 
 	@Override public ShipComponent clone() throws CloneNotSupportedException {
 		return new MissileComponent(maxIntegrity, (int)baseRechargeTime);

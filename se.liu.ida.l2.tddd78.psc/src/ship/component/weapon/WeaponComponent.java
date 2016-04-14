@@ -1,8 +1,8 @@
-package component.weapon;
+package ship.component.weapon;
 
-import component.AbstractShipComponent;
-import game.Starship;
 import graphics.Statbar;
+import ship.Starship;
+import ship.component.AbstractShipComponent;
 import weaponry.FiringOrder;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
@@ -10,7 +10,7 @@ import weaponry.projectile.Projectile;
 import java.awt.*;
 
 /**
- * A ship component that can fires projectile according to firing orders.
+ * A ship ship.component that can fires projectile according to firing orders.
  *
  * @see Projectile
  * @see FiringOrder
@@ -26,7 +26,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	private Projectile projectileToFire;
 
 	protected WeaponComponent(final float integrity, final int rechargeTime) {
-		super(integrity, true);
+		super(integrity);
 		this.baseRechargeTime = rechargeTime;
 		rechargeTimeLeft = 0;
 		firingOrder = null;

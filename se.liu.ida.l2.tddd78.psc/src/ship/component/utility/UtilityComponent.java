@@ -1,9 +1,9 @@
-package component.utility;
+package ship.component.utility;
 
-import component.AbstractShipComponent;
+import ship.component.AbstractShipComponent;
 
 /**
- * A ship component with an output.
+ * A ship ship.component with an output.
  */
 public abstract class UtilityComponent extends AbstractShipComponent
 {
@@ -11,7 +11,7 @@ public abstract class UtilityComponent extends AbstractShipComponent
 	private int output;
 
 	protected UtilityComponent(final float integrity, int output) {
-		super(integrity, false);
+		super(integrity);
 		this.output = output;
 	}
 
