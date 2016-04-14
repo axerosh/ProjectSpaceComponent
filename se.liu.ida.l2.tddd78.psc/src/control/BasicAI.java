@@ -1,6 +1,6 @@
 package control;
 
-import game.Battlefield;
+import game.BattleSpace;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
@@ -12,10 +12,10 @@ import weaponry.FiringOrder;
  */
 public class BasicAI
 {
-	private Battlefield field;
+	private BattleSpace field;
 	private Starship aiShip;
 
-	public BasicAI(final Battlefield field, final Starship aiShip) {
+	public BasicAI(final BattleSpace field, final Starship aiShip) {
 		this.field = field;
 		this.aiShip = aiShip;
 	}

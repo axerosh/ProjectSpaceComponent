@@ -3,7 +3,7 @@ package game;
 import control.BasicAI;
 import control.MouseAndKeyboard;
 import graphics.PSCFrame;
-import graphics.displayers.GameDisplayer;
+import graphics.displayers.BattleSpaceDisplayer;
 import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
 import ship.ShipIO;
@@ -19,8 +19,7 @@ import java.awt.event.ActionEvent;
 /**
  * Class for testing the game.
  */
-public final class Test
-{
+public final class Test {
 
 	private static final int GAME_WIDTH = 32;
 	private static final int GAME_HEIGHT = 18;
@@ -35,7 +34,7 @@ public final class Test
 	/**
 	 * The current Gamemode
 	 */
-	public static Gamemode gamemode = Gamemode.MENU;
+	public static ProjectSpaceComponent.Gamemode gamemode = ProjectSpaceComponent.Gamemode.MENU;
 	private static JFrame frame;// = new PSCFrame();
 	private Test() {}
 
@@ -43,7 +42,9 @@ public final class Test
 
 		final Team team1 = new Team("Team 1");
 		final Team team2 = new Team("Team 2");
-		Battlefield arena = new Battlefield(team1, team2);
+		BattleSpace arena = new BattleSpace();
+		arena.addTeam(team1.getTeamName());
+		arena.addTeam(team2.getTeamName());
 
 
 		/*String playerShipRepresentaiton = "width=5, height=5, integrity=10.0, maxIntegrity=10.0;\n" +
@@ -68,7 +69,7 @@ public final class Test
 		WorkshopDisplayer workshopDisplayer = new WorkshopDisplayer(workshop, WORKSHOPSCALE, WORKSHOP_WIDTH, WORKSHOP_HEIGHT);
 
 
-		Starship playerShip = ShipIO.load(1, 1, "the_manta");
+		Starship playerShip = ShipIO.load("the_manta");
 		//Starship playerShip = new Starship(14, 8, shipIntegrity);
 		//Starship playerShip = ShipFactory.getStarship(1, 1, playerShipRepresentaiton);
 		//Starship playerShip = new Starship(1, 1, 5, 5, shipIntegrity); initShip(playerShip);
@@ -76,7 +77,7 @@ public final class Test
 		arena.placeShip(playerShip);
 
 
-		Starship enemyShip = ShipIO.load(7, 1, "the_governator");
+		Starship enemyShip = ShipIO.load("the_governator");
 		//Starship enemyShip = new Starship(14, 8, shipIntegrity);
 		//Starship enemyShip = ShipFactory.getStarship(7, 1, enemyShipRepresentaiton);
 		//Starship enemyShip = new Starship(7, 1, 5, 5, shipIntegrity); initShip(enemyShip);
@@ -87,11 +88,12 @@ public final class Test
 		//ShipIO.save(playerShip, "the_manta");
 		//ShipIO.save(enemyShip, "the_governator");
 
-		GameDisplayer gameDisplayer = new GameDisplayer(arena, GAMESCALE, GAME_WIDTH, GAME_HEIGHT);
+		BattleSpaceDisplayer battleSpaceDisplayer = new BattleSpaceDisplayer(arena, GAMESCALE, GAME_WIDTH, GAME_HEIGHT);
 		if (playerShip != null) {
-			playerShip.addVisibleEntityListener(gameDisplayer);
+			playerShip.addVisibleEntityListener(battleSpaceDisplayer);
 		}
-		JComponent playerController = new MouseAndKeyboard(arena, playerShip, gameDisplayer, workshopDisplayer, menuDisplayer, workshop);
+		MouseAndKeyboard playerController = new MouseAndKeyboard(arena, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, workshop, gamemode);
+		playerController.setControlledShip(playerShip);
 
 		frame = new PSCFrame();
 		frame.add(menuDisplayer);
@@ -111,13 +113,13 @@ public final class Test
 				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
 				lastTime = System.nanoTime();
 
-				if (gamemode == Gamemode.WORKSHOP){
+				if (gamemode == ProjectSpaceComponent.Gamemode.WORKSHOP){
 					workshop.update();
 					workshopDisplayer.repaint();
-				} else if (gamemode == Gamemode.BATTLE) {
+				} else if (gamemode == ProjectSpaceComponent.Gamemode.BATTLE) {
 					//ai.update();
 					arena.update(passedSeconds);
-					gameDisplayer.repaint();
+					battleSpaceDisplayer.repaint();
 				}
 
 
@@ -129,8 +131,8 @@ public final class Test
 		//playerShip.printShip();
 	}
 
-	public static void changeGamemode(Gamemode mode, GameDisplayer gameDisplayer, WorkshopDisplayer workshopDisplayer,
-									  MenuDisplayer menuDisplayer, Battlefield arena, Workshop shop, Starship playerShip,
+	public static void changeGamemode(ProjectSpaceComponent.Gamemode mode, BattleSpaceDisplayer battleSpaceDisplayer, WorkshopDisplayer workshopDisplayer,
+									  MenuDisplayer menuDisplayer, BattleSpace arena, Workshop shop, Starship playerShip,
 									  JComponent playerController)
 	{
 		switch (gamemode) {
@@ -142,7 +144,7 @@ public final class Test
 				shop.removeShip();
 				break;
 			case BATTLE:
-				frame.remove(gameDisplayer);
+				frame.remove(battleSpaceDisplayer);
 				break;
 		}
 
@@ -158,7 +160,7 @@ public final class Test
 				break;
 			case BATTLE:
 				arena.placeShip(playerShip);
-				frame.add(gameDisplayer);
+				frame.add(battleSpaceDisplayer);
 				playerController.setBounds(0, 0, (int) (32 * GAMESCALE), (int) (18 * GAMESCALE));
 				break;
 		}
@@ -169,7 +171,7 @@ public final class Test
 
 	}
 
-	public static Gamemode getGamemode() {
+	public static ProjectSpaceComponent.Gamemode getGamemode() {
 		return gamemode;
 	}
 
@@ -202,22 +204,5 @@ public final class Test
 
 		starship.setComponent(new ReactorComponent(componentIntegrity, reactorOutput), 1, 4);
 		starship.setComponent(new ReactorComponent(componentIntegrity, reactorOutput), 3, 4);
-	}
-
-	public static enum Gamemode {
-		/**
-		 * Menu mode.
-		 */
-		MENU,
-
-		/**
-		 * Workshop (ship editing) mode.
-		 */
-		WORKSHOP,
-
-		/**
-		 * Battle mode.
-		 */
-		BATTLE
 	}
 }

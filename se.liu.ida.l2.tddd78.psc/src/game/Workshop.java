@@ -99,8 +99,6 @@ public class Workshop {
 			}
 		}
 
-
-
 	}
 
 	public Starship getWorkingShip() {
@@ -114,5 +112,7 @@ public class Workshop {
 		return sidebarComponents.get((int)y).get((int)x - sidebarX);
 	}
 
-
+	public int getTopBarHeight() {
+		return topBarHeight;
+	}
 }

@@ -23,8 +23,8 @@ public final class ShipIO {
 	private final static Charset CHARSET = StandardCharsets.UTF_8;
 
 	static {
-		File project = new File("se.liu.ida.l2.tddd78.psc");
-		File resources = new File(project, "resources");
+		final File project = new File("se.liu.ida.l2.tddd78.psc");
+		final File resources = new File(project, "resources");
 		SAVE_LOCATION = new File(resources, "ship_designs");
 		//SAVE_LOCATION = new File(resources, "ship_designs");
 	}
@@ -50,11 +50,9 @@ public final class ShipIO {
 	/**
 	 * Returns a ship loaded from the specified path.
 	 *
-	 * @param x       the x position at which the ship is to be located
-	 * @param y       the y position at which the ship is to be located
 	 * @return a ship loaded from the specified path
 	 */
-	public static Starship load(float x, float y, String fileName) {
+	public static Starship load(String fileName) {
 		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
@@ -65,7 +63,7 @@ public final class ShipIO {
 				nextLine = reader.readLine();
 			}
 
-			return ShipFactory.getStarship(x, y, textRepresentation.toString());
+			return ShipFactory.getStarship(textRepresentation.toString());
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

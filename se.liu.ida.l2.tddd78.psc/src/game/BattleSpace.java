@@ -17,8 +17,7 @@ import java.util.Set;
  *
  * @see Starship
  */
-public class Battlefield extends GeneralVisibleEntity
-{
+public class BattleSpace extends GeneralVisibleEntity {
 
 	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
@@ -26,12 +25,10 @@ public class Battlefield extends GeneralVisibleEntity
 	private Team winningTeam;
 	private boolean gameover;
 
-	public Battlefield(Team team1, Team team2) {
+	public BattleSpace() {
 		rng = new Random();
 
 		teams = new ArrayList<>();
-		teams.add(team1);
-		teams.add(team2);
 
 		projectiles = new HashSet<>();
 		winningTeam = null;

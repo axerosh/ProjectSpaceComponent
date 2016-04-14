@@ -21,8 +21,6 @@ public final class ShipFactory {
 	/**
 	 * Creates a star ship with at specifed position, acoording to the specified text representation.
 	 *
-	 * @param x                  the x-position of the ship
-	 * @param y                  the y-position of the ship
 	 * @param textRepresentation a text representationof the ship to create
 	 *
 	 * @return the created ship
@@ -35,7 +33,7 @@ public final class ShipFactory {
 	 *                                  specified integrity</li> </ul>
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
-	public static Starship getStarship(final float x, final float y, String textRepresentation) {
+	public static Starship getStarship(String textRepresentation) {
 		String cleanRep = textRepresentation.replaceAll("\\s+", "");
 
 		Map<String, Float> parameterValues = getParameterMap(cleanRep);

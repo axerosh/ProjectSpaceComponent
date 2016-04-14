@@ -1,15 +1,16 @@
 package control;
 
-import game.Battlefield;
+import game.BattleSpace;
 import game.Test;
 import game.Workshop;
-import graphics.displayers.GameDisplayer;
+import graphics.displayers.BattleSpaceDisplayer;
 import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
+import game.ProjectSpaceComponent.Gamemode;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -24,25 +25,27 @@ import java.awt.geom.Point2D;
 public class MouseAndKeyboard extends JComponent
 {
 
-	private Battlefield battlefield;
+	private BattleSpace battleSpace;
 	private Workshop workshop;
 	private Starship controlledShip;
-	private GameDisplayer gameDisplayer;
+	private BattleSpaceDisplayer battleSpaceDisplayer;
 	private WorkshopDisplayer workshopDisplayer;
 	private MenuDisplayer menuDisplayer;
 	private WeaponComponent selectedWeapon;
 	private ShipComponent selectedComponentInWorkshop;
 	private JComponent playerController;
 
+	private Gamemode gamemode;
 
-	public MouseAndKeyboard(final Battlefield battlefield, final Starship controlledShip, final GameDisplayer gameDisplayer, final
-							WorkshopDisplayer workshopDisplayer, MenuDisplayer menuDisplayer, Workshop workshop) {
-		this.battlefield = battlefield;
-		this.controlledShip = controlledShip;
-		this.gameDisplayer = gameDisplayer;
+
+	public MouseAndKeyboard(final BattleSpace battleSpace, final BattleSpaceDisplayer battleSpaceDisplayer, final
+							WorkshopDisplayer workshopDisplayer, final MenuDisplayer menuDisplayer,final Workshop workshop, final Gamemode gamemode) {
+		this.battleSpace = battleSpace;
+		this.battleSpaceDisplayer = battleSpaceDisplayer;
 		this.workshopDisplayer = workshopDisplayer;
 		this.menuDisplayer = menuDisplayer;
 		this.workshop = workshop;
+		this.gamemode = gamemode;
 
 		playerController = this;
 
@@ -57,12 +60,16 @@ public class MouseAndKeyboard extends JComponent
 
 	}
 
+	public void setControlledShip(final Starship controlledShip) {
+		this.controlledShip = controlledShip;
+	}
+
 	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
 	{
 
 		@Override public void mouseClicked(final MouseEvent e) {
 
-			if (Test.gamemode == Test.Gamemode.WORKSHOP) {
+			if (gamemode == Gamemode.WORKSHOP) {
 				ShipComponent clickedLocalComponent = workshop.getComponentAtSidebar(workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
 				managePlacing(e, clickedLocalComponent);
 				return;
@@ -70,7 +77,7 @@ public class MouseAndKeyboard extends JComponent
 
 
 			ShipComponent clickedLocalComponent =
-					controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+					controlledShip.getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
 				if (e.isControlDown()) {
 					managePower(e, clickedLocalComponent);
@@ -81,7 +88,8 @@ public class MouseAndKeyboard extends JComponent
 				}
 			} else if (selectedWeapon != null) {
 				ShipComponent clickedGlobalComponent =
-						battlefield.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+						battleSpace.getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer
+								.getVirtualY(e.getY()));
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					if (clickedGlobalComponent != null) {
@@ -143,13 +151,13 @@ public class MouseAndKeyboard extends JComponent
 					}catch(CloneNotSupportedException error){
 						error.printStackTrace();
 					}
-					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - 1);
+					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - workshop.getTopBarHeight());
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
 				if(selectedComponentInWorkshop != null){
 					selectedComponentInWorkshop = null;
 				}else{
-					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - 1);
+					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY()) - workshop.getTopBarHeight());
 				}
 
 			}
@@ -164,7 +172,7 @@ public class MouseAndKeyboard extends JComponent
 			Point2D.Float originPos = controlledShip.getPositionOf(selectedWeapon);
 			if (originPos != null) {
 				Starship targetShip =
-						battlefield.getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+						battleSpace.getShipAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
@@ -186,13 +194,14 @@ public class MouseAndKeyboard extends JComponent
 
 				switch (Test.gamemode) {
 					case MENU:
-						Test.changeGamemode(Test.Gamemode.WORKSHOP, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
+						Test.changeGamemode(Gamemode.WORKSHOP, battleSpaceDisplayer, workshopDisplayer, menuDisplayer,
+											battleSpace, workshop, controlledShip, playerController);
 						break;
 					case WORKSHOP:
-						Test.changeGamemode(Test.Gamemode.BATTLE, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
+						Test.changeGamemode(Gamemode.BATTLE, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
 						break;
 					case BATTLE:
-						Test.changeGamemode(Test.Gamemode.MENU, gameDisplayer, workshopDisplayer, menuDisplayer, battlefield, workshop, controlledShip, playerController);
+						Test.changeGamemode(Gamemode.MENU, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
 						break;
 
 				}
