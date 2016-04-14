@@ -17,10 +17,12 @@ public class Team implements Iterable<Starship> {
 	private final List<Starship> members;
 	private Random rng;
 	private boolean isDefeated;
+	private String teamName;
 
-	public Team() {
+	public Team(String teamName) {
 		rng = new Random();
 		members = new ArrayList<>();
+		this.teamName = teamName;
 	}
 
 	public void add(Starship ship) {
@@ -48,6 +50,14 @@ public class Team implements Iterable<Starship> {
 			return members.get(rng.nextInt(members.size()));
 		}
 
+	}
+
+	public int getTeamSize(){
+		return members.size();
+	}
+
+	public String getTeamName(){
+		return teamName;
 	}
 
 	@Override public Iterator<Starship> iterator() {

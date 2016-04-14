@@ -48,7 +48,7 @@ public class Starship extends GeneralVisibleEntity
 	private int powerPool;
 	private int usedPower;
 	private int numberOfComponents;
-	private int team;
+	private Team team;
 	private float integrity;
 	private float maxIntegrity;
 
@@ -67,8 +67,6 @@ public class Starship extends GeneralVisibleEntity
 	/**
 	 * Constructs a star ship with the specifed position, width and height.
 	 *
-	 * @param x        the x-position of the ship
-	 * @param y        the y-position of the ship
 	 * @param width    the width of the ship i.e. the number of ship components that can fit along the width
 	 * @param height    the height of the ship i.e. the number of ship components that can fit along the height
 	 * @param integrity the damage the ship can take before it is destroyed
@@ -80,7 +78,7 @@ public class Starship extends GeneralVisibleEntity
 	 * </ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final float x, final float y, final int width, final int height, final float integrity) {
+	public Starship(final int width, final int height, final float integrity) {
 		if (width <= 0 || height <= 0) {
 			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
 											   "Only positive integers are permitted.");
@@ -88,8 +86,8 @@ public class Starship extends GeneralVisibleEntity
 		if (integrity <= 0) {
 			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive values are permitted.");
 		}
-		this.x = x;
-		this.y = y;
+		x = 0;
+		y = 0;
 		this.width = width;
 		this.height = height;
 		this.integrity = integrity;
@@ -160,7 +158,7 @@ public class Starship extends GeneralVisibleEntity
 		}
 		final float halfComponentWidth = 0.5f;
 		for (int col = 0; col < width; col++) {
-			for (int row = 0; row < width; row++) {
+			for (int row = 0; row < height; row++) {
 				if (component.equals(components[col][row])) {
 					return new Point2D.Float(x + col + halfComponentWidth, y + row + halfComponentWidth);
 				}
@@ -356,7 +354,7 @@ public class Starship extends GeneralVisibleEntity
 						return;
 					}
 
-					while (component.hasShielding() && usedPower > powerPool) {
+					while (component.hasPower() && usedPower > powerPool) {
 						component.decreasePower();
 						if (usedPower <= powerPool) {
 							return;
@@ -365,6 +363,13 @@ public class Starship extends GeneralVisibleEntity
 				}
 			}
 		}
+	}
+
+	public void setXPosition(int vx){
+		x = vx;
+	}
+	public void setYPosition(int vy){
+		y = vy;
 	}
 
 	private float getXRelativeToShip(float x) {
@@ -453,11 +458,11 @@ public class Starship extends GeneralVisibleEntity
 		}
 	}
 
-	public int getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
-	public void setTeam(final int team) {
+	public void setTeam(final Team team) {
 		this.team = team;
 	}
 

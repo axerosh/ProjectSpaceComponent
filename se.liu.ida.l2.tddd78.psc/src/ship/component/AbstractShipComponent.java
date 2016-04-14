@@ -10,7 +10,7 @@ import java.awt.*;
  * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
  * graphical projection of itself and some of its stats.
  */
-public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent
+public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent, Cloneable
 {
 
 	/**
@@ -24,7 +24,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	/**
 	 * The maximum integrity of this ship ship.component. The damage it can take before it is destroyed.
 	 */
-	private final float maxIntegrity;
+	protected final float maxIntegrity;
 	private int shielding;
 	private int power;
 	/**
@@ -219,5 +219,9 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 
 	@Override public String toString() {
 		return (this.getClass() + " HP = " + integrity + ", Shielding = " + shielding + ", Power = " + power);
+	}
+
+	@Override public ShipComponent clone() throws CloneNotSupportedException {
+		return null;
 	}
 }
