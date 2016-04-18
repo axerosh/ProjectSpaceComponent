@@ -1,19 +1,17 @@
 package game;
 
+import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
-import ship.Starship;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Workshop {
-
-	//8*14
 
 	private int width, height;
 	private float scale;
@@ -25,21 +23,20 @@ public class Workshop {
 	private List<List<ShipComponent>> sidebarComponents;
 
 
-	private int shipWidth = 14;
-	private int shipHeight = 8;
+	private int shipWidth;
+	private int shipHeight;
 
 	private Starship workingShip;
 
-	private boolean draggingComponent;
-
-	public Workshop(final int width, final int height, final float scale) {
+	public Workshop(final int width, final int height, final float scale, final int shipWidth, final int shipHeight) {
 		this.scale = (int)(scale);
 		this.width = width;
 		this.height = height;
+		this.shipWidth = shipWidth;
+		this.shipHeight = shipHeight;
 
 		sidebarComponents = new ArrayList<>();
-
-		draggingComponent = false;
+		workingShip = null;
 
 		init();
 	}
@@ -60,14 +57,10 @@ public class Workshop {
 		sidebarComponents.get(1).add(new MissileComponent(1, 1));
 	}
 
-	public void update(){
-
-	}
-
 	public void addWorkingShip(Starship ship){
 		workingShip = ship;
-		workingShip.setXPosition(0);
-		workingShip.setYPosition(1);
+		workingShip.setX(0);
+		workingShip.setY(1);
 	}
 
 	public void removeShip(){
@@ -95,7 +88,7 @@ public class Workshop {
 
 		for(List<ShipComponent> row :sidebarComponents){
 			for(ShipComponent sc: row){
-				sc.draw(g, scale, 14 + row.indexOf(sc), sidebarComponents.indexOf(row));
+				sc.draw(g, scale, shipWidth + row.indexOf(sc), sidebarComponents.indexOf(row));
 			}
 		}
 

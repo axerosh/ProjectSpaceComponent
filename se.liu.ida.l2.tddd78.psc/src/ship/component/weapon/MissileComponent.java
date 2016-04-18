@@ -21,15 +21,17 @@ public class MissileComponent extends WeaponComponent
 	}
 
 	@Override public Projectile shoot() {
+		int velocity = 5;
+
 		final float damagePerPower = 0.5f;
 		final int baseDamage = 1;
 
 		final float blastRadiusPerPower = 0.25f;
 		final float baseBlastDamage = 2.5f;
 
-		int velocity = 10;
 		int damage = baseDamage + (int) (getPower() * damagePerPower);
 		int blastRadius = (int) (baseBlastDamage + getPower() * blastRadiusPerPower);
+
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
 									 firingOrder.getTargetY(), velocity, firingOrder.getTargetShip(), damage, blastRadius);
 	}
@@ -46,7 +48,7 @@ public class MissileComponent extends WeaponComponent
 		return 'M';
 	}
 
-	@Override public ShipComponent clone() throws CloneNotSupportedException {
+	@Override public final ShipComponent copy() {
 		return new MissileComponent(maxIntegrity, (int)baseRechargeTime);
 	}
 }

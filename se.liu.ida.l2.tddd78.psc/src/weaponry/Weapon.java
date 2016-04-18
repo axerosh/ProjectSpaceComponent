@@ -8,8 +8,7 @@ import weaponry.projectile.Projectile;
  * @see Projectile
  * @see FiringOrder
  */
-public interface Weapon
-{
+public interface Weapon {
 
 	public void giveFiringOrder(FiringOrder order);
 

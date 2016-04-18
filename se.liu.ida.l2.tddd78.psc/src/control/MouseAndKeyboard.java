@@ -1,17 +1,13 @@
 package control;
 
-import game.BattleSpace;
 import game.ProjectSpaceComponent;
-import game.Test;
-import game.Workshop;
+import game.ProjectSpaceComponent.Gamemode;
 import graphics.displayers.BattleSpaceDisplayer;
-import graphics.displayers.MenuDisplayer;
 import graphics.displayers.WorkshopDisplayer;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
-import game.ProjectSpaceComponent.Gamemode;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -50,6 +46,7 @@ public class MouseAndKeyboard extends JComponent {
 
 		selectedWeapon = null;
 		selectedComponentInWorkshop = null;
+		controlledShip = null;
 
 		MouseAndKeyboardListener m = new MouseAndKeyboardListener();
 		addMouseListener(m);
@@ -105,6 +102,7 @@ public class MouseAndKeyboard extends JComponent {
 					}
 
 				} else if (e.getButton() == MouseEvent.BUTTON3) {
+					selectedWeapon.setSelected(false);
 					selectedWeapon = null;
 				}
 			}
@@ -129,10 +127,11 @@ public class MouseAndKeyboard extends JComponent {
 		private void manageActivation(final MouseEvent e, ShipComponent clickedComponent) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				if (selectedWeapon == null) {
-					clickedComponent.activate();
-
 					if (clickedComponent instanceof WeaponComponent) {
 						selectedWeapon = (WeaponComponent) clickedComponent;
+						clickedComponent.setSelected(true);
+					} else {
+						clickedComponent.setActive(true);
 					}
 				} else {
 					manageTargeting(e, clickedComponent);
@@ -140,9 +139,9 @@ public class MouseAndKeyboard extends JComponent {
 
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				if (selectedWeapon == null) {
-					clickedComponent.deactivate();
+					clickedComponent.setActive(false);
 				} else {
-					selectedWeapon.deactivate();
+					selectedWeapon.setSelected(false);
 					selectedWeapon = null;
 				}
 			}
@@ -153,12 +152,7 @@ public class MouseAndKeyboard extends JComponent {
 				if(selectedComponentInWorkshop == null){
 					selectedComponentInWorkshop = clickedShipComponent;
 				}else{
-					ShipComponent sc = null;
-					try{
-						sc = selectedComponentInWorkshop.clone();
-					}catch(CloneNotSupportedException error){
-						error.printStackTrace();
-					}
+					ShipComponent sc = selectedComponentInWorkshop.copy();
 					WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
 					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY())
 																				  - psc.getWorkshop().getTopBarHeight());
@@ -207,16 +201,12 @@ public class MouseAndKeyboard extends JComponent {
 
 				switch (psc.getGamemode()) {
 					case MENU:
-						//Test.changeGamemode(Gamemode.WORKSHOP, battleSpaceDisplayer, workshopDisplayer, menuDisplayer,
-						//					battleSpace, workshop, controlledShip, playerController);
 						psc.changeGamemode(Gamemode.WORKSHOP);
 						break;
 					case WORKSHOP:
-						//Test.changeGamemode(Gamemode.BATTLE, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
 						psc.changeGamemode(Gamemode.BATTLE);
 						break;
 					case BATTLE:
-						//Test.changeGamemode(Gamemode.MENU, battleSpaceDisplayer, workshopDisplayer, menuDisplayer, battleSpace, workshop, controlledShip, playerController);
 						psc.changeGamemode(Gamemode.MENU);
 						break;
 

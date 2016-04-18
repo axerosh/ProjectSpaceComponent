@@ -6,7 +6,7 @@ import ship.Starship;
 import java.awt.*;
 
 /**
- * A ship ship.component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
+ * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
  * be drawn with with some of its stats depicted with a graphical representation.
  *
  * @see Starship
@@ -14,19 +14,19 @@ import java.awt.*;
 public interface ShipComponent extends VisibleEntity {
 
 	/**
-	 * Damages this ship ship.component by reducing its HP by the specified number of hit points.
+	 * Damages this ship component by reducing its HP by the specified number of hit points.
 	 *
-	 * @param damage the number of hit points by which this ship ship.component's HP is reduced
+	 * @param damage the number of hit points by which this ship component's HP is reduced
 	 */
 	public void inflictDamage(float damage);
 
 	/**
-	 * Draws this ship ship.component with the specified scaling.
+	 * Draws this ship component with the specified scaling.
 	 *
-	 * @param g        the Graphics object with which to draw this ship ship.component
+	 * @param g        the Graphics object with which to draw this ship component
 	 * @param scale    the scale with which to scale virtual positions to get on-screen positions
-	 * @param virtualX the virtual x-position at which the ship ship.component is to be drawn.
-	 * @param virtualY the virtual y-position at which the ship ship.component is to be drawn.
+	 * @param virtualX the virtual x-position at which the ship component is to be drawn.
+	 * @param virtualY the virtual y-position at which the ship component is to be drawn.
 	 */
 	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY);
 
@@ -41,30 +41,29 @@ public interface ShipComponent extends VisibleEntity {
 	public boolean hasPower();
 
 	/**
-	 * Updates the ship.component
+	 * Updates the component
 	 */
 	public void update();
 
 	/**
-	 * Activates the ship.component
-	 */
-	public void activate();
-
-	/**
-	 * Deactivates the ship.component
-	 */
-	public void deactivate();
-
-	/**
-	 * @return true if ship.component is active
-	 */
-	public boolean isActive();
-
-	/**
-	 * Registers this ship.component with the specified ship, indicating that the ship.component is a part of the specified ship and
-	 * registers special ship ship.component type functionality with the ship.
+	 * Sets the activation status of the compoennt to the given value
 	 *
-	 * @param owner the ship with which this ship.component is registered.
+	 * @param flag the new activation status of the compoenent. <code>true</code> to active the component
+	 */
+	public void setActive(boolean flag);
+
+	/**
+	 * Sets the selection status of the compoennt to the given value
+	 *
+	 * @param flag the new selection status of the compoenent. <code>true</code> to active the component
+	 */
+	public void setSelected(boolean flag);
+
+	/**
+	 * Registers this component with the specified ship, indicating that the component is a part of the specified ship and
+	 * registers special ship component type functionality with the ship.
+	 *
+	 * @param owner the ship with which this component is registered.
 	 */
 	public void registerOwner(final Starship owner);
 
@@ -105,5 +104,5 @@ public interface ShipComponent extends VisibleEntity {
 	 */
 	public char getSymbolRepresentation();
 
-	public ShipComponent clone() throws CloneNotSupportedException;
+	public ShipComponent copy();
 }

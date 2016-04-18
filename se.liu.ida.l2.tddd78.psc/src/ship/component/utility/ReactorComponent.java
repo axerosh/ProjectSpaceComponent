@@ -31,7 +31,7 @@ public class ReactorComponent extends UtilityComponent
 		return 'R';
 	}
 
-	@Override public ShipComponent clone() {
+	@Override public final ShipComponent copy() {
 		return new ReactorComponent(maxIntegrity, output);
 	}
 }

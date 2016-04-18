@@ -34,7 +34,7 @@ public class ShieldComponent extends UtilityComponent
 		return 'S';
 	}
 
-	@Override public ShipComponent clone() {
+	@Override public final ShipComponent copy() {
 		return new ShieldComponent(maxIntegrity, output);
 	}
 }

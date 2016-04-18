@@ -12,7 +12,7 @@ public final class Main {
 
 	public static void main(String[] args) {
 
-		ProjectSpaceComponent psc = new ProjectSpaceComponent();
+		Runnable psc = new ProjectSpaceComponent();
 
 		psc.run();
 	}

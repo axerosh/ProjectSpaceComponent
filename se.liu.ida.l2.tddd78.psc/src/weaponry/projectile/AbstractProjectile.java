@@ -3,8 +3,7 @@ package weaponry.projectile;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A general projectile that ill move towards a target and inflict damage.
@@ -38,9 +37,6 @@ public class AbstractProjectile implements Projectile
 		yVelocity = (float) Math.sin(angle) * velocity;
 	}
 
-	/**
-	 * Updates the projectile position, checks if the the projetile is at its target, if so applies its effect
-	 */
 	@Override public void updateMovement(float deltaSeconds) {
 		selfX += xVelocity * deltaSeconds;
 		selfY += yVelocity * deltaSeconds;
@@ -52,9 +48,9 @@ public class AbstractProjectile implements Projectile
 	}
 
 	/**
-	 * Apply the projectile effect on target ship.component(s).
+	 * Apply the projectile effect on target component(s).
 	 */
-	@Override public void impact() {
+	public void impact() {
 		if (!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null) {
 			System.out.println("Projectile hit target!");
 			for (int relativeRow = -blastRadius + 1; relativeRow <= blastRadius - 1; relativeRow++) {
@@ -105,14 +101,8 @@ public class AbstractProjectile implements Projectile
 		return false;
 	}
 
-	/**
-	 * Draws the projetile on the screen
-	 *
-	 * @param g     Graphics object to draw with.
-	 * @param scale scale of which all positions and sizes will be scaled with.
-	 */
 	@Override public void draw(final Graphics g, final float scale) {
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.BLACK);
 		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity / 10) * scale),
 				   (int) ((selfY + yVelocity / 10) * scale));
 	}

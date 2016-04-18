@@ -98,13 +98,10 @@ public class BattleSpace extends GeneralVisibleEntity {
 	 *
 	 * @param ship a StarShip to add
 	 * @param team the Team to add the ship to.
-	 * @return false if failed
-	 * @see #getNumberOfTeams
 	 */
-	public boolean addShip(final Starship ship, final Team team) {
+	public void addShip(final Starship ship, final Team team) {
 		team.add(ship);
 		ship.setTeam(team);
-		return true;
 	}
 
 	/**
@@ -114,22 +111,20 @@ public class BattleSpace extends GeneralVisibleEntity {
 		teams.add(team);
 	}
 
-	public int getNumberOfTeams() {
-		return teams.size();
-	}
-
 	public void addProjectiles(final Collection<Projectile> projectiles) {
-		synchronized (projectiles) {
+		synchronized (this.projectiles) {
 			this.projectiles.addAll(projectiles);
 		}
 	}
 
-	//TODO Detta är otrolig fulprogramering, fixa FFS! :P
 	public Team getRandomHostileTeam(Team ownTeam){
-		teams.remove(teams.indexOf(ownTeam));
-		Team hostileTeam = teams.get(rng.nextInt(teams.size()));
-		teams.add(ownTeam);
-		return hostileTeam;
+		List<Team> hostileTeams = new ArrayList<>();
+		for (Team team : teams) {
+			if (!team.equals(ownTeam)) {
+				hostileTeams.add(team);
+			}
+		}
+		return hostileTeams.get(rng.nextInt(hostileTeams.size()));
 	}
 
 	public Starship getRandomShipOfTeam(final Team team) {
@@ -158,13 +153,24 @@ public class BattleSpace extends GeneralVisibleEntity {
 		}
 	}
 
-	public void placeShip(Starship ship){
-		if(ship.getTeam().getTeamName().equals(teams.get(0).getTeamName())){
-			ship.setXPosition(1);
-			ship.setYPosition((teams.get(0).getTeamSize() - 1) * 8);
-		}else if (ship.getTeam().getTeamName().equals(teams.get(1).getTeamName())){
-			ship.setXPosition(17);
-			ship.setYPosition((teams.get(1).getTeamSize() - 1) * 8);
+	/**
+	 * Relocates all ships to have them fit the battle space.
+	 */
+	public void pack(int shipWidth, int shipHeight) {
+		final int outerMarginX = 1;
+		final float outerMarginY = 0.5f;
+		final int middleMarginX = 2;
+		final int middleMarginY = 1;
+
+		for (int teamIndex = 0; teamIndex < teams.size(); teamIndex++) {
+			Team team = teams.get(teamIndex);
+			for (Starship ship : team) {
+
+				ship.setX(outerMarginX + teamIndex * (shipWidth + middleMarginX));
+
+				ship.setY(outerMarginY + (team.indexOf(ship)) * (shipHeight + middleMarginY));
+
+			}
 		}
 	}
 }

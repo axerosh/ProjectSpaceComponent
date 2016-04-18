@@ -15,10 +15,8 @@ import java.awt.*;
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class WeaponComponent extends AbstractShipComponent implements Weapon
-{
+public abstract class WeaponComponent extends AbstractShipComponent implements Weapon {
 
-	private final static Color HIGHLIGHT_COLOR = Color.YELLOW;
 	protected final float baseRechargeTime;
 	protected FiringOrder firingOrder;
 	private float currentRechargeTime;
@@ -31,7 +29,6 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
-		deactivate();
 	}
 
 	private boolean isRecharging() {
@@ -57,16 +54,6 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	@Override
 	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY, final Color color) {
 		super.draw(g, scale, virtualX, virtualY, color);
-
-
-		if (isActive()) {
-			int screenX = (int) (virtualX * scale);
-			int screenY = (int) (virtualY * scale);
-			int pixelsAcross = (int) scale;
-
-			g.setColor(HIGHLIGHT_COLOR);
-			g.drawRect(screenX, screenY, pixelsAcross - 1, pixelsAcross - 1);
-		}
 
 		if (isRecharging()) {
 			int indicatorScreenX = (int) (virtualX * scale);

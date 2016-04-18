@@ -25,12 +25,15 @@ public final class PropertiesCreator {
 		final Properties properties = new Properties();
 
 		properties.setProperty("max_framerate", "60");
-		properties.setProperty("game_width", "32");
-		properties.setProperty("game_height", "18");
-		properties.setProperty("workshop_width", "16");
-		properties.setProperty("workshop_height", "9");
 		properties.setProperty("menu_width", "10");
 		properties.setProperty("menu_height", "20");
+		properties.setProperty("menu_scale", "40.0");
+		properties.setProperty("workshop_width", "16");
+		properties.setProperty("workshop_height", "9");
+		properties.setProperty("workshop_scale", "80.0");
+		properties.setProperty("battlespace_width", "32");
+		properties.setProperty("battlespace_height", "18");
+		properties.setProperty("battlespace_scale", "40.0");
 		properties.setProperty("ship_width", "14");
 		properties.setProperty("ship_height", "8");
 

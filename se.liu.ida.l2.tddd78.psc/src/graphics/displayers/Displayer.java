@@ -1,12 +1,11 @@
 package graphics.displayers;
 
 import game.VisibleEntityListener;
-import graphics.PSCGraphics;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Displayer extends JComponent implements PSCGraphics, VisibleEntityListener{
+public abstract class Displayer extends JComponent implements VisibleEntityListener {
 
 	/**
 	 * The scale from virtual coordinates/distances to ones one the screen. (If set to an integer, it is equal to a components
@@ -15,22 +14,35 @@ public abstract class Displayer extends JComponent implements PSCGraphics, Visib
 	protected float scale;
 	//As of 2016-03-02, this number need to be equal to or greater than ~16 for shielding/power bars to be readable.
 	//Can definelty not be 0! (Will result in division by 0)
+	protected int displayWidth;
+	protected int displayHeight;
 
-
-	public Displayer(float scale, final int witdh, final int height) {
+	protected Displayer(float scale, final int witdh, final int height) {
 		this.scale = scale;
-		WIDTH = (int) (witdh * scale);
-		HEIGHT = (int) (height * scale);
+		displayWidth = (int) (witdh * scale);
+		displayHeight = (int) (height * scale);
 	}
 
-	protected int WIDTH;
-	protected int HEIGHT;
-
-	@Override public float getVirtualX(int screenX) {
+	/**
+	 * Returns the specified screen x-position converted to the corresponding virtual x-position
+	 *
+	 * @param screenX the x-coordinate of a screen position
+	 *
+	 * @return the virtual x-coordinate that corresponds to the specified screen x-coordinate
+	 */
+	public float getVirtualX(int screenX) {
 		return screenX / scale;
 	}
 
-	@Override public float getVirtualY(int screenY) {
+
+	/**
+	 * Returns the specified screen y-position converted to the corresponding virtual y-position
+	 *
+	 * @param screenY the y-coordinate of a screen position
+	 *
+	 * @return the virtual y-coordinate that corresponds to the specified screen y-coordinate
+	 */
+	public float getVirtualY(int screenY) {
 		return screenY / scale;
 	}
 
@@ -39,6 +51,6 @@ public abstract class Displayer extends JComponent implements PSCGraphics, Visib
 	}
 
 	@Override public Dimension getPreferredSize() {
-		return new Dimension(WIDTH, HEIGHT);
+		return new Dimension(displayWidth, displayHeight);
 	}
 }

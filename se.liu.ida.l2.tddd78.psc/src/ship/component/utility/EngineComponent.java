@@ -40,7 +40,7 @@ public class EngineComponent extends UtilityComponent
 		return 'E';
 	}
 
-	@Override public ShipComponent clone() {
+	@Override public final ShipComponent copy() {
 		return new EngineComponent(maxIntegrity, output);
 	}
 }

@@ -11,9 +11,8 @@ import ship.component.utility.ShieldComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.Weapon;
 import weaponry.projectile.Projectile;
-import game.Team;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -109,6 +108,7 @@ public class Starship extends GeneralVisibleEntity
 		projectilesToFire = new ArrayList<>();
 
 		components = new ShipComponent[width][height];
+		team = null;
 	}
 
 	/**
@@ -364,10 +364,11 @@ public class Starship extends GeneralVisibleEntity
 		}
 	}
 
-	public void setXPosition(int vx){
+	public void setX(float vx) {
 		x = vx;
 	}
-	public void setYPosition(int vy){
+
+	public void setY(float vy) {
 		y = vy;
 	}
 
@@ -390,10 +391,6 @@ public class Starship extends GeneralVisibleEntity
 	public boolean contains(float x, float y) {
 		return x >= this.x && x <= this.x + this.width &&
 			   y >= this.y && y <= this.y + this.height;
-	}
-
-	public boolean hasFreeShielding() {
-		return usedShielding < shieldingPool;
 	}
 
 	public boolean hasFreePower() {

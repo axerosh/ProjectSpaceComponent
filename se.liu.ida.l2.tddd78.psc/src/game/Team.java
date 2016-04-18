@@ -49,11 +49,17 @@ public class Team implements Iterable<Starship> {
 		} else {
 			return members.get(rng.nextInt(members.size()));
 		}
-
 	}
 
-	public int getTeamSize(){
-		return members.size();
+	/**
+	 * Returns the membership ID of the specified ship.
+	 *
+	 * @param ship the ship which ID is to be gotten
+	 *
+	 * @return an ID number equals to or greater than 0 if the ship is a part of the team; -1 of it is not
+	 */
+	public int indexOf(Starship ship) {
+		return members.indexOf(ship);
 	}
 
 	public String getTeamName(){

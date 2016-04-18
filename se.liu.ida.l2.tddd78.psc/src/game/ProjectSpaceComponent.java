@@ -15,12 +15,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class ProjectSpaceComponent implements Runnable {
 
-
-
+	private final JFrame frame;
+	private final Timer timer;
+	private final Menu menu;
+	private final MenuDisplayer menuDisplayer;
+	private final Workshop workshop;
+	private final WorkshopDisplayer workshopDisplayer;
+	private final BattleSpace battleSpace;
+	private final BattleSpaceDisplayer battleSpaceDisplayer;
+	private final MouseAndKeyboard playerController;
 	private int menuWidth;
 	private int menuHeight;
 	private float menuScale;
@@ -33,19 +42,9 @@ public class ProjectSpaceComponent implements Runnable {
 	private int shipWidth;
 	private int shipHeight;
 	private float maxFramerate;
-
 	private Gamemode gamemode;
-	private final JFrame frame;
-	private final Timer timer;
-	private final Menu menu;
-	private final MenuDisplayer menuDisplayer;
-	private final Workshop workshop;
-	private final WorkshopDisplayer workshopDisplayer;
-	private final BattleSpace battleSpace;
-	private final BattleSpaceDisplayer battleSpaceDisplayer;
-	private final MouseAndKeyboard playerController;
 	private Starship playerShip;
-	private BasicAI ai;
+	private Set<BasicAI> ais;
 
 	public ProjectSpaceComponent() {
 
@@ -56,7 +55,7 @@ public class ProjectSpaceComponent implements Runnable {
 		menu = new Menu();
 		menuDisplayer = new MenuDisplayer(menu, menuScale, menuWidth, menuHeight);
 
-		workshop = new Workshop(workshopWidth, workshopHeight, workshopScale);
+		workshop = new Workshop(workshopWidth, workshopHeight, workshopScale, shipWidth, shipHeight);
 		workshopDisplayer = new WorkshopDisplayer(workshop, workshopScale, workshopWidth, workshopHeight);
 
 		battleSpace = new BattleSpace();
@@ -64,6 +63,7 @@ public class ProjectSpaceComponent implements Runnable {
 
 		playerController = new MouseAndKeyboard(this, gamemode);//battleSpace, battleSpaceDisplayer, workshopDisplayer,
 												//menuDisplayer, workshop, gamemode);
+		ais = new HashSet<>();
 
 		frame = new PSCFrame();
 		frame.add(menuDisplayer);
@@ -85,10 +85,11 @@ public class ProjectSpaceComponent implements Runnable {
 				lastTime = System.nanoTime();
 
 				if (gamemode == Gamemode.WORKSHOP) {
-					workshop.update();
 					workshopDisplayer.repaint();
 				} else if (gamemode == Gamemode.BATTLE) {
-					ai.update();
+					for (BasicAI ai : ais) {
+						ai.update();
+					}
 					battleSpace.update(passedSeconds);
 					battleSpaceDisplayer.repaint();
 				}
@@ -110,9 +111,12 @@ public class ProjectSpaceComponent implements Runnable {
 		battleSpace.addShip(playerShip, team1);
 
 		Starship enemyShip = ShipIO.load("the_governator");
-		ai = new BasicAI(battleSpace, enemyShip);
+		ais.add(new BasicAI(battleSpace, enemyShip));
 		battleSpace.addShip(enemyShip, team2);
-		battleSpace.placeShip(enemyShip);
+
+		Starship friendlyShip = ShipIO.load("the_governator");
+		ais.add(new BasicAI(battleSpace, friendlyShip));
+		battleSpace.addShip(friendlyShip, team1);
 	}
 
 	@Override public void run() {
@@ -120,24 +124,7 @@ public class ProjectSpaceComponent implements Runnable {
 		timer.start();
 	}
 
-	public static enum Gamemode {
-		/**
-		 * Menu mode.
-		 */
-		MENU,
-
-		/**
-		 * Workshop (ship editing) mode.
-		 */
-		WORKSHOP,
-
-		/**
-		 * Battle mode.
-		 */
-		BATTLE
-	}
-
-	private void loadSettings(){
+	private void loadSettings() {
 		final String fileName = "game";
 		final String fileExtension = ".properties";
 		final File project = new File("se.liu.ida.l2.tddd78.psc");
@@ -146,9 +133,9 @@ public class ProjectSpaceComponent implements Runnable {
 		final File filePath = new File(saveLocation, fileName + fileExtension);
 
 		final Properties properties = new Properties();
-		try(InputStream in = new FileInputStream(filePath)){
+		try (InputStream in = new FileInputStream(filePath)) {
 			properties.load(in);
-		}catch(IOException e){
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -207,8 +194,6 @@ public class ProjectSpaceComponent implements Runnable {
 		}
 	}
 
-
-
 	public void changeGamemode(Gamemode desiredMode)
 	{
 		switch (gamemode) {
@@ -235,7 +220,7 @@ public class ProjectSpaceComponent implements Runnable {
 				playerController.setBounds(0, 0, (int) (workshopWidth * workshopScale), (int) (workshopHeight * workshopScale));
 				break;
 			case BATTLE:
-				battleSpace.placeShip(playerShip);
+				battleSpace.pack(shipWidth, shipHeight);
 				frame.add(battleSpaceDisplayer);
 				playerController.setBounds(0, 0, (int) (battleSpaceWidth * battleSpaceScale), (int) (battleSpaceHeight * battleSpaceScale));
 				break;
@@ -274,5 +259,22 @@ public class ProjectSpaceComponent implements Runnable {
 
 	public Gamemode getGamemode() {
 		return gamemode;
+	}
+
+	public static enum Gamemode {
+		/**
+		 * Menu mode.
+		 */
+		MENU,
+
+		/**
+		 * Workshop (ship editing) mode.
+		 */
+		WORKSHOP,
+
+		/**
+		 * Battle mode.
+		 */
+		BATTLE
 	}
 }

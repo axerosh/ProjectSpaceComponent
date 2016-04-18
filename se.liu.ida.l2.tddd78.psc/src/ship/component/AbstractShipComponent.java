@@ -10,8 +10,7 @@ import java.awt.*;
  * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
  * graphical projection of itself and some of its stats.
  */
-public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent, Cloneable
-{
+public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent, Cloneable {
 
 	/**
 	 * The maximum level of shielding a ship ship.component may recieve.
@@ -21,6 +20,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 * The maximum level of power a ship ship.component may recieve.
 	 */
 	public static final int MAXPOWER = 6;
+	private final static Color HIGHLIGHT_COLOR = new Color(255, 112, 186);
 	/**
 	 * The maximum integrity of this ship ship.component. The damage it can take before it is destroyed.
 	 */
@@ -32,6 +32,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 */
 	private float integrity;
 	private boolean active;
+	private boolean selected;
 	private Starship owner;
 
 	/**
@@ -39,7 +40,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 	 *
 	 * @param integrity   the damage the ship ship.component can take before it is destroyed
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
-	 * @see #activate()
+	 * @see #setActive(boolean)
 	 */
 	protected AbstractShipComponent(final float integrity) {
 		this.integrity = integrity;
@@ -48,6 +49,7 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		shielding = 0;
 		power = 0;
 		active = true;
+		selected = false;
 	}
 
 	@Override public void registerOwner(final Starship owner) {
@@ -112,6 +114,12 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		}
 		if (hasPower()) {
 			Statbar.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, MAXPOWER, levelsPerCell, Color.GREEN);
+		}
+
+		if (selected) {
+
+			g.setColor(HIGHLIGHT_COLOR);
+			g.drawRect(screenX, screenY, pixelsAcross - 1, pixelsAcross - 1);
 		}
 	}
 
@@ -205,23 +213,26 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 		return power;
 	}
 
-	@Override public void activate() {
-		active = true;
-	}
-
-	@Override public void deactivate() {
-		active = false;
-	}
-
-	@Override public boolean isActive() {
+	/**
+	 * @return true if component is active
+	 */
+	public boolean isActive() {
 		return active;
+	}
+
+	@Override public void setActive(final boolean flag) {
+		active = flag;
+	}
+
+	@Override public void setSelected(final boolean flag) {
+		selected = flag;
 	}
 
 	@Override public String toString() {
 		return (this.getClass() + " HP = " + integrity + ", Shielding = " + shielding + ", Power = " + power);
 	}
 
-	@Override public ShipComponent clone() throws CloneNotSupportedException {
+	@Override public ShipComponent copy() {
 		return null;
 	}
 }
