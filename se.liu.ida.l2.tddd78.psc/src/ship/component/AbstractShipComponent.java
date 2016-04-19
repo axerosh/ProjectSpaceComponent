@@ -1,6 +1,5 @@
 package ship.component;
 
-import game.GeneralVisibleEntity;
 import graphics.Statbar;
 import ship.Starship;
 
@@ -10,7 +9,7 @@ import java.awt.*;
  * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
  * graphical projection of itself and some of its stats.
  */
-public abstract class AbstractShipComponent extends GeneralVisibleEntity implements ShipComponent, Cloneable {
+public abstract class AbstractShipComponent implements ShipComponent, Cloneable {
 
 	/**
 	 * The maximum level of shielding a ship ship.component may recieve.
@@ -136,7 +135,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 			if (shielding < MAXSHIELDING) {
 				if (owner.increaseShieldingUsage()) {
 					shielding++;
-					requestVisualUpdate();
 				}
 			}
 		}
@@ -155,7 +153,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 			if (power < MAXPOWER) {
 				if (owner.increasePowerUsage()) {
 					power++;
-					requestVisualUpdate();
 				}
 			}
 		}
@@ -173,7 +170,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 			if (shielding > 0) {
 				if (owner.decreaseShieldingUsage()) {
 					shielding--;
-					requestVisualUpdate();
 				}
 			}
 		}
@@ -191,7 +187,6 @@ public abstract class AbstractShipComponent extends GeneralVisibleEntity impleme
 			if (power > 0) {
 				if (owner.decreasePowerUsage()) {
 					power--;
-					requestVisualUpdate();
 				}
 			}
 		}

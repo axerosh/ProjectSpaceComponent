@@ -1,6 +1,5 @@
 package ship.component;
 
-import game.VisibleEntity;
 import ship.Starship;
 
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.awt.*;
  *
  * @see Starship
  */
-public interface ShipComponent extends VisibleEntity {
+public interface ShipComponent {
 
 	/**
 	 * Damages this ship component by reducing its HP by the specified number of hit points.

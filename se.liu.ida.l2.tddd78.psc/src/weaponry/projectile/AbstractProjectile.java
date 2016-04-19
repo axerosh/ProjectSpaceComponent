@@ -30,7 +30,6 @@ public class AbstractProjectile implements Projectile
 		this.targetShip = targetShip;
 		this.damageOnImpact = damageOnImpact;
 		this.blastRadius = blastRadius;
-		System.out.println("Projectile spawned at " + selfX + " " + selfY);
 
 		double angle = Math.atan2(targetY - selfY, targetX - selfX);
 		xVelocity = (float) Math.cos(angle) * velocity;
@@ -40,7 +39,6 @@ public class AbstractProjectile implements Projectile
 	@Override public void updateMovement(float deltaSeconds) {
 		selfX += xVelocity * deltaSeconds;
 		selfY += yVelocity * deltaSeconds;
-		//System.out.println(selfX + " " + selfY);
 
 		if (hasImpact()) {
 			impact();
@@ -52,7 +50,6 @@ public class AbstractProjectile implements Projectile
 	 */
 	public void impact() {
 		if (!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null) {
-			System.out.println("Projectile hit target!");
 			for (int relativeRow = -blastRadius + 1; relativeRow <= blastRadius - 1; relativeRow++) {
 
 				int startCol = Math.abs(relativeRow) + 1 - blastRadius;
@@ -61,10 +58,9 @@ public class AbstractProjectile implements Projectile
 					dealDamage(targetX + relativeCol, targetY + relativeRow);
 				}
 			}
-		} else {
-			System.out.println("Missed!");
-			System.out.println("Component at " + targetX + " " + targetY + ": " + targetShip.getComponentAt(targetX, targetY));
-		}
+		} /* ***else {
+			print('missed target!')
+		}*** */
 	}
 
 	/**

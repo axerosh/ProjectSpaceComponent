@@ -1,26 +1,49 @@
-package graphics.displayers;
-
-import game.VisibleEntityListener;
+package graphics;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Displayer extends JComponent implements VisibleEntityListener {
+public class Displayer extends JComponent {
 
 	/**
 	 * The scale from virtual coordinates/distances to ones one the screen. (If set to an integer, it is equal to a components
 	 * width in pixels.)
 	 */
-	protected float scale;
+	private float scale;
 	//As of 2016-03-02, this number need to be equal to or greater than ~16 for shielding/power bars to be readable.
 	//Can definelty not be 0! (Will result in division by 0)
-	protected int displayWidth;
-	protected int displayHeight;
+	private int displayWidth;
+	private int displayHeight;
+	private Displayable displayedEnvironment;
 
-	protected Displayer(float scale, final int witdh, final int height) {
+
+	public Displayer(final Displayable displayedEnvironment, float scale, final int virtualWidth, final int virtualHeight) {
 		this.scale = scale;
-		displayWidth = (int) (witdh * scale);
-		displayHeight = (int) (height * scale);
+		displayWidth = (int) (virtualWidth * scale);
+		displayHeight = (int) (virtualHeight * scale);
+		this.displayedEnvironment = displayedEnvironment;
+	}
+
+	@Override protected void paintComponent(final Graphics g) {
+		super.paintComponent(g);
+		displayedEnvironment.display(g, scale);
+		System.out.println("I am Happy! My width is " + displayWidth + ", my height is " + displayHeight + " and my scale is " + scale + ". It's so cooool... sunuvabitch!ccc");
+	}
+
+	public void setDisplayedEnvironment(final Displayable displayedEnvironment) {
+		this.displayedEnvironment = displayedEnvironment;
+	}
+
+	public void setScale(final float scale) {
+		this.scale = scale;
+	}
+
+	public void setDisplayWidth(final int displayWidth) {
+		this.displayWidth = displayWidth;
+	}
+
+	public void setDisplayHeight(final int displayHeight) {
+		this.displayHeight = displayHeight;
 	}
 
 	/**
@@ -44,10 +67,6 @@ public abstract class Displayer extends JComponent implements VisibleEntityListe
 	 */
 	public float getVirtualY(int screenY) {
 		return screenY / scale;
-	}
-
-	@Override public void visualUpdateRequested() {
-		repaint();
 	}
 
 	@Override public Dimension getPreferredSize() {

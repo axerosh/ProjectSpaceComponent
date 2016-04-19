@@ -2,8 +2,7 @@ package control;
 
 import game.ProjectSpaceComponent;
 import game.ProjectSpaceComponent.Gamemode;
-import graphics.displayers.BattleSpaceDisplayer;
-import graphics.displayers.WorkshopDisplayer;
+import graphics.Displayer;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.WeaponComponent;
@@ -72,17 +71,17 @@ public class MouseAndKeyboard extends JComponent {
 				return;
 			}
 
+			Displayer gameDisplayer = psc.getGameDisplayer();
+
 			if (gamemode == Gamemode.WORKSHOP) {
-				WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
 				ShipComponent clickedLocalComponent = psc.getWorkshop().getComponentAtSidebar(
-						workshopDisplayer.getVirtualX(e.getX()), workshopDisplayer.getVirtualY(e.getY()));
+						gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				managePlacing(e, clickedLocalComponent);
 				return;
 			}
 
-			BattleSpaceDisplayer battleSpaceDisplayer = psc.getBattleSpaceDisplayer();
 			ShipComponent clickedLocalComponent =
-					controlledShip.getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
+					controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
 				if (e.isControlDown()) {
 					managePower(e, clickedLocalComponent);
@@ -93,8 +92,8 @@ public class MouseAndKeyboard extends JComponent {
 				}
 			} else if (selectedWeapon != null) {
 				ShipComponent clickedGlobalComponent =
-						psc.getBattleSpace().getComponentAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer
-								.getVirtualY(e.getY()));
+						psc.getBattleSpace().getComponentAt(gameDisplayer.getVirtualX(e.getX()),
+															gameDisplayer.getVirtualY(e.getY()));
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					if (clickedGlobalComponent != null) {
@@ -153,16 +152,16 @@ public class MouseAndKeyboard extends JComponent {
 					selectedComponentInWorkshop = clickedShipComponent;
 				}else{
 					ShipComponent sc = selectedComponentInWorkshop.copy();
-					WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
-					placeOnShip(sc, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY())
+					Displayer gameDisplayer = psc.getGameDisplayer();
+					placeOnShip(sc, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
 																				  - psc.getWorkshop().getTopBarHeight());
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
 				if(selectedComponentInWorkshop != null){
 					selectedComponentInWorkshop = null;
 				}else{
-					WorkshopDisplayer workshopDisplayer = psc.getWorkshopDisplayer();
-					placeOnShip(null, (int)workshopDisplayer.getVirtualX(e.getX()), (int)workshopDisplayer.getVirtualY(e.getY())
+					Displayer gameDisplayer = psc.getGameDisplayer();
+					placeOnShip(null, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
 																					- psc.getWorkshop().getTopBarHeight());
 				}
 
@@ -177,9 +176,9 @@ public class MouseAndKeyboard extends JComponent {
 		private void manageTargeting(final MouseEvent e, ShipComponent clickedComponent) {
 			Point2D.Float originPos = controlledShip.getPositionOf(selectedWeapon);
 			if (originPos != null) {
-				BattleSpaceDisplayer battleSpaceDisplayer = psc.getBattleSpaceDisplayer();
+				Displayer gameDisplayer = psc.getGameDisplayer();
 				Starship targetShip =
-						psc.getBattleSpace().getShipAt(battleSpaceDisplayer.getVirtualX(e.getX()), battleSpaceDisplayer.getVirtualY(e.getY()));
+						psc.getBattleSpace().getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 
@@ -198,19 +197,7 @@ public class MouseAndKeyboard extends JComponent {
 		@Override public void keyTyped(final KeyEvent e) {
 
 			if(e.getKeyChar() == 'c'){
-
-				switch (psc.getGamemode()) {
-					case MENU:
-						psc.changeGamemode(Gamemode.WORKSHOP);
-						break;
-					case WORKSHOP:
-						psc.changeGamemode(Gamemode.BATTLE);
-						break;
-					case BATTLE:
-						psc.changeGamemode(Gamemode.MENU);
-						break;
-
-				}
+				psc.changeGamemode();
 
 			}
 

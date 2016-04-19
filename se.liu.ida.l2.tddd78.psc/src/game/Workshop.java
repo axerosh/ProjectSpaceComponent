@@ -1,5 +1,6 @@
 package game;
 
+import graphics.Displayable;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
@@ -11,10 +12,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Workshop {
+public class Workshop implements Displayable {
 
 	private int width, height;
-	private float scale;
 
 	private int topBarHeight;
 
@@ -28,8 +28,7 @@ public class Workshop {
 
 	private Starship workingShip;
 
-	public Workshop(final int width, final int height, final float scale, final int shipWidth, final int shipHeight) {
-		this.scale = (int)(scale);
+	public Workshop(final int width, final int height, final int shipWidth, final int shipHeight) {
 		this.width = width;
 		this.height = height;
 		this.shipWidth = shipWidth;
@@ -67,7 +66,8 @@ public class Workshop {
 		workingShip = null;
 	}
 
-	public void draw(final Graphics g){
+	@Override
+	public void display(final Graphics g, final float scale){
 
 		workingShip.draw(g, scale);
 

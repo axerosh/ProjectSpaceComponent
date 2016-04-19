@@ -1,9 +1,6 @@
 package ship;
 
-import game.GeneralVisibleEntity;
 import game.Team;
-import game.VisibleEntity;
-import game.VisibleEntityListener;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
@@ -25,9 +22,7 @@ import java.util.Random;
  *
  * @see ShipComponent
  */
-public class Starship extends GeneralVisibleEntity
-{
-
+public class Starship {
 
 	private final static float COMPONENT_WEIGHT = 0.035f;
 	/**
@@ -227,9 +222,6 @@ public class Starship extends GeneralVisibleEntity
 		boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {
 			component.registerOwner(this);
-			for (VisibleEntityListener listener : visibleEntityListeners) {
-				component.addVisibleEntityListener(listener);
-			}
 			if (!isSomethingThere) {
 				numberOfComponents++;
 			}
@@ -476,23 +468,6 @@ public class Starship extends GeneralVisibleEntity
 
 	public void registerWeaponComponent(final Weapon weapon) {
 		weapons.add(weapon);
-	}
-
-	/**
-	 * Adds the specified listener to this VisibleEntity and all its Ship Components.
-	 *
-	 * @param listener the lister to add
-	 */
-	@Override public void addVisibleEntityListener(final VisibleEntityListener listener) {
-		super.addVisibleEntityListener(listener);
-		for (int col = 0; col < width; col++) {
-			for (int row = 0; row < height; row++) {
-				VisibleEntity visibleComponent = components[col][row];
-				if (visibleComponent != null) {
-					visibleComponent.addVisibleEntityListener(listener);
-				}
-			}
-		}
 	}
 
 	/**

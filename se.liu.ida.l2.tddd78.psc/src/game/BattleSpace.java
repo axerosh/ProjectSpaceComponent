@@ -1,5 +1,6 @@
 package game;
 
+import graphics.Displayable;
 import ship.Starship;
 import ship.component.ShipComponent;
 import weaponry.projectile.Projectile;
@@ -17,7 +18,7 @@ import java.util.Set;
  *
  * @see Starship
  */
-public class BattleSpace extends GeneralVisibleEntity {
+public class BattleSpace implements Displayable {
 
 	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
@@ -140,7 +141,8 @@ public class BattleSpace extends GeneralVisibleEntity {
 	 * @param g     the Graphics object with which to draw this battlefield
 	 * @param scale the scale with which to scale virtual positions to get on-screen positions
 	 */
-	public void draw(final Graphics g, final float scale) {
+	@Override
+	public void display(final Graphics g, final float scale) {
 		for (Team team : teams) {
 			for (Starship ship : team) {
 				ship.draw(g, scale);
