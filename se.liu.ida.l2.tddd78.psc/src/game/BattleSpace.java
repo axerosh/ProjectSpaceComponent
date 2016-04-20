@@ -1,6 +1,6 @@
 package game;
 
-import graphics.Displayable;
+import graphics.DisplayableEnvironment;
 import ship.Starship;
 import ship.component.ShipComponent;
 import weaponry.projectile.Projectile;
@@ -18,15 +18,17 @@ import java.util.Set;
  *
  * @see Starship
  */
-public class BattleSpace implements Displayable {
+public class BattleSpace implements DisplayableEnvironment {
 
 	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
 	private Random rng;
 	private Team winningTeam;
 	private boolean gameover;
+	private float width;
+	private float height;
 
-	public BattleSpace() {
+	public BattleSpace(float width, float height) {
 		rng = new Random();
 
 		teams = new ArrayList<>();
@@ -34,6 +36,9 @@ public class BattleSpace implements Displayable {
 		projectiles = new HashSet<>();
 		winningTeam = null;
 		gameover = false;
+
+		this.width = width;
+		this.height = height;
 	}
 
 	public void update(float deltaSeconds) {
@@ -174,5 +179,13 @@ public class BattleSpace implements Displayable {
 
 			}
 		}
+	}
+
+	@Override public float getWidth() {
+		return width;
+	}
+
+	@Override public float getHeight() {
+		return height;
 	}
 }

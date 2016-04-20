@@ -3,6 +3,9 @@ package graphics;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * JComponent to display DisplayableEnviroments
+ */
 public class Displayer extends JComponent {
 
 	/**
@@ -14,36 +17,31 @@ public class Displayer extends JComponent {
 	//Can definelty not be 0! (Will result in division by 0)
 	private int displayWidth;
 	private int displayHeight;
-	private Displayable displayedEnvironment;
+	private DisplayableEnvironment displayedEnvironment;
 
-
-	public Displayer(final Displayable displayedEnvironment, float scale, final int virtualWidth, final int virtualHeight) {
+	/**
+	 *
+	 * @param displayedEnvironment the environment to be displayed
+	 * @param scale the scale from virtual positions and lengths to screen positions and lengths
+	 */
+	public Displayer(final DisplayableEnvironment displayedEnvironment, float scale) {
 		this.scale = scale;
-		displayWidth = (int) (virtualWidth * scale);
-		displayHeight = (int) (virtualHeight * scale);
+		displayWidth = (int) (displayedEnvironment.getWidth() * scale);
+		displayHeight = (int) (displayedEnvironment.getHeight() * scale);
 		this.displayedEnvironment = displayedEnvironment;
 	}
 
 	@Override protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 		displayedEnvironment.display(g, scale);
-		System.out.println("I am Happy! My width is " + displayWidth + ", my height is " + displayHeight + " and my scale is " + scale + ". It's so cooool... sunuvabitch!ccc");
 	}
 
-	public void setDisplayedEnvironment(final Displayable displayedEnvironment) {
+	public void setDisplayedEnvironment(final DisplayableEnvironment displayedEnvironment, final float scale) {
 		this.displayedEnvironment = displayedEnvironment;
-	}
-
-	public void setScale(final float scale) {
 		this.scale = scale;
-	}
-
-	public void setDisplayWidth(final int displayWidth) {
-		this.displayWidth = displayWidth;
-	}
-
-	public void setDisplayHeight(final int displayHeight) {
-		this.displayHeight = displayHeight;
+		displayWidth = (int) (displayedEnvironment.getWidth() * scale);
+		displayHeight = (int) (displayedEnvironment.getHeight() * scale);
+		setSize(displayWidth, displayHeight);
 	}
 
 	/**
@@ -70,6 +68,10 @@ public class Displayer extends JComponent {
 	}
 
 	@Override public Dimension getPreferredSize() {
+		return new Dimension(displayWidth, displayHeight);
+	}
+
+	@Override public Dimension getMinimumSize() {
 		return new Dimension(displayWidth, displayHeight);
 	}
 }

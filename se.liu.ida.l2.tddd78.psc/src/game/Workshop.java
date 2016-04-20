@@ -1,6 +1,6 @@
 package game;
 
-import graphics.Displayable;
+import graphics.DisplayableEnvironment;
 import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Workshop implements Displayable {
+public class Workshop implements DisplayableEnvironment {
 
 	private int width, height;
 
@@ -99,13 +99,29 @@ public class Workshop implements Displayable {
 	}
 
 	public ShipComponent getComponentAtSidebar(float x, float y){
-		if(x - sidebarX < 0){
+		if(x - sidebarX < 0 || y < 0 ){
 			return null;
 		}
-		return sidebarComponents.get((int)y).get((int)x - sidebarX);
+
+		if(y < sidebarComponents.size()) {
+			List<ShipComponent> row = sidebarComponents.get((int)y);
+			if(x < row.size()) {
+				return row.get((int)(x - sidebarX));
+			}
+		}
+
+		return null;
 	}
 
 	public int getTopBarHeight() {
 		return topBarHeight;
+	}
+
+	@Override public float getWidth() {
+		return width;
+	}
+
+	@Override public float getHeight() {
+		return height;
 	}
 }

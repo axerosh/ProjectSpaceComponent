@@ -4,7 +4,6 @@ import graphics.Statbar;
 import ship.Starship;
 import ship.component.AbstractShipComponent;
 import weaponry.FiringOrder;
-import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ import java.awt.*;
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class WeaponComponent extends AbstractShipComponent implements Weapon {
+public abstract class WeaponComponent extends AbstractShipComponent {
 
 	protected final float baseRechargeTime;
 	protected FiringOrder firingOrder;
@@ -39,7 +38,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 * Updates the weaponComponent, recharge the weapon by one and if there is a standing firingOrder and the weapon can shoot,
 	 * a shot will be fired.
 	 */
-	@Override public void updateWeapon(float deltaSeconds) {
+	 public void updateWeapon(float deltaSeconds) {
 		projectileToFire = null;
 		rechargeTimeLeft -= deltaSeconds;
 		if (hasOrder() && canShoot()) {
@@ -72,21 +71,21 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 *
 	 * @param order the firingOrder to give the weapon.
 	 */
-	@Override public void giveFiringOrder(FiringOrder order) {
+	public void giveFiringOrder(FiringOrder order) {
 		this.firingOrder = order;
 	}
 
 	/**
 	 * @return a projectile if the weapon has fired.
 	 */
-	@Override public Projectile getProjectileToFire() {
+	public Projectile getProjectileToFire() {
 		return projectileToFire;
 	}
 
 	/**
 	 * @return true if an firingOrder exists.
 	 */
-	@Override public boolean hasOrder() {
+	public boolean hasOrder() {
 		return firingOrder != null;
 	}
 
@@ -96,7 +95,7 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 	 *
 	 * @return true if the weapon can fire
 	 */
-	@Override public boolean canShoot() {
+	public boolean canShoot() {
 		return !isRecharging() && isIntact() && hasPower();
 	}
 
@@ -104,4 +103,6 @@ public abstract class WeaponComponent extends AbstractShipComponent implements W
 		super.registerOwner(owner);
 		owner.registerWeaponComponent(this);
 	}
+
+	public abstract Projectile shoot();
 }

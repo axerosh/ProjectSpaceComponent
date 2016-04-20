@@ -44,13 +44,15 @@ public class ProjectSpaceComponent implements Runnable {
 		loadSettings();
 
 		workshop = new Workshop(workshopWidth, workshopHeight, shipWidth, shipHeight);
-		battleSpace = new BattleSpace();
+		battleSpace = new BattleSpace(battleSpaceWidth, battleSpaceHeight);
 
-		gameDisplayer = new Displayer(workshop, workshopScale, workshopWidth, workshopHeight);
+		gameDisplayer = new Displayer(workshop, workshopScale);
 		ais = new HashSet<>();
 
 		frame = new PSCFrame();
+
 		frame.add(gameDisplayer);
+		frame.setVisible(true);
 		frame.pack();
 
 		gamemode = Gamemode.WORKSHOP;
@@ -102,6 +104,7 @@ public class ProjectSpaceComponent implements Runnable {
 		Starship friendlyShip = ShipIO.load("the_governator");
 		ais.add(new BasicAI(battleSpace, friendlyShip));
 		battleSpace.addShip(friendlyShip, team1);
+
 	}
 
 	@Override public void run() {
@@ -184,31 +187,35 @@ public class ProjectSpaceComponent implements Runnable {
 				battleSpace.pack(shipWidth, shipHeight);
 				/*gameDisplayer.setDisplayedEnvironment(battleSpace);
 				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
-				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);
-				gameDisplayer.setScale(battleSpaceScale);*/
-				gameDisplayer = new Displayer(battleSpace, battleSpaceScale, battleSpaceWidth, battleSpaceHeight);
+				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);*/
 				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
 				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);
+				gameDisplayer.setDisplayedEnvironment(battleSpace, battleSpaceScale);
+
 
 				break;
 
 			case BATTLE:
 				gamemode = Gamemode.WORKSHOP;
 				workshop.addWorkingShip(playerShip);
-				gameDisplayer.setDisplayedEnvironment(workshop);
 				screenWidth = (int )(workshopWidth * workshopScale);
 				screenHeight = (int) (workshopHeight * workshopScale);
-				gameDisplayer.setScale(workshopScale);
-
+				gameDisplayer.setDisplayedEnvironment(workshop, workshopScale);
 				break;
 		}
 
 		playerController.setGamemode(gamemode);
 		playerController.setBounds(0, 0, screenWidth , screenHeight);
-		//gameDisplayer.setDisplayWidth(screenWidth);
-		//gameDisplayer.setDisplayHeight(screenHeight);
+		System.out.println(playerController.getBounds().getSize());
+		System.out.println(gameDisplayer.getPreferredSize());
+		//TODO: What the fuck is this!? add is needed herebut it's ugly find another way stupid
+		//frame.remove(gameDisplayer);
+		frame.add(gameDisplayer);
 		frame.pack();
-		frame.setVisible(true);
+		//frame.validate();
+		//frame.invalidate();
+		//frame.validate();
+		//frame.revalidate();
 		frame.repaint();
 	}
 

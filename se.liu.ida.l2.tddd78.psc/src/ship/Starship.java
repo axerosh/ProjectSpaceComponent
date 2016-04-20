@@ -6,7 +6,6 @@ import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.WeaponComponent;
-import weaponry.Weapon;
 import weaponry.projectile.Projectile;
 
 import java.awt.*;
@@ -36,7 +35,7 @@ public class Starship {
 	private List<ShieldComponent> shieldComponents;
 	private List<ReactorComponent> reactorComponents;
 	private List<EngineComponent> engineComponents;
-	private List<Weapon> weapons;
+	private List<WeaponComponent> weapons;
 	private List<Projectile> projectilesToFire;
 	private int shieldingPool;
 	private int usedShielding;
@@ -248,7 +247,7 @@ public class Starship {
 				}
 			}
 		}
-		for (Weapon wc : weapons) {
+		for (WeaponComponent wc : weapons) {
 			wc.updateWeapon(deltaSeconds);
 			Projectile p = wc.getProjectileToFire();
 			if (p != null) {
@@ -466,21 +465,8 @@ public class Starship {
 		engineComponents.add(engine);
 	}
 
-	public void registerWeaponComponent(final Weapon weapon) {
+	public void registerWeaponComponent(final WeaponComponent weapon) {
 		weapons.add(weapon);
-	}
-
-	/**
-	 * Prints the stats of the ship and then each of the ships components stats. Used only in debugging and testing
-	 */
-	public void printShip() {
-		System.out.println("Dodge = " + dodgeRate + ", Shieldpool = " + shieldingPool + ", Powerpool = " + powerPool);
-		for (ShipComponent[] scArray : components) {
-			for (ShipComponent sc : scArray) {
-				System.out.println(sc);
-			}
-		}
-		System.out.println();
 	}
 
 	/**
