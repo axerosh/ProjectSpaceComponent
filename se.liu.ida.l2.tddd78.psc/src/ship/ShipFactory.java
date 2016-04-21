@@ -6,9 +6,7 @@ import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,46 +35,20 @@ public final class ShipFactory {
 	 *                                  specified integrity</li> </ul>
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
-	public static Starship getStarship(final String textRepresentation, final Logger logger) {
+	public static Starship getStarship(final String textRepresentation) {
 		String cleanRep = textRepresentation.replaceAll("\\s+", "");
 
 		Map<String, Float> parameterValues = getParameterMap(cleanRep);
 
-		List<String> failedParameters = new ArrayList<>();
-
 		Float width = parameterValues.get("width");
-		if (width == null) {
-			failedParameters.add("width");
-		}
 		Float height = parameterValues.get("height");
-		if (height == null) {
-			failedParameters.add("height");
-		}
 		Float integrity = parameterValues.get("integrity");
-		if (integrity == null) {
-			failedParameters.add("integrity");
-		}
 		Float maxIntegrity = parameterValues.get("maxIntegrity");
-		if (maxIntegrity == null) {
-			failedParameters.add("maxIntegrity");
-		}
-
-		if (!failedParameters.isEmpty()) {
-			StringBuilder messageBuilder = new StringBuilder("Properties ");
-			int numberOfFailures = failedParameters.size();
-			for (int i = 0; i < numberOfFailures; i++) {
-				String parameter = failedParameters.get(i);
-				messageBuilder.append(parameter);
-				if (i == numberOfFailures - 1) {
-					messageBuilder.append(" ");
-				} else {
-					messageBuilder.append(", ");
-				}
-			}
-			messageBuilder.append("are missing in the text representation.");
-			String message = messageBuilder.toString();
+		if (width == null || height == null || integrity == null || maxIntegrity == null) {
+			String message =
+					"Missing ship properties in text representation. width, height, integrity and maxIntegrity required.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			logger.log(Level.SEVERE, message);
+			Logger.getGlobal().log(Level.SEVERE, message);
 			throw exception;
 		}
 

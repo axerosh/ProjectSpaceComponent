@@ -216,10 +216,10 @@ public class Starship {
 	 * @param col       column in which to add the ship.component
 	 * @param row       row in which to add the ship.component
 	 */
-	public void setComponent(final ShipComponent component, final int col, final int row, final Logger logger) {
+	public void setComponent(final ShipComponent component, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
-			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
+			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 		boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {

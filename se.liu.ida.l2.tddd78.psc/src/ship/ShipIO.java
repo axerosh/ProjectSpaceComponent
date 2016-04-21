@@ -39,15 +39,14 @@ public final class ShipIO {
 	 *
 	 * @param ship a starship to save
 	 * @param fileName the name of the file to which the ship is saved (excluding file extension)
-	 * @param logger the Logger that is to log any exceptions that might occur.
 	 */
-	public static void save(Starship ship, String fileName, Logger logger) {
+	public static void save(Starship ship, String fileName) {
 		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), CHARSET))) {
 			String textRepresentation = ship.getTextRepresentation();
 			writer.write(textRepresentation);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.toString(), e);
+			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 	}
 
@@ -55,10 +54,9 @@ public final class ShipIO {
 	 * Returns a ship loaded from the specified path.
 	 *
 	 * @param fileName the name of the file to which the ship is saved (excluding file extension)
-	 * @param logger the Logger that is to log any exceptions that might occur.
 	 * @return a ship loaded from the specified path
 	 */
-	public static Starship load(String fileName, Logger logger) {
+	public static Starship load(String fileName) {
 		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
@@ -72,7 +70,7 @@ public final class ShipIO {
 			return ShipFactory.getStarship(textRepresentation.toString());
 
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.toString(), e);
+			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 		return null;
 	}

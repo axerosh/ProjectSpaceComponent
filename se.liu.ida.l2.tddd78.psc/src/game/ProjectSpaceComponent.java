@@ -30,7 +30,6 @@ public class ProjectSpaceComponent implements Runnable {
 	private final BattleSpace battleSpace;
 	private final MouseAndKeyboard playerController;
 	private Displayer gameDisplayer;
-	private Logger logger;
 
 	private int workshopWidth;
 	private int workshopHeight;
@@ -45,14 +44,8 @@ public class ProjectSpaceComponent implements Runnable {
 	private Starship playerShip;
 	private Set<BasicAI> ais;
 
-	/**
-	 * Constructs a new session.
-	 *
-	 * @param logger the Logger that is to log any exceptions that might occur.
-	 */
-	public ProjectSpaceComponent(Logger logger) {
+	public ProjectSpaceComponent() {
 
-		this.logger = logger;
 		loadSettings();
 
 		workshop = new Workshop(workshopWidth, workshopHeight, shipWidth, shipHeight);
@@ -106,7 +99,7 @@ public class ProjectSpaceComponent implements Runnable {
 
 		final int defaultShipIntegrity = 10;
 
-		playerShip = ShipIO.load("the_manta", logger);
+		playerShip = ShipIO.load("the_manta");
 		if (playerShip == null) {
 			playerShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
 		}
@@ -114,14 +107,14 @@ public class ProjectSpaceComponent implements Runnable {
 		battleSpace.addShip(playerShip, team1);
 		workshop.addWorkingShip(playerShip);
 
-		Starship enemyShip = ShipIO.load("the_governator", logger);
+		Starship enemyShip = ShipIO.load("the_governator");
 		if (enemyShip == null) {
 			enemyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
 		}
 		ais.add(new BasicAI(battleSpace, enemyShip));
 		battleSpace.addShip(enemyShip, team2);
 
-		Starship friendlyShip = ShipIO.load("the_governator", logger);
+		Starship friendlyShip = ShipIO.load("the_governator");
 		if (friendlyShip == null) {
 			friendlyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
 		}
@@ -160,7 +153,7 @@ public class ProjectSpaceComponent implements Runnable {
 		try (InputStream in = new FileInputStream(filePath)) {
 			properties.load(in);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.toString(), e);
+			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 
 		final int defaultWorkshopWidth = 16;
@@ -195,8 +188,8 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Integer.parseInt(property);
 		} else {
-			logger.log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
-									 ". Using the default value of " + defaultValue);
+			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -206,8 +199,8 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Float.parseFloat(property);
 		} else {
-			logger.log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
-									 ". Using the default value of " + defaultValue);
+			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -254,6 +247,7 @@ public class ProjectSpaceComponent implements Runnable {
 		//frame.revalidate();
 		frame.repaint();
 	}
+
 
 	public Workshop getWorkshop() {
 		return workshop;

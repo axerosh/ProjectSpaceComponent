@@ -135,10 +135,10 @@ public class BattleSpace implements DisplayableEnvironment {
 		return hostileTeams.get(rng.nextInt(hostileTeams.size()));
 	}
 
-	public Starship getRandomShipOfTeam(final Team team, final Logger logger) {
+	public Starship getRandomShipOfTeam(final Team team) {
 		if (!teams.contains(team)) {
 			String message = team.getTeamName() + ": No such team!";
-			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
+			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 		return teams.get(teams.indexOf(team)).getRandomMember();
 	}

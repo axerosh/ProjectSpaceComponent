@@ -12,6 +12,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A game enivironment for editing ships.
+ */
 public class Workshop implements DisplayableEnvironment {
 
 	private int width, height;

@@ -12,24 +12,19 @@ import java.util.logging.Logger;
 public final class Main {
 
 
-	private Main() {
-
-	}
+	private Main() {}
 
 	public static void main(String[] args) {
-
-		Logger logger = Logger.getLogger("psc");
-
 		try {
 			final int maxNumberOfBytes = 100000;
 			final int numberOfFiles = 1;
 			Handler logHandler = new FileHandler("psc_errors.log", maxNumberOfBytes, numberOfFiles);
-			logger.addHandler(logHandler);
+			Logger.getGlobal().addHandler(logHandler);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.toString(), e);
+			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 
-		Runnable psc = new ProjectSpaceComponent(logger);
+		Runnable psc = new ProjectSpaceComponent();
 		psc.run();
 	}
 }
