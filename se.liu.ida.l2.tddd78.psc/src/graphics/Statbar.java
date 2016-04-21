@@ -19,19 +19,30 @@ public final class Statbar
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
+
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
+
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
+
 		} else if (levelsPerCell <= 0) {
 			String message = "The specified number of stat levels per cell = " + levelsPerCell +
 							 " is invalid. It must be greater than 0.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		}
 
 		//Outline/Background
@@ -67,15 +78,21 @@ public final class Statbar
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		}
 
 		//Outline/Background

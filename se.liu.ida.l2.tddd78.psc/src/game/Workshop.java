@@ -53,6 +53,7 @@ public class Workshop implements DisplayableEnvironment {
 		for(int i = 0; i < height; i++){
 			sidebarComponents.add(new ArrayList<>());
 		}
+		//TODO Change this numbers
 		sidebarComponents.get(0).add(new EngineComponent(1, 1));
 		sidebarComponents.get(0).add(new ReactorComponent(1, 1));
 		sidebarComponents.get(1).add(new ShieldComponent(1, 1));
@@ -107,10 +108,12 @@ public class Workshop implements DisplayableEnvironment {
 		if(x - sidebarX < 0 || y < 0 ){
 			return null;
 		}
-
+		System.out.println(y);
+		System.out.println(sidebarComponents);
 		if(y < sidebarComponents.size()) {
 			List<ShipComponent> row = sidebarComponents.get((int)y);
-			if(x < row.size()) {
+			System.out.println(row);
+			if(x - sidebarX < row.size()) {
 				return row.get((int)(x - sidebarX));
 			}
 		}

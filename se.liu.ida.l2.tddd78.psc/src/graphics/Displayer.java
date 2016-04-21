@@ -26,6 +26,7 @@ public class Displayer extends JComponent {
 	 */
 	public Displayer(final DisplayableEnvironment displayedEnvironment, float scale) {
 		this.scale = scale;
+		assert scale > 0:"Scale needs to be a positive float.";
 		displayWidth = (int) (displayedEnvironment.getWidth() * scale);
 		displayHeight = (int) (displayedEnvironment.getHeight() * scale);
 		this.displayedEnvironment = displayedEnvironment;

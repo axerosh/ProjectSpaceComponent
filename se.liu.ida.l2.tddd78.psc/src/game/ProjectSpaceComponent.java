@@ -1,13 +1,14 @@
 package game;
 
 import control.BasicAI;
-import control.MouseAndKeyboard;
+import control.MouseController;
 import graphics.Displayer;
 import graphics.PSCFrame;
 import ship.ShipIO;
 import ship.Starship;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +29,7 @@ public class ProjectSpaceComponent implements Runnable {
 	private final Timer timer;
 	private final Workshop workshop;
 	private final BattleSpace battleSpace;
-	private final MouseAndKeyboard playerController;
+	private final MouseController playerController;
 	private Displayer gameDisplayer;
 
 	private int workshopWidth;
@@ -51,18 +52,18 @@ public class ProjectSpaceComponent implements Runnable {
 		workshop = new Workshop(workshopWidth, workshopHeight, shipWidth, shipHeight);
 		battleSpace = new BattleSpace(battleSpaceWidth, battleSpaceHeight);
 
-		//gameDisplayer = new Displayer(workshop, workshopScale);
-		gameDisplayer = new Displayer(battleSpace, battleSpaceScale);
+		gameDisplayer = new Displayer(workshop, workshopScale);
+		//gameDisplayer = new Displayer(battleSpace, battleSpaceScale);
 		ais = new HashSet<>();
 
-		frame = new PSCFrame();
+		frame = new PSCFrame(this);
 
 		frame.add(gameDisplayer);
 		frame.setVisible(true);
 		frame.pack();
 
 		gamemode = Gamemode.WORKSHOP;
-		playerController = new MouseAndKeyboard(this, gamemode);
+		playerController = new MouseController(this, gamemode);
 		frame.add(playerController);
 
 
@@ -125,14 +126,18 @@ public class ProjectSpaceComponent implements Runnable {
 
 	@Override public void run() {
 		Class<?> gameEnvironment = gameDisplayer.getDisplayedEnvironment().getClass();
-		System.out.println("Game environment " + gameEnvironment + " and gamemode " + gamemode + ".");
-		System.out.println("Game environment " + Workshop.class + " and gamemode " + Gamemode.WORKSHOP + ".");
+
 		boolean matchingBattle = gameEnvironment.equals(BattleSpace.class) && gamemode == Gamemode.BATTLE;
 		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
 		System.out.println(matchingBattle || matchingWorkshop);
-		assert (matchingBattle || matchingWorkshop) :
-				"The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
-				"do not match.";
+
+		if (!(matchingBattle || matchingWorkshop)) {
+			String message = "The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
+							" do not match.";
+			IllegalStateException exception = new IllegalStateException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			throw exception;
+		}
 
 		timer.start();
 
@@ -209,6 +214,9 @@ public class ProjectSpaceComponent implements Runnable {
 
 		int screenWidth = 0;
 		int screenHeight = 0;
+		int frameWidth = frame.getWidth() - gameDisplayer.getWidth();
+		int frameHeight = frame.getHeight() - gameDisplayer.getHeight();
+
 
 		switch (gamemode) {
 
@@ -237,14 +245,13 @@ public class ProjectSpaceComponent implements Runnable {
 
 		playerController.setGamemode(gamemode);
 		playerController.setBounds(0, 0, screenWidth , screenHeight);
-		//TODO: What the fuck is this!? add is needed herebut it's ugly find another way stupid
-		//frame.remove(gameDisplayer);
-		frame.add(gameDisplayer);
-		frame.pack();
-		//frame.validate();
-		//frame.invalidate();
-		//frame.validate();
-		//frame.revalidate();
+
+		/*frame.pack() does not get the job done unless the frame has been updated by adding/removing components and we only
+		resize an excisting component. Therefor its prefferedSize() method is not called and the frame's size becomes unaccurate.
+		Instead, we needed our own pack.*/
+		Dimension gameDisplayerSize = gameDisplayer.getPreferredSize();
+		frame.setSize(gameDisplayerSize.width + frameWidth, gameDisplayerSize.height + frameHeight);
+
 		frame.repaint();
 	}
 

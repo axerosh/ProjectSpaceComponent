@@ -138,7 +138,9 @@ public class BattleSpace implements DisplayableEnvironment {
 	public Starship getRandomShipOfTeam(final Team team) {
 		if (!teams.contains(team)) {
 			String message = team.getTeamName() + ": No such team!";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		}
 		return teams.get(teams.indexOf(team)).getRandomMember();
 	}

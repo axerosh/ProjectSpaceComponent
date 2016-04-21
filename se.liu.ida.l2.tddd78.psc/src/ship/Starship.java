@@ -76,11 +76,17 @@ public class Starship {
 	 */
 	public Starship(final int width, final int height, final float integrity) {
 		if (width <= 0 || height <= 0) {
-			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height + ". " +
-											   "Only positive integers are permitted.");
+			String message = "Invalid ship dimensions width = " + width + ", height = " + height +
+							 ". Only positive integers are permitted.";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message);
+			throw exception;
 		}
 		if (integrity <= 0) {
-			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive values are permitted.");
+			String message = "Invalid inegrity = " + integrity + ". Only positive values are permitted.";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message);
+			throw exception;
 		}
 		x = 0;
 		y = 0;
@@ -127,9 +133,11 @@ public class Starship {
 		this(width, height, integrity);
 
 		if (maxIntegrity < integrity) {
-			throw new IllegalArgumentException(
-					"Invalid maximum integrity = " + maxIntegrity + ". Must be equal to or greater " +
-					"than the integrity = " + integrity + ".");
+			String message = "Invalid maximum integrity = " + maxIntegrity + ". Must be equal to or greater " +
+							 "than the integrity = " + integrity + ".";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message);
+			throw exception;
 		} else {
 			this.maxIntegrity = maxIntegrity;
 		}
@@ -219,7 +227,9 @@ public class Starship {
 	public void setComponent(final ShipComponent component, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
-			Logger.getGlobal().log(Level.SEVERE, message, new IllegalArgumentException(message));
+			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
+			throw excpetion;
 		}
 		boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {

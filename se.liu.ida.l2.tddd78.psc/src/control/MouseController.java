@@ -9,8 +9,7 @@ import ship.component.weapon.WeaponComponent;
 import weaponry.FiringOrder;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -18,7 +17,7 @@ import java.awt.geom.Point2D;
 /**
  * Mouse and Keyboard input for controlling a ship.
  */
-public class MouseAndKeyboard extends JComponent {
+public class MouseController extends JComponent {
 
 	private Starship controlledShip;
 	/*private BattleSpace battleSpace;
@@ -33,13 +32,8 @@ public class MouseAndKeyboard extends JComponent {
 	private Gamemode gamemode;
 
 
-	public MouseAndKeyboard(final ProjectSpaceComponent psc, final Gamemode gamemode) {/*final BattleSpace battleSpace, final BattleSpaceDisplayer battleSpaceDisplayer, final
-							WorkshopDisplayer workshopDisplayer, final MenuDisplayer menuDisplayer,final Workshop workshop, final Gamemode gamemode) {
-							this.battleSpace = battleSpace;
-		this.battleSpaceDisplayer = battleSpaceDisplayer;
-		this.workshopDisplayer = workshopDisplayer;
-		this.menuDisplayer = menuDisplayer;
-		this.workshop = workshop;*/
+	public MouseController(final ProjectSpaceComponent psc, final Gamemode gamemode) {
+
 		this.gamemode = gamemode;
 		this.psc = psc;
 
@@ -47,11 +41,8 @@ public class MouseAndKeyboard extends JComponent {
 		selectedComponentInWorkshop = null;
 		controlledShip = null;
 
-		MouseAndKeyboardListener m = new MouseAndKeyboardListener();
+		MouseListener m = new PSCMouseListener();
 		addMouseListener(m);
-		addKeyListener(m);
-		setFocusable(true);
-		requestFocusInWindow();
 
 	}
 
@@ -63,7 +54,7 @@ public class MouseAndKeyboard extends JComponent {
 		this.gamemode = gamemode;
 	}
 
-	private class MouseAndKeyboardListener extends MouseAdapter implements KeyListener
+	private class PSCMouseListener extends MouseAdapter
 	{
 
 		@Override public void mouseClicked(final MouseEvent e) {
@@ -148,22 +139,27 @@ public class MouseAndKeyboard extends JComponent {
 
 		private void managePlacing(final MouseEvent e, ShipComponent clickedShipComponent){
 			if(e.getButton() == MouseEvent.BUTTON1){
-				if(selectedComponentInWorkshop == null){
+				if (clickedShipComponent != null) {
+					if (selectedComponentInWorkshop != null) {
+						selectedComponentInWorkshop.setSelected(false);
+					}
+					clickedShipComponent.setSelected(true);
 					selectedComponentInWorkshop = clickedShipComponent;
-				}else{
+				} else if (selectedComponentInWorkshop != null) {
 					ShipComponent sc = selectedComponentInWorkshop.copy();
 					Displayer gameDisplayer = psc.getGameDisplayer();
 					placeOnShip(sc, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
 																				  - psc.getWorkshop().getTopBarHeight());
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
-				if(selectedComponentInWorkshop != null){
+				/*if (selectedComponentInWorkshop != null){
+					selectedComponentInWorkshop.setSelected(false);
 					selectedComponentInWorkshop = null;
-				}else{
+				} else {*/
 					Displayer gameDisplayer = psc.getGameDisplayer();
 					placeOnShip(null, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
 																					- psc.getWorkshop().getTopBarHeight());
-				}
+				//}
 
 			}
 		}
@@ -186,19 +182,6 @@ public class MouseAndKeyboard extends JComponent {
 											(float) targetPos.getY(), targetShip));
 				}
 			}
-		}
-
-		@Override public void keyPressed(final KeyEvent e) {}
-
-		@Override public void keyReleased(final KeyEvent e) {}
-
-		@Override public void keyTyped(final KeyEvent e) {
-
-			if(e.getKeyChar() == 'c'){
-				psc.changeGamemode();
-
-			}
-
 		}
 	}
 }
