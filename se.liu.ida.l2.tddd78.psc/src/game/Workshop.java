@@ -69,7 +69,9 @@ public class Workshop implements DisplayableEnvironment {
 	@Override
 	public void display(final Graphics g, final float scale){
 
-		workingShip.draw(g, scale);
+		if (workingShip != null) {
+			workingShip.draw(g, scale);
+		}
 
 		g.setColor(Color.BLACK);
 		for(int x = 0; x < shipWidth + 1; x++){

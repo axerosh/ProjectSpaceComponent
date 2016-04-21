@@ -1,7 +1,8 @@
 package graphics;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A utility class for drawing stat bars.
@@ -13,20 +14,24 @@ public final class Statbar
 
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 									  final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
-									  final int levelsPerCell, final Color fillColor)
+									  final int levelsPerCell, final Color fillColor, final Logger logger)
 	{
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
-			throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
-											   renderedHeight + ". Only positive integers are permitted.");
+			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
+							 renderedHeight + ". Only positive integers are permitted.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		} else if (currentStatLevel < 0) {
-			throw new IllegalArgumentException("The specified stat level current stat level = " + currentStatLevel +
-											   " is invalid. It can not be negative.");
+			String message = "The specified stat level current stat level = " + currentStatLevel +
+							 " is invalid. It can not be negative.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		} else if (maxStatLevel <= 0) {
-			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
-											   "It must be greater than 0.");
+			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
+							 "It must be greater than 0.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		} else if (levelsPerCell <= 0) {
-			throw new IllegalArgumentException("The specified number of stat levels per cell = " + levelsPerCell +
-											   " is invalid. It must be greater than 0.");
+			String message = "The specified number of stat levels per cell = " + levelsPerCell +
+							 " is invalid. It must be greater than 0.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 
 		//Outline/Background
@@ -57,16 +62,20 @@ public final class Statbar
 
 	public static void drawOval(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 								final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
-								final Color fillColor) {
+								final Color fillColor, final Logger logger)
+	{
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
-			throw new IllegalArgumentException("Invalid dimensions width = " + renderedWidth + ", height = " +
-											   renderedHeight + ". Only positive integers are permitted.");
+			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
+							 renderedHeight + ". Only positive integers are permitted.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		} else if (currentStatLevel < 0) {
-			throw new IllegalArgumentException("The specified stat level current stat level = " + currentStatLevel +
-											   " is invalid. It can not be negative.");
+			String message = "The specified stat level current stat level = " + currentStatLevel +
+							 " is invalid. It can not be negative.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		} else if (maxStatLevel <= 0) {
-			throw new IllegalArgumentException("The specified max stat level = " + maxStatLevel + " is invalid. " +
-											   "It must be greater than 0.");
+			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
+							 "It must be greater than 0.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 
 		//Outline/Background

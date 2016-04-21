@@ -6,8 +6,12 @@ import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility class for creating starships
@@ -33,29 +37,47 @@ public final class ShipFactory {
 	 *                                  specified integrity</li> </ul>
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
-	public static Starship getStarship(String textRepresentation) {
+	public static Starship getStarship(final String textRepresentation, final Logger logger) {
 		String cleanRep = textRepresentation.replaceAll("\\s+", "");
 
 		Map<String, Float> parameterValues = getParameterMap(cleanRep);
 
+		List<String> failedParameters = new ArrayList<>();
+
 		Float width = parameterValues.get("width");
 		if (width == null) {
-			throw new IllegalArgumentException("There was no width specified in the text representation.");
+			failedParameters.add("width");
 		}
-
 		Float height = parameterValues.get("height");
 		if (height == null) {
-			throw new IllegalArgumentException("There was no height specified in the text representation.");
+			failedParameters.add("height");
 		}
-
 		Float integrity = parameterValues.get("integrity");
 		if (integrity == null) {
-			throw new IllegalArgumentException("There was no integrity specified in the text representation.");
+			failedParameters.add("integrity");
 		}
-
 		Float maxIntegrity = parameterValues.get("maxIntegrity");
 		if (maxIntegrity == null) {
-			throw new IllegalArgumentException("There was no maxIntegrity specified in the text representation.");
+			failedParameters.add("maxIntegrity");
+		}
+
+		if (!failedParameters.isEmpty()) {
+			StringBuilder messageBuilder = new StringBuilder("Properties ");
+			int numberOfFailures = failedParameters.size();
+			for (int i = 0; i < numberOfFailures; i++) {
+				String parameter = failedParameters.get(i);
+				messageBuilder.append(parameter);
+				if (i == numberOfFailures - 1) {
+					messageBuilder.append(" ");
+				} else {
+					messageBuilder.append(", ");
+				}
+			}
+			messageBuilder.append("are missing in the text representation.");
+			String message = messageBuilder.toString();
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			logger.log(Level.SEVERE, message);
+			throw exception;
 		}
 
 		Starship ship = new Starship(width.intValue(), height.intValue(), integrity, maxIntegrity);

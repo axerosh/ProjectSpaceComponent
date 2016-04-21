@@ -16,15 +16,21 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * A session of the game ProjectSpaceComponent.
+ */
 public class ProjectSpaceComponent implements Runnable {
 
 	private final JFrame frame;
 	private final Timer timer;
 	private final Workshop workshop;
-	private Displayer gameDisplayer;
 	private final BattleSpace battleSpace;
 	private final MouseAndKeyboard playerController;
+	private Displayer gameDisplayer;
+	private Logger logger;
 
 	private int workshopWidth;
 	private int workshopHeight;
@@ -39,14 +45,21 @@ public class ProjectSpaceComponent implements Runnable {
 	private Starship playerShip;
 	private Set<BasicAI> ais;
 
-	public ProjectSpaceComponent() {
+	/**
+	 * Constructs a new session.
+	 *
+	 * @param logger the Logger that is to log any exceptions that might occur.
+	 */
+	public ProjectSpaceComponent(Logger logger) {
 
+		this.logger = logger;
 		loadSettings();
 
 		workshop = new Workshop(workshopWidth, workshopHeight, shipWidth, shipHeight);
 		battleSpace = new BattleSpace(battleSpaceWidth, battleSpaceHeight);
 
-		gameDisplayer = new Displayer(workshop, workshopScale);
+		//gameDisplayer = new Displayer(workshop, workshopScale);
+		gameDisplayer = new Displayer(battleSpace, battleSpaceScale);
 		ais = new HashSet<>();
 
 		frame = new PSCFrame();
@@ -91,27 +104,50 @@ public class ProjectSpaceComponent implements Runnable {
 		battleSpace.addTeam(team1);
 		battleSpace.addTeam(team2);
 
+		final int defaultShipIntegrity = 10;
 
-		playerShip = ShipIO.load("the_manta");
+		playerShip = ShipIO.load("the_manta", logger);
+		if (playerShip == null) {
+			playerShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+		}
 		playerController.setControlledShip(playerShip);
 		battleSpace.addShip(playerShip, team1);
 		workshop.addWorkingShip(playerShip);
 
-		Starship enemyShip = ShipIO.load("the_governator");
+		Starship enemyShip = ShipIO.load("the_governator", logger);
+		if (enemyShip == null) {
+			enemyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+		}
 		ais.add(new BasicAI(battleSpace, enemyShip));
 		battleSpace.addShip(enemyShip, team2);
 
-		Starship friendlyShip = ShipIO.load("the_governator");
+		Starship friendlyShip = ShipIO.load("the_governator", logger);
+		if (friendlyShip == null) {
+			friendlyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+		}
 		ais.add(new BasicAI(battleSpace, friendlyShip));
 		battleSpace.addShip(friendlyShip, team1);
 
 	}
 
 	@Override public void run() {
+		Class<?> gameEnvironment = gameDisplayer.getDisplayedEnvironment().getClass();
+		System.out.println("Game environment " + gameEnvironment + " and gamemode " + gamemode + ".");
+		System.out.println("Game environment " + Workshop.class + " and gamemode " + Gamemode.WORKSHOP + ".");
+		boolean matchingBattle = gameEnvironment.equals(BattleSpace.class) && gamemode == Gamemode.BATTLE;
+		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
+		System.out.println(matchingBattle || matchingWorkshop);
+		assert (matchingBattle || matchingWorkshop) :
+				"The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
+				"do not match.";
 
 		timer.start();
+
 	}
 
+	/**
+	 * Loads game settings from properties.
+	 */
 	private void loadSettings() {
 		final String fileName = "game";
 		final String fileExtension = ".properties";
@@ -124,7 +160,7 @@ public class ProjectSpaceComponent implements Runnable {
 		try (InputStream in = new FileInputStream(filePath)) {
 			properties.load(in);
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			logger.log(Level.SEVERE, e.toString(), e);
 		}
 
 		final int defaultWorkshopWidth = 16;
@@ -159,7 +195,8 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Integer.parseInt(property);
 		} else {
-			System.out.println("Couldn't find a value for " + propertyName + ". Using the default value of " + defaultValue);
+			logger.log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+									 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -169,7 +206,8 @@ public class ProjectSpaceComponent implements Runnable {
 		if(property != null){
 			return Float.parseFloat(property);
 		} else {
-			System.out.println("Couldn't find a value for " + propertyName + ". Using the default value of " + defaultValue);
+			logger.log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+									 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -206,8 +244,6 @@ public class ProjectSpaceComponent implements Runnable {
 
 		playerController.setGamemode(gamemode);
 		playerController.setBounds(0, 0, screenWidth , screenHeight);
-		System.out.println(playerController.getBounds().getSize());
-		System.out.println(gameDisplayer.getPreferredSize());
 		//TODO: What the fuck is this!? add is needed herebut it's ugly find another way stupid
 		//frame.remove(gameDisplayer);
 		frame.add(gameDisplayer);

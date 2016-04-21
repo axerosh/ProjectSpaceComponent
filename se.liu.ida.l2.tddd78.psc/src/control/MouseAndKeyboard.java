@@ -181,8 +181,6 @@ public class MouseAndKeyboard extends JComponent {
 						psc.getBattleSpace().getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
-
-					System.out.println(clickedComponent);
 					selectedWeapon.giveFiringOrder(
 							new FiringOrder((float) originPos.getX(), (float) originPos.getY(), (float) targetPos.getX(),
 											(float) targetPos.getY(), targetShip));

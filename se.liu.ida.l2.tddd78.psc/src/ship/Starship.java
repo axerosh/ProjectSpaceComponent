@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A starship consisting of ship components. The collective shielding and power usage of its components may not exceed its
@@ -214,9 +216,10 @@ public class Starship {
 	 * @param col       column in which to add the ship.component
 	 * @param row       row in which to add the ship.component
 	 */
-	public void setComponent(final ShipComponent component, final int col, final int row) {
+	public void setComponent(final ShipComponent component, final int col, final int row, final Logger logger) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
-			throw new IllegalArgumentException("The specified position x = " + col + ", y = " + row + " is out of bounds.");
+			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 		boolean isSomethingThere = getComponentAt(col, row) != null;
 		if (component != null) {

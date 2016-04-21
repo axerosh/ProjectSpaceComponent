@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An area for two teams of starships to battle each other.
@@ -133,9 +135,10 @@ public class BattleSpace implements DisplayableEnvironment {
 		return hostileTeams.get(rng.nextInt(hostileTeams.size()));
 	}
 
-	public Starship getRandomShipOfTeam(final Team team) {
+	public Starship getRandomShipOfTeam(final Team team, final Logger logger) {
 		if (!teams.contains(team)) {
-			throw new IllegalArgumentException(team.getTeamName() + ": No such team!");
+			String message = team.getTeamName() + ": No such team!";
+			logger.log(Level.SEVERE, message, new IllegalArgumentException(message));
 		}
 		return teams.get(teams.indexOf(team)).getRandomMember();
 	}

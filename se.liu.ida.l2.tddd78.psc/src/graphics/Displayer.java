@@ -44,6 +44,10 @@ public class Displayer extends JComponent {
 		setSize(displayWidth, displayHeight);
 	}
 
+	public DisplayableEnvironment getDisplayedEnvironment() {
+		return displayedEnvironment;
+	}
+
 	/**
 	 * Returns the specified screen x-position converted to the corresponding virtual x-position
 	 *
