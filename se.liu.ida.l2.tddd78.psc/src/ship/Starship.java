@@ -1,6 +1,7 @@
 package ship;
 
 import game.Team;
+import graphics.Statbar;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
@@ -8,7 +9,8 @@ import ship.component.utility.ShieldComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -215,6 +217,16 @@ public class Starship {
 				}
 			}
 		}
+		final int shipScreenX = (int) (x * scale);
+		final int shipScreenY = (int) (y * scale);
+		final int shipRenderedWidth = (int) (width * scale);
+		final int integrityBarRenderedWidth = shipRenderedWidth / 2;
+		final int integrityBarRenderedHeight = (int) (0.25 * scale);
+		final int integrityBarScreenX = shipScreenX + shipRenderedWidth / 2 - integrityBarRenderedWidth / 2;
+		final int integrityBarScreenY = shipScreenY - (int) (0.5 * scale);
+		final int integrityPerCell = 1;
+		Statbar.drawHorizontal(g, integrityBarScreenX, integrityBarScreenY, integrityBarRenderedWidth,
+							   integrityBarRenderedHeight, integrity, maxIntegrity, integrityPerCell, Color.RED);
 	}
 
 	/**
