@@ -17,8 +17,7 @@ public final class Main {
 
 	public static void main(String[] args) {
 		try {
-			File saveLocation = new File("logs");
-			File path = new File(saveLocation, "psc_errors_test.log");
+			new File("logs").mkdir();
 
 			final int maxNumberOfBytes = 100000;
 			final int numberOfFiles = 1;
