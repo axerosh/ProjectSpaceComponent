@@ -7,15 +7,14 @@ import ship.component.AbstractShipComponent;
  */
 public abstract class UtilityComponent extends AbstractShipComponent
 {
+	protected float output;
 
-	protected int output;
-
-	protected UtilityComponent(final float integrity, int output) {
+	protected UtilityComponent(final float integrity, float output) {
 		super(integrity);
 		this.output = output;
 	}
 
-	public int getOutput() {
+	public float getOutput() {
 		if (isIntact() && isActive()) {
 			return output;
 		} else {
@@ -23,7 +22,7 @@ public abstract class UtilityComponent extends AbstractShipComponent
 		}
 	}
 
-	protected void setOutput(int output) {
+	protected void updOutput(int output) {
 		this.output = output;
 	}
 }

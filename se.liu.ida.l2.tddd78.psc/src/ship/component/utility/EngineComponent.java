@@ -8,11 +8,15 @@ import java.awt.*;
 /**
  * A utility components that contributes with dodge rate.
  */
-public class EngineComponent extends UtilityComponent
-{
+public class EngineComponent extends UtilityComponent {
 
-	public EngineComponent(final float integrity, final int dodgePercentage) {
-		super(integrity, dodgePercentage);
+	private float dodgeScaling;
+
+	public EngineComponent(final float integrity, final float dodgeScaling) {
+		super(integrity, 0);
+		this.dodgeScaling = dodgeScaling;
+
+
 	}
 
 	@Override public void update() {
@@ -21,7 +25,7 @@ public class EngineComponent extends UtilityComponent
 		} else {
 			final float outputPerPower = 1.5f;
 			final int baseOutput = 6;
-			setOutput((int) (getPower() * outputPerPower) + baseOutput);
+			setOutput((int) (getPower() *);
 		}
 
 	}

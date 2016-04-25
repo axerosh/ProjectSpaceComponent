@@ -1,13 +1,19 @@
 package ship;
 
+import io.PropertiesIO;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.MissileComponent;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +23,58 @@ import java.util.logging.Logger;
  * @see Starship
  */
 public final class ShipFactory {
+
+	private final static char ENGINE_SYMBOL;
+	private final static char MISSILE_SYMBOL;
+	private final static char REACTOR_SYMBOL;
+	private final static char SHIELD_SYMBOL;
+	private final static float REACTOR_OUTPUT;
+	private final static float ENGINE_OUTPUT_SCALE;
+	private final static float SHIELD_OUTPUT_SCALE;
+	private final static float MISSILE_DAMAGE_SCALE;
+	private final static float MISSILE_RADIUS_SCALE;
+	private final static float COMPONENT_INTEGRITY;
+
+	static {
+		final String fileName = "ship";
+		final String fileExtension = ".properties";
+		final File resources = new File("resources");
+		final File saveLocation = new File(resources, "properties");
+		final File filePath = new File(saveLocation, fileName + fileExtension);
+
+		final Properties properties = new Properties();
+		try (InputStream in = new FileInputStream(filePath)) {
+			properties.load(in);
+		} catch (IOException e) {
+			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
+		}
+
+		final char defaultEngineSymbol = 'E';
+		final char defaultMissileSymbol = 'M';
+		final char defaultReactorSymbol = 'R';
+		final char defaultShieldSymbol = 'S';
+
+		final float defaultReactorOutput = 3;
+		final float defaultEngineOutputScale = 1.5f;
+		final float defaultShieldOutputScale = 2;
+		final float defaultMissileDamageScale = 0.5f;
+		final float defaultMissileRadiusScale = 0.5f;
+
+		final float defaultComponentIntegrity = 2;
+
+		ENGINE_SYMBOL = PropertiesIO.getCharacterProperty(properties, "engine_symbol", defaultEngineSymbol);
+		MISSILE_SYMBOL = PropertiesIO.getCharacterProperty(properties, "missile_symbol", defaultMissileSymbol);
+		REACTOR_SYMBOL = PropertiesIO.getCharacterProperty(properties, "reactor_symbol", defaultReactorSymbol);
+		SHIELD_SYMBOL = PropertiesIO.getCharacterProperty(properties, "shield_symbol", defaultShieldSymbol);
+
+		REACTOR_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_output", defaultReactorOutput);
+		ENGINE_OUTPUT_SCALE = PropertiesIO.getFloatProperty(properties, "engine_output_scale", defaultEngineOutputScale);
+		SHIELD_OUTPUT_SCALE = PropertiesIO.getFloatProperty(properties, "shield_output_scale", defaultShieldOutputScale);
+		MISSILE_DAMAGE_SCALE = PropertiesIO.getFloatProperty(properties, "missile_damage_scale", defaultMissileDamageScale);
+		MISSILE_RADIUS_SCALE = PropertiesIO.getFloatProperty(properties, "missile_radius_scale", defaultMissileRadiusScale);
+
+		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
+	}
 
 	private ShipFactory() {}
 
@@ -113,15 +171,13 @@ public final class ShipFactory {
 		}
 
 		while (cursor < endIndex) {
-			float componentIntegrity = 2;
 			ShipComponent componentToAdd = null;
 
 			char symbol = textRepresentation.charAt(cursor);
 
-			switch (symbol) {
-				case 'E':
+			if (symbol == ENGINE_SYMBOL) {
 					int engineOutput = 10;
-					componentToAdd = new EngineComponent(componentIntegrity, engineOutput);
+				componentToAdd = new EngineComponent(COMPONENT_INTEGRITY, ENGINE_OUTPUT_SCALE);
 					break;
 				case 'R':
 					int reactorOutput = 3;

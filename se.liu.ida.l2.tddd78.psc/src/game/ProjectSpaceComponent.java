@@ -4,16 +4,13 @@ import control.BasicAI;
 import control.MouseController;
 import graphics.Displayer;
 import graphics.PSCFrame;
-import ship.ShipIO;
+import io.PropertiesIO;
+import io.ShipIO;
 import ship.Starship;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -147,19 +144,7 @@ public class ProjectSpaceComponent implements Runnable {
 	 * Loads game settings from properties.
 	 */
 	private void loadSettings() {
-		final String fileName = "game";
-		final String fileExtension = ".properties";
-		final File project = new File("se.liu.ida.l2.tddd78.psc");
-		final File resources = new File(project, "resources");
-		final File saveLocation = new File(resources, "properties");
-		final File filePath = new File(saveLocation, fileName + fileExtension);
-
-		final Properties properties = new Properties();
-		try (InputStream in = new FileInputStream(filePath)) {
-			properties.load(in);
-		} catch (IOException e) {
-			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
-		}
+		final Properties properties = PropertiesIO.loadProperties("game");
 
 		final int defaultWorkshopWidth = 16;
 		final int defaultWorkshopHeight = 9;
@@ -174,40 +159,18 @@ public class ProjectSpaceComponent implements Runnable {
 
 		final int defaultMaxFramerate = 60;
 
-		workshopWidth = getIntegerProperty(properties, "workshop_width", defaultWorkshopWidth);
-		workshopHeight = getIntegerProperty(properties, "workshop_height", defaultWorkshopHeight);
-		workshopScale = getFloatProperty(properties, "workshop_scale", defaultWorkshopScale);
+		workshopWidth = PropertiesIO.getIntegerProperty(properties, "workshop_width", defaultWorkshopWidth);
+		workshopHeight = PropertiesIO.getIntegerProperty(properties, "workshop_height", defaultWorkshopHeight);
+		workshopScale = PropertiesIO.getFloatProperty(properties, "workshop_scale", defaultWorkshopScale);
 
-		battleSpaceWidth = getIntegerProperty(properties, "battlespace_width", defaultArenaWidth);
-		battleSpaceHeight = getIntegerProperty(properties, "battlespace_height", defaultArenaHeight);
-		battleSpaceScale = getFloatProperty(properties, "battlespace_scale", defaultArenaScale);
+		battleSpaceWidth = PropertiesIO.getIntegerProperty(properties, "battlespace_width", defaultArenaWidth);
+		battleSpaceHeight = PropertiesIO.getIntegerProperty(properties, "battlespace_height", defaultArenaHeight);
+		battleSpaceScale = PropertiesIO.getFloatProperty(properties, "battlespace_scale", defaultArenaScale);
 
-		shipWidth = getIntegerProperty(properties, "ship_width", defaultShipWidth);
-		shipHeight = getIntegerProperty(properties, "ship_height", defaultShipHeight);
+		shipWidth = PropertiesIO.getIntegerProperty(properties, "ship_width", defaultShipWidth);
+		shipHeight = PropertiesIO.getIntegerProperty(properties, "ship_height", defaultShipHeight);
 
-		maxFramerate = getIntegerProperty(properties, "max_framerate", defaultMaxFramerate);
-	}
-
-	private int getIntegerProperty(Properties properties, String propertyName, int defaultValue) {
-		String property = properties.getProperty(propertyName);
-		if(property != null){
-			return Integer.parseInt(property);
-		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
-												 ". Using the default value of " + defaultValue);
-			return defaultValue;
-		}
-	}
-
-	private float getFloatProperty(Properties properties, String propertyName, float defaultValue) {
-		String property = properties.getProperty(propertyName);
-		if(property != null){
-			return Float.parseFloat(property);
-		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
-												 ". Using the default value of " + defaultValue);
-			return defaultValue;
-		}
+		maxFramerate = PropertiesIO.getIntegerProperty(properties, "max_framerate", defaultMaxFramerate);
 	}
 
 	public void changeGamemode() {

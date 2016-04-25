@@ -27,16 +27,6 @@ public class PSCFrame extends JFrame
 
 		final JMenu gameMenu = new JMenu("Game");
 
-		final JMenuItem exit = new JMenuItem("Exit");
-		exit.setMnemonic(KeyEvent.VK_X);
-		exit.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
-		exit.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(final ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		gameMenu.add(exit);
-
 		final JMenuItem changeGamemode = new JMenuItem("Change Gamemode");
 		changeGamemode.setMnemonic(KeyEvent.VK_G);
 		changeGamemode.setAccelerator(KeyStroke.getKeyStroke("C"));
@@ -46,6 +36,16 @@ public class PSCFrame extends JFrame
 			}
 		});
 		gameMenu.add(changeGamemode);
+
+		final JMenuItem exit = new JMenuItem("Exit");
+		exit.setMnemonic(KeyEvent.VK_X);
+		exit.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
+		exit.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(final ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		gameMenu.add(exit);
 
 		menuBar.add(gameMenu);
 

@@ -1,5 +1,6 @@
 package game;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -16,9 +17,12 @@ public final class Main {
 
 	public static void main(String[] args) {
 		try {
+			File saveLocation = new File("logs");
+			File path = new File(saveLocation, "psc_errors_test.log");
+
 			final int maxNumberOfBytes = 100000;
 			final int numberOfFiles = 1;
-			Handler logHandler = new FileHandler("psc_errors.log", maxNumberOfBytes, numberOfFiles);
+			Handler logHandler = new FileHandler("logs/psc_error%u.log", maxNumberOfBytes, numberOfFiles);
 			Logger.getGlobal().addHandler(logHandler);
 		} catch (IOException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);

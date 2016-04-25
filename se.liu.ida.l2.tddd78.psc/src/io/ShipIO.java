@@ -1,4 +1,7 @@
-package ship;
+package io;
+
+import ship.ShipFactory;
+import ship.Starship;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,10 +28,8 @@ public final class ShipIO {
 	private final static Charset CHARSET = StandardCharsets.UTF_8;
 
 	static {
-		final File project = new File("se.liu.ida.l2.tddd78.psc");
-		final File resources = new File(project, "resources");
+		final File resources = new File("resources");
 		SAVE_LOCATION = new File(resources, "ship_designs");
-		//SAVE_LOCATION = new File(resources, "ship_designs");
 	}
 
 	private ShipIO() {
