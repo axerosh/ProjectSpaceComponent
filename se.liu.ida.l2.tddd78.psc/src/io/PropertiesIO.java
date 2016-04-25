@@ -43,7 +43,7 @@ public class PropertiesIO {
 		if (property != null && !property.isEmpty()) {
 			return property.charAt(0);
 		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
@@ -55,7 +55,7 @@ public class PropertiesIO {
 		if (property != null) {
 			return Integer.parseInt(property);
 		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
@@ -67,7 +67,7 @@ public class PropertiesIO {
 		if (property != null) {
 			return Float.parseFloat(property);
 		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property" + propertyName +
+			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}

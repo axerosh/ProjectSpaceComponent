@@ -6,7 +6,8 @@ import ship.component.AbstractShipComponent;
 import weaponry.FiringOrder;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A ship ship.component that can fires projectile according to firing orders.
@@ -16,15 +17,25 @@ import java.awt.*;
  */
 public abstract class WeaponComponent extends AbstractShipComponent {
 
+	protected final float damageScale;
+	protected final float blastRadiusScale;
+	protected final float projectileVelocity;
 	protected final float baseRechargeTime;
+	protected final float rechargeScale;
 	protected FiringOrder firingOrder;
 	private float currentRechargeTime;
 	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
-	protected WeaponComponent(final float integrity, final int rechargeTime) {
-		super(integrity);
-		this.baseRechargeTime = rechargeTime;
+	protected WeaponComponent(final float integrity, final float damageScale, final float blastRadiusScale,
+							  final float projectileVelocity, final float baseRechargeTime, final float rechargeScale,
+							  final char symbolRepresentation) {
+		super(integrity, symbolRepresentation);
+		this.damageScale = damageScale;
+		this.blastRadiusScale = blastRadiusScale;
+		this.projectileVelocity = projectileVelocity;
+		this.baseRechargeTime = baseRechargeTime;
+		this.rechargeScale = rechargeScale;
 		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
@@ -44,7 +55,7 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 		if (hasOrder() && canShoot()) {
 			projectileToFire = shoot();
 			firingOrder = null;
-			float rechargeTimeCoefficient = 1 / (1 + (float) (getPower() / 2));
+			float rechargeTimeCoefficient = 1 / (1 + getPower() * rechargeScale);
 			currentRechargeTime = baseRechargeTime * rechargeTimeCoefficient;
 			rechargeTimeLeft = currentRechargeTime;
 		}

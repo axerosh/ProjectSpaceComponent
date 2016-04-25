@@ -5,7 +5,8 @@ import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A weapon component that can fire missiles according to firing orders.
@@ -16,24 +17,21 @@ import java.awt.*;
 public class MissileComponent extends WeaponComponent
 {
 
-	public MissileComponent(final float integrity, final int rechargeTime) {
-		super(integrity, rechargeTime);
+	public MissileComponent(final float integrity, final float damageScale, final float blastRadiusScale,
+							final float projectileVelocity, final float baseRechargeTime, final float rechargeScale,
+							final char symbolRepresentation) {
+		super(integrity, damageScale, blastRadiusScale, projectileVelocity, baseRechargeTime, rechargeScale,
+			  symbolRepresentation);
 	}
 
 	@Override public Projectile shoot() {
-		int velocity = 5;
 
-		final float damagePerPower = 0.5f;
-		final int baseDamage = 1;
-
-		final float blastRadiusPerPower = 0.25f;
-		final float baseBlastDamage = 2.5f;
-
-		int damage = baseDamage + (int) (getPower() * damagePerPower);
-		int blastRadius = (int) (baseBlastDamage + getPower() * blastRadiusPerPower);
+		int damage = (int) (getPower() * damageScale);
+		int blastRadius = (int) (getPower() * blastRadiusScale);
 
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
-									 firingOrder.getTargetY(), velocity, firingOrder.getTargetShip(), damage, blastRadius);
+									 firingOrder.getTargetY(), projectileVelocity, firingOrder.getTargetShip(), damage,
+									 blastRadius);
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
@@ -43,12 +41,8 @@ public class MissileComponent extends WeaponComponent
 
 	@Override public void update() {}
 
-
-	@Override public char getSymbolRepresentation() {
-		return 'M';
-	}
-
 	@Override public final ShipComponent copy() {
-		return new MissileComponent(maxIntegrity, (int)baseRechargeTime);
+		return new MissileComponent(maxIntegrity, damageScale, blastRadiusScale, projectileVelocity, baseRechargeTime,
+									rechargeScale, getSymbolRepresentation());
 	}
 }

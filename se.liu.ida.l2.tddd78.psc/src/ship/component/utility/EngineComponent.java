@@ -3,7 +3,8 @@ package ship.component.utility;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A utility components that contributes with dodge rate.
@@ -12,22 +13,15 @@ public class EngineComponent extends UtilityComponent {
 
 	private float dodgeScaling;
 
-	public EngineComponent(final float integrity, final float dodgeScaling) {
-		super(integrity, 0);
+	public EngineComponent(final float integrity, final float dodgeScaling, final char symbolRepresentation) {
+		super(integrity, 0, symbolRepresentation);
 		this.dodgeScaling = dodgeScaling;
 
 
 	}
 
 	@Override public void update() {
-		if (getPower() == 0) {
-			setOutput(0);
-		} else {
-			final float outputPerPower = 1.5f;
-			final int baseOutput = 6;
-			setOutput((int) (getPower() *);
-		}
-
+		setOutput((int)(getPower() * dodgeScaling));
 	}
 
 	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
@@ -40,11 +34,7 @@ public class EngineComponent extends UtilityComponent {
 		owner.registerEngineComponent(this);
 	}
 
-	@Override public char getSymbolRepresentation() {
-		return 'E';
-	}
-
 	@Override public final ShipComponent copy() {
-		return new EngineComponent(maxIntegrity, output);
+		return new EngineComponent(maxIntegrity, output, getSymbolRepresentation());
 	}
 }

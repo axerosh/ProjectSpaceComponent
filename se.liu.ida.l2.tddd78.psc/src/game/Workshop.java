@@ -1,14 +1,12 @@
 package game;
 
 import graphics.DisplayableEnvironment;
+import ship.ShipFactory;
 import ship.Starship;
 import ship.component.ShipComponent;
-import ship.component.utility.EngineComponent;
-import ship.component.utility.ReactorComponent;
-import ship.component.utility.ShieldComponent;
-import ship.component.weapon.MissileComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +52,10 @@ public class Workshop implements DisplayableEnvironment {
 			sidebarComponents.add(new ArrayList<>());
 		}
 		//TODO Change this numbers
-		sidebarComponents.get(0).add(new EngineComponent(1, 1));
-		sidebarComponents.get(0).add(new ReactorComponent(1, 1));
-		sidebarComponents.get(1).add(new ShieldComponent(1, 1));
-		sidebarComponents.get(1).add(new MissileComponent(1, 1));
+		sidebarComponents.get(0).add(ShipFactory.getEngine());
+		sidebarComponents.get(0).add(ShipFactory.getReactor());
+		sidebarComponents.get(1).add(ShipFactory.getShield());
+		sidebarComponents.get(1).add(ShipFactory.getMissile());
 	}
 
 	public void addWorkingShip(Starship ship){
@@ -108,11 +106,8 @@ public class Workshop implements DisplayableEnvironment {
 		if(x - sidebarX < 0 || y < 0 ){
 			return null;
 		}
-		System.out.println(y);
-		System.out.println(sidebarComponents);
 		if(y < sidebarComponents.size()) {
 			List<ShipComponent> row = sidebarComponents.get((int)y);
-			System.out.println(row);
 			if(x - sidebarX < row.size()) {
 				return row.get((int)(x - sidebarX));
 			}

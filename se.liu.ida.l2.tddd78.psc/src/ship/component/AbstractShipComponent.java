@@ -3,7 +3,8 @@ package ship.component;
 import graphics.Statbar;
 import ship.Starship;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
@@ -33,17 +34,20 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	private boolean active;
 	private boolean selected;
 	private Starship owner;
+	private char symbolRepresentation;
 
 	/**
 	 * Construcs an abstract ship ship.component with the specified maximum HP.
 	 *
-	 * @param integrity   the damage the ship ship.component can take before it is destroyed
+	 * @param integrity            the damage the ship ship.component can take before it is destroyed
+	 * @param symbolRepresentation    the character that is to represent this component
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #setActive(boolean)
 	 */
-	protected AbstractShipComponent(final float integrity) {
+	protected AbstractShipComponent(final float integrity, final char symbolRepresentation) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
+		this.symbolRepresentation = symbolRepresentation;
 		owner = null;
 		shielding = 0;
 		power = 0;
@@ -190,6 +194,10 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 				}
 			}
 		}
+	}
+
+	@Override public char getSymbolRepresentation() {
+		return symbolRepresentation;
 	}
 
 	@Override public boolean hasShielding() {

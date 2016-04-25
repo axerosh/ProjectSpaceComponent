@@ -3,16 +3,16 @@ package ship.component.utility;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A utility components that contributes with shielding.
  */
-public class ReactorComponent extends UtilityComponent
-{
+public class ReactorComponent extends UtilityComponent {
 
-	public ReactorComponent(final float integrity, final int powerOutput) {
-		super(integrity, powerOutput);
+	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation) {
+		super(integrity, powerOutput, symbolRepresentation);
 	}
 
 	@Override public void update() {}
@@ -27,11 +27,7 @@ public class ReactorComponent extends UtilityComponent
 		owner.registerReactorComponent(this);
 	}
 
-	@Override public char getSymbolRepresentation() {
-		return 'R';
-	}
-
 	@Override public final ShipComponent copy() {
-		return new ReactorComponent(maxIntegrity, output);
+		return new ReactorComponent(maxIntegrity, output, getSymbolRepresentation());
 	}
 }

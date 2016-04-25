@@ -8,8 +8,10 @@ import io.PropertiesIO;
 import io.ShipIO;
 import ship.Starship;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractAction;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Properties;
@@ -61,6 +63,9 @@ public class ProjectSpaceComponent implements Runnable {
 
 		gamemode = Gamemode.WORKSHOP;
 		playerController = new MouseController(this, gamemode);
+		int screenWidth = (int) (workshopWidth * workshopScale);
+		int screenHeight = (int) (workshopHeight * workshopScale);
+		playerController.setBounds(0, 0, screenWidth, screenHeight);
 		frame.add(playerController);
 
 
@@ -126,7 +131,6 @@ public class ProjectSpaceComponent implements Runnable {
 
 		boolean matchingBattle = gameEnvironment.equals(BattleSpace.class) && gamemode == Gamemode.BATTLE;
 		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
-		System.out.println(matchingBattle || matchingWorkshop);
 
 		if (!(matchingBattle || matchingWorkshop)) {
 			String message = "The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
@@ -144,7 +148,6 @@ public class ProjectSpaceComponent implements Runnable {
 	 * Loads game settings from properties.
 	 */
 	private void loadSettings() {
-		final Properties properties = PropertiesIO.loadProperties("game");
 
 		final int defaultWorkshopWidth = 16;
 		final int defaultWorkshopHeight = 9;
@@ -158,6 +161,8 @@ public class ProjectSpaceComponent implements Runnable {
 		final int defaultShipHeight = 8;
 
 		final int defaultMaxFramerate = 60;
+
+		final Properties properties = PropertiesIO.loadProperties("game");
 
 		workshopWidth = PropertiesIO.getIntegerProperty(properties, "workshop_width", defaultWorkshopWidth);
 		workshopHeight = PropertiesIO.getIntegerProperty(properties, "workshop_height", defaultWorkshopHeight);

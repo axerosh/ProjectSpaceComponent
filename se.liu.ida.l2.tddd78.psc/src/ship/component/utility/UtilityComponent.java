@@ -9,8 +9,8 @@ public abstract class UtilityComponent extends AbstractShipComponent
 {
 	protected float output;
 
-	protected UtilityComponent(final float integrity, float output) {
-		super(integrity);
+	protected UtilityComponent(final float integrity, final float output, final char symbolRepresentation) {
+		super(integrity, symbolRepresentation);
 		this.output = output;
 	}
 
@@ -22,7 +22,7 @@ public abstract class UtilityComponent extends AbstractShipComponent
 		}
 	}
 
-	protected void updOutput(int output) {
+	protected void setOutput(int output) {
 		this.output = output;
 	}
 }

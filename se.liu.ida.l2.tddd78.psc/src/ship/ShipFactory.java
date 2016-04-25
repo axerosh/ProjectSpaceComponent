@@ -29,10 +29,15 @@ public final class ShipFactory {
 	private final static char REACTOR_SYMBOL;
 	private final static char SHIELD_SYMBOL;
 	private final static float REACTOR_OUTPUT;
+
 	private final static float ENGINE_OUTPUT_SCALE;
 	private final static float SHIELD_OUTPUT_SCALE;
 	private final static float MISSILE_DAMAGE_SCALE;
 	private final static float MISSILE_RADIUS_SCALE;
+	private final static float MISSILE_VELOCITY;
+	private final static float MISSILE_BASE_RECHARGE;
+	private final static float MISSILE_RECHARGE_SCALE;
+
 	private final static float COMPONENT_INTEGRITY;
 
 	static {
@@ -59,6 +64,9 @@ public final class ShipFactory {
 		final float defaultShieldOutputScale = 2;
 		final float defaultMissileDamageScale = 0.5f;
 		final float defaultMissileRadiusScale = 0.5f;
+		final float defaultMissileVelocity = 5;
+		final float defaultMissileBaseRecharge = 2;
+		final float defaultMissileRechargeScale = 0.5f;
 
 		final float defaultComponentIntegrity = 2;
 
@@ -72,6 +80,11 @@ public final class ShipFactory {
 		SHIELD_OUTPUT_SCALE = PropertiesIO.getFloatProperty(properties, "shield_output_scale", defaultShieldOutputScale);
 		MISSILE_DAMAGE_SCALE = PropertiesIO.getFloatProperty(properties, "missile_damage_scale", defaultMissileDamageScale);
 		MISSILE_RADIUS_SCALE = PropertiesIO.getFloatProperty(properties, "missile_radius_scale", defaultMissileRadiusScale);
+		MISSILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "missile_velocity", defaultMissileVelocity);
+		MISSILE_BASE_RECHARGE = PropertiesIO.getFloatProperty(properties, "missile_base_recharge_time",
+															  defaultMissileBaseRecharge);
+		MISSILE_RECHARGE_SCALE = PropertiesIO.getFloatProperty(properties, "missile_recharge_scale",
+															   defaultMissileRechargeScale);
 
 		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
 	}
@@ -176,32 +189,23 @@ public final class ShipFactory {
 			char symbol = textRepresentation.charAt(cursor);
 
 			if (symbol == ENGINE_SYMBOL) {
-					int engineOutput = 10;
-				componentToAdd = new EngineComponent(COMPONENT_INTEGRITY, ENGINE_OUTPUT_SCALE);
-					break;
-				case 'R':
-					int reactorOutput = 3;
-					componentToAdd = new ReactorComponent(componentIntegrity, reactorOutput);
-					break;
-				case 'S':
-					int shieldOutput = 4;
-					componentToAdd = new ShieldComponent(componentIntegrity, shieldOutput);
-					break;
-				case 'M':
-					int missileRechargeTime = 5;
-					componentToAdd = new MissileComponent(componentIntegrity, missileRechargeTime);
-					break;
-				case '.':
-					break;
-				case ',':
-					col = 0;
-					row++;
-					cursor++;
-					continue;
-				default:
-					cursor++;
-					continue;
+				componentToAdd = getEngine();
+			} else if (symbol == REACTOR_SYMBOL) {
+				componentToAdd = getReactor();
+			} else if (symbol == SHIELD_SYMBOL) {
+				componentToAdd = getShield();
+			} else if (symbol == MISSILE_SYMBOL) {
+				componentToAdd = getMissile();
+			} else if (symbol == ',') {
+				col = 0;
+				row++;
+				cursor++;
+				continue;
+			} else if (symbol != '.') {
+				cursor++;
+				continue;
 			}
+
 			if (componentToAdd != null) {
 				ship.setComponent(componentToAdd, col, row);
 			}
@@ -209,5 +213,22 @@ public final class ShipFactory {
 			col++;
 			cursor++;
 		}
+	}
+
+	public static EngineComponent getEngine() {
+		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_OUTPUT_SCALE, ENGINE_SYMBOL);
+	}
+
+	public static ReactorComponent getReactor() {
+		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
+	}
+
+	public static ShieldComponent getShield() {
+		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_OUTPUT_SCALE, SHIELD_SYMBOL);
+	}
+
+	public static MissileComponent getMissile() {
+		return new MissileComponent(COMPONENT_INTEGRITY, MISSILE_DAMAGE_SCALE, MISSILE_RADIUS_SCALE, MISSILE_VELOCITY,
+									MISSILE_BASE_RECHARGE, MISSILE_RECHARGE_SCALE, MISSILE_SYMBOL);
 	}
 }
