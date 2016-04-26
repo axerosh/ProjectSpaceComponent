@@ -9,8 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * JFrame extension that displays and handles input for a game.
@@ -75,7 +75,7 @@ public class PSCFrame extends JFrame
 			@Override public void actionPerformed(final ActionEvent e) {
 				String shipName = JOptionPane.showInputDialog("Please input a name");
 
-				List<Starship> starShips = new ArrayList<>();
+				Collection<Starship> starShips = new ArrayList<>();
 				starShips.add(psc.getPlayerShip());
 				starShips.add(psc.getWorkshop().getWorkingShip());
 				ShipIO.loadToShips(shipName, starShips);

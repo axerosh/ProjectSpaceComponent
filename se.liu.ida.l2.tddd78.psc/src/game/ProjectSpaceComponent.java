@@ -245,10 +245,6 @@ public class ProjectSpaceComponent implements Runnable {
 		return playerShip;
 	}
 
-	public void setPlayerShip(final Starship playerShip) {
-		this.playerShip = playerShip;
-	}
-
 	public static enum Gamemode {
 		/**
 		 * Workshop (ship editing) mode.

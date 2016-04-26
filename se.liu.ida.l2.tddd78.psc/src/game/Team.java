@@ -16,7 +16,7 @@ public class Team implements Iterable<Starship> {
 
 	private final List<Starship> members;
 	private Random rng;
-	private boolean isDefeated;
+	private boolean defeated;
 	private String teamName;
 
 	public Team(String teamName) {
@@ -30,17 +30,21 @@ public class Team implements Iterable<Starship> {
 	}
 
 	public boolean isDefeated() {
-		if (isDefeated) {
-			return isDefeated;
+		if (defeated) {
+			return defeated;
 		} else {
 			for (Starship member : members) {
 				if (member.isIntact()) {
 					return false;
 				}
 			}
-			isDefeated = true;
-			return isDefeated;
+			defeated = true;
+			return defeated;
 		}
+	}
+
+	public void setDefeated(final boolean defeated) {
+		this.defeated = defeated;
 	}
 
 	public Starship getRandomMember() {
@@ -49,10 +53,6 @@ public class Team implements Iterable<Starship> {
 		} else {
 			return members.get(rng.nextInt(members.size()));
 		}
-	}
-
-	public void setDefeated(final boolean defeated) {
-		isDefeated = defeated;
 	}
 
 	/**
