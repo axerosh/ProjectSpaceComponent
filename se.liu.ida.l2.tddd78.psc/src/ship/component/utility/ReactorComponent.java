@@ -27,6 +27,15 @@ public class ReactorComponent extends UtilityComponent {
 		owner.registerReactorComponent(this);
 	}
 
+
+	@Override public void deregisterOwner() {
+		if (getOwner() != null) {
+			getOwner().deregisterReactorComponent(this);
+			super.deregisterOwner();
+		}
+	}
+
+
 	@Override public final ShipComponent copy() {
 		return new ReactorComponent(maxIntegrity, output, getSymbolRepresentation());
 	}

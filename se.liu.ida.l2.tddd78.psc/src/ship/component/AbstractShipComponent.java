@@ -58,10 +58,19 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		this.owner = owner;
 	}
 
+	@Override public void deregisterOwner() {
+		owner = null;
+	}
+
 	@Override public void inflictDamage(float damage) {
 		float damageTaken = damageThroughShield(damage);
 		integrity -= damageTaken;
 		integrity = Math.max(integrity, 0);
+		owner.inflictDamage(damage);
+	}
+
+	@Override public Starship getOwner() {
+		return owner;
 	}
 
 	/**

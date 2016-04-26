@@ -32,6 +32,15 @@ public class ShieldComponent extends UtilityComponent
 		owner.registerShieldComponent(this);
 	}
 
+
+	@Override public void deregisterOwner() {
+		if (getOwner() != null) {
+			getOwner().deregisterShieldComponent(this);
+			super.deregisterOwner();
+		}
+	}
+
+
 	@Override public final ShipComponent copy() {
 		return new ShieldComponent(maxIntegrity, output, getSymbolRepresentation());
 	}

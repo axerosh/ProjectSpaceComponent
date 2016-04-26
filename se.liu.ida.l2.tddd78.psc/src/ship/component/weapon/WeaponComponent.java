@@ -115,5 +115,14 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 		owner.registerWeaponComponent(this);
 	}
 
+
+	@Override public void deregisterOwner() {
+		if (getOwner() != null) {
+			getOwner().deregisterWeaponComponent(this);
+			super.deregisterOwner();
+		}
+	}
+
+
 	public abstract Projectile shoot();
 }

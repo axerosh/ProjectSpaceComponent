@@ -34,6 +34,13 @@ public class EngineComponent extends UtilityComponent {
 		owner.registerEngineComponent(this);
 	}
 
+	@Override public void deregisterOwner() {
+		if (getOwner() != null) {
+			getOwner().deregisterEngineComponent(this);
+			super.deregisterOwner();
+		}
+	}
+
 	@Override public final ShipComponent copy() {
 		return new EngineComponent(maxIntegrity, output, getSymbolRepresentation());
 	}

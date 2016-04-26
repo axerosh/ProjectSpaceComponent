@@ -66,6 +66,13 @@ public interface ShipComponent {
 	 */
 	public void registerOwner(final Starship owner);
 
+	public Starship getOwner();
+
+	/**
+	 * Removes any registrated owner of the component.
+	 */
+	public void deregisterOwner();
+
 	/**
 	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
 	 * registered ship. If shielding is increased, drains the shielding pool of the ship.

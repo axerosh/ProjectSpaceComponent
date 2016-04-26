@@ -38,7 +38,7 @@ public class Starship {
 	private List<ShieldComponent> shieldComponents;
 	private List<ReactorComponent> reactorComponents;
 	private List<EngineComponent> engineComponents;
-	private List<WeaponComponent> weapons;
+	private List<WeaponComponent> weaponComponents;
 	private List<Projectile> projectilesToFire;
 	private int shieldingPool;
 	private int usedShielding;
@@ -107,7 +107,7 @@ public class Starship {
 		shieldComponents = new ArrayList<>();
 		reactorComponents = new ArrayList<>();
 		engineComponents = new ArrayList<>();
-		weapons = new ArrayList<>();
+		weaponComponents = new ArrayList<>();
 		projectilesToFire = new ArrayList<>();
 
 		components = new ShipComponent[width][height];
@@ -233,29 +233,35 @@ public class Starship {
 	/**
 	 * Adds the specified ship.component at the specified position. Registers the ship.component with this ship.
 	 *
-	 * @param component the ship.component to add
+	 * @param componentToPlace the ship.component to add
 	 * @param col       column in which to add the ship.component
 	 * @param row       row in which to add the ship.component
 	 */
-	public void setComponent(final ShipComponent component, final int col, final int row) {
+	public void setComponent(final ShipComponent componentToPlace, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			throw exception;
 		}
-		boolean isSomethingThere = getComponentAt(col, row) != null;
-		if (component != null) {
-			component.registerOwner(this);
-			if (!isSomethingThere) {
-				numberOfComponents++;
-			}
-		} else {
-			if (isSomethingThere) {
+		ShipComponent alreadyPlacedComponent = components[col][row];
+		if (componentToPlace == null) {
+			if (alreadyPlacedComponent != null) {
+				System.out.println("deregistration! of " + alreadyPlacedComponent);
+				alreadyPlacedComponent.deregisterOwner();
 				numberOfComponents--;
 			}
+		} else {
+			System.out.println("registration of " + componentToPlace);
+			componentToPlace.registerOwner(this);
+			if (alreadyPlacedComponent == null) {
+				numberOfComponents++;
+			} else {
+				System.out.println("deregistration! of " + alreadyPlacedComponent);
+				alreadyPlacedComponent.deregisterOwner();
+			}
 		}
-		components[col][row] = component;
+		components[col][row] = componentToPlace;
 
 	}
 
@@ -273,7 +279,7 @@ public class Starship {
 				}
 			}
 		}
-		for (WeaponComponent wc : weapons) {
+		for (WeaponComponent wc : weaponComponents) {
 			wc.updateWeapon(deltaSeconds);
 			Projectile p = wc.getProjectileToFire();
 			if (p != null) {
@@ -492,8 +498,24 @@ public class Starship {
 	}
 
 	public void registerWeaponComponent(final WeaponComponent weapon) {
-		weapons.add(weapon);
+		weaponComponents.add(weapon);
 	}
+
+	public void deregisterShieldComponent(final ShieldComponent shield) {
+			shieldComponents.remove(shield);
+		}
+
+	public void deregisterReactorComponent(final ReactorComponent reactor) {
+			reactorComponents.remove(reactor);
+		}
+
+	public void deregisterEngineComponent(final EngineComponent engine) {
+			engineComponents.remove(engine);
+		}
+
+	public void deregisterWeaponComponent(final WeaponComponent weapon) {
+			weaponComponents.remove(weapon);
+		}
 
 	/**
 	 * @return Returns a 1D ArrayList of all non null components the ship has.
