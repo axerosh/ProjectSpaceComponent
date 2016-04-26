@@ -66,8 +66,6 @@ public interface ShipComponent {
 	 */
 	public void registerOwner(final Starship owner);
 
-	public Starship getOwner();
-
 	/**
 	 * Removes any registrated owner of the component.
 	 */
@@ -114,6 +112,12 @@ public interface ShipComponent {
 	 * Restores the components to max integrity and strips all power and shielding
 	 */
 	public void restore();
+
+	/**
+	 * @return the weight of the component
+	 */
+	public float getWeight();
+
 
 	public ShipComponent copy();
 }

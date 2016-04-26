@@ -24,10 +24,14 @@ import java.util.logging.Logger;
  */
 public final class ShipFactory {
 
+	//All these values sould be teh same for any ship factory.
 	private final static char ENGINE_SYMBOL;
 	private final static char WEAPON_SYMBOL;
 	private final static char REACTOR_SYMBOL;
 	private final static char SHIELD_SYMBOL;
+
+	private final static float COMPONENT_INTEGRITY;
+	private final static float COMPONENT_WEIGHT;
 
 	private final static float REACTOR_OUTPUT;
 	private final static float ENGINE_BASE_OUTPUT;
@@ -41,8 +45,6 @@ public final class ShipFactory {
 	private final static float WEAPON_BASE_RECHARGE;
 	private final static float WEAPON_RECHARGE_SCALING;
 	private final static float PROJECTILE_VELOCITY;
-
-	private final static float COMPONENT_INTEGRITY;
 
 	static {
 		final String fileName = "ship";
@@ -64,6 +66,7 @@ public final class ShipFactory {
 		final char defaultShieldSymbol = 'S';
 
 		final float defaultComponentIntegrity = 2;
+		final float defaultComponentWeight = 0.035f;
 
 		final float defaultReactorOutput = 3;
 
@@ -90,6 +93,7 @@ public final class ShipFactory {
 		SHIELD_SYMBOL = PropertiesIO.getCharacterProperty(properties, "shield_symbol", defaultShieldSymbol);
 
 		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
+		COMPONENT_WEIGHT = PropertiesIO.getFloatProperty(properties, "component_weight", defaultComponentWeight);
 
 		REACTOR_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_output", defaultReactorOutput);
 
@@ -129,6 +133,9 @@ public final class ShipFactory {
 	 *                                  specified integrity</li> </ul>
 	 * @throws IllegalArgumentException if one of the following is true:
 	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that this function should be implemented as a Starship constructor but then, that constructor would need
+	* to decifer the text representation using this class anyway so it was implemented here instead.*/
 	public static Starship getStarship(final String textRepresentation) {
 		String cleanRep = textRepresentation.replaceAll("\\s+", "");
 
@@ -159,6 +166,8 @@ public final class ShipFactory {
 	 * @return a map of the parameter names and their respecive values
 	 * @throws NumberFormatException if one of the parameter values is not a parsable number.
 	 */
+	/*Static so that it can be used by the other static fucntions. Also, this woudl work the same way whether it was done
+	statically or as a method called fro minstances.*/
 	private static Map<String, Float> getParameterMap(String textRepresentation) {
 		Map<String, Float> parameterValues = new HashMap<>();
 
@@ -196,6 +205,15 @@ public final class ShipFactory {
 		return parameterValues;
 	}
 
+	/**
+	 * Adds the components specified in the specified ship text representation to the specified ship.
+	 *
+	 * @param ship               the ship which to add compoenents
+	 * @param textRepresentation a text representation of a ship
+	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that this function should be implemented in Starship as a method instead but this way, no other classes
+	* than ShipFactory need all information about which symbol represent which ship component.*/
 	public static void setComponents(Starship ship, String textRepresentation) {
 		int cursor = textRepresentation.indexOf(';') + 1;
 		int row = 0;
@@ -238,21 +256,52 @@ public final class ShipFactory {
 		}
 	}
 
+	/**
+	 * @return an EngineComponent with the standardized default properties.
+	 * @see EngineComponent
+	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that EngineComponents should load these properties itself but this way, no other classes
+	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getEngineComponent() {
-		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, ENGINE_SYMBOL);
+		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, COMPONENT_WEIGHT,
+								   ENGINE_SYMBOL);
 	}
 
+	/**
+	 * @return a ReactorComponent with the standardized default properties.
+	 * @see ReactorComponent
+	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that ReactorComponents should load these properties itself but this way, no other classes
+	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getReactorComponent() {
-		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
+		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, COMPONENT_WEIGHT, REACTOR_SYMBOL);
 	}
 
+
+	/**
+	 * @return a ShieldComponent with the standardized default properties.
+	 * @see ShieldComponent
+	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that ShieldComponents should load these properties itself but this way, no other classes
+	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getShieldComponent() {
-		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, SHIELD_SYMBOL);
+		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, COMPONENT_WEIGHT,
+								   SHIELD_SYMBOL);
 	}
 
+	/**
+	 * @return a WeaponComponent with the standardized default properties.
+	 * @see WeaponComponent
+	 */
+	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
+	* One could argue that WeaponComponents should load these properties itself but this way, no other classes
+	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getWeaponComponent() {
 		return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
 								   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE, WEAPON_RECHARGE_SCALING,
-								   WEAPON_SYMBOL);
+								   COMPONENT_WEIGHT, WEAPON_SYMBOL);
 	}
 }

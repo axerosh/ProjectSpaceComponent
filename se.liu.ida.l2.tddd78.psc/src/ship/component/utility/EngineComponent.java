@@ -10,10 +10,10 @@ import java.awt.*;
  */
 public class EngineComponent extends PoweredUtilityComponent {
 
-	public EngineComponent(final float integrity, final float baseDodging, final float dodgeScaling,
+	public EngineComponent(final float integrity, final float baseDodging, final float dodgeScaling, final float weight,
 						   final char symbolRepresentation)
 	{
-		super(integrity, baseDodging, dodgeScaling, symbolRepresentation, new Color(255, 110, 0));
+		super(integrity, baseDodging, dodgeScaling, weight, symbolRepresentation, Color.RED);
 	}
 
 	@Override public void registerOwner(final Starship owner) {
@@ -29,6 +29,6 @@ public class EngineComponent extends PoweredUtilityComponent {
 	}
 
 	@Override public final ShipComponent copy() {
-		return new EngineComponent(maxIntegrity, baseOutput, outputScaling, getSymbolRepresentation());
+		return new EngineComponent(maxIntegrity, baseOutput, outputScaling, getWeight(), getSymbolRepresentation());
 	}
 }

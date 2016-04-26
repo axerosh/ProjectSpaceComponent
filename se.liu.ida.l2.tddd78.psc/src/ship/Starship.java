@@ -26,7 +26,6 @@ import java.util.logging.Logger;
  */
 public class Starship {
 
-	private final static float COMPONENT_WEIGHT = 0.035f;
 	/**
 	 * Random Number Generator
 	 */
@@ -323,7 +322,16 @@ public class Starship {
 			dodgeRate += ec.getOutput();
 		}
 
-		dodgeRate -= numberOfComponents * COMPONENT_WEIGHT;
+		float totalWeight = 0;
+		for (ShipComponent[] componentCol : components) {
+			for (ShipComponent component : componentCol) {
+				if (component != null) {
+					totalWeight += component.getWeight();
+				}
+			}
+		}
+
+		dodgeRate -= totalWeight;
 	}
 
 	/**

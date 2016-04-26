@@ -14,12 +14,15 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	/**
 	 * The maximum level of shielding a ship ship.component may recieve.
 	 */
+	//Static because the maximum shielding is the same for all ship components
 	public static final int MAXSHIELDING = 6;
 	/**
 	 * The maximum level of power a ship ship.component may recieve.
 	 */
+	//Static because the maximum power is the same for all ship components
 	public static final int MAXPOWER = 6;
-	private final static Color HIGHLIGHT_COLOR = new Color(255, 112, 186);
+	//Static because the highlight color is the same for all ship components
+	private final static Color HIGHLIGHT_COLOR = Color.YELLOW;
 	/**
 	 * The maximum integrity of this ship ship.component. The damage it can take before it is destroyed.
 	 */
@@ -28,6 +31,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	private final Color color;
 	private int shielding;
 	private int power;
+	private float weight;
 	/**
 	 * The current integrity left until destruction. The remaining damage it can take before it is destroyed.
 	 */
@@ -45,9 +49,12 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #setActive(boolean)
 	 */
-	protected AbstractShipComponent(final float integrity, final char symbolRepresentation, final Color color) {
+	protected AbstractShipComponent(final float integrity, final float weight, final char symbolRepresentation,
+									final Color color)
+	{
 		this.integrity = integrity;
 		maxIntegrity = integrity;
+		this.weight = weight;
 		this.symbolRepresentation = symbolRepresentation;
 		this.color = color;
 		owner = null;
@@ -72,7 +79,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		owner.inflictDamage(damage);
 	}
 
-	@Override public Starship getOwner() {
+	public Starship getOwner() {
 		return owner;
 	}
 
@@ -223,6 +230,10 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 
 	public int getPower() {
 		return power;
+	}
+
+	@Override public float getWeight() {
+		return weight;
 	}
 
 	/**

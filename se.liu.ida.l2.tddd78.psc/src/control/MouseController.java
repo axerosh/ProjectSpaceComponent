@@ -20,11 +20,6 @@ import java.awt.geom.Point2D;
 public class MouseController extends JComponent {
 
 	private Starship controlledShip;
-	/*private BattleSpace battleSpace;
-	private Workshop workshop;
-	private BattleSpaceDisplayer battleSpaceDisplayer;
-	private WorkshopDisplayer workshopDisplayer;
-	private MenuDisplayer menuDisplayer;*/
 	private ProjectSpaceComponent psc;
 	private WeaponComponent selectedWeapon;
 	private ShipComponent selectedComponentInWorkshop;
@@ -152,15 +147,9 @@ public class MouseController extends JComponent {
 																				  - psc.getWorkshop().getTopBarHeight());
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
-				/*if (selectedComponentInWorkshop != null){
-					selectedComponentInWorkshop.setSelected(false);
-					selectedComponentInWorkshop = null;
-				} else {*/
-					Displayer gameDisplayer = psc.getGameDisplayer();
-					placeOnShip(null, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
+				Displayer gameDisplayer = psc.getGameDisplayer();
+				placeOnShip(null, (int) gameDisplayer.getVirtualX(e.getX()), (int) gameDisplayer.getVirtualY(e.getY())
 																					- psc.getWorkshop().getTopBarHeight());
-				//}
-
 			}
 		}
 

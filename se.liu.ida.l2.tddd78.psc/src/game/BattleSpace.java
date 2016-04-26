@@ -163,6 +163,13 @@ public class BattleSpace implements DisplayableEnvironment {
 				projectile.draw(g, scale);
 			}
 		}
+
+		if (winningTeam != null) {
+			g.setColor(Color.RED);
+			final int fontSize = 50;
+			g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, fontSize));
+			g.drawString(winningTeam.getTeamName() + " has won!", 0, fontSize);
+		}
 	}
 
 	/**

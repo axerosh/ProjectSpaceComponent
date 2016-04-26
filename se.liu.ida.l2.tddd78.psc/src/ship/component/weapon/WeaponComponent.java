@@ -3,6 +3,7 @@ package ship.component.weapon;
 import graphics.Statbar;
 import ship.Starship;
 import ship.component.AbstractShipComponent;
+import ship.component.ShipComponent;
 
 import java.awt.*;
 import java.util.logging.Level;
@@ -30,9 +31,9 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
 						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
-						   final float rechargeScale, final char symbolRepresentation)
+						   final float rechargeScale, final float weight, final char symbolRepresentation)
 	{
-		super(integrity, symbolRepresentation, new Color(100, 100, 100));
+		super(integrity, weight, symbolRepresentation, new Color(100, 100, 100));
 
 		if (baseBlastRadius <= 0) {
 			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero.";
@@ -157,5 +158,10 @@ public class WeaponComponent extends AbstractShipComponent {
 		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
+	}
+
+	@Override public ShipComponent copy() {
+		return new WeaponComponent(maxIntegrity, baseDamage, damageScale, baseBlastRadius, blastRadiusScale, projectileVelocity,
+								   baseRechargeTime, rechargeScale, getWeight(), getSymbolRepresentation());
 	}
 }

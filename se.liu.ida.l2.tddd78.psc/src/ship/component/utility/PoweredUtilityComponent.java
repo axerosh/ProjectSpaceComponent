@@ -13,10 +13,10 @@ public class PoweredUtilityComponent extends AbstractShipComponent {
 	protected final float outputScaling;
 	private float output;
 
-	public PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling,
+	public PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling, final float weight,
 								   final char symbolRepresentation, final Color color)
 	{
-		super(integrity, symbolRepresentation, color);
+		super(integrity, weight, symbolRepresentation, color);
 		this.baseOutput = baseOutput;
 		this.outputScaling = outputScaling;
 		output = 0;

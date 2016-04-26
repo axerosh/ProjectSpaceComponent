@@ -50,7 +50,6 @@ public class ProjectSpaceComponent implements Runnable {
 		battleSpace = new BattleSpace(battleSpaceWidth, battleSpaceHeight);
 
 		gameDisplayer = new Displayer(workshop, workshopScale);
-		//gameDisplayer = new Displayer(battleSpace, battleSpaceScale);
 		ais = new HashSet<>();
 
 		frame = new PSCFrame(this);
@@ -92,7 +91,6 @@ public class ProjectSpaceComponent implements Runnable {
 
 		timer.setCoalesce(true);
 
-		//TODO Add to a match generator or something
 		final Team team1 = new Team("Team 1");
 		final Team team2 = new Team("Team 2");
 		battleSpace.addTeam(team1);
@@ -108,13 +106,21 @@ public class ProjectSpaceComponent implements Runnable {
 		battleSpace.addShip(playerShip, team1);
 		workshop.addWorkingShip(playerShip);
 
-		Starship enemyShip = ShipIO.load("the_governator");
-		if (enemyShip == null) {
-			enemyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+		Starship enemyShip1 = ShipIO.load("the_governator");
+		if (enemyShip1 == null) {
+			enemyShip1 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
 		}
-		enemyShip.rotate180();
-		ais.add(new BasicAI(battleSpace, enemyShip));
-		battleSpace.addShip(enemyShip, team2);
+		enemyShip1.rotate180();
+		ais.add(new BasicAI(battleSpace, enemyShip1));
+		battleSpace.addShip(enemyShip1, team2);
+
+		Starship enemyShip2 = ShipIO.load("the_manta");
+		if (enemyShip2 == null) {
+			enemyShip2 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+		}
+		enemyShip2.rotate180();
+		ais.add(new BasicAI(battleSpace, enemyShip2));
+		battleSpace.addShip(enemyShip2, team2);
 
 		Starship friendlyShip = ShipIO.load("the_governator");
 		if (friendlyShip == null) {

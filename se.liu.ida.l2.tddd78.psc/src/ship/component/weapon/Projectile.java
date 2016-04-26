@@ -59,9 +59,7 @@ public class Projectile {
 					dealDamage(targetX + relativeCol, targetY + relativeRow);
 				}
 			}
-		} /* ***else {
-			print('missed target!')
-		}*** */
+		}
 	}
 
 	/**

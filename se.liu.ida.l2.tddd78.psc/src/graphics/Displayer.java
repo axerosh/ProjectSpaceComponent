@@ -1,7 +1,5 @@
 package graphics;
 
-import game.ProjectSpaceComponent;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,8 +13,6 @@ public class Displayer extends JComponent {
 	 * width in pixels.)
 	 */
 	private float scale;
-	//As of 2016-03-02, this number need to be equal to or greater than ~16 for shielding/power bars to be readable.
-	//Can definelty not be 0! (Will result in division by 0)
 	private int displayWidth;
 	private int displayHeight;
 	private DisplayableEnvironment displayedEnvironment;
