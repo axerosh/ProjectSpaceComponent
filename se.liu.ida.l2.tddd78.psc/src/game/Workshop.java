@@ -50,7 +50,7 @@ public class Workshop implements DisplayableEnvironment {
 		for(int i = 0; i < height; i++){
 			sidebarComponents.add(new ArrayList<>());
 		}
-		//TODO Change this numbers
+
 		sidebarComponents.get(0).add(ShipFactory.getEngineComponent());
 		sidebarComponents.get(0).add(ShipFactory.getReactorComponent());
 		sidebarComponents.get(1).add(ShipFactory.getShieldComponent());

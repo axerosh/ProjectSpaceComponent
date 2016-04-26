@@ -29,15 +29,14 @@ public final class ShipFactory {
 	private final static char REACTOR_SYMBOL;
 	private final static char SHIELD_SYMBOL;
 
-	private final static float REACTOR_BASE_OUTPUT;
-	private final static float REACTOR_OUTPUT_SCALING;
+	private final static float REACTOR_OUTPUT;
 	private final static float ENGINE_BASE_OUTPUT;
 	private final static float ENGINE_OUTPUT_SCALING;
 	private final static float SHIELD_BASE_OUTPUT;
 	private final static float SHIELD_OUTPUT_SCALING;
 	private final static float WEAPON_BASE_DAMAGE;
 	private final static float WEAPON_DAMAGE_SCALING;
-	private final static float WEAPON_BASE_RADIUS;
+	private final static int WEAPON_BASE_RADIUS;
 	private final static float WEAPON_RADIUS_SCALING;
 	private final static float WEAPON_BASE_RECHARGE;
 	private final static float WEAPON_RECHARGE_SCALING;
@@ -66,8 +65,7 @@ public final class ShipFactory {
 
 		final float defaultComponentIntegrity = 2;
 
-		final float defaultReactorBaseOutput = 3;
-		final float defaultReactorOutputScaling = 0.5f;
+		final float defaultReactorOutput = 3;
 
 		final float defaultEngineBaseOutput = 1.5f;
 		final float defaultEngineOutputScaling = 0.5f;
@@ -78,7 +76,7 @@ public final class ShipFactory {
 		final float defaultWeaponBaseDamage = 0.5f;
 		final float defaultWeaponDamageScaling = 0.5f;
 
-		final float defaultWeaponBaseRadius = 0.5f;
+		final int defaultWeaponBaseRadius = 1;
 		final float defaultWeaponRadiusScaling = 0.5f;
 
 		final float defaultWeaponBaseRecharge = 2;
@@ -93,8 +91,7 @@ public final class ShipFactory {
 
 		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
 
-		REACTOR_BASE_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_base_output", defaultReactorBaseOutput);
-		REACTOR_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "reactor_output_scaling", defaultReactorOutputScaling);
+		REACTOR_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_output", defaultReactorOutput);
 
 		ENGINE_BASE_OUTPUT = PropertiesIO.getFloatProperty(properties, "engine_base_output", defaultEngineBaseOutput);
 		ENGINE_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "engine_output_scaling", defaultEngineOutputScaling);
@@ -105,7 +102,7 @@ public final class ShipFactory {
 		WEAPON_BASE_DAMAGE = PropertiesIO.getFloatProperty(properties, "weapon_base_damage", defaultWeaponBaseDamage);
 		WEAPON_DAMAGE_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_damage_scaling", defaultWeaponDamageScaling);
 
-		WEAPON_BASE_RADIUS = PropertiesIO.getFloatProperty(properties, "weapon_base_radius", defaultWeaponBaseRadius);
+		WEAPON_BASE_RADIUS = PropertiesIO.getIntegerProperty(properties, "weapon_base_radius", defaultWeaponBaseRadius);
 		WEAPON_RADIUS_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_radius_scaling", defaultWeaponRadiusScaling);
 
 		WEAPON_BASE_RECHARGE = PropertiesIO.getFloatProperty(properties, "weapon_base_recharge", defaultWeaponBaseRecharge);
@@ -241,19 +238,19 @@ public final class ShipFactory {
 		}
 	}
 
-	public static EngineComponent getEngineComponent() {
+	public static ShipComponent getEngineComponent() {
 		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, ENGINE_SYMBOL);
 	}
 
-	public static ReactorComponent getReactorComponent() {
-		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_BASE_OUTPUT, REACTOR_SYMBOL);
+	public static ShipComponent getReactorComponent() {
+		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
 	}
 
-	public static ShieldComponent getShieldComponent() {
+	public static ShipComponent getShieldComponent() {
 		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, SHIELD_SYMBOL);
 	}
 
-	public static WeaponComponent getWeaponComponent() {
+	public static ShipComponent getWeaponComponent() {
 		return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
 								   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE, WEAPON_RECHARGE_SCALING,
 								   WEAPON_SYMBOL);

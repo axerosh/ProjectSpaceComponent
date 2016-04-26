@@ -18,7 +18,7 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	protected final float baseDamage;
 	protected final float damageScale;
-	protected final float baseBlastRadius;
+	protected final int baseBlastRadius;
 	protected final float blastRadiusScale;
 	protected final float baseRechargeTime;
 	protected final float rechargeScale;
@@ -28,14 +28,14 @@ public class WeaponComponent extends AbstractShipComponent {
 	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
-	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final float baseBlastRadius,
+	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
 						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
 						   final float rechargeScale, final char symbolRepresentation)
 	{
 		super(integrity, symbolRepresentation, new Color(100, 100, 100));
 
-		if (baseBlastRadius < 0) {
-			String message = "The specified base blast radius " + baseBlastRadius + " is negative.";
+		if (baseBlastRadius <= 0) {
+			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.SEVERE, message, exception);
 			throw exception;
@@ -61,8 +61,8 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	public Projectile shoot() {
 
-		float damage = getPower() * damageScale;
-		int blastRadius = 1 + (int) (getPower() * blastRadiusScale);
+		float damage = baseDamage + getPower() * damageScale;
+		int blastRadius = baseBlastRadius + (int) (getPower() * blastRadiusScale);
 
 		return new Projectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
 							  firingOrder.getTargetY(), projectileVelocity, firingOrder.getTargetShip(), damage, blastRadius);

@@ -8,15 +8,12 @@ import java.awt.*;
 /**
  * A utility components that contributes with power.
  */
-public class ShieldComponent extends PoweredUtilityComponent
-{
-	private final float shieldScaling;
+public class ShieldComponent extends PoweredUtilityComponent {
 
 	public ShieldComponent(final float integrity, final float baseShield, final float shieldScaling,
 						   final char symbolRepresentation)
 	{
 		super(integrity, baseShield, shieldScaling, symbolRepresentation, new Color(0, 150, 255));
-		this.shieldScaling = shieldScaling;
 	}
 
 	@Override public void registerOwner(final Starship owner) {
