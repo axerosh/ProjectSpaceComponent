@@ -9,8 +9,7 @@ import ship.component.utility.ShieldComponent;
 import ship.component.weapon.WeaponComponent;
 import weaponry.projectile.Projectile;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -566,5 +565,24 @@ public class Starship {
 			}
 		}
 		return textRep.toString();
+	}
+
+	/**
+	 * Rotates the ship 180 degrees.
+	 */
+	public void rotate180() {
+		int halfHeight = (height + 1) / 2;
+
+		for (int row = 0; row < halfHeight; row++) {
+			int invRow = height - 1 - row;
+
+			for (int col = 0; col < width; col++) {
+				int invCol = width - 1 - col;
+
+				ShipComponent temp = components[col][row];
+				components[col][row] = components[invCol][invRow];
+				components[invCol][invRow] = temp;
+			}
+		}
 	}
 }

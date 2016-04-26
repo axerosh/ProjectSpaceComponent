@@ -8,10 +8,8 @@ import io.PropertiesIO;
 import io.ShipIO;
 import ship.Starship;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
-import javax.swing.Timer;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Properties;
@@ -114,6 +112,7 @@ public class ProjectSpaceComponent implements Runnable {
 		if (enemyShip == null) {
 			enemyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
 		}
+		enemyShip.rotate180();
 		ais.add(new BasicAI(battleSpace, enemyShip));
 		battleSpace.addShip(enemyShip, team2);
 
