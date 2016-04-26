@@ -50,6 +50,7 @@ public class AbstractProjectile implements Projectile
 	 */
 	public void impact() {
 		if (!targetShip.successfullyDodged() && targetShip.getComponentAt(targetX, targetY) != null) {
+			targetShip.inflictDamage(damageOnImpact);
 			for (int relativeRow = -blastRadius + 1; relativeRow <= blastRadius - 1; relativeRow++) {
 
 				int startCol = Math.abs(relativeRow) + 1 - blastRadius;

@@ -57,14 +57,19 @@ public final class Statbar
 		int containerWidth = renderedWidth - 2 * outlineThickness;
 		int numberOfCells = (int) (maxStatLevel / levelsPerCell);
 		int numberOfGaps = numberOfCells - 1;
-		float avarageCellWidth = (containerWidth - numberOfGaps * gapThickness) / (float) numberOfCells;
+		int totalFillWidthExclGaps = containerWidth - numberOfGaps * gapThickness;
+		float avarageCellWidth = totalFillWidthExclGaps / (float) numberOfCells;
+		int totalfillWidthInclGaps =
+				numberOfGaps * gapThickness + (int) (totalFillWidthExclGaps * currentStatLevel / maxStatLevel);
 
 		//Fill
 		g.setColor(fillColor);
 		int usedContainerWidth = 0;
 		for (int cellNr = 1; cellNr <= currentStatLevel; cellNr++) {
 			int nextUsedContainerWidth = Math.round(cellNr * (avarageCellWidth + gapThickness));
-			int cellWidth = nextUsedContainerWidth - usedContainerWidth - gapThickness;
+			int cellWidth =
+					nextUsedContainerWidth /*Math.min(nextUsedContainerWidth, totalfillWidthInclGaps)*/ - usedContainerWidth -
+					gapThickness;
 			g.fillRect(screenPosX + outlineThickness + usedContainerWidth, screenPosY + outlineThickness, cellWidth,
 					   containerHeight);
 			usedContainerWidth = nextUsedContainerWidth;

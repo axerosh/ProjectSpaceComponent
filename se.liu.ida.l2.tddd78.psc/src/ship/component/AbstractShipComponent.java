@@ -3,8 +3,7 @@ package ship.component;
 import graphics.Statbar;
 import ship.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
@@ -63,7 +62,6 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		float damageTaken = damageThroughShield(damage);
 		integrity -= damageTaken;
 		integrity = Math.max(integrity, 0);
-		owner.inflictDamage(damageTaken);
 	}
 
 	/**

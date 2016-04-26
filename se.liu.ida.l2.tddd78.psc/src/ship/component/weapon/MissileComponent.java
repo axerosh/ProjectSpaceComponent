@@ -13,8 +13,7 @@ import java.awt.*;
  * @see MissileProjectile
  * @see FiringOrder
  */
-public class MissileComponent extends WeaponComponent
-{
+public class MissileComponent extends WeaponComponent {
 
 	public MissileComponent(final float integrity, final float damageScale, final float blastRadiusScale,
 							final float projectileVelocity, final float baseRechargeTime, final float rechargeScale,
@@ -25,8 +24,8 @@ public class MissileComponent extends WeaponComponent
 
 	@Override public Projectile shoot() {
 
-		float damage = (int) (getPower() * damageScale);
-		int blastRadius = (int) (getPower() * blastRadiusScale);
+		float damage = getPower() * damageScale;
+		int blastRadius = 1 + (int) (getPower() * blastRadiusScale);
 
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
 									 firingOrder.getTargetY(), projectileVelocity, firingOrder.getTargetShip(), damage,
