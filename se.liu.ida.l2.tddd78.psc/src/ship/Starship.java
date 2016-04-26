@@ -219,11 +219,13 @@ public class Starship {
 		final int shipScreenX = (int) (x * scale);
 		final int shipScreenY = (int) (y * scale);
 		final int shipRenderedWidth = (int) (width * scale);
+
 		final int integrityBarRenderedWidth = shipRenderedWidth / 2;
 		final int integrityBarRenderedHeight = (int) (0.25 * scale);
 		final int integrityBarScreenX = shipScreenX + shipRenderedWidth / 2 - integrityBarRenderedWidth / 2;
-		final int integrityBarScreenY = shipScreenY - (int) (0.5 * scale);
+		final int integrityBarScreenY = shipScreenY - (int) (0.375 * scale);
 		final int integrityPerCell = 1;
+
 		Statbar.drawHorizontal(g, integrityBarScreenX, integrityBarScreenY, integrityBarRenderedWidth,
 							   integrityBarRenderedHeight, integrity, maxIntegrity, integrityPerCell, Color.RED);
 	}
