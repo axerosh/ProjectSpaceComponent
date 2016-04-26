@@ -24,6 +24,8 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * The maximum integrity of this ship ship.component. The damage it can take before it is destroyed.
 	 */
 	protected final float maxIntegrity;
+	private final char symbolRepresentation;
+	private final Color color;
 	private int shielding;
 	private int power;
 	/**
@@ -33,20 +35,21 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	private boolean active;
 	private boolean selected;
 	private Starship owner;
-	private char symbolRepresentation;
 
 	/**
 	 * Construcs an abstract ship ship.component with the specified maximum HP.
 	 *
 	 * @param integrity            the damage the ship ship.component can take before it is destroyed
-	 * @param symbolRepresentation    the character that is to represent this component
+	 * @param symbolRepresentation  the character that is to represent this component
+	 * @param color                    the color with which the component is drawn
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #setActive(boolean)
 	 */
-	protected AbstractShipComponent(final float integrity, final char symbolRepresentation) {
+	protected AbstractShipComponent(final float integrity, final char symbolRepresentation, final Color color) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
 		this.symbolRepresentation = symbolRepresentation;
+		this.color = color;
 		owner = null;
 		shielding = 0;
 		power = 0;
@@ -91,9 +94,8 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * @param scale    the scale with which to scale virtual positions to get on-screen positions
 	 * @param virtualX the virtual x-position at which the ship ship.component is to be drawn.
 	 * @param virtualY the virtual y-position at which the ship ship.component is to be drawn.
-	 * @param color    the color with which to draw this ship ship.component.
 	 */
-	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY, Color color) {
+	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		g.setColor(color);
 		int screenX = (int) (virtualX * scale);
 		int screenY = (int) (virtualY * scale);

@@ -3,35 +3,53 @@ package ship.component.weapon;
 import graphics.Statbar;
 import ship.Starship;
 import ship.component.AbstractShipComponent;
-import weaponry.FiringOrder;
-import weaponry.projectile.Projectile;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * A ship ship.component that can fires projectile according to firing orders.
+ * A ship component that can fire projectile according to firing orders.
  *
  * @see Projectile
  * @see FiringOrder
  */
-public abstract class WeaponComponent extends AbstractShipComponent {
+public class WeaponComponent extends AbstractShipComponent {
 
+	protected final float baseDamage;
 	protected final float damageScale;
+	protected final int baseBlastRadius;
 	protected final float blastRadiusScale;
-	protected final float projectileVelocity;
 	protected final float baseRechargeTime;
 	protected final float rechargeScale;
+	protected final float projectileVelocity;
 	protected FiringOrder firingOrder;
 	private float currentRechargeTime;
 	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
-	protected WeaponComponent(final float integrity, final float damageScale, final float blastRadiusScale,
-							  final float projectileVelocity, final float baseRechargeTime, final float rechargeScale,
-							  final char symbolRepresentation) {
-		super(integrity, symbolRepresentation);
+	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
+						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
+						   final float rechargeScale, final char symbolRepresentation)
+	{
+		super(integrity, symbolRepresentation, new Color(100, 100, 100));
+
+		if (baseBlastRadius <= 0) {
+			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero.";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			throw exception;
+		}
+		if (projectileVelocity <= 0) {
+			String message = "The specified projectile velocity " + projectileVelocity + " is negative or zero.";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			throw exception;
+		}
+
+		this.baseDamage = baseDamage;
 		this.damageScale = damageScale;
+		this.baseBlastRadius = baseBlastRadius;
 		this.blastRadiusScale = blastRadiusScale;
 		this.projectileVelocity = projectileVelocity;
 		this.baseRechargeTime = baseRechargeTime;
@@ -39,6 +57,16 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 		rechargeTimeLeft = 0;
 		firingOrder = null;
 		projectileToFire = null;
+	}
+
+	public Projectile shoot() {
+
+		float damage = baseDamage + getPower() * damageScale;
+		int blastRadius = baseBlastRadius + (int) (getPower() * blastRadiusScale);
+
+		return new Projectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
+							  firingOrder.getTargetY(), projectileVelocity, firingOrder.getTargetShip(), damage, blastRadius);
+
 	}
 
 	private boolean isRecharging() {
@@ -61,9 +89,10 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 		}
 	}
 
-	@Override
-	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY, final Color color) {
-		super.draw(g, scale, virtualX, virtualY, color);
+	@Override public void update() {}
+
+	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
+		super.draw(g, scale, virtualX, virtualY);
 
 		if (isRecharging()) {
 			int indicatorScreenX = (int) (virtualX * scale);
@@ -82,7 +111,7 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 	 *
 	 * @param order the firingOrder to give the weapon.
 	 */
-	public void giveFiringOrder(FiringOrder order) {
+	public void setFiringOrder(FiringOrder order) {
 		this.firingOrder = order;
 	}
 
@@ -122,7 +151,4 @@ public abstract class WeaponComponent extends AbstractShipComponent {
 			super.deregisterOwner();
 		}
 	}
-
-
-	public abstract Projectile shoot();
 }

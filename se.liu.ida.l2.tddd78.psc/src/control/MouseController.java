@@ -5,13 +5,13 @@ import game.ProjectSpaceComponent.Gamemode;
 import graphics.Displayer;
 import ship.Starship;
 import ship.component.ShipComponent;
+import ship.component.weapon.FiringOrder;
 import ship.component.weapon.WeaponComponent;
-import weaponry.FiringOrder;
 
 import javax.swing.*;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 /**
@@ -177,7 +177,7 @@ public class MouseController extends JComponent {
 						psc.getBattleSpace().getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
-					selectedWeapon.giveFiringOrder(
+					selectedWeapon.setFiringOrder(
 							new FiringOrder((float) originPos.getX(), (float) originPos.getY(), (float) targetPos.getX(),
 											(float) targetPos.getY(), targetShip));
 				}

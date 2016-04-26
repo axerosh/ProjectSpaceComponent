@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 /**
  * Utility class for loading properties files and read properties from Properties objects
  */
-public class PropertiesIO {
+public final class PropertiesIO {
+
+	private PropertiesIO() {}
 
 	/**
 	 * Loads the properties file with the specified name.
@@ -51,9 +53,16 @@ public class PropertiesIO {
 
 	//Static because one should not have to instanciate PropertiesIO to read properties.
 	public static int getIntegerProperty(Properties properties, String propertyName, int defaultValue) {
-		String property = properties.getProperty(propertyName);
-		if (property != null) {
-			return Integer.parseInt(property);
+		String value = properties.getProperty(propertyName);
+		if (value != null) {
+			try {
+				return Integer.parseInt(value);
+			} catch (NumberFormatException e) {
+				Logger.getGlobal().log(Level.SEVERE, "Couldn't use value " + value + " for property " + propertyName +
+													 " because it isn't a valid integer. Using the default value of " +
+													 defaultValue, e);
+				return defaultValue;
+			}
 		} else {
 			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);
@@ -63,9 +72,16 @@ public class PropertiesIO {
 
 	//Static because one should not have to instanciate PropertiesIO to read properties.
 	public static float getFloatProperty(Properties properties, String propertyName, float defaultValue) {
-		String property = properties.getProperty(propertyName);
-		if (property != null) {
-			return Float.parseFloat(property);
+		String value = properties.getProperty(propertyName);
+		if (value != null) {
+			try {
+				return Float.parseFloat(value);
+			} catch (NumberFormatException e) {
+				Logger.getGlobal().log(Level.SEVERE, "Couldn't use value " + value + " for property " + propertyName +
+													 " because it isn't a valid float number. Using the default value of " +
+													 defaultValue, e);
+				return defaultValue;
+			}
 		} else {
 			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);

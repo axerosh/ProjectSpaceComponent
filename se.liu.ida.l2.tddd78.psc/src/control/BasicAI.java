@@ -3,8 +3,8 @@ package control;
 import game.BattleSpace;
 import ship.Starship;
 import ship.component.ShipComponent;
+import ship.component.weapon.FiringOrder;
 import ship.component.weapon.WeaponComponent;
-import weaponry.FiringOrder;
 
 
 /**
@@ -41,7 +41,7 @@ public class BasicAI
 			float targetY = targetShip.getPositionOf(targetComponent).y;
 
 			FiringOrder order = new FiringOrder(originX, originY, targetX, targetY, targetShip);
-			wc.giveFiringOrder(order);
+			wc.setFiringOrder(order);
 		}
 	}
 

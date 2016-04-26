@@ -17,6 +17,7 @@ public final class Main {
 
 	public static void main(String[] args) {
 		try {
+			//We do not care wether the directory already excisted or not.
 			new File("logs").mkdir();
 
 			final int maxNumberOfBytes = 100000;

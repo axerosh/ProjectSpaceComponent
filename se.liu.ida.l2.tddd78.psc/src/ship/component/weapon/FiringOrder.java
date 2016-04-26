@@ -1,4 +1,4 @@
-package weaponry;
+package ship.component.weapon;
 
 import ship.Starship;
 
