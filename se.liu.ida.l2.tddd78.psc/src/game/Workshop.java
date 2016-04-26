@@ -5,8 +5,7 @@ import ship.ShipFactory;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +51,10 @@ public class Workshop implements DisplayableEnvironment {
 			sidebarComponents.add(new ArrayList<>());
 		}
 		//TODO Change this numbers
-		sidebarComponents.get(0).add(ShipFactory.getEngine());
-		sidebarComponents.get(0).add(ShipFactory.getReactor());
-		sidebarComponents.get(1).add(ShipFactory.getShield());
-		sidebarComponents.get(1).add(ShipFactory.getMissile());
+		sidebarComponents.get(0).add(ShipFactory.getEngineComponent());
+		sidebarComponents.get(0).add(ShipFactory.getReactorComponent());
+		sidebarComponents.get(1).add(ShipFactory.getShieldComponent());
+		sidebarComponents.get(1).add(ShipFactory.getWeaponComponent());
 	}
 
 	public void addWorkingShip(Starship ship){

@@ -5,7 +5,7 @@ import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
-import ship.component.weapon.MissileComponent;
+import ship.component.weapon.WeaponComponent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public final class ShipFactory {
 
 	private final static char ENGINE_SYMBOL;
-	private final static char MISSILE_SYMBOL;
+	private final static char WEAPON_SYMBOL;
 	private final static char REACTOR_SYMBOL;
 	private final static char SHIELD_SYMBOL;
 
@@ -35,13 +35,13 @@ public final class ShipFactory {
 	private final static float ENGINE_OUTPUT_SCALING;
 	private final static float SHIELD_BASE_OUTPUT;
 	private final static float SHIELD_OUTPUT_SCALING;
-	//private final static float MISSILE_BASE_DAMAGE;
-	private final static float MISSILE_DAMAGE_SCALING;
-	//private final static float MISSILE_BASE_RADIUS;
-	private final static float MISSILE_RADIUS_SCALING;
-	private final static float MISSILE_BASE_RECHARGE;
-	private final static float MISSILE_RECHARGE_SCALING;
-	private final static float MISSILE_VELOCITY;
+	private final static float WEAPON_BASE_DAMAGE;
+	private final static float WEAPON_DAMAGE_SCALING;
+	private final static float WEAPON_BASE_RADIUS;
+	private final static float WEAPON_RADIUS_SCALING;
+	private final static float WEAPON_BASE_RECHARGE;
+	private final static float WEAPON_RECHARGE_SCALING;
+	private final static float PROJECTILE_VELOCITY;
 
 	private final static float COMPONENT_INTEGRITY;
 
@@ -60,50 +60,59 @@ public final class ShipFactory {
 		}
 
 		final char defaultEngineSymbol = 'E';
-		final char defaultMissileSymbol = 'M';
+		final char defaultWeaponSymbol = 'W';
 		final char defaultReactorSymbol = 'R';
 		final char defaultShieldSymbol = 'S';
 
-		final float defaultReactorBaseOutput = 3;
-		final float defaultReactorOutputScaling = 0.5f;
-		final float defaultEngineBaseOutput = 1.5f;
-		final float defaultEngineOutputScale = 0.5f;
-		final float defaultShieldBaseOutput = 2;
-		final float defaultShieldOutputScale = 2;
-		final float defaultMissileDamageScale = 0.5f;
-		final float defaultMissileRadiusScale = 0.5f;
-		final float defaultMissileVelocity = 5;
-		final float defaultMissileBaseRecharge = 2;
-		final float defaultMissileRechargeScale = 0.5f;
-
 		final float defaultComponentIntegrity = 2;
 
+		final float defaultReactorBaseOutput = 3;
+		final float defaultReactorOutputScaling = 0.5f;
+
+		final float defaultEngineBaseOutput = 1.5f;
+		final float defaultEngineOutputScaling = 0.5f;
+
+		final float defaultShieldBaseOutput = 2;
+		final float defaultShieldOutputScaling = 2;
+
+		final float defaultWeaponBaseDamage = 0.5f;
+		final float defaultWeaponDamageScaling = 0.5f;
+
+		final float defaultWeaponBaseRadius = 0.5f;
+		final float defaultWeaponRadiusScaling = 0.5f;
+
+		final float defaultWeaponBaseRecharge = 2;
+		final float defaultWeaponRechargeScale = 0.5f;
+
+		final float defaultProjectileVelocity = 5;
+
 		ENGINE_SYMBOL = PropertiesIO.getCharacterProperty(properties, "engine_symbol", defaultEngineSymbol);
-		MISSILE_SYMBOL = PropertiesIO.getCharacterProperty(properties, "missile_symbol", defaultMissileSymbol);
+		WEAPON_SYMBOL = PropertiesIO.getCharacterProperty(properties, "weapon_symbol", defaultWeaponSymbol);
 		REACTOR_SYMBOL = PropertiesIO.getCharacterProperty(properties, "reactor_symbol", defaultReactorSymbol);
 		SHIELD_SYMBOL = PropertiesIO.getCharacterProperty(properties, "shield_symbol", defaultShieldSymbol);
+
+		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
 
 		REACTOR_BASE_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_base_output", defaultReactorBaseOutput);
 		REACTOR_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "reactor_output_scaling", defaultReactorOutputScaling);
 
 		ENGINE_BASE_OUTPUT = PropertiesIO.getFloatProperty(properties, "engine_base_output", defaultEngineBaseOutput);
-		ENGINE_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "engine_output_scaling", defaultEngineOutputScale);
+		ENGINE_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "engine_output_scaling", defaultEngineOutputScaling);
 
 		SHIELD_BASE_OUTPUT = PropertiesIO.getFloatProperty(properties, "shield_base_output", defaultShieldBaseOutput);
-		SHIELD_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "shield_output_scaling", defaultShieldOutputScale);
+		SHIELD_OUTPUT_SCALING = PropertiesIO.getFloatProperty(properties, "shield_output_scaling", defaultShieldOutputScaling);
 
-		MISSILE_DAMAGE_SCALING = PropertiesIO.getFloatProperty(properties, "missile_damage_scaling", defaultMissileDamageScale);
+		WEAPON_BASE_DAMAGE = PropertiesIO.getFloatProperty(properties, "weapon_base_damage", defaultWeaponBaseDamage);
+		WEAPON_DAMAGE_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_damage_scaling", defaultWeaponDamageScaling);
 
-		MISSILE_RADIUS_SCALING = PropertiesIO.getFloatProperty(properties, "missile_radius_scaling", defaultMissileRadiusScale);
+		WEAPON_BASE_RADIUS = PropertiesIO.getFloatProperty(properties, "weapon_base_radius", defaultWeaponBaseRadius);
+		WEAPON_RADIUS_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_radius_scaling", defaultWeaponRadiusScaling);
 
-		MISSILE_BASE_RECHARGE = PropertiesIO.getFloatProperty(properties, "missile_base_recharge",
-															  defaultMissileBaseRecharge);
-		MISSILE_RECHARGE_SCALING = PropertiesIO.getFloatProperty(properties, "missile_recharge_scaling",
-																 defaultMissileRechargeScale);
+		WEAPON_BASE_RECHARGE = PropertiesIO.getFloatProperty(properties, "weapon_base_recharge", defaultWeaponBaseRecharge);
+		WEAPON_RECHARGE_SCALING =
+				PropertiesIO.getFloatProperty(properties, "weapon_recharge_scaling", defaultWeaponRechargeScale);
 
-		MISSILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "missile_velocity", defaultMissileVelocity);
-
-		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
+		PROJECTILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "projectile_velocity", defaultProjectileVelocity);
 	}
 
 	private ShipFactory() {}
@@ -206,13 +215,13 @@ public final class ShipFactory {
 			char symbol = textRepresentation.charAt(cursor);
 
 			if (symbol == ENGINE_SYMBOL) {
-				componentToAdd = getEngine();
+				componentToAdd = getEngineComponent();
 			} else if (symbol == REACTOR_SYMBOL) {
-				componentToAdd = getReactor();
+				componentToAdd = getReactorComponent();
 			} else if (symbol == SHIELD_SYMBOL) {
-				componentToAdd = getShield();
-			} else if (symbol == MISSILE_SYMBOL) {
-				componentToAdd = getMissile();
+				componentToAdd = getShieldComponent();
+			} else if (symbol == WEAPON_SYMBOL) {
+				componentToAdd = getWeaponComponent();
 			} else if (symbol == ',') {
 				col = 0;
 				row++;
@@ -232,20 +241,21 @@ public final class ShipFactory {
 		}
 	}
 
-	public static EngineComponent getEngine() {
-		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_OUTPUT_SCALING, ENGINE_SYMBOL);
+	public static EngineComponent getEngineComponent() {
+		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, ENGINE_SYMBOL);
 	}
 
-	public static ReactorComponent getReactor() {
+	public static ReactorComponent getReactorComponent() {
 		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_BASE_OUTPUT, REACTOR_SYMBOL);
 	}
 
-	public static ShieldComponent getShield() {
-		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_OUTPUT_SCALING, SHIELD_SYMBOL);
+	public static ShieldComponent getShieldComponent() {
+		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, SHIELD_SYMBOL);
 	}
 
-	public static MissileComponent getMissile() {
-		return new MissileComponent(COMPONENT_INTEGRITY, MISSILE_DAMAGE_SCALING, MISSILE_RADIUS_SCALING, MISSILE_VELOCITY,
-									MISSILE_BASE_RECHARGE, MISSILE_RECHARGE_SCALING, MISSILE_SYMBOL);
+	public static WeaponComponent getWeaponComponent() {
+		return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
+								   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE, WEAPON_RECHARGE_SCALING,
+								   WEAPON_SYMBOL);
 	}
 }

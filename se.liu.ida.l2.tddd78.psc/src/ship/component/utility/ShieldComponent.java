@@ -3,28 +3,20 @@ package ship.component.utility;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A utility components that contributes with power.
  */
-public class ShieldComponent extends UtilityComponent
+public class ShieldComponent extends PoweredUtilityComponent
 {
 	private final float shieldScaling;
 
-	public ShieldComponent(final float integrity, final float shieldScaling, final char symbolRepresentation) {
-		super(integrity, 0, symbolRepresentation);
+	public ShieldComponent(final float integrity, final float baseShield, final float shieldScaling,
+						   final char symbolRepresentation)
+	{
+		super(integrity, baseShield, shieldScaling, symbolRepresentation, new Color(0, 150, 255));
 		this.shieldScaling = shieldScaling;
-	}
-
-	@Override public void update() {
-		setOutput((int)(getPower() * shieldScaling));
-	}
-
-	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		final Color blue = new Color(0, 150, 255);
-		draw(g, scale, virtualX, virtualY, blue);
 	}
 
 	@Override public void registerOwner(final Starship owner) {
@@ -40,8 +32,7 @@ public class ShieldComponent extends UtilityComponent
 		}
 	}
 
-
 	@Override public final ShipComponent copy() {
-		return new ShieldComponent(maxIntegrity, output, getSymbolRepresentation());
+		return new ShieldComponent(maxIntegrity, baseOutput, outputScaling, getSymbolRepresentation());
 	}
 }

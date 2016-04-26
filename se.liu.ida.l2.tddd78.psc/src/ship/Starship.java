@@ -6,8 +6,8 @@ import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
+import ship.component.weapon.Projectile;
 import ship.component.weapon.WeaponComponent;
-import weaponry.projectile.Projectile;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -247,17 +247,14 @@ public class Starship {
 		ShipComponent alreadyPlacedComponent = components[col][row];
 		if (componentToPlace == null) {
 			if (alreadyPlacedComponent != null) {
-				System.out.println("deregistration! of " + alreadyPlacedComponent);
 				alreadyPlacedComponent.deregisterOwner();
 				numberOfComponents--;
 			}
 		} else {
-			System.out.println("registration of " + componentToPlace);
 			componentToPlace.registerOwner(this);
 			if (alreadyPlacedComponent == null) {
 				numberOfComponents++;
 			} else {
-				System.out.println("deregistration! of " + alreadyPlacedComponent);
 				alreadyPlacedComponent.deregisterOwner();
 			}
 		}

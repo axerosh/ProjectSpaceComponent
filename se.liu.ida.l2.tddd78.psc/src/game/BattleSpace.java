@@ -3,7 +3,7 @@ package game;
 import graphics.DisplayableEnvironment;
 import ship.Starship;
 import ship.component.ShipComponent;
-import weaponry.projectile.Projectile;
+import ship.component.weapon.Projectile;
 
 import java.awt.*;
 import java.util.ArrayList;

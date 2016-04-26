@@ -1,26 +1,24 @@
 package ship.component.utility;
 
 import ship.Starship;
+import ship.component.AbstractShipComponent;
 import ship.component.ShipComponent;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
- * A utility components that contributes with shielding.
+ * A ship component that supplies power to its ship. It does not require power to function.
  */
-public class ReactorComponent extends UtilityComponent {
+public class ReactorComponent extends AbstractShipComponent {
+
+	private final float output;
 
 	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation) {
-		super(integrity, powerOutput, symbolRepresentation);
+		super(integrity, symbolRepresentation, new Color(0, 230, 0));
+		this.output = powerOutput;
 	}
 
 	@Override public void update() {}
-
-	@Override public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
-		final Color green = new Color(0, 230, 0);
-		draw(g, scale, virtualX, virtualY, green);
-	}
 
 	@Override public void registerOwner(final Starship owner) {
 		super.registerOwner(owner);
@@ -38,5 +36,9 @@ public class ReactorComponent extends UtilityComponent {
 
 	@Override public final ShipComponent copy() {
 		return new ReactorComponent(maxIntegrity, output, getSymbolRepresentation());
+	}
+
+	public float getOutput() {
+		return output;
 	}
 }
