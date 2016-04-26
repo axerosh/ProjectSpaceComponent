@@ -120,6 +120,10 @@ public class Workshop implements DisplayableEnvironment {
 		return topBarHeight;
 	}
 
+	public void setWorkingShip(final Starship workingShip) {
+		this.workingShip = workingShip;
+	}
+
 	@Override public float getWidth() {
 		return width;
 	}

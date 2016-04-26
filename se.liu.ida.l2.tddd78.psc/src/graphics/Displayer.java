@@ -1,5 +1,7 @@
 package graphics;
 
+import game.ProjectSpaceComponent;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,6 +45,8 @@ public class Displayer extends JComponent {
 		displayWidth = (int) (displayedEnvironment.getWidth() * scale);
 		displayHeight = (int) (displayedEnvironment.getHeight() * scale);
 		setSize(displayWidth, displayHeight);
+
+
 	}
 
 	public DisplayableEnvironment getDisplayedEnvironment() {

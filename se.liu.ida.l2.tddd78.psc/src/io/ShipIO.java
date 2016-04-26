@@ -3,16 +3,19 @@ package io;
 import ship.ShipFactory;
 import ship.Starship;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,5 +77,25 @@ public final class ShipIO {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 		return null;
+	}
+
+
+	public static void loadToShips(String fileName, List<Starship> starShips) {
+		File filePath = new File(SAVE_LOCATION, fileName + SAVE_EXTENSION);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
+			StringBuilder textRepresentation = new StringBuilder();
+
+			String nextLine = reader.readLine();
+			while (nextLine != null) {
+				textRepresentation.append(nextLine);
+				nextLine = reader.readLine();
+			}
+			for( Starship starShip : starShips)
+			ShipFactory.setComponents(starShip, textRepresentation.toString());
+
+		} catch (IOException e) {
+			//Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
+			JOptionPane.showMessageDialog(null, "No ship with that name exits.");
+		}
 	}
 }

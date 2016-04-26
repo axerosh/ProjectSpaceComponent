@@ -141,7 +141,7 @@ public final class ShipFactory {
 		}
 
 		Starship ship = new Starship(width.intValue(), height.intValue(), integrity, maxIntegrity);
-		addComponents(ship, cleanRep);
+		setComponents(ship, cleanRep);
 		return ship;
 	}
 
@@ -190,7 +190,7 @@ public final class ShipFactory {
 		return parameterValues;
 	}
 
-	private static void addComponents(Starship ship, String textRepresentation) {
+	public static void setComponents(Starship ship, String textRepresentation) {
 		int cursor = textRepresentation.indexOf(';') + 1;
 		int row = 0;
 		int col = 0;

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class ProjectSpaceComponent implements Runnable {
 
-	private final JFrame frame;
+	private final PSCFrame frame;
 	private final Timer timer;
 	private final Workshop workshop;
 	private final BattleSpace battleSpace;
@@ -188,21 +188,19 @@ public class ProjectSpaceComponent implements Runnable {
 		switch (gamemode) {
 
 			case WORKSHOP:
+				playerShip = workshop.getWorkingShip();
 				workshop.removeShip();
+				frame.getJMenuBar().remove(frame.getSaveLoad());
 				gamemode = Gamemode.BATTLE;
 				battleSpace.pack(shipWidth, shipHeight);
-				/*gameDisplayer.setDisplayedEnvironment(battleSpace);
-				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
-				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);*/
 				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
 				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);
 				gameDisplayer.setDisplayedEnvironment(battleSpace, battleSpaceScale);
-
-
 				break;
 
 			case BATTLE:
 				gamemode = Gamemode.WORKSHOP;
+				frame.getJMenuBar().add(frame.getSaveLoad());
 				workshop.addWorkingShip(playerShip);
 				screenWidth = (int )(workshopWidth * workshopScale);
 				screenHeight = (int) (workshopHeight * workshopScale);
@@ -233,6 +231,14 @@ public class ProjectSpaceComponent implements Runnable {
 
 	public Displayer getGameDisplayer() {
 		return gameDisplayer;
+	}
+
+	public Starship getPlayerShip() {
+		return playerShip;
+	}
+
+	public void setPlayerShip(final Starship playerShip) {
+		this.playerShip = playerShip;
 	}
 
 	public static enum Gamemode {
