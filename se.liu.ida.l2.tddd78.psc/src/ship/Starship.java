@@ -305,19 +305,19 @@ public class Starship {
 	private void updatePools() {
 		shieldingPool = 0;
 		for (ShieldComponent shield : shieldComponents) {
-			shieldingPool += shield.getOutput();
+			shieldingPool += (int) shield.getOutput();
 		}
 		stripShielding();
 
 		powerPool = 0;
 		for (ReactorComponent rc : reactorComponents) {
-			powerPool += rc.getOutput();
+			powerPool += (int) rc.getOutput();
 		}
 		stripPower();
 
 		dodgeRate = 0;
 		for (EngineComponent ec : engineComponents) {
-			dodgeRate += ec.getOutput() / (float) 100;
+			dodgeRate += ec.getOutput();
 		}
 
 		dodgeRate -= numberOfComponents * COMPONENT_WEIGHT;

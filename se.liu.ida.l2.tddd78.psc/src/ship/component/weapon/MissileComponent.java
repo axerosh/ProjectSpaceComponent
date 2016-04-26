@@ -5,8 +5,7 @@ import weaponry.FiringOrder;
 import weaponry.projectile.MissileProjectile;
 import weaponry.projectile.Projectile;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A weapon component that can fire missiles according to firing orders.
@@ -26,7 +25,7 @@ public class MissileComponent extends WeaponComponent
 
 	@Override public Projectile shoot() {
 
-		int damage = (int) (getPower() * damageScale);
+		float damage = (int) (getPower() * damageScale);
 		int blastRadius = (int) (getPower() * blastRadiusScale);
 
 		return new MissileProjectile(firingOrder.getOriginX(), firingOrder.getOriginY(), firingOrder.getTargetX(),
