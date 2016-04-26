@@ -606,4 +606,19 @@ public class Starship {
 			}
 		}
 	}
+
+	/**
+	 * Restores all components to max integrity and removes all power or shield.
+	 */
+	public void restore(){
+		integrity = maxIntegrity;
+		for(ShipComponent[] row : components){
+			for(ShipComponent col : row){
+				if(col != null){
+					col.restore();
+				}
+
+			}
+		}
+	}
 }

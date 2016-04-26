@@ -192,6 +192,7 @@ public class ProjectSpaceComponent implements Runnable {
 				workshop.removeShip();
 				frame.getJMenuBar().remove(frame.getSaveLoad());
 				gamemode = Gamemode.BATTLE;
+				battleSpace.reset();
 				battleSpace.pack(shipWidth, shipHeight);
 				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
 				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);
@@ -202,6 +203,7 @@ public class ProjectSpaceComponent implements Runnable {
 				gamemode = Gamemode.WORKSHOP;
 				frame.getJMenuBar().add(frame.getSaveLoad());
 				workshop.addWorkingShip(playerShip);
+				playerShip.restore();
 				screenWidth = (int )(workshopWidth * workshopScale);
 				screenHeight = (int) (workshopHeight * workshopScale);
 				gameDisplayer.setDisplayedEnvironment(workshop, workshopScale);

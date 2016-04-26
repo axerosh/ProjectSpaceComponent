@@ -11,14 +11,25 @@ import java.awt.*;
  */
 public class ReactorComponent extends AbstractShipComponent {
 
-	private final float output;
+	private final float baseOutput;
+	private float output;
 
 	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation) {
 		super(integrity, symbolRepresentation, new Color(0, 230, 0));
-		this.output = powerOutput;
+		this.baseOutput = powerOutput;
+		output = baseOutput;
 	}
 
-	@Override public void update() {}
+	/**
+	 * Updates the output of the Reactor
+	 */
+	@Override public void update() {
+		if (isIntact() && isActive()) {
+			output = baseOutput;
+		} else {
+			output = 0;
+		}
+	}
 
 	@Override public void registerOwner(final Starship owner) {
 		super.registerOwner(owner);

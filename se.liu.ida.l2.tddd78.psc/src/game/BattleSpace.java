@@ -177,11 +177,24 @@ public class BattleSpace implements DisplayableEnvironment {
 		for (int teamIndex = 0; teamIndex < teams.size(); teamIndex++) {
 			Team team = teams.get(teamIndex);
 			for (Starship ship : team) {
-
 				ship.setX(outerMarginX + teamIndex * (shipWidth + middleMarginX));
-
 				ship.setY(outerMarginY + (team.indexOf(ship)) * (shipHeight + middleMarginY));
+			}
+		}
+	}
 
+	/**
+	 * Restore all ship to full capacity and clears the battlesace of projetiles.
+	 */
+	public void reset(){
+		projectiles.clear();
+		for(Team team : teams){
+			team.setDefeated(false);
+		}
+		for (int teamIndex = 0; teamIndex < teams.size(); teamIndex++) {
+			Team team = teams.get(teamIndex);
+			for (Starship ship : team) {
+				ship.restore();
 			}
 		}
 	}

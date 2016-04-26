@@ -33,6 +33,7 @@ public class PoweredUtilityComponent extends AbstractShipComponent {
 		}
 	}
 
+
 	public float getOutput() {
 		return output;
 	}

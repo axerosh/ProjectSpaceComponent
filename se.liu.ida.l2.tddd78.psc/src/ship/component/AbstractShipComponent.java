@@ -244,6 +244,18 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		return (this.getClass() + " HP = " + integrity + ", Shielding = " + shielding + ", Power = " + power);
 	}
 
+	@Override public void restore() {
+		integrity = maxIntegrity;
+		active = true;
+
+		while(hasPower()){
+			decreasePower();
+		}
+		while(hasShielding()){
+			decreaseShielding();
+		}
+	}
+
 	@Override public ShipComponent copy() {
 		return null;
 	}

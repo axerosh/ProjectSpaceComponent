@@ -110,5 +110,10 @@ public interface ShipComponent {
 	 */
 	public char getSymbolRepresentation();
 
+	/**
+	 * Restores the components to max integrity and strips all power and shielding
+	 */
+	public void restore();
+
 	public ShipComponent copy();
 }

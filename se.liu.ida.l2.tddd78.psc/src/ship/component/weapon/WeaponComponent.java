@@ -151,4 +151,11 @@ public class WeaponComponent extends AbstractShipComponent {
 			super.deregisterOwner();
 		}
 	}
+
+	@Override public void restore() {
+		super.restore();
+		rechargeTimeLeft = 0;
+		firingOrder = null;
+		projectileToFire = null;
+	}
 }

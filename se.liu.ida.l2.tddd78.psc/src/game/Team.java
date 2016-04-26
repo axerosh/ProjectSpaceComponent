@@ -51,6 +51,10 @@ public class Team implements Iterable<Starship> {
 		}
 	}
 
+	public void setDefeated(final boolean defeated) {
+		isDefeated = defeated;
+	}
+
 	/**
 	 * Returns the membership ID of the specified ship.
 	 *
