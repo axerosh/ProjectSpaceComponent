@@ -31,9 +31,9 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
 						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
-						   final float rechargeScale, final float weight, final char symbolRepresentation)
+						   final float rechargeScale, final int maxPower, final char symbolRepresentation)
 	{
-		super(integrity, weight, symbolRepresentation, new Color(100, 100, 100));
+		super(integrity, maxPower, symbolRepresentation, new Color(100, 100, 100));
 
 		if (baseBlastRadius <= 0) {
 			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero.";
@@ -162,6 +162,6 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	@Override public ShipComponent copy() {
 		return new WeaponComponent(maxIntegrity, baseDamage, damageScale, baseBlastRadius, blastRadiusScale, projectileVelocity,
-								   baseRechargeTime, rechargeScale, getWeight(), getSymbolRepresentation());
+								   baseRechargeTime, rechargeScale, getMaxPower(), getSymbolRepresentation());
 	}
 }

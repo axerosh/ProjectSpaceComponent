@@ -5,6 +5,7 @@ import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.Projectile;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class BattleSpace implements DisplayableEnvironment {
 
+	private final static ImageIcon BACKGROUND_IMAGE = new ImageIcon("resources/img/space.png");
 	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
 	private Random rng;
@@ -153,6 +155,8 @@ public class BattleSpace implements DisplayableEnvironment {
 	 */
 	@Override
 	public void display(final Graphics g, final float scale) {
+		g.drawImage(BACKGROUND_IMAGE.getImage(), 0, 0, null);
+
 		for (Team team : teams) {
 			for (Starship ship : team) {
 				ship.draw(g, scale);
@@ -194,6 +198,7 @@ public class BattleSpace implements DisplayableEnvironment {
 	 * Restore all ship to full capacity and clears the battlesace of projetiles.
 	 */
 	public void reset(){
+		winningTeam = null;
 		projectiles.clear();
 		for(Team team : teams){
 			team.setDefeated(false);

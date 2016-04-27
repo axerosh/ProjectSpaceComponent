@@ -106,7 +106,7 @@ public class Projectile {
 	 * @param scale scale of which all positions and sizes will be scaled with.
 	 */
 	public void draw(final Graphics g, final float scale) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.YELLOW);
 		g.drawLine((int) (scale * selfX), (int) (scale * selfY), (int) ((selfX + xVelocity / 10) * scale),
 				   (int) ((selfY + yVelocity / 10) * scale));
 	}

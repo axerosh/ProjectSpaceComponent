@@ -13,9 +13,9 @@ public class ReactorComponent extends AbstractShipComponent {
 
 	private final float output;
 
-	public ReactorComponent(final float integrity, final float powerOutput, final float weight, final char symbolRepresentation)
+	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation)
 	{
-		super(integrity, weight, symbolRepresentation, Color.GREEN);
+		super(integrity, 0, symbolRepresentation, Color.GREEN);
 		this.output = powerOutput;
 	}
 
@@ -36,7 +36,7 @@ public class ReactorComponent extends AbstractShipComponent {
 
 
 	@Override public final ShipComponent copy() {
-		return new ReactorComponent(maxIntegrity, output, getWeight(), getSymbolRepresentation());
+		return new ReactorComponent(maxIntegrity, output, getSymbolRepresentation());
 	}
 
 	public float getOutput() {

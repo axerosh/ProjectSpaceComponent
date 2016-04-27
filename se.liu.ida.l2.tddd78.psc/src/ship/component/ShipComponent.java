@@ -114,10 +114,10 @@ public interface ShipComponent {
 	public void restore();
 
 	/**
-	 * @return the weight of the component
+	 *
+	 * @return the maximum power that this component can be supplied.
 	 */
-	public float getWeight();
-
+	public int getMaxPower();
 
 	public ShipComponent copy();
 }

@@ -16,11 +16,6 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 */
 	//Static because the maximum shielding is the same for all ship components
 	public static final int MAXSHIELDING = 6;
-	/**
-	 * The maximum level of power a ship ship.component may recieve.
-	 */
-	//Static because the maximum power is the same for all ship components
-	public static final int MAXPOWER = 6;
 	//Static because the highlight color is the same for all ship components
 	private final static Color HIGHLIGHT_COLOR = Color.YELLOW;
 	/**
@@ -29,9 +24,12 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	protected final float maxIntegrity;
 	private final char symbolRepresentation;
 	private final Color color;
+	/**
+	 * The maximum level of power a scomponent may recieve.
+	 */
+	private final int maxPower;
 	private int shielding;
 	private int power;
-	private float weight;
 	/**
 	 * The current integrity left until destruction. The remaining damage it can take before it is destroyed.
 	 */
@@ -49,17 +47,17 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #setActive(boolean)
 	 */
-	protected AbstractShipComponent(final float integrity, final float weight, final char symbolRepresentation,
+	protected AbstractShipComponent(final float integrity, final int maxPower, final char symbolRepresentation,
 									final Color color)
 	{
 		this.integrity = integrity;
 		maxIntegrity = integrity;
-		this.weight = weight;
 		this.symbolRepresentation = symbolRepresentation;
 		this.color = color;
 		owner = null;
 		shielding = 0;
 		power = 0;
+		this.maxPower = maxPower;
 		active = true;
 		selected = false;
 	}
@@ -76,7 +74,9 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		float damageTaken = damageThroughShield(damage);
 		integrity -= damageTaken;
 		integrity = Math.max(integrity, 0);
-		owner.inflictDamage(damage);
+		if (owner != null) {
+			owner.inflictDamage(damage);
+		}
 	}
 
 	public Starship getOwner() {
@@ -132,7 +132,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 								   Color.CYAN);
 		}
 		if (hasPower()) {
-			Statbar.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, MAXPOWER, levelsPerCell, Color.GREEN);
+			Statbar.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, maxPower, levelsPerCell, Color.GREEN);
 		}
 
 		if (selected) {
@@ -170,7 +170,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	@Override public void increasePower() {
 		if (owner != null) {
 
-			if (power < MAXPOWER) {
+			if (power < maxPower) {
 				if (owner.increasePowerUsage()) {
 					power++;
 				}
@@ -232,8 +232,8 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		return power;
 	}
 
-	@Override public float getWeight() {
-		return weight;
+	@Override public int getMaxPower() {
+		return maxPower;
 	}
 
 	/**

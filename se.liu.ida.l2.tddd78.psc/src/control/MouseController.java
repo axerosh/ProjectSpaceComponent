@@ -143,19 +143,20 @@ public class MouseController extends JComponent {
 				} else if (selectedComponentInWorkshop != null) {
 					ShipComponent sc = selectedComponentInWorkshop.copy();
 					Displayer gameDisplayer = psc.getGameDisplayer();
-					placeOnShip(sc, (int)gameDisplayer.getVirtualX(e.getX()), (int)gameDisplayer.getVirtualY(e.getY())
-																				  - psc.getWorkshop().getTopBarHeight());
+					placeOnShip(sc, gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				}
 			}else if(e.getButton() == MouseEvent.BUTTON3){
 				Displayer gameDisplayer = psc.getGameDisplayer();
-				placeOnShip(null, (int) gameDisplayer.getVirtualX(e.getX()), (int) gameDisplayer.getVirtualY(e.getY())
-																					- psc.getWorkshop().getTopBarHeight());
+				placeOnShip(null, gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 			}
 		}
 
 
-		private void placeOnShip(ShipComponent sc, int posX, int posY){
-			psc.getWorkshop().getWorkingShip().setComponent(sc, posX, posY);
+		private void placeOnShip(ShipComponent sc, float posX, float posY) {
+			Starship workingShip = psc.getWorkshop().getWorkingShip();
+			if (workingShip.contains(posX, posY)) {
+				workingShip.setComponentExternal(sc, posX, posY);
+			}
 		}
 
 		private void manageTargeting(final MouseEvent e, ShipComponent clickedComponent) {

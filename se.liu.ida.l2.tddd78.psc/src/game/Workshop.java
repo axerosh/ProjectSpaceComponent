@@ -115,10 +115,6 @@ public class Workshop implements DisplayableEnvironment {
 		return null;
 	}
 
-	public int getTopBarHeight() {
-		return topBarHeight;
-	}
-
 	@Override public float getWidth() {
 		return width;
 	}

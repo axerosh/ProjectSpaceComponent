@@ -40,18 +40,6 @@ public final class PropertiesIO {
 	}
 
 	//Static because one should not have to instanciate PropertiesIO to read properties.
-	public static char getCharacterProperty(Properties properties, String propertyName, char defaultValue) {
-		String property = properties.getProperty(propertyName);
-		if (property != null && !property.isEmpty()) {
-			return property.charAt(0);
-		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
-												 ". Using the default value of " + defaultValue);
-			return defaultValue;
-		}
-	}
-
-	//Static because one should not have to instanciate PropertiesIO to read properties.
 	public static int getIntegerProperty(Properties properties, String propertyName, int defaultValue) {
 		String value = properties.getProperty(propertyName);
 		if (value != null) {

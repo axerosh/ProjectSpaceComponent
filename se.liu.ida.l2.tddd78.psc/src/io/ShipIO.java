@@ -87,6 +87,8 @@ public final class ShipIO {
 
 	public static void loadToShips(String fileName, Iterable<Starship> starShips) {
 		File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
+
+
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
 
@@ -95,8 +97,10 @@ public final class ShipIO {
 				textRepresentation.append(nextLine);
 				nextLine = reader.readLine();
 			}
-			for( Starship starShip : starShips)
-			ShipFactory.setComponents(starShip, textRepresentation.toString());
+			for (Starship starShip : starShips) {
+				starShip.clearComponents();
+				ShipFactory.setComponents(starShip, textRepresentation.toString());
+			}
 
 		} catch (IOException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);

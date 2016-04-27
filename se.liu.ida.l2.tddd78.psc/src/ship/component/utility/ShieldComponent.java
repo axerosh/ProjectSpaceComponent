@@ -10,10 +10,10 @@ import java.awt.*;
  */
 public class ShieldComponent extends PoweredUtilityComponent {
 
-	public ShieldComponent(final float integrity, final float baseShield, final float shieldScaling, final float weight,
+	public ShieldComponent(final float integrity, final float baseShield, final float shieldScaling, final int maxPower,
 						   final char symbolRepresentation)
 	{
-		super(integrity, baseShield, shieldScaling, weight, symbolRepresentation, Color.BLUE);
+		super(integrity, baseShield, shieldScaling, maxPower, symbolRepresentation, Color.BLUE.brighter());
 	}
 
 	@Override public void registerOwner(final Starship owner) {
@@ -30,6 +30,6 @@ public class ShieldComponent extends PoweredUtilityComponent {
 	}
 
 	@Override public final ShipComponent copy() {
-		return new ShieldComponent(maxIntegrity, baseOutput, outputScaling, getWeight(), getSymbolRepresentation());
+		return new ShieldComponent(maxIntegrity, baseOutput, outputScaling, getMaxPower(), getSymbolRepresentation());
 	}
 }

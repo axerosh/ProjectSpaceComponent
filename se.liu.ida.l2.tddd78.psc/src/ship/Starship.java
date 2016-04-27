@@ -53,7 +53,7 @@ public class Starship {
 	 *
 	 * @see Projectile
 	 */
-	private float dodgeRate = 0;
+	private float dodgeRate;
 
 	/**
 	 * A grid of this star ship's ship components.
@@ -102,6 +102,7 @@ public class Starship {
 		usedShielding = 0;
 		usedPower = 0;
 		numberOfComponents = 0;
+		dodgeRate = 0;
 
 		shieldComponents = new ArrayList<>();
 		reactorComponents = new ArrayList<>();
@@ -230,13 +231,13 @@ public class Starship {
 	}
 
 	/**
-	 * Adds the specified ship.component at the specified position. Registers the ship.component with this ship.
+	 * Adds the specified component at the specified internal positon. Registers the ship.component with this ship.
 	 *
-	 * @param componentToPlace the ship.component to add
-	 * @param col       column in which to add the ship.component
-	 * @param row       row in which to add the ship.component
+	 * @param componentToPlace the component to add
+	 * @param col       column in which to add the component
+	 * @param row       row in which to add the component
 	 */
-	public void setComponent(final ShipComponent componentToPlace, final int col, final int row) {
+	public void setComponentInternal(final ShipComponent componentToPlace, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
 			IllegalArgumentException exception =  new IllegalArgumentException(message);
@@ -258,6 +259,24 @@ public class Starship {
 			}
 		}
 		components[col][row] = componentToPlace;
+
+	}
+
+	/**
+	 * Adds the specified component at the specified virtual environment position. Registers the ship.component with this ship.
+	 *
+	 * @param componentToPlace the component to add
+	 * @param vx       the virtual x position at which to add the component
+	 * @param vy       the virtual y position at which to add the component
+	 */
+	public void setComponentExternal(final ShipComponent componentToPlace, final float vx, final float vy) {
+		if (vx < x || vx >= x + width || vy < y || vy >= y + height) {
+			String message = "The specified position x = " + vx + ", y = " + vy + " is out of ship bounds.";
+			IllegalArgumentException exception = new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			throw exception;
+		}
+		components[(int) getXRelativeToShip(vx)][(int) getYRelativeToShip(vy)] = componentToPlace;
 
 	}
 
@@ -317,21 +336,22 @@ public class Starship {
 		}
 		stripPower();
 
+		int totalEnginePower = 0;
 		dodgeRate = 0;
 		for (EngineComponent ec : engineComponents) {
 			dodgeRate += ec.getOutput();
+			totalEnginePower += ec.getPower();
 		}
 
-		float totalWeight = 0;
+		float totalMaxPower = 0;
 		for (ShipComponent[] componentCol : components) {
 			for (ShipComponent component : componentCol) {
 				if (component != null) {
-					totalWeight += component.getWeight();
+					totalMaxPower += component.getMaxPower();
 				}
 			}
 		}
-
-		dodgeRate -= totalWeight;
+		dodgeRate *= totalEnginePower / totalMaxPower;
 	}
 
 	/**
@@ -626,6 +646,14 @@ public class Starship {
 					col.restore();
 				}
 
+			}
+		}
+	}
+
+	public void clearComponents() {
+		for (int col = 0; col < width; col++) {
+			for (int row = 0; row < height; row++) {
+				components[col][row] = null;
 			}
 		}
 	}

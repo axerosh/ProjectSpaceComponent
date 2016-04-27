@@ -25,13 +25,13 @@ import java.util.logging.Logger;
 public final class ShipFactory {
 
 	//All these values sould be teh same for any ship factory.
-	private final static char ENGINE_SYMBOL;
-	private final static char WEAPON_SYMBOL;
-	private final static char REACTOR_SYMBOL;
-	private final static char SHIELD_SYMBOL;
+	private final static char ENGINE_SYMBOL = 'E';
+	private final static char WEAPON_SYMBOL = 'W';
+	private final static char REACTOR_SYMBOL = 'R';
+	private final static char SHIELD_SYMBOL = 'S';
 
 	private final static float COMPONENT_INTEGRITY;
-	private final static float COMPONENT_WEIGHT;
+	private final static int STANDARD_MAX_POWER;
 
 	private final static float REACTOR_OUTPUT;
 	private final static float ENGINE_BASE_OUTPUT;
@@ -60,13 +60,8 @@ public final class ShipFactory {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 
-		final char defaultEngineSymbol = 'E';
-		final char defaultWeaponSymbol = 'W';
-		final char defaultReactorSymbol = 'R';
-		final char defaultShieldSymbol = 'S';
-
 		final float defaultComponentIntegrity = 2;
-		final float defaultComponentWeight = 0.035f;
+		final int defaultStandardMaxPower = 6;
 
 		final float defaultReactorOutput = 3;
 
@@ -87,13 +82,8 @@ public final class ShipFactory {
 
 		final float defaultProjectileVelocity = 5;
 
-		ENGINE_SYMBOL = PropertiesIO.getCharacterProperty(properties, "engine_symbol", defaultEngineSymbol);
-		WEAPON_SYMBOL = PropertiesIO.getCharacterProperty(properties, "weapon_symbol", defaultWeaponSymbol);
-		REACTOR_SYMBOL = PropertiesIO.getCharacterProperty(properties, "reactor_symbol", defaultReactorSymbol);
-		SHIELD_SYMBOL = PropertiesIO.getCharacterProperty(properties, "shield_symbol", defaultShieldSymbol);
-
 		COMPONENT_INTEGRITY = PropertiesIO.getFloatProperty(properties, "component_integrity", defaultComponentIntegrity);
-		COMPONENT_WEIGHT = PropertiesIO.getFloatProperty(properties, "component_weight", defaultComponentWeight);
+		STANDARD_MAX_POWER = PropertiesIO.getIntegerProperty(properties, "standard_max_power", defaultStandardMaxPower);
 
 		REACTOR_OUTPUT = PropertiesIO.getFloatProperty(properties, "reactor_output", defaultReactorOutput);
 
@@ -248,7 +238,7 @@ public final class ShipFactory {
 			}
 
 			if (componentToAdd != null) {
-				ship.setComponent(componentToAdd, col, row);
+				ship.setComponentInternal(componentToAdd, col, row);
 			}
 
 			col++;
@@ -264,7 +254,7 @@ public final class ShipFactory {
 	* One could argue that EngineComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getEngineComponent() {
-		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, COMPONENT_WEIGHT,
+		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, STANDARD_MAX_POWER,
 								   ENGINE_SYMBOL);
 	}
 
@@ -276,7 +266,7 @@ public final class ShipFactory {
 	* One could argue that ReactorComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getReactorComponent() {
-		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, COMPONENT_WEIGHT, REACTOR_SYMBOL);
+		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
 	}
 
 
@@ -288,7 +278,7 @@ public final class ShipFactory {
 	* One could argue that ShieldComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getShieldComponent() {
-		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, COMPONENT_WEIGHT,
+		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, STANDARD_MAX_POWER,
 								   SHIELD_SYMBOL);
 	}
 
@@ -302,6 +292,6 @@ public final class ShipFactory {
 	public static ShipComponent getWeaponComponent() {
 		return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
 								   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE, WEAPON_RECHARGE_SCALING,
-								   COMPONENT_WEIGHT, WEAPON_SYMBOL);
+								   STANDARD_MAX_POWER, WEAPON_SYMBOL);
 	}
 }

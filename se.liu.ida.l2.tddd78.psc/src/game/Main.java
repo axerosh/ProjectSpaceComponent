@@ -17,13 +17,20 @@ public final class Main {
 
 	public static void main(String[] args) {
 		try {
-			//We do not care wether the directory already excisted or not.
-			new File("logs").mkdir();
+			String directoryName = "psc_logs";
+			boolean directoryCreated = new File(directoryName).mkdir();
 
 			final int maxNumberOfBytes = 100000;
 			final int numberOfFiles = 1;
-			Handler logHandler = new FileHandler("logs/psc_error%u.log", maxNumberOfBytes, numberOfFiles);
-			Logger.getGlobal().addHandler(logHandler);
+			Handler logHandler = new FileHandler(directoryName + "/psc_error%u.log", maxNumberOfBytes, numberOfFiles);
+			Logger globalLogger = Logger.getGlobal();
+			globalLogger.addHandler(logHandler);
+
+			if (directoryCreated) {
+				globalLogger.log(Level.INFO, "Directory " + directoryName + " created.");
+			} else {
+				globalLogger.log(Level.INFO, "Directory " + directoryName + " already created.");
+			}
 		} catch (IOException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
