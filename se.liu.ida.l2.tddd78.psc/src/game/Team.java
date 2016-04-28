@@ -35,11 +35,15 @@ public class Team implements Iterable<Starship> {
 	}
 
 	public void update() {
-		for (Starship ship : aliveMembers) {
+		int cursor = 0;
+		while (cursor < aliveMembers.size()) {
+			Starship ship = aliveMembers.get(cursor);
 			if (!ship.isIntact()) {
 				deadMembers.add(ship);
 				aliveMembers.remove(ship);
+				continue;
 			}
+			cursor++;
 		}
 	}
 
