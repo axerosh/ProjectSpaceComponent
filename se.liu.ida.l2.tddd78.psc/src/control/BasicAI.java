@@ -21,8 +21,8 @@ public class BasicAI
 	}
 
 	private void orderPoolUsage(){
-		for(WeaponComponent wc : aiShip.getWeaponComponents()){
-			if(aiShip.hasFreePower()){
+		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
+			if (aiShip.hasFreePower()) {
 				wc.increasePower();
 			}
 		}
@@ -39,8 +39,6 @@ public class BasicAI
 
 			float originX = aiShip.getPositionOf(wc).x;
 			float originY = aiShip.getPositionOf(wc).y;
-
-
 
 			float targetX = targetShip.getPositionOf(targetComponent).x;
 			float targetY = targetShip.getPositionOf(targetComponent).y;

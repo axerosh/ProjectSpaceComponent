@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 /**
  * A utility class for drawing stat bars.
  */
-public final class Statbar
+public final class StatbarDrawer
 {
 
-	private Statbar() {}
+	private StatbarDrawer() {}
 
 	/**
 	 * Draws a horizontal stat bar with the specified graphics object and attributes.
@@ -25,7 +25,7 @@ public final class Statbar
 	 * @param levelsPerCell    the size of each cell (levels)
 	 * @param fillColor        the color of the stat bar
 	 */
-	//Static so that stat bars can be drawn without needing to create a Statbar instance.
+	//Static so that stat bars can be drawn without needing to create a StatbarDrawer instance.
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 									  final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
 									  final int levelsPerCell, final Color fillColor)
@@ -98,7 +98,7 @@ public final class Statbar
 	 * @param maxStatLevel     the maximum value of the stat bar (levels)
 	 * @param fillColor        the color of the stat bar
 	 */
-	//Static so that stat bars can be drawn without needing to create a Statbar instance.
+	//Static so that stat bars can be drawn without needing to create a StatbarDrawer instance.
 	public static void drawOval(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 								final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
 								final Color fillColor)

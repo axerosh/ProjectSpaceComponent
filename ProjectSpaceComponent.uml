@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>ship.component.ShipComponent</OriginalElement>
+  <nodes>
+    <node x="0.0" y="682.0">control.BasicAI</node>
+    <node x="48.0" y="458.0">java.lang.Runnable</node>
+    <node x="232.0" y="536.0">graphics.PSCFrame</node>
+    <node x="242.5" y="458.0">javax.swing.JFrame</node>
+    <node x="431.0" y="609.0">ship.Starship</node>
+    <node x="121.0" y="682.0">io.ShipIO</node>
+    <node x="0.0" y="234.0">ship.component.utility.EngineComponent</node>
+    <node x="150.0" y="609.0">ship.component.weapon.FiringOrder</node>
+    <node x="296.0" y="609.0">ship.component.weapon.Projectile</node>
+    <node x="0.0" y="385.0">control.MouseController</node>
+    <node x="167.0" y="234.0">ship.component.utility.ShieldComponent</node>
+    <node x="560.0" y="609.0">graphics.Statbar</node>
+    <node x="79.25" y="307.0">javax.swing.JComponent</node>
+    <node x="154.0" y="385.0">graphics.Displayer</node>
+    <node x="0.0" y="536.0">game.ProjectSpaceComponent</node>
+    <node x="497.0" y="458.0">io.PropertiesIO</node>
+    <node x="59.75" y="156.0">ship.component.utility.PoweredUtilityComponent</node>
+    <node x="271.75" y="156.0">ship.component.weapon.WeaponComponent</node>
+    <node x="237.0" y="682.0">game.Main</node>
+    <node x="283.75" y="0.0">ship.component.ShipComponent</node>
+    <node x="257.25" y="78.0">ship.component.AbstractShipComponent</node>
+    <node x="379.0" y="536.0">game.Team</node>
+    <node x="0.0" y="609.0">ship.ShipFactory</node>
+    <node x="446.75" y="156.0">ship.component.utility.ReactorComponent</node>
+    <node x="288.0" y="385.0">game.Workshop</node>
+    <node x="402.0" y="385.0">game.BattleSpace</node>
+    <node x="372.0" y="458.0">java.lang.Iterable</node>
+    <node x="305.0" y="307.0">graphics.DisplayableEnvironment</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ship.component.weapon.WeaponComponent" target="ship.component.AbstractShipComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="graphics.Displayer" target="javax.swing.JComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="198.5" y="360.0" />
+      <point x="159.5" y="360.0" />
+      <point x="26.75" y="14.0" />
+    </edge>
+    <edge source="ship.component.utility.EngineComponent" target="ship.component.utility.PoweredUtilityComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="73.5" y="209.0" />
+      <point x="107.75" y="209.0" />
+      <point x="-48.0" y="14.0" />
+    </edge>
+    <edge source="game.Workshop" target="graphics.DisplayableEnvironment">
+      <point x="0.0" y="-14.0" />
+      <point x="335.0" y="360.0" />
+      <point x="350.25" y="360.0" />
+      <point x="-45.25" y="14.0" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="java.lang.Runnable">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ship.component.utility.ShieldComponent" target="ship.component.utility.PoweredUtilityComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="238.0" y="209.0" />
+      <point x="203.75" y="209.0" />
+      <point x="48.0" y="14.0" />
+    </edge>
+    <edge source="ship.component.utility.ReactorComponent" target="ship.component.AbstractShipComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="523.25" y="131.0" />
+      <point x="410.58333333333337" y="131.0" />
+      <point x="61.33333333333334" y="14.0" />
+    </edge>
+    <edge source="ship.component.AbstractShipComponent" target="ship.component.ShipComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="game.Team" target="java.lang.Iterable">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="graphics.PSCFrame" target="javax.swing.JFrame">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="game.BattleSpace" target="graphics.DisplayableEnvironment">
+      <point x="0.0" y="-14.0" />
+      <point x="456.0" y="360.0" />
+      <point x="440.75" y="360.0" />
+      <point x="45.25" y="14.0" />
+    </edge>
+    <edge source="control.MouseController" target="javax.swing.JComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="67.0" y="360.0" />
+      <point x="106.0" y="360.0" />
+      <point x="-26.75" y="14.0" />
+    </edge>
+    <edge source="ship.component.utility.PoweredUtilityComponent" target="ship.component.AbstractShipComponent">
+      <point x="0.0" y="-14.0" />
+      <point x="155.75" y="131.0" />
+      <point x="287.9166666666667" y="131.0" />
+      <point x="-61.333333333333336" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="66.0" y="337.0" />
+  <SelectedNodes>
+    <node>ship.component.ShipComponent</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

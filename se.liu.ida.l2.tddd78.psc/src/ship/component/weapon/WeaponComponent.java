@@ -1,6 +1,6 @@
 package ship.component.weapon;
 
-import graphics.Statbar;
+import graphics.StatbarDrawer;
 import ship.Starship;
 import ship.component.AbstractShipComponent;
 import ship.component.ShipComponent;
@@ -106,8 +106,8 @@ public class WeaponComponent extends AbstractShipComponent {
 			int pixelsAcrossComponent = (int) scale;
 			int pixelsAcrossIndicator = pixelsAcrossComponent / 5;
 
-			Statbar.drawOval(g, indicatorScreenX, indicatorScreenY, pixelsAcrossIndicator, pixelsAcrossIndicator,
-							 rechargeTimeLeft, currentRechargeTime, Color.ORANGE);
+			StatbarDrawer.drawOval(g, indicatorScreenX, indicatorScreenY, pixelsAcrossIndicator, pixelsAcrossIndicator,
+								   rechargeTimeLeft, currentRechargeTime, Color.ORANGE);
 		}
 	}
 

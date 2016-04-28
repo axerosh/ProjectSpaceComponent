@@ -7,14 +7,15 @@ import java.awt.*;
 /**
  * A ship component that supplies its ship with its output when it is powered.
  */
-public class PoweredUtilityComponent extends AbstractShipComponent {
+public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 
 	protected final float baseOutput;
 	protected final float outputScaling;
 	private float output;
 
-	public PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling, final int maxPower,
-								   final char symbolRepresentation, final Color color)
+	protected PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling,
+									  final int maxPower,
+									  final char symbolRepresentation, final Color color)
 	{
 		super(integrity, maxPower, symbolRepresentation, color);
 		this.baseOutput = baseOutput;

@@ -1,6 +1,6 @@
 package ship.component;
 
-import graphics.Statbar;
+import graphics.StatbarDrawer;
 import ship.Starship;
 
 import java.awt.*;
@@ -128,11 +128,11 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 
 		int levelsPerCell = 1;
 		if (hasShielding()) {
-			Statbar.drawHorizontal(g, barX, shieldBarY, barWidth, barHeight, shielding, MAXSHIELDING, levelsPerCell,
-								   Color.CYAN);
+			StatbarDrawer.drawHorizontal(g, barX, shieldBarY, barWidth, barHeight, shielding, MAXSHIELDING, levelsPerCell,
+										 Color.CYAN);
 		}
 		if (hasPower()) {
-			Statbar.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, maxPower, levelsPerCell, Color.GREEN);
+			StatbarDrawer.drawHorizontal(g, barX, powerBarY, barWidth, barHeight, power, maxPower, levelsPerCell, Color.GREEN);
 		}
 
 		if (selected) {

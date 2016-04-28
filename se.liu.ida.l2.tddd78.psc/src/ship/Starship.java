@@ -1,7 +1,7 @@
 package ship;
 
 import game.Team;
-import graphics.Statbar;
+import graphics.StatbarDrawer;
 import ship.component.ShipComponent;
 import ship.component.utility.EngineComponent;
 import ship.component.utility.ReactorComponent;
@@ -226,8 +226,8 @@ public class Starship {
 		final int integrityBarScreenY = shipScreenY - (int) (0.375 * scale);
 		final int integrityPerCell = 1;
 
-		Statbar.drawHorizontal(g, integrityBarScreenX, integrityBarScreenY, integrityBarRenderedWidth,
-							   integrityBarRenderedHeight, integrity, maxIntegrity, integrityPerCell, Color.RED);
+		StatbarDrawer.drawHorizontal(g, integrityBarScreenX, integrityBarScreenY, integrityBarRenderedWidth,
+									 integrityBarRenderedHeight, integrity, maxIntegrity, integrityPerCell, Color.RED);
 	}
 
 	/**
