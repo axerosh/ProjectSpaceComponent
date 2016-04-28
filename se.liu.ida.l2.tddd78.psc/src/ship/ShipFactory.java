@@ -92,20 +92,31 @@ public final class ShipFactory {
 		PROJECTILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "projectile_velocity", defaultProjectileVelocity);
 
 		// Ship/text representation conversion test
-		Starship initialShip = new Starship(7, 4, 10);
-		initialShip.setComponentInternal(getEngineComponent(), 5, 2);
-		initialShip.setComponentInternal(getEngineComponent(), 0, 3);
-		initialShip.setComponentInternal(getShieldComponent(), 4, 1);
-		initialShip.setComponentInternal(getReactorComponent(), 6, 3);
-		initialShip.setComponentInternal(getWeaponComponent(), 6, 0);
+		try {
+			Starship initialShip = new Starship(7, 4, 10);
+			initialShip.setComponentInternal(getEngineComponent(), 5, 2);
+			initialShip.setComponentInternal(getEngineComponent(), 0, 3);
+			initialShip.setComponentInternal(getShieldComponent(), 4, 1);
+			initialShip.setComponentInternal(getReactorComponent(), 6, 3);
+			initialShip.setComponentInternal(getWeaponComponent(), 6, 0);
 
-		String textConversion = initialShip.getTextRepresentation();
-		Starship shipFromConversion = getStarship(textConversion);
-		boolean convertedShipsAlike = initialShip.equals(shipFromConversion);
+			String textConversion = initialShip.getTextRepresentation();
+			Starship shipFromConversion = getStarship(textConversion);
 
-		assert (convertedShipsAlike) : "The ship [" + initialShip.getTextRepresentation() + "] and the ship [" +
-									   shipFromConversion.getTextRepresentation() + "], created from the text " +
+			String shipsDifferentMessage;
+			if (shipFromConversion == null) {
+				shipsDifferentMessage =
+						"The ship [" + initialShip.getTextRepresentation() + "] and the ship null, created from the text " +
 									   "representation of the first ship, are not equal.";
+			} else {
+				shipsDifferentMessage = "The ship [" + initialShip.getTextRepresentation() + "] and the ship [" +
+										shipFromConversion.getTextRepresentation() + "], created from the text " +
+										"representation of the first ship, are not equal.";
+			}
+			assert (initialShip.equals(shipFromConversion)) : shipsDifferentMessage;
+		} catch (IllegalArgumentException e) {
+			throw new AssertionError("Failed initializing standard ship.", e);
+		}
 	}
 
 	private ShipFactory() {}
@@ -115,15 +126,9 @@ public final class ShipFactory {
 	 *
 	 * @param textRepresentation a text representationof the ship to create
 	 *
-	 * @return the created ship
-	 * @throws IllegalArgumentException if one of the following is true: <ul> <li>there is no width specified in the text
-	 *                                  representation</li> <li>there is no height specified in the text representation</li>
-	 *                                  <li>there is no integrity specified in the text representation</li> <li>there is no
-	 *                                  maxIntegrity specified in the text representation</li> <li>the specified width is
-	 *                                  negative or 0</li> <li>the specified height is negative or 0</li> <li>the specified
-	 *                                  integrity is negative or 0</li> <li>the specified maxIntegrity is less than the
-	 *                                  specified integrity</li> </ul>
-	 * @throws IllegalArgumentException if one of the following is true:
+	 * @return the created ship; null if one of the following ship properties are missing from the text representation:
+	 * <ul> <li>width</li> <li>height</li> <li>integrity</li> <li>maxIntegrity</li> </ul> or if another
+	 * IllegalArgumentException occurs.
 	 */
 	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
 	* One could argue that this function should be implemented as a Starship constructor but then, that constructor would need
@@ -141,11 +146,17 @@ public final class ShipFactory {
 			String message =
 					"Missing ship properties in text representation. width, height, integrity and maxIntegrity required.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message);
-			throw exception;
+			Logger.getGlobal().log(Level.WARNING, message, exception);
+			return null;
 		}
 
-		Starship ship = new Starship(width.intValue(), height.intValue(), integrity, maxIntegrity);
+		Starship ship;
+		try {
+			ship = new Starship(width.intValue(), height.intValue(), integrity, maxIntegrity);
+		} catch (IllegalArgumentException e) {
+			Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			return null;
+		}
 		setComponents(ship, cleanRep);
 		return ship;
 	}
@@ -156,7 +167,6 @@ public final class ShipFactory {
 	 * @param textRepresentation a text representation of a ship
 	 *
 	 * @return a map of the parameter names and their respecive values
-	 * @throws NumberFormatException if one of the parameter values is not a parsable number.
 	 */
 	/*Static so that it can be used by the other static fucntions. Also, this woudl work the same way whether it was done
 	statically or as a method called fro minstances.*/
@@ -249,51 +259,71 @@ public final class ShipFactory {
 	}
 
 	/**
-	 * @return an EngineComponent with the standardized default properties.
+	 * @return an EngineComponent with the standardized default properties; null if these properties are illegal..
 	 * @see EngineComponent
 	 */
 	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
 	* One could argue that EngineComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getEngineComponent() {
-		return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, STANDARD_MAX_POWER,
-								   ENGINE_SYMBOL);
+		try {
+			return new EngineComponent(COMPONENT_INTEGRITY, ENGINE_BASE_OUTPUT, ENGINE_OUTPUT_SCALING, STANDARD_MAX_POWER,
+									   ENGINE_SYMBOL);
+		} catch (IllegalArgumentException e) {
+			Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			return null;
+		}
 	}
 
 	/**
-	 * @return a ReactorComponent with the standardized default properties.
+	 * @return a ReactorComponent with the standardized default properties; null if these properties are illegal..
 	 * @see ReactorComponent
 	 */
 	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
 	* One could argue that ReactorComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getReactorComponent() {
-		return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
+		try {
+			return new ReactorComponent(COMPONENT_INTEGRITY, REACTOR_OUTPUT, REACTOR_SYMBOL);
+		} catch (IllegalArgumentException e) {
+			Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			return null;
+		}
 	}
 
 
 	/**
-	 * @return a ShieldComponent with the standardized default properties.
+	 * @return a ShieldComponent with the standardized default properties; null if these properties are illegal..
 	 * @see ShieldComponent
 	 */
 	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
 	* One could argue that ShieldComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getShieldComponent() {
-		return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, STANDARD_MAX_POWER,
-								   SHIELD_SYMBOL);
+		try {
+			return new ShieldComponent(COMPONENT_INTEGRITY, SHIELD_BASE_OUTPUT, SHIELD_OUTPUT_SCALING, STANDARD_MAX_POWER,
+									   SHIELD_SYMBOL);
+		} catch (IllegalArgumentException e) {
+			Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			return null;
+		}
 	}
 
 	/**
-	 * @return a WeaponComponent with the standardized default properties.
+	 * @return a WeaponComponent with the standardized default properties; null if these properties are illegal.
 	 * @see WeaponComponent
 	 */
 	/*Static so that the function can be accessed from anywhere without making intances of ShipFactory.
 	* One could argue that WeaponComponents should load these properties itself but this way, no other classes
 	* need to load the properties file and load the default values from there.*/
 	public static ShipComponent getWeaponComponent() {
-		return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
-								   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE, WEAPON_RECHARGE_SCALING,
-								   STANDARD_MAX_POWER, WEAPON_SYMBOL);
+		try {
+			return new WeaponComponent(COMPONENT_INTEGRITY, WEAPON_BASE_DAMAGE, WEAPON_DAMAGE_SCALING, WEAPON_BASE_RADIUS,
+									   WEAPON_RADIUS_SCALING, PROJECTILE_VELOCITY, WEAPON_BASE_RECHARGE,
+									   WEAPON_RECHARGE_SCALING, STANDARD_MAX_POWER, WEAPON_SYMBOL);
+		} catch (IllegalArgumentException e) {
+			Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			return null;
+		}
 	}
 }

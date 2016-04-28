@@ -46,11 +46,13 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * @param symbolRepresentation the character that is to represent this component
 	 * @param color                the color with which the component is drawn
 	 *
-	 * @throws IllegalArgumentException if the specified integrity is negative or 0
-	 * @see #setActive(boolean)
+	 * @throws IllegalArgumentException if the specified integrity is negative
 	 */
 	protected AbstractShipComponent(final float integrity, final int maxPower, final char symbolRepresentation,
-									final Color color) {
+									final Color color) throws IllegalArgumentException {
+		if (integrity < 0) {
+			throw new IllegalArgumentException("The specified integrity " + integrity + " is negative.");
+		}
 		this.integrity = integrity;
 		maxIntegrity = integrity;
 		this.symbolRepresentation = symbolRepresentation;

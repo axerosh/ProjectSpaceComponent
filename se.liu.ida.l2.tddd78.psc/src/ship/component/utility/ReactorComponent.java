@@ -13,7 +13,18 @@ public class ReactorComponent extends AbstractShipComponent {
 
 	private final float output;
 
-	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation) {
+	/**
+	 * Constructs a reactor component.
+	 *
+	 * @param integrity            the integrity of the component (damage it can take before it is destroyed)
+	 * @param powerOutput          the poower, that is supplied to its ship
+	 * @param symbolRepresentation the symbol that is to represent this kind of component. Used for starship text
+	 *                             representations
+	 *
+	 * @throws IllegalArgumentException if the specified integrity is negative
+	 */
+	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation)
+	throws IllegalArgumentException {
 		super(integrity, 0, symbolRepresentation, Color.GREEN);
 		this.output = powerOutput;
 	}

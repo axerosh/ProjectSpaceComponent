@@ -74,19 +74,13 @@ public class Starship {
 	 *                                  or 0</li> </ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final int width, final int height, final float integrity) {
+	public Starship(final int width, final int height, final float integrity) throws IllegalArgumentException {
 		if (width <= 0 || height <= 0) {
-			String message = "Invalid ship dimensions width = " + width + ", height = " + height +
-							 ". Only positive integers are permitted.";
-			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.WARNING, message, exception);
-			return;
+			throw new IllegalArgumentException("Invalid ship dimensions width = " + width + ", height = " + height +
+											   ". Only positive integers are permitted.");
 		}
 		if (integrity <= 0) {
-			String message = "Invalid inegrity = " + integrity + ". Only positive values are permitted.";
-			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.WARNING, message, exception);
-			return;
+			throw new IllegalArgumentException("Invalid inegrity = " + integrity + ". Only positive values are permitted.");
 		}
 		x = 0;
 		y = 0;
@@ -120,15 +114,16 @@ public class Starship {
 	 * @param width        the width of the ship i.e. the number of ship components that can fit along the width
 	 * @param height       the height of the ship i.e. the number of ship components that can fit along the height
 	 * @param integrity    the current damage the ship can take before it is destroyed
-	 * @param maxIntegrity the damage the ship can take before it is destroyed when undamaged
+	 * @param maxIntegrity the damage the ship can take before it is destroyed when undamaged. Is ignored if less than
+	 *                        specified integrity
 	 *
 	 * @throws IllegalArgumentException if one of the following is true: <ul> <li>the specified width is negative or 0</li>
 	 *                                  <li>the specified height is negative or 0</li> <li>the specified integrity is negative
-	 *                                  or 0</li> <li>the specified maxIntegrity is less than the specified integrity</li>
-	 *                                  </ul>
+	 *                                  or 0</li> </ul><ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final int width, final int height, final float integrity, final float maxIntegrity) {
+	public Starship(final int width, final int height, final float integrity, final float maxIntegrity)
+	throws IllegalArgumentException {
 		this(width, height, integrity);
 
 		if (maxIntegrity < integrity) {
@@ -137,6 +132,7 @@ public class Starship {
 							 "than the integrity = " + integrity + ". Using integrity value as maximum integrity instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.FINE, message, exception);
+			throw exception;
 		} else {
 			this.maxIntegrity = maxIntegrity;
 		}

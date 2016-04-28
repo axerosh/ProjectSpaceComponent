@@ -32,7 +32,7 @@ public final class Main {
 				globalLogger.log(Level.INFO, "Directory " + directoryName + " already created.");
 			}
 		} catch (IOException e) {
-			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
+			Logger.getGlobal().log(Level.WARNING, e.toString(), e);
 		}
 
 		Runnable psc = new ProjectSpaceComponent();

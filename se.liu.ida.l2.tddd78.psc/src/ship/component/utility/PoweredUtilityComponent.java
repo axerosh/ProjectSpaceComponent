@@ -5,7 +5,7 @@ import ship.component.AbstractShipComponent;
 import java.awt.Color;
 
 /**
- * A ship component that supplies its ship with its output when it is powered.
+ * A ship component that supplies its output to its ship when it is powered.
  */
 public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 
@@ -13,8 +13,22 @@ public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 	protected final float outputScaling;
 	private float output;
 
+	/**
+	 * Constructs a powered utility component.
+	 *
+	 * @param integrity            the integrity of the component (damage it can take before it is destroyed)
+	 * @param baseOutput           the output, that is supplied to its ship, if scaling is disregarded
+	 * @param outputScaling        the extra output, that is supplied to its ship, per each level of power that is supplied to
+	 *                             the utility component
+	 * @param maxPower             the maximum power that the weapon can be supplied at once
+	 * @param symbolRepresentation the symbol that is to represent this kind of component. Used for starship text
+	 *                             representations
+	 * @param color                the color with which the component is drawn
+	 *
+	 * @throws IllegalArgumentException if the specified integrity is negative
+	 */
 	protected PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling,
-									  final int maxPower, final char symbolRepresentation, final Color color) {
+									  final int maxPower, final char symbolRepresentation, final Color color) throws IllegalArgumentException {
 		super(integrity, maxPower, symbolRepresentation, color);
 		this.baseOutput = baseOutput;
 		this.outputScaling = outputScaling;

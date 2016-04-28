@@ -7,8 +7,6 @@ import ship.component.ShipComponent;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A ship component that can fire projectile according to firing orders.
@@ -30,37 +28,47 @@ public class WeaponComponent extends AbstractShipComponent {
 	private float rechargeTimeLeft;
 	private Projectile projectileToFire;
 
+	/**
+	 * Constructs a weapon component.
+	 *
+	 * @param integrity            the integrity of the component (damage it can take before it is destroyed)
+	 * @param baseDamage           the damage, that is dealt by the weapon's projectiles, if scaling is disregarded
+	 * @param damageScale          the extra damage, that is dealt by the weapon's projectiles, per each level of power that is
+	 *                             supplied to the weapon component
+	 * @param baseBlastRadius      the blast radius, of the weapon's projectiles, if scaling is disregarded
+	 * @param blastRadiusScale     the extra blast radius that, is added to the weapon's projectiles, per each level of power
+	 *                             that is supplied to the weapon
+	 * @param projectileVelocity   the velocity of the weapon's projectiles
+	 * @param baseRechargeTime     the recharge time, between shots, if scaling is disregarded
+	 * @param rechargeScale        the time, that the recharge time is reduced by, per each level of power that is supplied to
+	 *                             the weapon
+	 * @param maxPower             the maximum power that the weapon can be supplied at once
+	 * @param symbolRepresentation the symbol that is to represent this kind of component. Used for starship text
+	 *                             representations
+	 *
+	 * @throws IllegalArgumentException if the baseBlastRadius and/or projectileVelocity is negative or zero or if the
+	 * specified
+	 *                                  integrity is negative
+	 */
 	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
 						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
-						   final float rechargeScale, final int maxPower, final char symbolRepresentation) {
+						   final float rechargeScale, final int maxPower, final char symbolRepresentation) throws IllegalArgumentException {
 		super(integrity, maxPower, symbolRepresentation, new Color(100, 100, 100));
 
 		if (baseBlastRadius <= 0) {
-			this.baseBlastRadius = 1;
-			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero. Uses the value of" +
-							 " " +
-							 this.baseBlastRadius + " instead.";
-			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.WARNING, message, exception);
-		} else {
-			this.baseBlastRadius = baseBlastRadius;
+			throw new IllegalArgumentException("The specified base blast radius " + baseBlastRadius + " is negative or zero.");
 		}
 
 		if (projectileVelocity <= 0) {
-			this.projectileVelocity = 1;
-			String message =
-					"The specified projectile velocity " + projectileVelocity + " is negative or zero. Uses the value of " +
-					this.projectileVelocity + " instead.";
-			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.WARNING, message, exception);
-			throw exception;
-		} else {
-			this.projectileVelocity = projectileVelocity;
+			throw new IllegalArgumentException("The specified projectile velocity " + projectileVelocity + " is negative or " +
+											   "zero.");
 		}
 
 		this.baseDamage = baseDamage;
 		this.damageScale = damageScale;
+		this.baseBlastRadius = baseBlastRadius;
 		this.blastRadiusScale = blastRadiusScale;
+		this.projectileVelocity = projectileVelocity;
 		this.baseRechargeTime = baseRechargeTime;
 		this.rechargeScale = rechargeScale;
 		rechargeTimeLeft = 0;

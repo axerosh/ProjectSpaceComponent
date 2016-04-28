@@ -96,7 +96,7 @@ public final class ShipIO {
 	 *
 	 * @param fileName the name of the ship representation
 	 *
-	 * @return the loaded ship representation
+	 * @return the loaded ship representation; null if a failure occurs
 	 */
 	private static String loadTextRepresentation(String fileName) {
 		File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
