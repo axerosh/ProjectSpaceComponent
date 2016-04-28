@@ -245,6 +245,8 @@ public class Starship {
 			return;
 		}
 		ShipComponent alreadyPlacedComponent = components[col][row];
+
+
 		if (componentToPlace == null) {
 			if (alreadyPlacedComponent != null) {
 				alreadyPlacedComponent.deregisterOwner();
@@ -279,6 +281,8 @@ public class Starship {
 		components[(int) getXRelativeToShip(vx)][(int) getYRelativeToShip(vy)] = componentToPlace;
 
 	}
+
+
 
 	/**
 	 * Updates the ships status by going through its components.
