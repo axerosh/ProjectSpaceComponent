@@ -278,7 +278,8 @@ public class Starship {
 			Logger.getGlobal().log(Level.FINE, message, exception);
 			return;
 		}
-		components[(int) getXRelativeToShip(vx)][(int) getYRelativeToShip(vy)] = componentToPlace;
+
+		setComponentInternal(componentToPlace, (int) getXRelativeToShip(vx), (int) getYRelativeToShip(vy));
 
 	}
 

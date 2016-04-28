@@ -82,6 +82,7 @@ public class ProjectSpaceComponent implements Runnable {
 					for (BasicAI ai : ais) {
 						ai.update();
 					}
+
 					battleSpace.update(passedSeconds);
 				}
 				gameDisplayer.repaint();
@@ -89,7 +90,7 @@ public class ProjectSpaceComponent implements Runnable {
 			}
 		});
 
-		timer.setCoalesce(true);
+		timer.setCoalesce(false);
 
 		final Team team1 = new Team("Team 1");
 		final Team team2 = new Team("Team 2");

@@ -25,18 +25,16 @@ public class BasicAI
 			if(aiShip.hasFreePower()){
 				wc.increasePower();
 			}
-		} 
+		}
 	}
 
 	private void orderWeaponsUsage(){
 
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
-			Starship targetShip = field.getRandomShipOfTeam(field.getRandomHostileTeam(aiShip.getTeam()));
+			Starship targetShip = field.getRandomHostileTeam(aiShip.getTeam()).getRandomMember();
 			if (targetShip == null || targetShip.isEmpty()) {
-				System.out.println("Empty ship");
 				return;
 			}
-			System.out.println("Ship with stuff.");
 			ShipComponent targetComponent = targetShip.getRandomComponent();
 
 			float originX = aiShip.getPositionOf(wc).x;

@@ -14,26 +14,46 @@ import java.util.Random;
  */
 public class Team implements Iterable<Starship> {
 
-	private final List<Starship> members;
+	private final List<Starship> aliveMembers;
+	private final List<Starship> deadMembers;
+	private final List<Starship> allMembers;
 	private Random rng;
 	private boolean defeated;
 	private String teamName;
 
 	public Team(String teamName) {
 		rng = new Random();
-		members = new ArrayList<>();
+		aliveMembers = new ArrayList<>();
+		deadMembers = new ArrayList<>();
+		allMembers = new ArrayList<>();
 		this.teamName = teamName;
 	}
 
 	public void add(Starship ship) {
-		members.add(ship);
+		allMembers.add(ship);
+		aliveMembers.add(ship);
+	}
+
+	public void update(){
+		for (Starship ship : aliveMembers){
+			if(!ship.isIntact()){
+				deadMembers.add(ship);
+				aliveMembers.remove(ship);
+			}
+		}
+	}
+
+	public void reset(){
+		aliveMembers.addAll(deadMembers);
+		deadMembers.clear();
+		defeated = false;
 	}
 
 	public boolean isDefeated() {
 		if (defeated) {
 			return defeated;
 		} else {
-			for (Starship member : members) {
+			for (Starship member : aliveMembers) {
 				if (member.isIntact()) {
 					return false;
 				}
@@ -43,15 +63,12 @@ public class Team implements Iterable<Starship> {
 		}
 	}
 
-	public void setDefeated(final boolean defeated) {
-		this.defeated = defeated;
-	}
-
 	public Starship getRandomMember() {
-		if (members.isEmpty()) {
+		if (aliveMembers.isEmpty()) {
 			return null;
 		} else {
-			return members.get(rng.nextInt(members.size()));
+			System.out.println(aliveMembers);
+			return aliveMembers.get(rng.nextInt(aliveMembers.size()));
 		}
 	}
 
@@ -63,7 +80,7 @@ public class Team implements Iterable<Starship> {
 	 * @return an ID number equals to or greater than 0 if the ship is a part of the team; -1 of it is not
 	 */
 	public int indexOf(Starship ship) {
-		return members.indexOf(ship);
+		return aliveMembers.indexOf(ship);
 	}
 
 	public String getTeamName(){
@@ -71,6 +88,6 @@ public class Team implements Iterable<Starship> {
 	}
 
 	@Override public Iterator<Starship> iterator() {
-		return members.iterator();
+		return allMembers.iterator();
 	}
 }

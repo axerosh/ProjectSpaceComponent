@@ -59,6 +59,11 @@ public class BattleSpace implements DisplayableEnvironment {
 	public void update(float deltaSeconds) {
 		if (!gameover) {
 			updateProjectiles(deltaSeconds);
+
+			for(Team team : teams){
+				team.update();
+			}
+
 			List<Team> undefeatedTeams = new ArrayList<>();
 			for (Team team : teams) {
 				if (team.isDefeated()) {
@@ -148,16 +153,6 @@ public class BattleSpace implements DisplayableEnvironment {
 		return hostileTeams.get(rng.nextInt(hostileTeams.size()));
 	}
 
-	public Starship getRandomShipOfTeam(final Team team) {
-		if (!teams.contains(team)) {
-			String message = team.getTeamName() + ": No such team!";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.CONFIG, message, exception);
-			return null;
-		}
-		return teams.get(teams.indexOf(team)).getRandomMember();
-	}
-
 	/**
 	 * Draws this battlefield with the specified scaling.
 	 *
@@ -212,7 +207,7 @@ public class BattleSpace implements DisplayableEnvironment {
 		winningTeam = null;
 		projectiles.clear();
 		for(Team team : teams){
-			team.setDefeated(false);
+			team.reset();
 		}
 		for (int teamIndex = 0; teamIndex < teams.size(); teamIndex++) {
 			Team team = teams.get(teamIndex);
