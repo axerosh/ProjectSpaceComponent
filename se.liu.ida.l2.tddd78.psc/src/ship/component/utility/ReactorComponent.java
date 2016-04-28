@@ -4,7 +4,7 @@ import ship.Starship;
 import ship.component.AbstractShipComponent;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * A ship component that supplies power to its ship. It does not require power to function.
@@ -45,5 +45,21 @@ public class ReactorComponent extends AbstractShipComponent {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override public boolean equals(final Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		if (!super.equals(o))
+			return false;
+
+		final ReactorComponent that = (ReactorComponent) o;
+
+		if (Float.compare(that.output, output) != 0)
+			return false;
+
+		return true;
 	}
 }

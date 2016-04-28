@@ -5,7 +5,8 @@ import ship.Starship;
 import ship.component.AbstractShipComponent;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -167,5 +168,33 @@ public class WeaponComponent extends AbstractShipComponent {
 	@Override public ShipComponent copy() {
 		return new WeaponComponent(maxIntegrity, baseDamage, damageScale, baseBlastRadius, blastRadiusScale, projectileVelocity,
 								   baseRechargeTime, rechargeScale, getMaxPower(), getSymbolRepresentation());
+	}
+
+	@Override public boolean equals(final Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		if (!super.equals(o))
+			return false;
+
+		final WeaponComponent that = (WeaponComponent) o;
+
+		if (Float.compare(that.baseDamage, baseDamage) != 0)
+			return false;
+		if (Float.compare(that.damageScale, damageScale) != 0)
+			return false;
+		if (baseBlastRadius != that.baseBlastRadius)
+			return false;
+		if (Float.compare(that.blastRadiusScale, blastRadiusScale) != 0)
+			return false;
+		if (Float.compare(that.baseRechargeTime, baseRechargeTime) != 0)
+			return false;
+		if (Float.compare(that.rechargeScale, rechargeScale) != 0)
+			return false;
+		if (Float.compare(that.projectileVelocity, projectileVelocity) != 0)
+			return false;
+
+		return true;
 	}
 }

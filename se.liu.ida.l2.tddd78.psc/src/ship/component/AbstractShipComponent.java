@@ -3,7 +3,8 @@ package ship.component;
 import graphics.StatbarDrawer;
 import ship.Starship;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A generalship component. Handles general ship component functionality including integrity, shielding and power as well as
@@ -269,5 +270,25 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 
 	@Override public ShipComponent copy() {
 		return null;
+	}
+
+	@Override public boolean equals(final Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		final AbstractShipComponent that = (AbstractShipComponent) o;
+
+		if (Float.compare(that.maxIntegrity, maxIntegrity) != 0)
+			return false;
+		if (symbolRepresentation != that.symbolRepresentation)
+			return false;
+		if (maxPower != that.maxPower)
+			return false;
+		if (color != null ? !color.equals(that.color) : that.color != null)
+			return false;
+
+		return true;
 	}
 }

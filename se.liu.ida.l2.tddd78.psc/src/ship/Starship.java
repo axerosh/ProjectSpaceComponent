@@ -9,9 +9,11 @@ import ship.component.utility.ShieldComponent;
 import ship.component.weapon.Projectile;
 import ship.component.weapon.WeaponComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -665,5 +667,21 @@ public class Starship {
 
 	public boolean isEmpty(){
 		return numberOfComponents == 0;
+	}
+
+	@Override public boolean equals(final Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		final Starship starship = (Starship) o;
+
+		if (Float.compare(starship.maxIntegrity, maxIntegrity) != 0)
+			return false;
+		if (!Arrays.deepEquals(components, starship.components))
+			return false;
+
+		return true;
 	}
 }
