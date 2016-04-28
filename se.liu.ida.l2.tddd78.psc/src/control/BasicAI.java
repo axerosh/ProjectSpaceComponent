@@ -25,7 +25,7 @@ public class BasicAI
 			if(aiShip.hasFreePower()){
 				wc.increasePower();
 			}
-		}
+		} 
 	}
 
 	private void orderWeaponsUsage(){
