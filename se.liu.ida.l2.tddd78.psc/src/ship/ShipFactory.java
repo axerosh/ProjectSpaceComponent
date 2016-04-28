@@ -90,6 +90,23 @@ public final class ShipFactory {
 				PropertiesIO.getFloatProperty(properties, "weapon_recharge_scaling", defaultWeaponRechargeScale);
 
 		PROJECTILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "projectile_velocity", defaultProjectileVelocity);
+
+		// Ship/text representation conversion test
+		Starship initialShip = new Starship(7, 4, 10);
+		initialShip.setComponentInternal(getEngineComponent(), 5, 2);
+		initialShip.setComponentInternal(getEngineComponent(), 0, 3);
+		initialShip.setComponentInternal(getShieldComponent(), 4, 1);
+		initialShip.setComponentInternal(getReactorComponent(), 6, 3);
+		initialShip.setComponentInternal(getWeaponComponent(), 6, 0);
+
+		String textConversion = initialShip.getTextRepresentation();
+		Starship shipFromConversion = getStarship(textConversion);
+		boolean convertedShipsAlike = initialShip.equals(shipFromConversion);
+
+		assert (convertedShipsAlike) : "The ship [" + initialShip.getTextRepresentation() + "] and the ship [" +
+									   shipFromConversion.getTextRepresentation() +
+									   "], created from the text representation of the " +
+									   "first ship, are not equal.";
 	}
 
 	private ShipFactory() {}
