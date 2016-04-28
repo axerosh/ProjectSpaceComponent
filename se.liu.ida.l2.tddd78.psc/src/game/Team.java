@@ -67,7 +67,6 @@ public class Team implements Iterable<Starship> {
 		if (aliveMembers.isEmpty()) {
 			return null;
 		} else {
-			System.out.println(aliveMembers);
 			return aliveMembers.get(rng.nextInt(aliveMembers.size()));
 		}
 	}
