@@ -33,6 +33,7 @@ public final class ShipIO {
 	//Static because ships are to always be saved with the same charset.
 	private final static Charset CHARSET = StandardCharsets.UTF_8;
 
+
 	private ShipIO() {
 	}
 
