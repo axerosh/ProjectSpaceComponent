@@ -13,8 +13,7 @@ public class ReactorComponent extends AbstractShipComponent {
 
 	private final float output;
 
-	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation)
-	{
+	public ReactorComponent(final float integrity, final float powerOutput, final char symbolRepresentation) {
 		super(integrity, 0, symbolRepresentation, Color.GREEN);
 		this.output = powerOutput;
 	}
@@ -48,17 +47,13 @@ public class ReactorComponent extends AbstractShipComponent {
 	}
 
 	@Override public boolean equals(final Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		if (!super.equals(o))
-			return false;
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
+		if (!super.equals(o)) { return false; }
 
 		final ReactorComponent that = (ReactorComponent) o;
 
-		if (Float.compare(that.output, output) != 0)
-			return false;
+		if (Float.compare(that.output, output) != 0) { return false; }
 
 		return true;
 	}

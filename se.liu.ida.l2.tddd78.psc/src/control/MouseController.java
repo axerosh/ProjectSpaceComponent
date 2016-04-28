@@ -8,7 +8,7 @@ import ship.component.ShipComponent;
 import ship.component.weapon.FiringOrder;
 import ship.component.weapon.WeaponComponent;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -49,8 +49,7 @@ public class MouseController extends JComponent {
 		this.gamemode = gamemode;
 	}
 
-	private class PSCMouseListener extends MouseAdapter
-	{
+	private class PSCMouseListener extends MouseAdapter {
 
 		@Override public void mouseClicked(final MouseEvent e) {
 			if (controlledShip == null) {
@@ -66,8 +65,8 @@ public class MouseController extends JComponent {
 				return;
 			}
 
-			ShipComponent clickedLocalComponent =
-					controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+			ShipComponent clickedLocalComponent = controlledShip.getComponentAt(gameDisplayer.getVirtualX(e.getX()),
+																				gameDisplayer.getVirtualY(e.getY()));
 			if (clickedLocalComponent != null) {
 				if (e.isControlDown()) {
 					managePower(e, clickedLocalComponent);
@@ -77,9 +76,9 @@ public class MouseController extends JComponent {
 					manageActivation(e, clickedLocalComponent);
 				}
 			} else if (selectedWeapon != null) {
-				ShipComponent clickedGlobalComponent =
-						psc.getBattleSpace().getComponentAt(gameDisplayer.getVirtualX(e.getX()),
-															gameDisplayer.getVirtualY(e.getY()));
+				ShipComponent clickedGlobalComponent = psc.getBattleSpace().getComponentAt(gameDisplayer.getVirtualX(e.getX()),
+																						   gameDisplayer.getVirtualY(e.getY
+																								   ()));
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					if (clickedGlobalComponent != null) {
@@ -132,8 +131,8 @@ public class MouseController extends JComponent {
 			}
 		}
 
-		private void managePlacing(final MouseEvent e, ShipComponent clickedShipComponent){
-			if(e.getButton() == MouseEvent.BUTTON1){
+		private void managePlacing(final MouseEvent e, ShipComponent clickedShipComponent) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				if (clickedShipComponent != null) {
 					if (selectedComponentInWorkshop != null) {
 						selectedComponentInWorkshop.setSelected(false);
@@ -145,7 +144,7 @@ public class MouseController extends JComponent {
 					Displayer gameDisplayer = psc.getGameDisplayer();
 					placeOnShip(sc, gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 				}
-			}else if(e.getButton() == MouseEvent.BUTTON3){
+			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				Displayer gameDisplayer = psc.getGameDisplayer();
 				placeOnShip(null, gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
 			}
@@ -163,8 +162,8 @@ public class MouseController extends JComponent {
 			Point2D.Float originPos = controlledShip.getPositionOf(selectedWeapon);
 			if (originPos != null) {
 				Displayer gameDisplayer = psc.getGameDisplayer();
-				Starship targetShip =
-						psc.getBattleSpace().getShipAt(gameDisplayer.getVirtualX(e.getX()), gameDisplayer.getVirtualY(e.getY()));
+				Starship targetShip = psc.getBattleSpace().getShipAt(gameDisplayer.getVirtualX(e.getX()),
+																	 gameDisplayer.getVirtualY(e.getY()));
 				if (targetShip != null) {
 					Point2D.Float targetPos = targetShip.getPositionOf(clickedComponent);
 					selectedWeapon.setFiringOrder(

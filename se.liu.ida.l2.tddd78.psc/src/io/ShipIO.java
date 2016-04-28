@@ -3,7 +3,7 @@ package io;
 import ship.ShipFactory;
 import ship.Starship;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +39,7 @@ public final class ShipIO {
 	/**
 	 * Saves the specified ship to the specified path.
 	 *
-	 * @param ship a starship to save
+	 * @param ship     a starship to save
 	 * @param fileName the name of the file to which the ship is saved (excluding file extension)
 	 */
 	//static so that ships can be saved from anywhere without needing to create an instance of ShipIO
@@ -57,6 +57,7 @@ public final class ShipIO {
 	 * Returns a loaded ship with the specified name.
 	 *
 	 * @param fileName the name of the file to which the ship is saved (excluding file extension)
+	 *
 	 * @return a ship loaded from the specified path
 	 */
 	//static so that ships can be loaded from anywhere without needing to create an instance of ShipIO
@@ -71,9 +72,10 @@ public final class ShipIO {
 	}
 
 	/**
-	 * Sets the components of the ships in the specifed ship list, so that they match the a loaded ship representation with the specified name.
+	 * Sets the components of the ships in the specifed ship list, so that they match the a loaded ship representation with the
+	 * specified name.
 	 *
-	 * @param fileName the name if the ship representation
+	 * @param fileName  the name if the ship representation
 	 * @param starShips the ships that are to match the ship representation
 	 */
 	public static void loadToShips(String fileName, Iterable<Starship> starShips) {
@@ -93,9 +95,11 @@ public final class ShipIO {
 	 * Loads the ship representation with the specified name.
 	 *
 	 * @param fileName the name of the ship representation
+	 *
 	 * @return the loaded ship representation
 	 */
-	private static String loadTextRepresentation(String fileName) {File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
+	private static String loadTextRepresentation(String fileName) {
+		File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
 

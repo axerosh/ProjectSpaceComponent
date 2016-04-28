@@ -8,8 +8,9 @@ import io.PropertiesIO;
 import io.ShipIO;
 import ship.Starship;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractAction;
+import javax.swing.Timer;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.Properties;
@@ -139,8 +140,9 @@ public class ProjectSpaceComponent implements Runnable {
 		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
 
 		if (!(matchingBattle || matchingWorkshop)) {
-			String message = "The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
-							" do not match.";
+			String message =
+					"The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
+					" do not match.";
 			IllegalStateException exception = new IllegalStateException(message);
 			Logger.getGlobal().log(Level.SEVERE, message, exception);
 			System.exit(1);
@@ -201,7 +203,7 @@ public class ProjectSpaceComponent implements Runnable {
 				gamemode = Gamemode.BATTLE;
 				battleSpace.reset();
 				battleSpace.pack(shipWidth, shipHeight);
-				screenWidth = (int )(battleSpaceWidth * battleSpaceScale);
+				screenWidth = (int) (battleSpaceWidth * battleSpaceScale);
 				screenHeight = (int) (battleSpaceHeight * battleSpaceScale);
 				gameDisplayer.setDisplayedEnvironment(battleSpace, battleSpaceScale);
 				break;
@@ -211,17 +213,18 @@ public class ProjectSpaceComponent implements Runnable {
 				frame.getJMenuBar().add(frame.getSaveLoad());
 				workshop.addWorkingShip(playerShip);
 				playerShip.restore();
-				screenWidth = (int )(workshopWidth * workshopScale);
+				screenWidth = (int) (workshopWidth * workshopScale);
 				screenHeight = (int) (workshopHeight * workshopScale);
 				gameDisplayer.setDisplayedEnvironment(workshop, workshopScale);
 				break;
 		}
 
 		playerController.setGamemode(gamemode);
-		playerController.setBounds(0, 0, screenWidth , screenHeight);
+		playerController.setBounds(0, 0, screenWidth, screenHeight);
 
 		/*frame.pack() does not get the job done unless the frame has been updated by adding/removing components and we only
-		resize an excisting component. Therefor its prefferedSize() method is not called and the frame's size becomes unaccurate.
+		resize an excisting component. Therefor its prefferedSize() method is not called and the frame's size becomes
+		unaccurate.
 		Instead, we needed our own pack.*/
 		Dimension gameDisplayerSize = gameDisplayer.getPreferredSize();
 		frame.setSize(gameDisplayerSize.width + frameWidth, gameDisplayerSize.height + frameHeight);

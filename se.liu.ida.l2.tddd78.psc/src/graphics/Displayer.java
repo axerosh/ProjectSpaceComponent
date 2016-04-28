@@ -1,7 +1,8 @@
 package graphics;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
 /**
  * JComponent to display DisplayableEnviroments
@@ -18,13 +19,12 @@ public class Displayer extends JComponent {
 	private DisplayableEnvironment displayedEnvironment;
 
 	/**
-	 *
 	 * @param displayedEnvironment the environment to be displayed
-	 * @param scale the scale from virtual positions and lengths to screen positions and lengths
+	 * @param scale                the scale from virtual positions and lengths to screen positions and lengths
 	 */
 	public Displayer(final DisplayableEnvironment displayedEnvironment, float scale) {
 		this.scale = scale;
-		assert scale > 0:"Scale needs to be a positive float.";
+		assert scale > 0 : "Scale needs to be a positive float.";
 		displayWidth = (int) (displayedEnvironment.getWidth() * scale);
 		displayHeight = (int) (displayedEnvironment.getHeight() * scale);
 		this.displayedEnvironment = displayedEnvironment;

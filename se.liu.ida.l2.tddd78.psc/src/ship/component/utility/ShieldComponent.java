@@ -3,7 +3,7 @@ package ship.component.utility;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * A utility components that contributes with power.
@@ -11,8 +11,7 @@ import java.awt.*;
 public class ShieldComponent extends PoweredUtilityComponent {
 
 	public ShieldComponent(final float integrity, final float baseShield, final float shieldScaling, final int maxPower,
-						   final char symbolRepresentation)
-	{
+						   final char symbolRepresentation) {
 		super(integrity, baseShield, shieldScaling, maxPower, symbolRepresentation, Color.BLUE.brighter());
 	}
 

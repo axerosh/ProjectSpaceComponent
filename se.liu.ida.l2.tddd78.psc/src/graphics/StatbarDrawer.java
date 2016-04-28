@@ -1,14 +1,14 @@
 package graphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A utility class for drawing stat bars.
  */
-public final class StatbarDrawer
-{
+public final class StatbarDrawer {
 
 	private StatbarDrawer() {}
 
@@ -28,33 +28,32 @@ public final class StatbarDrawer
 	//Static so that stat bars can be drawn without needing to create a StatbarDrawer instance.
 	public static void drawHorizontal(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 									  final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
-									  final int levelsPerCell, final Color fillColor)
-	{
+									  final int levelsPerCell, final Color fillColor) {
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 
 		} else if (levelsPerCell <= 0) {
 			String message = "The specified number of stat levels per cell = " + levelsPerCell +
 							 " is invalid. It must be greater than 0.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 		}
@@ -101,24 +100,23 @@ public final class StatbarDrawer
 	//Static so that stat bars can be drawn without needing to create a StatbarDrawer instance.
 	public static void drawOval(final Graphics g, final int screenPosX, final int screenPosY, final int renderedWidth,
 								final int renderedHeight, final float currentStatLevel, final float maxStatLevel,
-								final Color fillColor)
-	{
+								final Color fillColor) {
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.CONFIG, message, exception);
 			return;
 		}

@@ -14,9 +14,7 @@ public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 	private float output;
 
 	protected PoweredUtilityComponent(final float integrity, final float baseOutput, final float outputScaling,
-									  final int maxPower,
-									  final char symbolRepresentation, final Color color)
-	{
+									  final int maxPower, final char symbolRepresentation, final Color color) {
 		super(integrity, maxPower, symbolRepresentation, color);
 		this.baseOutput = baseOutput;
 		this.outputScaling = outputScaling;
@@ -40,19 +38,14 @@ public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 	}
 
 	@Override public boolean equals(final Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		if (!super.equals(o))
-			return false;
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
+		if (!super.equals(o)) { return false; }
 
 		final PoweredUtilityComponent that = (PoweredUtilityComponent) o;
 
-		if (Float.compare(that.baseOutput, baseOutput) != 0)
-			return false;
-		if (Float.compare(that.outputScaling, outputScaling) != 0)
-			return false;
+		if (Float.compare(that.baseOutput, baseOutput) != 0) { return false; }
+		if (Float.compare(that.outputScaling, outputScaling) != 0) { return false; }
 
 		return true;
 	}

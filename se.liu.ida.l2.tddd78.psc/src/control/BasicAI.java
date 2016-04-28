@@ -10,8 +10,7 @@ import ship.component.weapon.WeaponComponent;
 /**
  * Basic AI for basic AI fucntionallity.
  */
-public class BasicAI
-{
+public class BasicAI {
 	private BattleSpace field;
 	private Starship aiShip;
 
@@ -20,7 +19,7 @@ public class BasicAI
 		this.aiShip = aiShip;
 	}
 
-	private void orderPoolUsage(){
+	private void orderPoolUsage() {
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
 			if (aiShip.hasFreePower()) {
 				wc.increasePower();
@@ -28,7 +27,7 @@ public class BasicAI
 		}
 	}
 
-	private void orderWeaponsUsage(){
+	private void orderWeaponsUsage() {
 
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
 			Starship targetShip = field.getRandomHostileTeam(aiShip.getTeam()).getRandomMember();

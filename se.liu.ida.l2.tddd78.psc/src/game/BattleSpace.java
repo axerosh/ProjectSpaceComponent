@@ -5,8 +5,11 @@ import ship.Starship;
 import ship.component.ShipComponent;
 import ship.component.weapon.Projectile;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.MediaTracker;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +34,8 @@ public class BattleSpace implements DisplayableEnvironment {
 
 	static {
 		if (BACKGROUND_IMAGE.getImageLoadStatus() != MediaTracker.COMPLETE) {
-			Logger.getGlobal().log(Level.INFO, "The battle space background could not be loaded from '" + BACKGROUND_IMAGE_PATH + "'.");
+			Logger.getGlobal().log(Level.INFO,
+								   "The battle space background could not be loaded from '" + BACKGROUND_IMAGE_PATH + "'.");
 		}
 	}
 
@@ -60,7 +64,7 @@ public class BattleSpace implements DisplayableEnvironment {
 		if (!gameover) {
 			updateProjectiles(deltaSeconds);
 
-			for(Team team : teams){
+			for (Team team : teams) {
 				team.update();
 			}
 
@@ -143,7 +147,7 @@ public class BattleSpace implements DisplayableEnvironment {
 		}
 	}
 
-	public Team getRandomHostileTeam(Team ownTeam){
+	public Team getRandomHostileTeam(Team ownTeam) {
 		List<Team> hostileTeams = new ArrayList<>();
 		for (Team team : teams) {
 			if (!team.equals(ownTeam)) {
@@ -159,8 +163,7 @@ public class BattleSpace implements DisplayableEnvironment {
 	 * @param g     the Graphics object with which to draw this battlefield
 	 * @param scale the scale with which to scale virtual positions to get on-screen positions
 	 */
-	@Override
-	public void display(final Graphics g, final float scale) {
+	@Override public void display(final Graphics g, final float scale) {
 		g.drawImage(BACKGROUND_IMAGE.getImage(), 0, 0, null);
 
 		for (Team team : teams) {
@@ -203,10 +206,10 @@ public class BattleSpace implements DisplayableEnvironment {
 	/**
 	 * Restore all ship to full capacity and clears the battlesace of projetiles.
 	 */
-	public void reset(){
+	public void reset() {
 		winningTeam = null;
 		projectiles.clear();
-		for(Team team : teams){
+		for (Team team : teams) {
 			team.reset();
 		}
 		for (int teamIndex = 0; teamIndex < teams.size(); teamIndex++) {

@@ -5,7 +5,8 @@ import ship.ShipFactory;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +41,14 @@ public class Workshop implements DisplayableEnvironment {
 		init();
 	}
 
-	private void init(){
+	private void init() {
 
 		sidebarWidth = width - shipWidth;
 		sidebarX = width - sidebarWidth;
 
 		topBarHeight = height - shipHeight;
 
-		for(int i = 0; i < height; i++){
+		for (int i = 0; i < height; i++) {
 			sidebarComponents.add(new ArrayList<>());
 		}
 
@@ -57,40 +58,40 @@ public class Workshop implements DisplayableEnvironment {
 		sidebarComponents.get(1).add(ShipFactory.getWeaponComponent());
 	}
 
-	public void addWorkingShip(Starship ship){
+	public void addWorkingShip(Starship ship) {
 		workingShip = ship;
 		workingShip.setX(0);
 		workingShip.setY(1);
 	}
 
-	public void removeShip(){
+	public void removeShip() {
 		workingShip = null;
 	}
 
-	@Override
-	public void display(final Graphics g, final float scale){
+	@Override public void display(final Graphics g, final float scale) {
 
 		if (workingShip != null) {
 			workingShip.draw(g, scale);
 		}
 
 		g.setColor(Color.BLACK);
-		for(int x = 0; x < shipWidth + 1; x++){
-			g.drawLine((int)(x*scale), (int)(topBarHeight * scale), (int)(x*scale), (int)(height*scale));
+		for (int x = 0; x < shipWidth + 1; x++) {
+			g.drawLine((int) (x * scale), (int) (topBarHeight * scale), (int) (x * scale), (int) (height * scale));
 		}
 
-		for(int y = 0; y < height + 1; y++){
-			g.drawLine(0, (int)((y + topBarHeight) * scale), (int)((width - sidebarWidth) * scale), (int)((y + topBarHeight) * scale));
+		for (int y = 0; y < height + 1; y++) {
+			g.drawLine(0, (int) ((y + topBarHeight) * scale), (int) ((width - sidebarWidth) * scale),
+					   (int) ((y + topBarHeight) * scale));
 		}
 
 		g.setColor(Color.ORANGE);
-		g.fillRect(0, 0, (int)(width* scale), (int)(topBarHeight * scale));
+		g.fillRect(0, 0, (int) (width * scale), (int) (topBarHeight * scale));
 
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect((int)(sidebarX * scale), 0 ,(int)(sidebarWidth*scale), (int)(height*scale));
+		g.fillRect((int) (sidebarX * scale), 0, (int) (sidebarWidth * scale), (int) (height * scale));
 
-		for(List<ShipComponent> row :sidebarComponents){
-			for(ShipComponent sc: row){
+		for (List<ShipComponent> row : sidebarComponents) {
+			for (ShipComponent sc : row) {
 				sc.draw(g, scale, shipWidth + row.indexOf(sc), sidebarComponents.indexOf(row));
 			}
 		}
@@ -101,14 +102,14 @@ public class Workshop implements DisplayableEnvironment {
 		return workingShip;
 	}
 
-	public ShipComponent getComponentAtSidebar(float x, float y){
-		if(x - sidebarX < 0 || y < 0 ){
+	public ShipComponent getComponentAtSidebar(float x, float y) {
+		if (x - sidebarX < 0 || y < 0) {
 			return null;
 		}
-		if(y < sidebarComponents.size()) {
-			List<ShipComponent> row = sidebarComponents.get((int)y);
-			if(x - sidebarX < row.size()) {
-				return row.get((int)(x - sidebarX));
+		if (y < sidebarComponents.size()) {
+			List<ShipComponent> row = sidebarComponents.get((int) y);
+			if (x - sidebarX < row.size()) {
+				return row.get((int) (x - sidebarX));
 			}
 		}
 

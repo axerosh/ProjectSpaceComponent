@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 /**
  * An environment that can be displayed, e.g. by a Displayer.
+ *
  * @see Displayer
  */
 public interface DisplayableEnvironment {

@@ -34,16 +34,16 @@ public class Team implements Iterable<Starship> {
 		aliveMembers.add(ship);
 	}
 
-	public void update(){
-		for (Starship ship : aliveMembers){
-			if(!ship.isIntact()){
+	public void update() {
+		for (Starship ship : aliveMembers) {
+			if (!ship.isIntact()) {
 				deadMembers.add(ship);
 				aliveMembers.remove(ship);
 			}
 		}
 	}
 
-	public void reset(){
+	public void reset() {
 		aliveMembers.addAll(deadMembers);
 		deadMembers.clear();
 		defeated = false;
@@ -82,7 +82,7 @@ public class Team implements Iterable<Starship> {
 		return aliveMembers.indexOf(ship);
 	}
 
-	public String getTeamName(){
+	public String getTeamName() {
 		return teamName;
 	}
 

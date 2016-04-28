@@ -32,13 +32,14 @@ public class WeaponComponent extends AbstractShipComponent {
 
 	public WeaponComponent(final float integrity, final float baseDamage, final float damageScale, final int baseBlastRadius,
 						   final float blastRadiusScale, final float projectileVelocity, final float baseRechargeTime,
-						   final float rechargeScale, final int maxPower, final char symbolRepresentation)
-	{
+						   final float rechargeScale, final int maxPower, final char symbolRepresentation) {
 		super(integrity, maxPower, symbolRepresentation, new Color(100, 100, 100));
 
 		if (baseBlastRadius <= 0) {
 			this.baseBlastRadius = 1;
-			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero. Uses the value of " + this.baseBlastRadius + " instead.";
+			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero. Uses the value of" +
+							 " " +
+							 this.baseBlastRadius + " instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.WARNING, message, exception);
 		} else {
@@ -47,7 +48,9 @@ public class WeaponComponent extends AbstractShipComponent {
 
 		if (projectileVelocity <= 0) {
 			this.projectileVelocity = 1;
-			String message = "The specified projectile velocity " + projectileVelocity + " is negative or zero. Uses the value of " + this.projectileVelocity + " instead.";
+			String message =
+					"The specified projectile velocity " + projectileVelocity + " is negative or zero. Uses the value of " +
+					this.projectileVelocity + " instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.WARNING, message, exception);
 			throw exception;
@@ -83,7 +86,7 @@ public class WeaponComponent extends AbstractShipComponent {
 	 * Updates the weaponComponent, recharge the weapon by one and if there is a standing firingOrder and the weapon can shoot,
 	 * a shot will be fired.
 	 */
-	 public void updateWeapon(float deltaSeconds) {
+	public void updateWeapon(float deltaSeconds) {
 		projectileToFire = null;
 		rechargeTimeLeft -= deltaSeconds;
 		if (hasOrder() && canShoot()) {
@@ -166,34 +169,25 @@ public class WeaponComponent extends AbstractShipComponent {
 	}
 
 	@Override public ShipComponent copy() {
-		return new WeaponComponent(maxIntegrity, baseDamage, damageScale, baseBlastRadius, blastRadiusScale, projectileVelocity,
+		return new WeaponComponent(maxIntegrity, baseDamage, damageScale, baseBlastRadius, blastRadiusScale,
+								   projectileVelocity,
 								   baseRechargeTime, rechargeScale, getMaxPower(), getSymbolRepresentation());
 	}
 
 	@Override public boolean equals(final Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		if (!super.equals(o))
-			return false;
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
+		if (!super.equals(o)) { return false; }
 
 		final WeaponComponent that = (WeaponComponent) o;
 
-		if (Float.compare(that.baseDamage, baseDamage) != 0)
-			return false;
-		if (Float.compare(that.damageScale, damageScale) != 0)
-			return false;
-		if (baseBlastRadius != that.baseBlastRadius)
-			return false;
-		if (Float.compare(that.blastRadiusScale, blastRadiusScale) != 0)
-			return false;
-		if (Float.compare(that.baseRechargeTime, baseRechargeTime) != 0)
-			return false;
-		if (Float.compare(that.rechargeScale, rechargeScale) != 0)
-			return false;
-		if (Float.compare(that.projectileVelocity, projectileVelocity) != 0)
-			return false;
+		if (Float.compare(that.baseDamage, baseDamage) != 0) { return false; }
+		if (Float.compare(that.damageScale, damageScale) != 0) { return false; }
+		if (baseBlastRadius != that.baseBlastRadius) { return false; }
+		if (Float.compare(that.blastRadiusScale, blastRadiusScale) != 0) { return false; }
+		if (Float.compare(that.baseRechargeTime, baseRechargeTime) != 0) { return false; }
+		if (Float.compare(that.rechargeScale, rechargeScale) != 0) { return false; }
+		if (Float.compare(that.projectileVelocity, projectileVelocity) != 0) { return false; }
 
 		return true;
 	}

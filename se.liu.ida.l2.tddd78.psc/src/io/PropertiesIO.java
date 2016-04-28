@@ -46,13 +46,13 @@ public final class PropertiesIO {
 				return Integer.parseInt(value);
 			} catch (NumberFormatException e) {
 				Logger.getGlobal().log(Level.FINE, "Couldn't use value " + value + " for property " + propertyName +
-													 " because it isn't a valid integer. Using the default value of " +
-													 defaultValue, e);
+												   " because it isn't a valid integer. Using the default value of " +
+												   defaultValue, e);
 				return defaultValue;
 			}
 		} else {
 			Logger.getGlobal().log(Level.FINE, "Couldn't find a value for property " + propertyName +
-												 ". Using the default value of " + defaultValue);
+											   ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
 	}
@@ -65,8 +65,8 @@ public final class PropertiesIO {
 				return Float.parseFloat(value);
 			} catch (NumberFormatException e) {
 				Logger.getGlobal().log(Level.FINE, "Couldn't use value " + value + " for property " + propertyName +
-													 " because it isn't a valid float number. Using the default value of " +
-													 defaultValue, e);
+												   " because it isn't a valid float number. Using the default value of " +
+												   defaultValue, e);
 				return defaultValue;
 			}
 		} else {

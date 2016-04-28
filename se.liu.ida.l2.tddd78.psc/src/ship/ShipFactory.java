@@ -86,8 +86,8 @@ public final class ShipFactory {
 		WEAPON_RADIUS_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_radius_scaling", defaultWeaponRadiusScaling);
 
 		WEAPON_BASE_RECHARGE = PropertiesIO.getFloatProperty(properties, "weapon_base_recharge", defaultWeaponBaseRecharge);
-		WEAPON_RECHARGE_SCALING =
-				PropertiesIO.getFloatProperty(properties, "weapon_recharge_scaling", defaultWeaponRechargeScale);
+		WEAPON_RECHARGE_SCALING = PropertiesIO.getFloatProperty(properties, "weapon_recharge_scaling",
+																defaultWeaponRechargeScale);
 
 		PROJECTILE_VELOCITY = PropertiesIO.getFloatProperty(properties, "projectile_velocity", defaultProjectileVelocity);
 
@@ -104,9 +104,8 @@ public final class ShipFactory {
 		boolean convertedShipsAlike = initialShip.equals(shipFromConversion);
 
 		assert (convertedShipsAlike) : "The ship [" + initialShip.getTextRepresentation() + "] and the ship [" +
-									   shipFromConversion.getTextRepresentation() +
-									   "], created from the text representation of the " +
-									   "first ship, are not equal.";
+									   shipFromConversion.getTextRepresentation() + "], created from the text " +
+									   "representation of the first ship, are not equal.";
 	}
 
 	private ShipFactory() {}

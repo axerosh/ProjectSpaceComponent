@@ -3,7 +3,8 @@ package ship.component.weapon;
 import ship.Starship;
 import ship.component.ShipComponent;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * A general projectile that will move towards a target and inflict damage.
@@ -19,8 +20,7 @@ public class Projectile {
 	private int blastRadius;
 
 	public Projectile(final float selfX, final float selfY, final float targetX, final float targetY, final float velocity,
-					  final Starship targetShip, final float damageOnImpact, final int blastRadius)
-	{
+					  final Starship targetShip, final float damageOnImpact, final int blastRadius) {
 		this.selfX = selfX;
 		this.selfY = selfY;
 		this.targetX = targetX;

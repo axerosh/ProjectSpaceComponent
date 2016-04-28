@@ -65,15 +65,13 @@ public class Starship {
 	/**
 	 * Constructs a star ship with the specifed position, width and height.
 	 *
-	 * @param width    the width of the ship i.e. the number of ship components that can fit along the width
+	 * @param width     the width of the ship i.e. the number of ship components that can fit along the width
 	 * @param height    the height of the ship i.e. the number of ship components that can fit along the height
 	 * @param integrity the damage the ship can take before it is destroyed
-	 * @throws IllegalArgumentException if one of the following is true:
-	 * <ul>
-	 * <li>the specified width is negative or 0</li>
-	 * <li>the specified height is negative or 0</li>
-	 * <li>the specified integrity is negative or 0</li>
-	 * </ul>
+	 *
+	 * @throws IllegalArgumentException if one of the following is true: <ul> <li>the specified width is negative or 0</li>
+	 *                                  <li>the specified height is negative or 0</li> <li>the specified integrity is negative
+	 *                                  or 0</li> </ul>
 	 * @see ShipComponent
 	 */
 	public Starship(final int width, final int height, final float integrity) {
@@ -130,9 +128,7 @@ public class Starship {
 	 *                                  </ul>
 	 * @see ShipComponent
 	 */
-	public Starship(final int width, final int height, final float integrity,
-					final float maxIntegrity)
-	{
+	public Starship(final int width, final int height, final float integrity, final float maxIntegrity) {
 		this(width, height, integrity);
 
 		if (maxIntegrity < integrity) {
@@ -236,13 +232,13 @@ public class Starship {
 	 * Adds the specified component at the specified internal positon. Registers the component with this ship.
 	 *
 	 * @param componentToPlace the component to add
-	 * @param col       column in which to add the component
-	 * @param row       row in which to add the component
+	 * @param col              column in which to add the component
+	 * @param row              row in which to add the component
 	 */
 	public void setComponentInternal(final ShipComponent componentToPlace, final int col, final int row) {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
-			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			IllegalArgumentException exception = new IllegalArgumentException(message);
 			Logger.getGlobal().log(Level.FINE, message, exception);
 			return;
 		}
@@ -270,8 +266,8 @@ public class Starship {
 	 * Adds the specified component at the specified virtual environment position. Registers the component with this ship.
 	 *
 	 * @param componentToPlace the component to add
-	 * @param vx       the virtual x position at which to add the component
-	 * @param vy       the virtual y position at which to add the component
+	 * @param vx               the virtual x position at which to add the component
+	 * @param vy               the virtual y position at which to add the component
 	 */
 	public void setComponentExternal(final ShipComponent componentToPlace, final float vx, final float vy) {
 		if (vx < x || vx >= x + width || vy < y || vy >= y + height) {
@@ -284,7 +280,6 @@ public class Starship {
 		setComponentInternal(componentToPlace, (int) getXRelativeToShip(vx), (int) getYRelativeToShip(vy));
 
 	}
-
 
 
 	/**
@@ -311,7 +306,6 @@ public class Starship {
 	}
 
 	/**
-	 *
 	 * @return projetiles the ship wants to fire this tick
 	 */
 	public Collection<Projectile> getProjectilesToFire() {
@@ -534,29 +528,29 @@ public class Starship {
 	}
 
 	public void deregisterShieldComponent(final ShieldComponent shield) {
-			shieldComponents.remove(shield);
-		}
+		shieldComponents.remove(shield);
+	}
 
 	public void deregisterReactorComponent(final ReactorComponent reactor) {
-			reactorComponents.remove(reactor);
-		}
+		reactorComponents.remove(reactor);
+	}
 
 	public void deregisterEngineComponent(final EngineComponent engine) {
-			engineComponents.remove(engine);
-		}
+		engineComponents.remove(engine);
+	}
 
 	public void deregisterWeaponComponent(final WeaponComponent weapon) {
-			weaponComponents.remove(weapon);
-		}
+		weaponComponents.remove(weapon);
+	}
 
 	/**
 	 * @return Returns a 1D ArrayList of all non null components the ship has.
 	 */
-	public List<ShipComponent> getShipComponents(){
+	public List<ShipComponent> getShipComponents() {
 		List<ShipComponent> shipComponents = new ArrayList<>();
-		for(ShipComponent[] componentList:components){
-			for(ShipComponent sc : componentList){
-				if(sc != null){
+		for (ShipComponent[] componentList : components) {
+			for (ShipComponent sc : componentList) {
+				if (sc != null) {
 					shipComponents.add(sc);
 				}
 			}
@@ -569,9 +563,9 @@ public class Starship {
 	 */
 	public Iterable<WeaponComponent> getWeaponComponents() {
 		Collection<WeaponComponent> weaponComponents = new ArrayList<>();
-		for(ShipComponent[] componentList:components){
-			for(ShipComponent sc : componentList){
-				if(sc instanceof WeaponComponent){
+		for (ShipComponent[] componentList : components) {
+			for (ShipComponent sc : componentList) {
+				if (sc instanceof WeaponComponent) {
 					weaponComponents.add((WeaponComponent) sc);
 				}
 			}
@@ -580,9 +574,10 @@ public class Starship {
 	}
 
 	/**
-	 * @return a non null random ShipComponent from the ship unless there is no components in the ship, then null will be returned.
+	 * @return a non null random ShipComponent from the ship unless there is no components in the ship, then null will be
+	 * returned.
 	 */
-	public ShipComponent getRandomComponent(){
+	public ShipComponent getRandomComponent() {
 		List<ShipComponent> shipComponents = getShipComponents();
 
 		if (shipComponents.isEmpty()) {
@@ -645,11 +640,11 @@ public class Starship {
 	/**
 	 * Restores all components to max integrity and removes all power or shield.
 	 */
-	public void restore(){
+	public void restore() {
 		integrity = maxIntegrity;
-		for(ShipComponent[] row : components){
-			for(ShipComponent col : row){
-				if(col != null){
+		for (ShipComponent[] row : components) {
+			for (ShipComponent col : row) {
+				if (col != null) {
 					col.restore();
 				}
 
@@ -665,22 +660,18 @@ public class Starship {
 		}
 	}
 
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return numberOfComponents == 0;
 	}
 
 	@Override public boolean equals(final Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
 
 		final Starship starship = (Starship) o;
 
-		if (Float.compare(starship.maxIntegrity, maxIntegrity) != 0)
-			return false;
-		if (!Arrays.deepEquals(components, starship.components))
-			return false;
+		if (Float.compare(starship.maxIntegrity, maxIntegrity) != 0) { return false; }
+		if (!Arrays.deepEquals(components, starship.components)) { return false; }
 
 		return true;
 	}

@@ -2,7 +2,7 @@ package ship.component;
 
 import ship.Starship;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
@@ -72,7 +72,8 @@ public interface ShipComponent {
 	public void deregisterOwner();
 
 	/**
-	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
+	 * the
 	 * registered ship. If shielding is increased, drains the shielding pool of the ship.
 	 *
 	 * @see #registerOwner
@@ -114,7 +115,6 @@ public interface ShipComponent {
 	public void restore();
 
 	/**
-	 *
 	 * @return the maximum power that this component can be supplied.
 	 */
 	public int getMaxPower();

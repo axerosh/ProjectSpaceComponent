@@ -43,14 +43,14 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	 * Construcs an abstract ship component with the specified maximum HP.
 	 *
 	 * @param integrity            the damage the ship component can take before it is destroyed
-	 * @param symbolRepresentation  the character that is to represent this component
-	 * @param color                    the color with which the component is drawn
+	 * @param symbolRepresentation the character that is to represent this component
+	 * @param color                the color with which the component is drawn
+	 *
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
 	 * @see #setActive(boolean)
 	 */
 	protected AbstractShipComponent(final float integrity, final int maxPower, final char symbolRepresentation,
-									final Color color)
-	{
+									final Color color) {
 		this.integrity = integrity;
 		maxIntegrity = integrity;
 		this.symbolRepresentation = symbolRepresentation;
@@ -144,9 +144,10 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	}
 
 	/**
-	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from the
-	 * registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual updateMovement if shielding
-	 * was increased.
+	 * Increases shielding unless it is at maximum capacity or if there is no registered ship or no available shielding from
+	 * the
+	 * registered ship. If shielding is increased, drains the shielding pool of the ship. Requests a visual updateMovement if
+	 * shielding was increased.
 	 *
 	 * @see #registerOwner
 	 */
@@ -163,8 +164,8 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 
 	/**
 	 * Increases power unless it is at maximum capacity or if there is no registered ship or no available power from the
-	 * registered ship. If power is increased, drains the shielding pool of the ship. Requests a visual updateMovement if power was
-	 * increased.
+	 * registered ship. If power is increased, drains the shielding pool of the ship. Requests a visual updateMovement if power
+	 * was increased.
 	 *
 	 * @see #registerOwner
 	 */
@@ -260,10 +261,10 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		integrity = maxIntegrity;
 		active = true;
 
-		while(hasPower()){
+		while (hasPower()) {
 			decreasePower();
 		}
-		while(hasShielding()){
+		while (hasShielding()) {
 			decreaseShielding();
 		}
 	}
@@ -273,21 +274,15 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	}
 
 	@Override public boolean equals(final Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
 
 		final AbstractShipComponent that = (AbstractShipComponent) o;
 
-		if (Float.compare(that.maxIntegrity, maxIntegrity) != 0)
-			return false;
-		if (symbolRepresentation != that.symbolRepresentation)
-			return false;
-		if (maxPower != that.maxPower)
-			return false;
-		if (color != null ? !color.equals(that.color) : that.color != null)
-			return false;
+		if (Float.compare(that.maxIntegrity, maxIntegrity) != 0) { return false; }
+		if (symbolRepresentation != that.symbolRepresentation) { return false; }
+		if (maxPower != that.maxPower) { return false; }
+		if (color != null ? !color.equals(that.color) : that.color != null) { return false; }
 
 		return true;
 	}
