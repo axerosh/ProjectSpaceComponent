@@ -33,30 +33,30 @@ public final class Statbar
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 
 		} else if (levelsPerCell <= 0) {
 			String message = "The specified number of stat levels per cell = " + levelsPerCell +
 							 " is invalid. It must be greater than 0.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 		}
 
 		//Outline/Background
@@ -106,21 +106,21 @@ public final class Statbar
 		if (renderedWidth <= 0 || renderedHeight <= 0) {
 			String message = "Invalid dimensions width = " + renderedWidth + ", height = " +
 							 renderedHeight + ". Only positive integers are permitted.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 		} else if (currentStatLevel < 0) {
 			String message = "The specified stat level current stat level = " + currentStatLevel +
 							 " is invalid. It can not be negative.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 		} else if (maxStatLevel <= 0) {
 			String message = "The specified max stat level = " + maxStatLevel + " is invalid. " +
 							 "It must be greater than 0.";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return;
 		}
 
 		//Outline/Background

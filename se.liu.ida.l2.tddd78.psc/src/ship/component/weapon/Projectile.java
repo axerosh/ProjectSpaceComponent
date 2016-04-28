@@ -63,7 +63,7 @@ public class Projectile {
 	}
 
 	/**
-	 * Deals damage to any ship ship.component at the specified position
+	 * Deals damage to any ship component at the specified position
 	 *
 	 * @param x the x-coordinate of the position
 	 * @param y the x-coordinate of the position

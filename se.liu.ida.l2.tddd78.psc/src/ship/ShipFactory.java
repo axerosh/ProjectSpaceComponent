@@ -7,10 +7,6 @@ import ship.component.utility.ReactorComponent;
 import ship.component.utility.ShieldComponent;
 import ship.component.weapon.WeaponComponent;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -24,7 +20,7 @@ import java.util.logging.Logger;
  */
 public final class ShipFactory {
 
-	//All these values sould be teh same for any ship factory.
+	//All these are static because their values sould be the same for any ship factory.
 	private final static char ENGINE_SYMBOL = 'E';
 	private final static char WEAPON_SYMBOL = 'W';
 	private final static char REACTOR_SYMBOL = 'R';
@@ -48,17 +44,7 @@ public final class ShipFactory {
 
 	static {
 		final String fileName = "ship";
-		final String fileExtension = ".properties";
-		final File resources = new File("resources");
-		final File saveLocation = new File(resources, "properties");
-		final File filePath = new File(saveLocation, fileName + fileExtension);
-
-		final Properties properties = new Properties();
-		try (InputStream in = new FileInputStream(filePath)) {
-			properties.load(in);
-		} catch (IOException e) {
-			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
-		}
+		final Properties properties = PropertiesIO.loadProperties(fileName);
 
 		final float defaultComponentIntegrity = 2;
 		final int defaultStandardMaxPower = 6;

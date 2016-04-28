@@ -79,14 +79,14 @@ public class Starship {
 			String message = "Invalid ship dimensions width = " + width + ", height = " + height +
 							 ". Only positive integers are permitted.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message);
-			throw exception;
+			Logger.getGlobal().log(Level.WARNING, message, exception);
+			return;
 		}
 		if (integrity <= 0) {
 			String message = "Invalid inegrity = " + integrity + ". Only positive values are permitted.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message);
-			throw exception;
+			Logger.getGlobal().log(Level.WARNING, message, exception);
+			return;
 		}
 		x = 0;
 		y = 0;
@@ -134,11 +134,11 @@ public class Starship {
 		this(width, height, integrity);
 
 		if (maxIntegrity < integrity) {
+			this.maxIntegrity = integrity;
 			String message = "Invalid maximum integrity = " + maxIntegrity + ". Must be equal to or greater " +
-							 "than the integrity = " + integrity + ".";
+							 "than the integrity = " + integrity + ". Using integrity value as maximum integrity instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message);
-			throw exception;
+			Logger.getGlobal().log(Level.FINE, message, exception);
 		} else {
 			this.maxIntegrity = maxIntegrity;
 		}
@@ -154,7 +154,7 @@ public class Starship {
 	}
 
 	/**
-	 * @return the virtual position of the specified ship.component; null if the ship.component is null or not a part of this ship
+	 * @return the virtual position of the specified component; null if the component is null or not a part of this ship
 	 */
 	public Point2D.Float getPositionOf(ShipComponent component) {
 		if (component == null) {
@@ -172,12 +172,12 @@ public class Starship {
 	}
 
 	/**
-	 * Returns the ship ship.component at the specified position.
+	 * Returns the ship component at the specified position.
 	 *
 	 * @param x the x-coordinate of the position
 	 * @param y the y-coordinate of the position
 	 *
-	 * @return the ship ship.component at the specified position; <code>null</code> if the specified position is outside of ship
+	 * @return the ship component at the specified position; <code>null</code> if the specified position is outside of ship
 	 * bounds
 	 */
 	public ShipComponent getComponentAt(final float x, final float y) {
@@ -231,7 +231,7 @@ public class Starship {
 	}
 
 	/**
-	 * Adds the specified component at the specified internal positon. Registers the ship.component with this ship.
+	 * Adds the specified component at the specified internal positon. Registers the component with this ship.
 	 *
 	 * @param componentToPlace the component to add
 	 * @param col       column in which to add the component
@@ -241,8 +241,8 @@ public class Starship {
 		if (col < 0 || col >= width || row < 0 || row >= height) {
 			String message = "The specified position x = " + col + ", y = " + row + " is out of bounds.";
 			IllegalArgumentException exception =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, exception);
-			throw exception;
+			Logger.getGlobal().log(Level.FINE, message, exception);
+			return;
 		}
 		ShipComponent alreadyPlacedComponent = components[col][row];
 		if (componentToPlace == null) {
@@ -263,7 +263,7 @@ public class Starship {
 	}
 
 	/**
-	 * Adds the specified component at the specified virtual environment position. Registers the ship.component with this ship.
+	 * Adds the specified component at the specified virtual environment position. Registers the component with this ship.
 	 *
 	 * @param componentToPlace the component to add
 	 * @param vx       the virtual x position at which to add the component
@@ -273,8 +273,8 @@ public class Starship {
 		if (vx < x || vx >= x + width || vy < y || vy >= y + height) {
 			String message = "The specified position x = " + vx + ", y = " + vy + " is out of ship bounds.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, exception);
-			throw exception;
+			Logger.getGlobal().log(Level.FINE, message, exception);
+			return;
 		}
 		components[(int) getXRelativeToShip(vx)][(int) getYRelativeToShip(vy)] = componentToPlace;
 
@@ -656,5 +656,9 @@ public class Starship {
 				components[col][row] = null;
 			}
 		}
+	}
+
+	public boolean isEmpty(){
+		return numberOfComponents == 0;
 	}
 }

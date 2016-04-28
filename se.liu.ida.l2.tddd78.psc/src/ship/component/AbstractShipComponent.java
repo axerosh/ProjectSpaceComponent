@@ -6,20 +6,20 @@ import ship.Starship;
 import java.awt.*;
 
 /**
- * A generalship ship.component. Handles general ship ship.component functionality including integrity, shielding and power as well as
+ * A generalship component. Handles general ship component functionality including integrity, shielding and power as well as
  * graphical projection of itself and some of its stats.
  */
 public abstract class AbstractShipComponent implements ShipComponent, Cloneable {
 
 	/**
-	 * The maximum level of shielding a ship ship.component may recieve.
+	 * The maximum level of shielding a ship component may recieve.
 	 */
 	//Static because the maximum shielding is the same for all ship components
 	public static final int MAXSHIELDING = 6;
 	//Static because the highlight color is the same for all ship components
 	private final static Color HIGHLIGHT_COLOR = Color.YELLOW;
 	/**
-	 * The maximum integrity of this ship ship.component. The damage it can take before it is destroyed.
+	 * The maximum integrity of this ship component. The damage it can take before it is destroyed.
 	 */
 	protected final float maxIntegrity;
 	private final char symbolRepresentation;
@@ -39,9 +39,9 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	private Starship owner;
 
 	/**
-	 * Construcs an abstract ship ship.component with the specified maximum HP.
+	 * Construcs an abstract ship component with the specified maximum HP.
 	 *
-	 * @param integrity            the damage the ship ship.component can take before it is destroyed
+	 * @param integrity            the damage the ship component can take before it is destroyed
 	 * @param symbolRepresentation  the character that is to represent this component
 	 * @param color                    the color with which the component is drawn
 	 * @throws IllegalArgumentException if the specified integrity is negative or 0
@@ -86,7 +86,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	/**
 	 * @param damage the damage taken if not for the shielding
 	 *
-	 * @return the damage that the ship.component will take after its shield has reduced it
+	 * @return the damage that the component will take after its shield has reduced it
 	 */
 	private float damageThroughShield(float damage) {
 		final float shieldRatePerShielding = 0.15f;
@@ -95,12 +95,12 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 	}
 
 	/**
-	 * Draws this ship ship.component with the specified scaling and the specified color.
+	 * Draws this ship component with the specified scaling and the specified color.
 	 *
-	 * @param g        the Graphics object with which to draw this ship ship.component
+	 * @param g        the Graphics object with which to draw this ship component
 	 * @param scale    the scale with which to scale virtual positions to get on-screen positions
-	 * @param virtualX the virtual x-position at which the ship ship.component is to be drawn.
-	 * @param virtualY the virtual y-position at which the ship ship.component is to be drawn.
+	 * @param virtualX the virtual x-position at which the ship component is to be drawn.
+	 * @param virtualY the virtual y-position at which the ship component is to be drawn.
 	 */
 	public void draw(final Graphics g, final float scale, final float virtualX, final float virtualY) {
 		g.setColor(color);

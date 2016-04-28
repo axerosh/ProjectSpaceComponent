@@ -32,10 +32,17 @@ public class BasicAI
 
 		for (WeaponComponent wc : aiShip.getWeaponComponents()) {
 			Starship targetShip = field.getRandomShipOfTeam(field.getRandomHostileTeam(aiShip.getTeam()));
+			if (targetShip == null || targetShip.isEmpty()) {
+				System.out.println("Empty ship");
+				return;
+			}
+			System.out.println("Ship with stuff.");
 			ShipComponent targetComponent = targetShip.getRandomComponent();
 
 			float originX = aiShip.getPositionOf(wc).x;
 			float originY = aiShip.getPositionOf(wc).y;
+
+
 
 			float targetX = targetShip.getPositionOf(targetComponent).x;
 			float targetY = targetShip.getPositionOf(targetComponent).y;

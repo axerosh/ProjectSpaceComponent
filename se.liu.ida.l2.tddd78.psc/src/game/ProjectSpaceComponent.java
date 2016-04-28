@@ -142,7 +142,7 @@ public class ProjectSpaceComponent implements Runnable {
 							" do not match.";
 			IllegalStateException exception = new IllegalStateException(message);
 			Logger.getGlobal().log(Level.SEVERE, message, exception);
-			throw exception;
+			System.exit(1);
 		}
 
 		timer.start();

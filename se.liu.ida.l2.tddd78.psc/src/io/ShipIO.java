@@ -25,18 +25,13 @@ import java.util.logging.Logger;
 public final class ShipIO {
 
 	//Static because there is but one save location for ships.
-	private final static File SAVE_LOCATION;
+	private final static File SAVE_LOCATION = new File("psc_ship_designs");
 
 	//Static because there is but one file extension for ships.
 	private final static String FILE_EXTENSION = ".ship";
 
 	//Static because ships are to always be saved with the same charset.
 	private final static Charset CHARSET = StandardCharsets.UTF_8;
-
-	static {
-		final File resources = new File("resources");
-		SAVE_LOCATION = new File(resources, "ship_designs");
-	}
 
 	private ShipIO() {
 	}
@@ -59,36 +54,48 @@ public final class ShipIO {
 	}
 
 	/**
-	 * Returns a ship loaded from the specified path.
+	 * Returns a loaded ship with the specified name.
 	 *
 	 * @param fileName the name of the file to which the ship is saved (excluding file extension)
 	 * @return a ship loaded from the specified path
 	 */
 	//static so that ships can be loaded from anywhere without needing to create an instance of ShipIO
 	public static Starship load(String fileName) {
-		File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
-			StringBuilder textRepresentation = new StringBuilder();
+		String textRepresentation = loadTextRepresentation(fileName);
 
-			String nextLine = reader.readLine();
-			while (nextLine != null) {
-				textRepresentation.append(nextLine);
-				nextLine = reader.readLine();
-			}
-
-			return ShipFactory.getStarship(textRepresentation.toString());
-
-		} catch (IOException e) {
-			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
+		if (textRepresentation == null) {
+			return null;
+		} else {
+			return ShipFactory.getStarship(textRepresentation);
 		}
-		return null;
 	}
 
-
+	/**
+	 * Sets the components of the ships in the specifed ship list, so that they match the a loaded ship representation with the specified name.
+	 *
+	 * @param fileName the name if the ship representation
+	 * @param starShips the ships that are to match the ship representation
+	 */
 	public static void loadToShips(String fileName, Iterable<Starship> starShips) {
-		File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
+		String textRepresentation = loadTextRepresentation(fileName);
 
+		if (textRepresentation == null) {
+			JOptionPane.showMessageDialog(null, "No ship with that name exits.");
+		} else {
+			for (Starship starShip : starShips) {
+				starShip.clearComponents();
+				ShipFactory.setComponents(starShip, textRepresentation);
+			}
+		}
+	}
 
+	/**
+	 * Loads the ship representation with the specified name.
+	 *
+	 * @param fileName the name of the ship representation
+	 * @return the loaded ship representation
+	 */
+	private static String loadTextRepresentation(String fileName) {File filePath = new File(SAVE_LOCATION, fileName + FILE_EXTENSION);
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), CHARSET))) {
 			StringBuilder textRepresentation = new StringBuilder();
 
@@ -97,14 +104,11 @@ public final class ShipIO {
 				textRepresentation.append(nextLine);
 				nextLine = reader.readLine();
 			}
-			for (Starship starShip : starShips) {
-				starShip.clearComponents();
-				ShipFactory.setComponents(starShip, textRepresentation.toString());
-			}
+			return textRepresentation.toString();
 
 		} catch (IOException e) {
-			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
-			JOptionPane.showMessageDialog(null, "No ship with that name exits.");
+			Logger.getGlobal().log(Level.WARNING, e.toString(), e);
+			return null;
 		}
 	}
 }

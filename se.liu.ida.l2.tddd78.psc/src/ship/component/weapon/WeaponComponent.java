@@ -36,23 +36,27 @@ public class WeaponComponent extends AbstractShipComponent {
 		super(integrity, maxPower, symbolRepresentation, new Color(100, 100, 100));
 
 		if (baseBlastRadius <= 0) {
-			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero.";
+			this.baseBlastRadius = 1;
+			String message = "The specified base blast radius " + baseBlastRadius + " is negative or zero. Uses the value of " + this.baseBlastRadius + " instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, exception);
-			throw exception;
+			Logger.getGlobal().log(Level.WARNING, message, exception);
+		} else {
+			this.baseBlastRadius = baseBlastRadius;
 		}
+
 		if (projectileVelocity <= 0) {
-			String message = "The specified projectile velocity " + projectileVelocity + " is negative or zero.";
+			this.projectileVelocity = 1;
+			String message = "The specified projectile velocity " + projectileVelocity + " is negative or zero. Uses the value of " + this.projectileVelocity + " instead.";
 			IllegalArgumentException exception = new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			Logger.getGlobal().log(Level.WARNING, message, exception);
 			throw exception;
+		} else {
+			this.projectileVelocity = projectileVelocity;
 		}
 
 		this.baseDamage = baseDamage;
 		this.damageScale = damageScale;
-		this.baseBlastRadius = baseBlastRadius;
 		this.blastRadiusScale = blastRadiusScale;
-		this.projectileVelocity = projectileVelocity;
 		this.baseRechargeTime = baseRechargeTime;
 		this.rechargeScale = rechargeScale;
 		rechargeTimeLeft = 0;

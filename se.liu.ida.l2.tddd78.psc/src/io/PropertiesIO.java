@@ -25,8 +25,7 @@ public final class PropertiesIO {
 	//Static because one should not have to instanciate PropertiesIO to load files.
 	public static Properties loadProperties(String fileName) {
 		final String fileExtension = ".properties";
-		final File resources = new File("resources");
-		final File saveLocation = new File(resources, "properties");
+		final File saveLocation = new File("psc_properties");
 		final File filePath = new File(saveLocation, fileName + fileExtension);
 
 		final Properties properties = new Properties();
@@ -46,13 +45,13 @@ public final class PropertiesIO {
 			try {
 				return Integer.parseInt(value);
 			} catch (NumberFormatException e) {
-				Logger.getGlobal().log(Level.SEVERE, "Couldn't use value " + value + " for property " + propertyName +
+				Logger.getGlobal().log(Level.FINE, "Couldn't use value " + value + " for property " + propertyName +
 													 " because it isn't a valid integer. Using the default value of " +
 													 defaultValue, e);
 				return defaultValue;
 			}
 		} else {
-			Logger.getGlobal().log(Level.SEVERE, "Couldn't find a value for property " + propertyName +
+			Logger.getGlobal().log(Level.FINE, "Couldn't find a value for property " + propertyName +
 												 ". Using the default value of " + defaultValue);
 			return defaultValue;
 		}
@@ -65,7 +64,7 @@ public final class PropertiesIO {
 			try {
 				return Float.parseFloat(value);
 			} catch (NumberFormatException e) {
-				Logger.getGlobal().log(Level.SEVERE, "Couldn't use value " + value + " for property " + propertyName +
+				Logger.getGlobal().log(Level.FINE, "Couldn't use value " + value + " for property " + propertyName +
 													 " because it isn't a valid float number. Using the default value of " +
 													 defaultValue, e);
 				return defaultValue;

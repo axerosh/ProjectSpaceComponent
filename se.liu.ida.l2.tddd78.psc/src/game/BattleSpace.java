@@ -23,7 +23,18 @@ import java.util.logging.Logger;
  */
 public class BattleSpace implements DisplayableEnvironment {
 
-	private final static ImageIcon BACKGROUND_IMAGE = new ImageIcon("resources/img/space.png");
+	//Static because the same background is to be used in any case.
+	private final static String BACKGROUND_IMAGE_PATH = "se.liu.ida.l2.tddd78.psc/resources/space.png";
+
+	//Static because the same background is to be used in any case.
+	private final static ImageIcon BACKGROUND_IMAGE = new ImageIcon(BACKGROUND_IMAGE_PATH);
+
+	static {
+		if (BACKGROUND_IMAGE.getImageLoadStatus() != MediaTracker.COMPLETE) {
+			Logger.getGlobal().log(Level.INFO, "The battle space background could not be loaded from '" + BACKGROUND_IMAGE_PATH + "'.");
+		}
+	}
+
 	private final List<Team> teams;
 	private final Set<Projectile> projectiles;
 	private Random rng;
@@ -140,9 +151,9 @@ public class BattleSpace implements DisplayableEnvironment {
 	public Starship getRandomShipOfTeam(final Team team) {
 		if (!teams.contains(team)) {
 			String message = team.getTeamName() + ": No such team!";
-			IllegalArgumentException excpetion =  new IllegalArgumentException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, excpetion);
-			throw excpetion;
+			IllegalArgumentException exception =  new IllegalArgumentException(message);
+			Logger.getGlobal().log(Level.CONFIG, message, exception);
+			return null;
 		}
 		return teams.get(teams.indexOf(team)).getRandomMember();
 	}
