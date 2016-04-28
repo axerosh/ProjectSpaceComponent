@@ -113,9 +113,16 @@ public final class ShipFactory {
 										shipFromConversion.getTextRepresentation() + "], created from the text " +
 										"representation of the first ship, are not equal.";
 			}
-			assert (initialShip.equals(shipFromConversion)) : shipsDifferentMessage;
+			boolean convertedShipsEqual = initialShip.equals(shipFromConversion);
+			if (!convertedShipsEqual) {
+				Logger.getGlobal().log(Level.INFO, shipsDifferentMessage);
+			}
+			assert (convertedShipsEqual) : shipsDifferentMessage;
+
 		} catch (IllegalArgumentException e) {
-			throw new AssertionError("Failed initializing standard ship.", e);
+			String errorMessage = "Failed initializing standard ship.";
+			AssertionError assertionError = new AssertionError(errorMessage, e);
+			Logger.getGlobal().log(Level.WARNING, errorMessage, assertionError);
 		}
 	}
 
