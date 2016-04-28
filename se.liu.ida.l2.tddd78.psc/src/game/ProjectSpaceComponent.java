@@ -24,10 +24,10 @@ import java.util.logging.Logger;
 public class ProjectSpaceComponent implements Runnable {
 
 	private final PSCFrame frame;
-	private final Timer timer;
 	private final Workshop workshop;
 	private final BattleSpace battleSpace;
 	private final MouseController playerController;
+	private Timer clock;
 	private Displayer gameDisplayer;
 
 	private int workshopWidth;
@@ -49,12 +49,9 @@ public class ProjectSpaceComponent implements Runnable {
 
 		workshop = new Workshop(workshopWidth, workshopHeight, shipWidth, shipHeight);
 		battleSpace = new BattleSpace(battleSpaceWidth, battleSpaceHeight);
-
 		gameDisplayer = new Displayer(workshop, workshopScale);
-		ais = new HashSet<>();
 
 		frame = new PSCFrame(this);
-
 		frame.add(gameDisplayer);
 		frame.setVisible(true);
 		frame.pack();
@@ -66,90 +63,9 @@ public class ProjectSpaceComponent implements Runnable {
 		playerController.setBounds(0, 0, screenWidth, screenHeight);
 		frame.add(playerController);
 
-
-		final long millisPerSecond = 1000;
-		int wantedBetweenUpdates = Math.round(millisPerSecond / maxFramerate);
-		int timeBetweenUpdates = (int) Math.ceil(wantedBetweenUpdates);
-
-		timer = new Timer(timeBetweenUpdates, new AbstractAction() {
-			private long lastTime = System.nanoTime();
-
-			@Override public void actionPerformed(final ActionEvent e) {
-				final long nanosPerSecond = 1000000000;
-				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
-				lastTime = System.nanoTime();
-
-				if (gamemode == Gamemode.BATTLE) {
-					for (BasicAI ai : ais) {
-						ai.update();
-					}
-
-					battleSpace.update(passedSeconds);
-				}
-				gameDisplayer.repaint();
-
-			}
-		});
-
-		timer.setCoalesce(false);
-
-		final Team team1 = new Team("Team 1");
-		final Team team2 = new Team("Team 2");
-		battleSpace.addTeam(team1);
-		battleSpace.addTeam(team2);
-
-		final int defaultShipIntegrity = 10;
-
-		playerShip = ShipIO.load("the_manta");
-		if (playerShip == null) {
-			playerShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
-		}
-		playerController.setControlledShip(playerShip);
-		battleSpace.addShip(playerShip, team1);
-		workshop.addWorkingShip(playerShip);
-
-		Starship enemyShip1 = ShipIO.load("the_governator");
-		if (enemyShip1 == null) {
-			enemyShip1 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
-		}
-		enemyShip1.rotate180();
-		ais.add(new BasicAI(battleSpace, enemyShip1));
-		battleSpace.addShip(enemyShip1, team2);
-
-		Starship enemyShip2 = ShipIO.load("the_manta");
-		if (enemyShip2 == null) {
-			enemyShip2 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
-		}
-		enemyShip2.rotate180();
-		ais.add(new BasicAI(battleSpace, enemyShip2));
-		battleSpace.addShip(enemyShip2, team2);
-
-		Starship friendlyShip = ShipIO.load("the_governator");
-		if (friendlyShip == null) {
-			friendlyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
-		}
-		ais.add(new BasicAI(battleSpace, friendlyShip));
-		battleSpace.addShip(friendlyShip, team1);
-
-	}
-
-	@Override public void run() {
-		Class<?> gameEnvironment = gameDisplayer.getDisplayedEnvironment().getClass();
-
-		boolean matchingBattle = gameEnvironment.equals(BattleSpace.class) && gamemode == Gamemode.BATTLE;
-		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
-
-		if (!(matchingBattle || matchingWorkshop)) {
-			String message =
-					"The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
-					" do not match.";
-			IllegalStateException exception = new IllegalStateException(message);
-			Logger.getGlobal().log(Level.SEVERE, message, exception);
-			System.exit(1);
-		}
-
-		timer.start();
-
+		ais = new HashSet<>();
+		initUpdateClock();
+		initTeams();
 	}
 
 	/**
@@ -184,6 +100,115 @@ public class ProjectSpaceComponent implements Runnable {
 		shipHeight = PropertiesIO.getIntegerProperty(properties, "ship_height", defaultShipHeight);
 
 		maxFramerate = PropertiesIO.getIntegerProperty(properties, "max_framerate", defaultMaxFramerate);
+	}
+
+	private void initUpdateClock() {
+
+		final long millisPerSecond = 1000;
+		int wantedBetweenUpdates = Math.round(millisPerSecond / maxFramerate);
+		int timeBetweenUpdates = (int) Math.ceil(wantedBetweenUpdates);
+
+		clock = new Timer(timeBetweenUpdates, new AbstractAction() {
+			private long lastTime = System.nanoTime();
+
+			@Override public void actionPerformed(final ActionEvent e) {
+				final long nanosPerSecond = 1000000000;
+				float passedSeconds = (float) (System.nanoTime() - lastTime) / nanosPerSecond;
+				lastTime = System.nanoTime();
+
+				if (gamemode == Gamemode.BATTLE) {
+					for (BasicAI ai : ais) {
+						ai.update();
+					}
+
+					battleSpace.update(passedSeconds);
+				}
+				gameDisplayer.repaint();
+
+			}
+		});
+
+		clock.setCoalesce(false);
+	}
+
+	private void initTeams() {
+		final Team team1 = new Team("Team 1");
+		final Team team2 = new Team("Team 2");
+		battleSpace.addTeam(team1);
+		battleSpace.addTeam(team2);
+
+		final int defaultShipIntegrity = 10;
+
+		playerShip = ShipIO.load("the_manta");
+		if (playerShip == null) {
+			try {
+				playerShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+			} catch (IllegalArgumentException e) {
+				Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
+				System.exit(1);
+			}
+		}
+		playerController.setControlledShip(playerShip);
+		battleSpace.addShip(playerShip, team1);
+		workshop.addWorkingShip(playerShip);
+
+		Starship enemyShip1 = ShipIO.load("the_governator");
+		if (enemyShip1 == null) {
+			try {
+				enemyShip1 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+			} catch (IllegalArgumentException e) {
+				Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			}
+		}
+		if (enemyShip1 != null) {
+			enemyShip1.rotate180();
+		}
+		ais.add(new BasicAI(battleSpace, enemyShip1));
+		battleSpace.addShip(enemyShip1, team2);
+
+		Starship enemyShip2 = ShipIO.load("the_manta");
+		if (enemyShip2 == null) {
+			try {
+				enemyShip2 = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+			} catch (IllegalArgumentException e) {
+				Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			}
+		}
+		if (enemyShip2 != null) {
+			enemyShip2.rotate180();
+		}
+		ais.add(new BasicAI(battleSpace, enemyShip2));
+		battleSpace.addShip(enemyShip2, team2);
+
+		Starship friendlyShip = ShipIO.load("the_governator");
+		if (friendlyShip == null) {
+			try {
+				friendlyShip = new Starship(shipWidth, shipHeight, defaultShipIntegrity);
+			} catch (IllegalArgumentException e) {
+				Logger.getGlobal().log(Level.WARNING, e.getMessage(), e);
+			}
+		}
+		ais.add(new BasicAI(battleSpace, friendlyShip));
+		battleSpace.addShip(friendlyShip, team1);
+	}
+
+	@Override public void run() {
+		Class<?> gameEnvironment = gameDisplayer.getDisplayedEnvironment().getClass();
+
+		boolean matchingBattle = gameEnvironment.equals(BattleSpace.class) && gamemode == Gamemode.BATTLE;
+		boolean matchingWorkshop = gameEnvironment.equals(Workshop.class) && gamemode == Gamemode.WORKSHOP;
+
+		if (!(matchingBattle || matchingWorkshop)) {
+			String message =
+					"The game environment " + gameEnvironment + " should not be displayed during gamemode " + gamemode +
+					" do not match.";
+			IllegalStateException exception = new IllegalStateException(message);
+			Logger.getGlobal().log(Level.SEVERE, message, exception);
+			System.exit(1);
+		}
+
+		clock.start();
+
 	}
 
 	public void changeGamemode() {
