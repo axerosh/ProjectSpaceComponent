@@ -3,8 +3,7 @@ package ship.component;
 import graphics.StatbarDrawer;
 import ship.Starship;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * A general shipComponent.
@@ -229,11 +228,11 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		return power > 0;
 	}
 
-	@Override public boolean isIntact() {
+	public boolean isIntact() {
 		return integrity > 0;
 	}
 
-	@Override public int getPower() {
+	public int getPower() {
 		return power;
 	}
 
