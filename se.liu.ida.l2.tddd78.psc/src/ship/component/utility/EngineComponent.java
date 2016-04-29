@@ -6,7 +6,10 @@ import ship.component.ShipComponent;
 import java.awt.Color;
 
 /**
- * A utility components that supplies dodge rate to its ship when it is powered.
+ * A PoweredUtilityComponent that supplies dodge rate to its Starship when it is powered.
+ *
+ * @see Starship
+ * @see PoweredUtilityComponent
  */
 public class EngineComponent extends PoweredUtilityComponent {
 

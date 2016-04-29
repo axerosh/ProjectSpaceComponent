@@ -21,10 +21,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A starship consisting of ship components. The collective shielding and power usage of its components may not exceed its
- * shielding and power pools respectively.
+ * A Starship consisting of ShipComponents. The Starship gets stats and rescurses depending on its
+ * PoweredUtilityComponents and ReactorComponents.
+ * The collective shielding and power usage of its components may not exceed its
+ * shielding and power pools respectively. Can take damage and can be made inoperabel.
+ * On update will update all its ShipComponents and its pools
  *
  * @see ShipComponent
+ * @see ship.component.utility.PoweredUtilityComponent
+ * @see ReactorComponent
  */
 public class Starship {
 

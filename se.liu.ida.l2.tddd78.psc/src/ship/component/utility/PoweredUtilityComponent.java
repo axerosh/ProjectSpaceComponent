@@ -5,7 +5,10 @@ import ship.component.AbstractShipComponent;
 import java.awt.Color;
 
 /**
- * A ship component that supplies its output to its ship when it is powered.
+ * A AbstractShipComponent that supplies its output to its Starship when it is powered.
+ *
+ * @see AbstractShipComponent
+ * @see ship.Starship
  */
 public abstract class PoweredUtilityComponent extends AbstractShipComponent {
 

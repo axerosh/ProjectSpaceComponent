@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * JFrame extension that displays and handles input for a game.
+ * JFrame extension that holds a menu to manipulate a game session of ProjectSpaceComponent.
+ *
+ * @see JFrame
  */
 public class PSCFrame extends JFrame {
 
-	private JMenu saveLoad;
+	private JMenu saveAndLoadMenu;
 
 	public PSCFrame(ProjectSpaceComponent psc) throws HeadlessException {
 		super("Project Space Component");
@@ -38,7 +40,7 @@ public class PSCFrame extends JFrame {
 
 		final JMenu gameMenu = new JMenu("Game");
 
-		saveLoad = new JMenu("Ship");
+		saveAndLoadMenu = new JMenu("Ship");
 
 		final JMenuItem changeGamemode = new JMenuItem("Change Gamemode");
 		changeGamemode.setMnemonic(KeyEvent.VK_G);
@@ -69,7 +71,7 @@ public class PSCFrame extends JFrame {
 				ShipIO.save(psc.getWorkshop().getWorkingShip(), shipName);
 			}
 		});
-		saveLoad.add(save);
+		saveAndLoadMenu.add(save);
 
 
 		final JMenuItem load = new JMenuItem("Load Ship");
@@ -87,16 +89,16 @@ public class PSCFrame extends JFrame {
 			}
 		});
 
-		saveLoad.add(load);
+		saveAndLoadMenu.add(load);
 		gameMenu.add(exit);
 
 		menuBar.add(gameMenu);
-		menuBar.add(saveLoad);
+		menuBar.add(saveAndLoadMenu);
 
 		this.setJMenuBar(menuBar);
 	}
 
-	public JMenu getSaveLoad() {
-		return saveLoad;
+	public JMenu getSaveAndLoadMenu() {
+		return saveAndLoadMenu;
 	}
 }

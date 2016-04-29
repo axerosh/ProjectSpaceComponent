@@ -3,7 +3,10 @@ package ship.component.weapon;
 import ship.Starship;
 
 /**
- * A firing order providing information of where a shot comes from, where it is targeted at and what vessel it is targeting.
+ * A firing order providing information of where a Projectile comes from, where it is targeted at and what Starship it is targeting.
+ *
+ * @see Projectile
+ * @see Starship
  */
 public class FiringOrder {
 

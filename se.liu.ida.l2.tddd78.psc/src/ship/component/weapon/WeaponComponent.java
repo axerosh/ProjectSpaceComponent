@@ -9,7 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * A ship component that can fire projectile according to firing orders.
+ * A AbstractShipComponent that can fire Projectiles according to a FiringOrder
+ * On update will count down a timer untill it can fire again
  *
  * @see Projectile
  * @see FiringOrder

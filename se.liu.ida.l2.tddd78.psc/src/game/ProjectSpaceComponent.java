@@ -19,7 +19,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A session of the game ProjectSpaceComponent.
+ * A Runnable session of the game ProjectSpaceComponent.
+ * Keeps track of the PSCFrame that's contains a Displayer to display the game, the Workshop and BattleSpace which within the game is operated,
+ * a MouseController to allow playerControll.
+ * Contains a gameloop within a Timer that updates the BattleSpace and the BasicAIs
+ *
+ * @see Runnable
+ * @see PSCFrame
+ * @see Displayer
+ * @see Workshop
+ * @see BattleSpace
+ * @see MouseController
+ * @see Timer
+ * @see BasicAI
  */
 public class ProjectSpaceComponent implements Runnable {
 
@@ -224,7 +236,7 @@ public class ProjectSpaceComponent implements Runnable {
 			case WORKSHOP:
 				playerShip = workshop.getWorkingShip();
 				workshop.removeShip();
-				frame.getJMenuBar().remove(frame.getSaveLoad());
+				frame.getJMenuBar().remove(frame.getSaveAndLoadMenu());
 				gamemode = Gamemode.BATTLE;
 				battleSpace.reset();
 				battleSpace.pack(shipWidth, shipHeight);
@@ -235,7 +247,7 @@ public class ProjectSpaceComponent implements Runnable {
 
 			case BATTLE:
 				gamemode = Gamemode.WORKSHOP;
-				frame.getJMenuBar().add(frame.getSaveLoad());
+				frame.getJMenuBar().add(frame.getSaveAndLoadMenu());
 				workshop.addWorkingShip(playerShip);
 				playerShip.restore();
 				screenWidth = (int) (workshopWidth * workshopScale);

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 /**
- * JComponent to display DisplayableEnviroments
+ * JComponent to display DisplayableEnviroments and change between what DisplayableEnvironment is being displayed
  */
 public class Displayer extends JComponent {
 
