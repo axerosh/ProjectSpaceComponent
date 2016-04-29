@@ -112,7 +112,7 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		int pixelsAcross = (int) scale;
 		g.fillRect(screenX, screenY, pixelsAcross, pixelsAcross);
 
-		final int maxAlpha = 255 / 2;
+		final int maxAlpha = 255;
 		int alpha = Math.round((maxAlpha * (1 - integrity / maxIntegrity)));
 		Color transparentBlackOverlay = new Color(0, 0, 0, alpha);
 		g.setColor(transparentBlackOverlay);
