@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Utility class for creating starships
+ * Utility class for creating Starships
  *
  * @see Starship
  */

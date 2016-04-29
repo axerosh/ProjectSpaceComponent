@@ -7,7 +7,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * A general projectile that will move towards a target and inflict damage.
+ * A general projectile that will move towards a target ShipComponent and inflict damage it and surrounding
+ * ShipComponents unpon impact if they are within the blastradius
+ *
+ * @see ShipComponent
  */
 public class Projectile {
 

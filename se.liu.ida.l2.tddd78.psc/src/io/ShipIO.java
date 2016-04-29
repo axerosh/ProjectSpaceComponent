@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Utility class for saving and loading Staship designs.
+ * Utility class for saving and loading Staship designs from textrepresentation
  *
  * @see Starship
  */

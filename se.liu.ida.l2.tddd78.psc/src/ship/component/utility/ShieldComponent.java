@@ -6,7 +6,10 @@ import ship.component.ShipComponent;
 import java.awt.Color;
 
 /**
- * A utility components that supplies shielding to its ship when it is powered.
+ * A PoweredUtilityComponent that supplies shielding to its Starships Shieldpool when it is powered.
+ *
+ * @see PoweredUtilityComponent
+ * @see Starship
  */
 public class ShieldComponent extends PoweredUtilityComponent {
 

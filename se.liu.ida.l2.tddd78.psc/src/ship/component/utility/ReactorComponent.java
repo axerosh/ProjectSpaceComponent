@@ -7,7 +7,10 @@ import ship.component.ShipComponent;
 import java.awt.Color;
 
 /**
- * A ship component that supplies power to its ship. It does not require power to function.
+ * A AbstractShipComponent that supplies power to its Starship powerpool. It does not require power to function.
+ *
+ * @see AbstractShipComponent
+ * @see Starship
  */
 public class ReactorComponent extends AbstractShipComponent {
 

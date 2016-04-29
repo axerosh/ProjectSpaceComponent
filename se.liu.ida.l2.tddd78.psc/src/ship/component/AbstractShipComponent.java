@@ -7,8 +7,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * A generalship component. Handles general ship component functionality including integrity, shielding and power as well as
- * graphical projection of itself and some of its stats.
+ * A general shipComponent.
+ *
+ * @see ShipComponent
  */
 public abstract class AbstractShipComponent implements ShipComponent, Cloneable {
 
@@ -228,11 +229,11 @@ public abstract class AbstractShipComponent implements ShipComponent, Cloneable 
 		return power > 0;
 	}
 
-	public boolean isIntact() {
+	@Override public boolean isIntact() {
 		return integrity > 0;
 	}
 
-	public int getPower() {
+	@Override public int getPower() {
 		return power;
 	}
 

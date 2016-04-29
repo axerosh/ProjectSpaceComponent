@@ -5,8 +5,9 @@ import ship.Starship;
 import java.awt.Graphics;
 
 /**
- * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power. Can
- * be drawn with with some of its stats depicted with a graphical representation.
+ * A ship component with integrity (damage that it can take before it is destroyed), shielding (damage reduction) and power.
+ * The component can be selected and deselected and added to a Starship
+ * Can be drawn with with some of its stats depicted with a graphical representation.
  *
  * @see Starship
  */
@@ -108,6 +109,16 @@ public interface ShipComponent {
 	 * @return the symbol that represents a component of this type
 	 */
 	public char getSymbolRepresentation();
+
+	/**
+	 * @return the ships power level
+	 */
+	public int getPower();
+
+	/**
+	 * @return true if the component has integrity left
+	 */
+	public boolean isIntact();
 
 	/**
 	 * Restores the components to max integrity and strips all power and shielding
