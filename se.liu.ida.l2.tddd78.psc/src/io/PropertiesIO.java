@@ -31,7 +31,7 @@ public final class PropertiesIO {
 		final Properties properties = new Properties();
 		try (InputStream in = new FileInputStream(filePath)) {
 			properties.load(in);
-		} catch (IOException e) {
+		} catch (IOException | SecurityException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 

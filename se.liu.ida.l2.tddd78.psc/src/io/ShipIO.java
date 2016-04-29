@@ -3,7 +3,7 @@ package io;
 import ship.ShipFactory;
 import ship.Starship;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -48,7 +48,7 @@ public final class ShipIO {
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), CHARSET))) {
 			String textRepresentation = ship.getTextRepresentation();
 			writer.write(textRepresentation);
-		} catch (IOException e) {
+		} catch (IOException | SecurityException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.toString(), e);
 		}
 	}
@@ -110,7 +110,7 @@ public final class ShipIO {
 			}
 			return textRepresentation.toString();
 
-		} catch (IOException e) {
+		} catch (IOException | SecurityException e) {
 			Logger.getGlobal().log(Level.WARNING, e.toString(), e);
 			return null;
 		}

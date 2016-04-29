@@ -34,7 +34,7 @@ public final class Main {
 			} else {
 				globalLogger.log(Level.INFO, "Directory " + directoryName + " already created.");
 			}
-		} catch (IOException e) {
+		} catch (IOException | SecurityException e) {
 			Logger.getGlobal().log(Level.WARNING, e.toString(), e);
 		}
 
