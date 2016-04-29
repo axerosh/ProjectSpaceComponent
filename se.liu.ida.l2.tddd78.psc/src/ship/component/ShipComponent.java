@@ -111,16 +111,6 @@ public interface ShipComponent {
 	public char getSymbolRepresentation();
 
 	/**
-	 * @return the ships power level
-	 */
-	public int getPower();
-
-	/**
-	 * @return true if the component has integrity left
-	 */
-	public boolean isIntact();
-
-	/**
 	 * Restores the components to max integrity and strips all power and shielding
 	 */
 	public void restore();
