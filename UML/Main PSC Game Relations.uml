@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>ship.component.ShipComponent</OriginalElement>
+  <nodes>
+    <node x="560.540014231499" y="158.0">ship.component.weapon.FiringOrder</node>
+    <node x="1271.9860294117648" y="495.0">graphics.PSCFrame</node>
+    <node x="412.55000000000007" y="664.0">game.ProjectSpaceComponent</node>
+    <node x="739.3471734661606" y="0.0">ship.component.ShipComponent</node>
+    <node x="699.9233475648323" y="158.0">ship.component.weapon.Projectile</node>
+    <node x="916.9860294117649" y="495.0">ship.ShipFactory</node>
+    <node x="283.4375" y="495.0">game.Workshop</node>
+    <node x="920.4860294117649" y="158.0">ship.component.utility.PoweredUtilityComponent</node>
+    <node x="1377.9860294117648" y="495.0">java.lang.Runnable</node>
+    <node x="469.54001423149896" y="158.0">java.lang.Iterable</node>
+    <node x="867.9860294117649" y="247.0">ship.component.utility.ShieldComponent</node>
+    <node x="1015.9860294117649" y="247.0">ship.component.utility.EngineComponent</node>
+    <node x="501.0362824161921" y="247.0">game.Team</node>
+    <node x="155.9375" y="247.0">graphics.DisplayableEnvironment</node>
+    <node x="142.0" y="817.0">io.ShipIO</node>
+    <node x="643.3735294117648" y="247.0">ship.component.weapon.WeaponComponent</node>
+    <node x="1280.4860294117648" y="386.0">javax.swing.JFrame</node>
+    <node x="404.71275300442744" y="495.0">control.BasicAI</node>
+    <node x="0.0" y="817.0">io.PropertiesIO</node>
+    <node x="32.75" y="386.0">javax.swing.JComponent</node>
+    <node x="428.0362824161921" y="386.0">game.BattleSpace</node>
+    <node x="1167.9860294117648" y="247.0">ship.component.utility.ReactorComponent</node>
+    <node x="0.0" y="495.0">graphics.Displayer</node>
+    <node x="100.0625" y="495.0">control.MouseController</node>
+    <node x="853.0346734661607" y="79.0">ship.component.AbstractShipComponent</node>
+    <node x="751.340014231499" y="386.0">ship.Starship</node>
+    <node x="465.05000000000007" y="743.0">game.Main</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="game.ProjectSpaceComponent" target="graphics.Displayer">
+      <point x="-67.52941176470597" y="-14.5" />
+      <point x="427.0205882352941" y="634.0" />
+      <point x="60.0" y="634.0" />
+      <point x="20.0" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.utility.ShieldComponent">
+      <point x="21.583333333333314" y="-14.5" />
+      <point x="809.9233475648323" y="346.0" />
+      <point x="899.9860294117649" y="346.0" />
+      <point x="-32.0" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="control.BasicAI">
+      <point x="-9.647058823529449" y="-14.5" />
+      <point x="484.9029411764706" y="574.0" />
+      <point x="422.21275300442744" y="574.0" />
+      <point x="-17.5" y="14.5" />
+    </edge>
+    <edge source="ship.ShipFactory" target="ship.component.utility.ReactorComponent">
+      <point x="37.60000000000002" y="-14.5" />
+      <point x="1001.5860294117649" y="475.0" />
+      <point x="1269.9860294117648" y="475.0" />
+      <point x="34.0" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="java.lang.Runnable">
+      <point x="77.17647058823529" y="-14.5" />
+      <point x="571.7264705882353" y="644.0" />
+      <point x="1418.9860294117648" y="644.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="ship.component.weapon.WeaponComponent" target="ship.component.weapon.FiringOrder">
+      <point x="-52.5" y="-14.5" />
+      <point x="660.8735294117648" y="207.0" />
+      <point x="637.2066808981656" y="207.0" />
+      <point x="30.666666666666686" y="14.5" />
+    </edge>
+    <edge source="ship.component.weapon.Projectile" target="ship.Starship">
+      <point x="16.19999999999999" y="14.5" />
+      <point x="756.6233475648323" y="217.0" />
+      <point x="793.8735294117648" y="217.0" />
+      <point x="793.8735294117648" y="296.0" />
+      <point x="779.090014231499" y="296.0" />
+      <point x="-9.25" y="-14.5" />
+    </edge>
+    <edge source="ship.component.utility.ReactorComponent" target="ship.component.AbstractShipComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="1235.9860294117648" y="128.0" />
+      <point x="995.6596734661607" y="128.0" />
+      <point x="61.125" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="graphics.PSCFrame">
+      <point x="57.882352941176464" y="-14.5" />
+      <point x="552.4323529411765" y="624.0" />
+      <point x="1293.4860294117648" y="624.0" />
+      <point x="-21.5" y="14.5" />
+    </edge>
+    <edge source="ship.component.AbstractShipComponent" target="ship.component.ShipComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="934.5346734661607" y="59.0" />
+      <point x="846.4471734661606" y="59.0" />
+      <point x="47.599999999999966" y="14.5" />
+    </edge>
+    <edge source="control.MouseController" target="ship.component.ShipComponent">
+      <point x="-15.125" y="-14.5" />
+      <point x="145.4375" y="49.0" />
+      <point x="751.2471734661606" y="49.0" />
+      <point x="-47.60000000000002" y="14.5" />
+    </edge>
+    <edge source="ship.component.utility.EngineComponent" target="ship.component.utility.PoweredUtilityComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="1081.9860294117648" y="227.0" />
+      <point x="1050.2360294117648" y="227.0" />
+      <point x="43.25" y="14.5" />
+    </edge>
+    <edge source="game.BattleSpace" target="game.Team">
+      <point x="34.875" y="-14.5" />
+      <point x="509.4112824161921" y="366.0" />
+      <point x="519.3362824161921" y="366.0" />
+      <point x="-12.199999999999989" y="14.5" />
+    </edge>
+    <edge source="ship.component.AbstractShipComponent" target="ship.Starship">
+      <point x="-20.375" y="14.5" />
+      <point x="914.1596734661607" y="138.0" />
+      <point x="857.4860294117649" y="138.0" />
+      <point x="857.4860294117649" y="336.0" />
+      <point x="803.7566808981658" y="336.0" />
+      <point x="15.416666666666686" y="-14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="ship.Starship">
+      <point x="48.235294117647044" y="-14.5" />
+      <point x="542.7852941176471" y="614.0" />
+      <point x="826.4970588235294" y="614.0" />
+      <point x="826.4970588235294" y="475.0" />
+      <point x="806.840014231499" y="475.0" />
+      <point x="18.5" y="14.5" />
+    </edge>
+    <edge source="game.Main" target="game.ProjectSpaceComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.utility.EngineComponent">
+      <point x="27.75" y="-14.5" />
+      <point x="816.090014231499" y="356.0" />
+      <point x="1048.9860294117648" y="356.0" />
+      <point x="-33.0" y="14.5" />
+    </edge>
+    <edge source="control.MouseController" target="ship.Starship">
+      <point x="45.375" y="-14.5" />
+      <point x="205.9375" y="455.0" />
+      <point x="757.5066808981658" y="455.0" />
+      <point x="-30.833333333333314" y="14.5" />
+    </edge>
+    <edge source="ship.ShipFactory" target="ship.component.weapon.WeaponComponent">
+      <point x="-37.599999999999966" y="-14.5" />
+      <point x="926.3860294117649" y="445.0" />
+      <point x="682.6844204617333" y="445.0" />
+      <point x="682.6844204617333" y="366.0" />
+      <point x="713.3735294117648" y="366.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="game.BattleSpace" target="graphics.DisplayableEnvironment">
+      <point x="-34.875" y="-14.5" />
+      <point x="439.6612824161921" y="366.0" />
+      <point x="289.27083333333337" y="366.0" />
+      <point x="53.33333333333337" y="14.5" />
+    </edge>
+    <edge source="control.BasicAI" target="game.BattleSpace">
+      <point x="0.0" y="-14.5" />
+      <point x="439.71275300442744" y="435.0" />
+      <point x="443.5362824161921" y="435.0" />
+      <point x="-31.0" y="14.5" />
+    </edge>
+    <edge source="ship.ShipFactory" target="ship.component.utility.ShieldComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="32.0" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="game.Workshop">
+      <point x="-28.94117647058829" y="-14.5" />
+      <point x="465.6088235294118" y="594.0" />
+      <point x="304.9375" y="594.0" />
+      <point x="-21.5" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="game.Team">
+      <point x="-33.916666666666686" y="-14.5" />
+      <point x="754.4233475648323" y="356.0" />
+      <point x="543.7362824161921" y="356.0" />
+      <point x="12.199999999999989" y="14.5" />
+    </edge>
+    <edge source="ship.component.weapon.WeaponComponent" target="ship.component.AbstractShipComponent">
+      <point x="-17.5" y="-14.5" />
+      <point x="695.8735294117648" y="217.0" />
+      <point x="679.040014231499" y="217.0" />
+      <point x="679.040014231499" y="128.0" />
+      <point x="873.4096734661607" y="128.0" />
+      <point x="-61.125" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="game.BattleSpace">
+      <point x="9.647058823529392" y="-14.5" />
+      <point x="504.19705882352946" y="554.0" />
+      <point x="485.21275300442744" y="554.0" />
+      <point x="485.21275300442744" y="435.0" />
+      <point x="474.5362824161921" y="435.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="control.BasicAI" target="ship.Starship">
+      <point x="23.333333333333343" y="-14.5" />
+      <point x="463.04608633776076" y="475.0" />
+      <point x="782.1733475648323" y="475.0" />
+      <point x="-6.166666666666686" y="14.5" />
+    </edge>
+    <edge source="control.MouseController" target="javax.swing.JComponent">
+      <point x="-45.375" y="-14.5" />
+      <point x="115.1875" y="475.0" />
+      <point x="107.75" y="475.0" />
+      <point x="25.0" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.utility.ReactorComponent">
+      <point x="33.916666666666686" y="-14.5" />
+      <point x="822.2566808981658" y="366.0" />
+      <point x="1201.9860294117648" y="366.0" />
+      <point x="-34.0" y="14.5" />
+    </edge>
+    <edge source="game.BattleSpace" target="ship.component.weapon.Projectile">
+      <point x="-11.625" y="-14.5" />
+      <point x="462.9112824161921" y="227.0" />
+      <point x="708.0233475648323" y="227.0" />
+      <point x="-32.39999999999998" y="14.5" />
+    </edge>
+    <edge source="ship.component.utility.PoweredUtilityComponent" target="ship.component.AbstractShipComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="1006.9860294117649" y="138.0" />
+      <point x="954.9096734661607" y="138.0" />
+      <point x="20.375" y="14.5" />
+    </edge>
+    <edge source="graphics.Displayer" target="javax.swing.JComponent">
+      <point x="20.0" y="-14.5" />
+      <point x="60.0" y="475.0" />
+      <point x="57.75" y="475.0" />
+      <point x="-25.0" y="14.5" />
+    </edge>
+    <edge source="control.BasicAI" target="ship.component.weapon.FiringOrder">
+      <point x="-23.333333333333314" y="-14.5" />
+      <point x="416.37941967109407" y="435.0" />
+      <point x="411.61961574952545" y="435.0" />
+      <point x="411.61961574952545" y="217.0" />
+      <point x="575.8733475648323" y="217.0" />
+      <point x="-30.66666666666663" y="14.5" />
+    </edge>
+    <edge source="game.Workshop" target="ship.component.ShipComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="326.4375" y="59.0" />
+      <point x="775.0471734661606" y="59.0" />
+      <point x="-23.80000000000001" y="14.5" />
+    </edge>
+    <edge source="game.Workshop" target="ship.Starship">
+      <point x="28.666666666666686" y="-14.5" />
+      <point x="355.1041666666667" y="465.0" />
+      <point x="769.840014231499" y="465.0" />
+      <point x="-18.5" y="14.5" />
+    </edge>
+    <edge source="game.Workshop" target="graphics.DisplayableEnvironment">
+      <point x="-28.666666666666686" y="-14.5" />
+      <point x="297.7708333333333" y="435.0" />
+      <point x="235.9375" y="435.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="game.Team">
+      <point x="28.941176470588232" y="-14.5" />
+      <point x="523.4911764705882" y="594.0" />
+      <point x="531.5362824161921" y="594.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="game.Team" target="ship.Starship">
+      <point x="24.399999999999977" y="14.5" />
+      <point x="555.9362824161921" y="346.0" />
+      <point x="760.590014231499" y="346.0" />
+      <point x="-27.75" y="-14.5" />
+    </edge>
+    <edge source="control.MouseController" target="ship.component.weapon.WeaponComponent">
+      <point x="15.125" y="-14.5" />
+      <point x="175.6875" y="445.0" />
+      <point x="671.6844204617333" y="445.0" />
+      <point x="671.6844204617333" y="366.0" />
+      <point x="666.7068627450981" y="366.0" />
+      <point x="-46.666666666666686" y="14.5" />
+    </edge>
+    <edge source="graphics.Displayer" target="graphics.DisplayableEnvironment">
+      <point x="-20.0" y="-14.5" />
+      <point x="20.0" y="475.0" />
+      <point x="22.25" y="475.0" />
+      <point x="22.25" y="366.0" />
+      <point x="182.60416666666669" y="366.0" />
+      <point x="-53.333333333333314" y="14.5" />
+    </edge>
+    <edge source="control.MouseController" target="game.ProjectSpaceComponent">
+      <point x="40.33333333333337" y="14.5" />
+      <point x="200.89583333333337" y="604.0" />
+      <point x="455.9617647058824" y="604.0" />
+      <point x="-38.58823529411771" y="-14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.weapon.Projectile">
+      <point x="-3.0833333333333712" y="-14.5" />
+      <point x="785.2566808981657" y="306.0" />
+      <point x="800.0401960784313" y="306.0" />
+      <point x="800.0401960784313" y="207.0" />
+      <point x="772.8233475648323" y="207.0" />
+      <point x="32.39999999999998" y="14.5" />
+    </edge>
+    <edge source="graphics.PSCFrame" target="javax.swing.JFrame">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="ship.ShipFactory" target="ship.Starship">
+      <point x="-18.799999999999983" y="-14.5" />
+      <point x="945.1860294117649" y="435.0" />
+      <point x="819.1733475648324" y="435.0" />
+      <point x="30.83333333333337" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.ShipComponent">
+      <point x="9.25" y="-14.5" />
+      <point x="797.590014231499" y="326.0" />
+      <point x="818.5901960784315" y="326.0" />
+      <point x="818.5901960784315" y="59.0" />
+      <point x="822.6471734661606" y="59.0" />
+      <point x="23.799999999999955" y="14.5" />
+    </edge>
+    <edge source="ship.ShipFactory" target="ship.component.utility.EngineComponent">
+      <point x="18.80000000000001" y="-14.5" />
+      <point x="982.786029411765" y="465.0" />
+      <point x="1114.9860294117648" y="465.0" />
+      <point x="33.0" y="14.5" />
+    </edge>
+    <edge source="game.Team" target="java.lang.Iterable">
+      <point x="0.0" y="-14.5" />
+      <point x="531.5362824161921" y="207.0" />
+      <point x="505.04001423149896" y="207.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="ship.component.utility.ShieldComponent" target="ship.component.utility.PoweredUtilityComponent">
+      <point x="0.0" y="-14.5" />
+      <point x="931.9860294117649" y="227.0" />
+      <point x="963.7360294117649" y="227.0" />
+      <point x="-43.25" y="14.5" />
+    </edge>
+    <edge source="ship.Starship" target="ship.component.weapon.WeaponComponent">
+      <point x="-15.416666666666686" y="-14.5" />
+      <point x="772.9233475648323" y="326.0" />
+      <point x="760.0401960784313" y="326.0" />
+      <point x="46.66666666666663" y="14.5" />
+    </edge>
+    <edge source="game.ProjectSpaceComponent" target="control.MouseController">
+      <point x="-48.23529411764713" y="-14.5" />
+      <point x="446.31470588235294" y="614.0" />
+      <point x="160.5625" y="614.0" />
+      <point x="7.105427357601002E-15" y="14.5" />
+    </edge>
+    <edge source="ship.component.weapon.WeaponComponent" target="ship.component.weapon.Projectile">
+      <point x="17.5" y="-14.5" />
+      <point x="730.8735294117648" y="227.0" />
+      <point x="724.2233475648322" y="227.0" />
+      <point x="-16.19999999999999" y="14.5" />
+    </edge>
+    <edge source="ship.component.weapon.FiringOrder" target="ship.Starship">
+      <point x="0.0" y="14.5" />
+      <point x="606.540014231499" y="217.0" />
+      <point x="632.8735294117648" y="217.0" />
+      <point x="632.8735294117648" y="336.0" />
+      <point x="766.7566808981657" y="336.0" />
+      <point x="-21.58333333333337" y="-14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8459584295612009" x="731.1146601146601" y="457.3917553917554" />
+  <SelectedNodes>
+    <node>ship.component.utility.ShieldComponent</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
