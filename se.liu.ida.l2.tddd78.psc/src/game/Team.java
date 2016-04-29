@@ -50,8 +50,9 @@ public class Team implements Iterable<Starship> {
 	}
 
 	public void reset() {
-		aliveMembers.addAll(deadMembers);
+		aliveMembers.clear();
 		deadMembers.clear();
+		aliveMembers.addAll(allMembers);
 		defeated = false;
 	}
 
