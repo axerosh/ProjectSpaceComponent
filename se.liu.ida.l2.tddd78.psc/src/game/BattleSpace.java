@@ -20,9 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An area for two teams of starships to battle each other.
- *
+ * An area for two teams of starships to battle each other
+ * A BattleSpace is a DisplayableEnvironment that updates all the Teams, Starships and Projectiles on the BattleSpace
+ * and then displays it to the screen
+ * The battlespace also tracks if a Team is victories and if so displays that.
+ * @see DisplayableEnvironment
  * @see Starship
+ * @see Projectile
+ * @see Team
  */
 public class BattleSpace implements DisplayableEnvironment {
 

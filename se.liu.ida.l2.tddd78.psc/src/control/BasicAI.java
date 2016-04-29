@@ -8,7 +8,11 @@ import ship.component.weapon.WeaponComponent;
 
 
 /**
- * Basic AI for basic AI fucntionallity.
+ * Basic AI that controlls a Starship in a BattleSpace by powering and giving FireingOrders to WeaponsComponents
+ * @see Starship
+ * @see BattleSpace
+ * @see FiringOrder
+ * @see WeaponComponent
  */
 public class BasicAI {
 	private BattleSpace field;

@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A team of ships.
+ * A Team consist of one or more Starship
+ * The Team keeps track of if there are Starships alive in the Team,
+ * if not, the Team is defeated.
  *
  * @see Starship
  */

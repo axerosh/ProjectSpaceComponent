@@ -15,7 +15,8 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 /**
- * Mouse and Keyboard input for controlling a ship.
+ * Mouse input for controlling induvidiall ShipComponent in a Starship
+ * A ProjectSpaceComponent is used to get information about what is on the screen
  */
 public class MouseController extends JComponent {
 
