@@ -8,7 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Starts the game
+ * Sets up a logging file for the session and
+ * starts a game of ProjectSpaceComponent
+ *
+ * @see ProjectSpaceComponent
  */
 public final class Main {
 

@@ -11,7 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A game enivironment for editing ships.
+ * A DisplayableEnvironment that shows a working area to edit induvidiall ShipComponents and also,
+ * save and load Starship designes by using ShipIO
+ *
+ * @see DisplayableEnvironment
+ * @see Starship
+ * @see ShipComponent
+ * @see io.ShipIO
  */
 public class Workshop implements DisplayableEnvironment {
 
