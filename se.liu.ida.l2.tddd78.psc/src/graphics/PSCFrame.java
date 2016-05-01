@@ -1,6 +1,7 @@
 package graphics;
 
 import game.ProjectSpaceComponent;
+import game.ProjectSpaceComponent.Gamemode;
 import io.ShipIO;
 import ship.Starship;
 
@@ -19,9 +20,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * JFrame extension that holds a menu to manipulate a game session of ProjectSpaceComponent.
+ * JFrame extension with a menu bar for manipulating a game session of ProjectSpaceComponent by changing Gamemode or saving the current Starship from the Workshop.
  *
- * @see JFrame
+ * @see ProjectSpaceComponent
+ * @see Gamemode
+ * @see Starship
+ * @see game.Workshop
  */
 public class PSCFrame extends JFrame {
 
