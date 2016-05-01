@@ -22,8 +22,35 @@ public class Projectile {
 	private float damageOnImpact;
 	private int blastRadius;
 
+	/**
+	 * Constructs a Projectile.
+	 *
+	 * @param selfX          the virtual start x-coordinate of the Projectile
+	 * @param selfY          the virtual start y-coordinate of the Projectile
+	 * @param targetX        the virtual x-coordinate of the Projectile's target
+	 * @param targetY        the virtual y-coordinate of the Projectile's target
+	 * @param velocity       the velocity if the Projectile
+	 * @param targetShip     the Starship that the Projectile willk try to hit when it has reached its target locationb
+	 * @param damageOnImpact the damage that the Projectile will deal for ecery ShipComponet that is hits on impact.
+	 * @param blastRadius    the radius of the blast caused by the Projectile on impact. the blast area is diamond-shaped with
+	 *                       the length (blastRadius * 2 - 1) fromn left corner to right corner as well as top croenr to bottom
+	 *                       corner. All ShipCompoennts in this area will take the specified damageOnImpact if the Projectile
+	 *                       hits its tagretShip.
+	 *
+	 * @throws IllegalArgumentException if either of the specified blastRadius or velcotiy is negative or zero.
+	 * @see ShipComponent
+	 */
 	public Projectile(final float selfX, final float selfY, final float targetX, final float targetY, final float velocity,
-					  final Starship targetShip, final float damageOnImpact, final int blastRadius) {
+					  final Starship targetShip, final float damageOnImpact, final int blastRadius)
+	throws IllegalArgumentException {
+		if (blastRadius <= 0) {
+			throw new IllegalArgumentException("The specified base blast radius " + blastRadius + " is negative or zero.");
+		}
+
+		if (velocity <= 0) {
+			throw new IllegalArgumentException("The specified projectile velocity " + velocity+ " is negative or " +
+											   "zero.");
+		}
 		this.selfX = selfX;
 		this.selfY = selfY;
 		this.targetX = targetX;
